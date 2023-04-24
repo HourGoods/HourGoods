@@ -1,7 +1,9 @@
 package org.a204.hourgoods.global.error;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a204.hourgoods.global.common.BaseResponse;
+import org.a204.hourgoods.global.mattermost.NotificationManager;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.Objects;
 
 /**
@@ -21,7 +25,10 @@ import java.util.Objects;
 @RestControllerAdvice(annotations = RestController.class)
 @Slf4j
 @Profile("local")
+@RequiredArgsConstructor
 public class GlobalExControllerAdvice {
+
+    private final NotificationManager notificationManager;
 
     /**
      * Valid 검증 실패시 오류 발생
@@ -79,13 +86,26 @@ public class GlobalExControllerAdvice {
 
     /**
      * 처리되지 않은 에러를 여기서 처리 한다.
+     * 처리되지 않은 에러의 경우 500에러로 MatterMost에 알람을 보낸다.
      * @param e 발생한 에러
      * @return BaseResponse로 메시지를 감춰서 반환한다.
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    protected BaseResponse<Object> handleException(Exception e) {
+    protected BaseResponse<Object> handleException(Exception e, HttpServletRequest req) {
         log.error("Exception : {}", GlobalErrorCode.OTHER.getMessage(), e);
+        notificationManager.sendNotification(e, req.getRequestURI(), getParams(req));
         return new BaseResponse<>(GlobalErrorCode.OTHER);
+    }
+
+    private String getParams(HttpServletRequest req) {
+        StringBuilder params = new StringBuilder();
+        Enumeration<String> keys = req.getParameterNames();
+        while (keys.hasMoreElements()) {
+            String key = keys.nextElement();
+            params.append("- ").append(key).append(" : ").append(req.getParameter(key)).append('\n');
+        }
+
+        return params.toString();
     }
 }
