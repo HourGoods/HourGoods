@@ -1,4 +1,4 @@
-package org.a204.hourgoods.backend;
+package org.a204.hourgoods;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

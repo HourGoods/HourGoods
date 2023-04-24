@@ -1,4 +1,4 @@
-package org.a204.hourgoods.backend;
+package org.a204.hourgoods;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
