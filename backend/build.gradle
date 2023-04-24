@@ -60,6 +60,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.projectlombok:lombok:1.18.18'
     compileOnly 'org.projectlombok:lombok'
+
+    // Geometry Point 객체 사용
+    implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.9.Final'
+
 }
 
 //jacocoTestReport {
