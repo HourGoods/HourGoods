@@ -21,6 +21,8 @@ export default function Map() {
   useEffect(() => {
     if (location && location !== "" && typeof location !== "string") {
       const container = document.getElementById("map");
+
+      // 그리기
       const options = {
         center: new window.kakao.maps.LatLng(
           location.latitude,
@@ -29,6 +31,19 @@ export default function Map() {
         level: 3,
       };
       const map = new window.kakao.maps.Map(container, options);
+
+      // 마커 생성
+      const markerPosition = new window.kakao.maps.LatLng(
+        location.latitude,
+        location.longitude
+      );
+      console.log("현재위치", markerPosition, location.latitude);
+      const marker = new window.kakao.maps.Marker({
+        position: markerPosition,
+        text: "현재 위치",
+      });
+
+      marker.setMap(map);
     }
   }, [location]);
 
