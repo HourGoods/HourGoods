@@ -1,0 +1,91 @@
+//querydsl 추가
+buildscript {
+    ext {
+        queryDslVersion = "5.0.0"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.11'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    //querydsl 추가
+    id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
+    // sonarqube 추가
+//    id "org.sonarqube" version "3.5.0.2730"
+//    id 'jacoco'
+}
+
+group = 'org.a204.hourgoods'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+
+    // 스웨거 설정
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.14'
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-security', version: '1.6.14'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    //querydsl 추가
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+    // lombok
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok:1.18.18'
+    compileOnly 'org.projectlombok:lombok'
+}
+
+//jacocoTestReport {
+//    reports {
+//        xml.enabled true
+//    }
+//}
+//test.finalizedBy jacocoTestReport
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+//querydsl 추가
+def querydslDir = "$buildDir/generated/querydsl"
+
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
