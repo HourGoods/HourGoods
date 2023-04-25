@@ -1,7 +1,5 @@
 import React from "react";
 
-function index() {
+export default function index() {
   return <div>getmydeal</div>;
 }
-
-export default index;

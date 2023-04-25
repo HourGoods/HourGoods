@@ -1,18 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 
-function index() {
+export default function index() {
   return (
-    <div>
-      <div>
-        <p>아이유사랑해</p>
+    <div className="UserInfoBackground">
+      <div className="UserInfoBody">
+        <span>아이유사랑해</span>
         <Link to="/">
-          <button type="button">프로필 수정하기</button>
+          <button type="button">
+            {`프로필 수정하기 `}
+            <ChevronRightIcon />
+          </button>
         </Link>
       </div>
       <img alt="프로필 사진" />
     </div>
   );
 }
-
-export default index;

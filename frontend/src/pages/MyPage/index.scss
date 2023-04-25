@@ -1,0 +1,52 @@
+@import "@styles/Colors.scss";
+
+// MyPage
+
+.MyPageBackground {
+  margin-top: 3vh;
+}
+
+// UserInfo
+
+.UserInfoBackground {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.UserInfoBody {
+  display: flex;
+  flex-direction: column;
+  span {
+    display: flex;
+    align-items: center;
+    width: 102px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #374151;
+  }
+  button {
+    width: 110px;
+    height: 19px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #374151;
+    padding: 0;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    svg {
+      width: 6px;
+      height: 10.4px;
+    }
+  }
+}
+
+// UserCash
+
+.UserCashBackground {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+}
