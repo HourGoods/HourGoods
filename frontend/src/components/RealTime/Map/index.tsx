@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getLocation } from "./getLocation";
+import getCurrentLocation from "utils/getCurrentLocation";
 
 declare global {
   interface Window {
@@ -7,13 +7,13 @@ declare global {
   }
 }
 
-export default function Map() {
+export default function index() {
   const [location, setLocation] = useState<
     { latitude: number; longitude: number } | string
   >("");
 
   useEffect(() => {
-    getLocation().then((result) => {
+    getCurrentLocation().then((result) => {
       setLocation(result);
     });
   }, []);
