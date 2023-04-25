@@ -14,6 +14,7 @@ module.exports = {
       "@recoils": path.resolve(__dirname, "src/recoils"),
       "@styles": path.resolve(__dirname, "src/styles"),
       "@apis": path.resolve(__dirname, "src/api"),
+      "@utils": path.resolve(__dirname, "src/utils"),
       // "@hooks": path.resolve(__dirname, "src/hooks"),
     },
   },
