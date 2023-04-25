@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import getCurrentLocation from "utils/getCurrentLocation";
+import getCurrentLocation from "@utils/getCurrentLocation";
 
 declare global {
   interface Window {
