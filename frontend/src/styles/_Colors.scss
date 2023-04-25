@@ -2,33 +2,37 @@
 // 컬러칩은 Figma 순서대로
 
 // Indigo
-$indigo-1: #312E81;
-$indigo-2: #4F46E5;
-$indogo-3: #6366F1;
-$indogo-4: #C7D2FE;
+$indigo-1: #312e81;
+$indigo-2: #4f46e5;
+$indogo-3: #6366f1;
+$indogo-4: #c7d2fe;
 
 // Pink
-$pink-1: #EC4899;
-$pink-2: #FBCFE8;
+$pink-1: #ec4899;
+$pink-2: #fbcfe8;
 
 // Yellow
-$yellow-1: #FDE047;
-$yellow-2: #FEF9C3;
+$yellow-1: #fde047;
+$yellow-2: #fef9c3;
 
 // Violet
-$violet-1: #A78BFA;
-$violet-2: #EDE9FE;
-
+$violet-1: #a78bfa;
+$violet-2: #ede9fe;
 
 //Gray
 $gray-1: #111827;
 $gray-2: #374151;
-$gray-3: #6B7280; // 기본 gray
-$gray-4: #D1D5DB; 
-$gray-5: #F3F4F6;
-$gray-6: #F9FAFB;
-
+$gray-3: #6b7280; // 기본 gray
+$gray-4: #d1d5db;
+$gray-5: #f3f4f6;
+$gray-6: #f9fafb;
 
 // single colors
 $white: #fff;
-$kakao: #ffe812;
+
+// 그림자
+$shadow-gray: 2px 2px 4px rgba(107, 114, 128, 0.3);
+$shadow-indigo: 0px 0px 30px rgba(79, 70, 229, 0.5);
+$shadow-pink: 0px 0px 30px rgba(236, 72, 153, 0.5);
+$shadow-yellow: 0px 0px 30px rgba(253, 224, 71, 0.5);
+$shadow-purple: 0px 0px 30px rgba(237, 233, 254, 1);
