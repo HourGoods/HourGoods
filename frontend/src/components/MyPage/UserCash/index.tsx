@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function index() {
+export default function index() {
   return (
-    <div>
+    <div className="UserCashBackground">
       <Link to="/">
         <button type="button">
           <img alt="티켓" />
@@ -23,5 +23,3 @@ function index() {
     </div>
   );
 }
-
-export default index;

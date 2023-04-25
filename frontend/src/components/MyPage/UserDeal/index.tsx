@@ -3,7 +3,7 @@ import FavoriteDeal from "@components/MyPage/UserDeal/FavoriteDeal";
 import GetMyDeal from "@components/MyPage/UserDeal/GetMyDeal";
 import ParticipatedDeal from "@components/MyPage/UserDeal/ParticipatedDeal";
 
-function Index() {
+export default function index() {
   const [tag, setTag] = useState({
     favorite: true,
     getMy: false,
@@ -37,5 +37,3 @@ function Index() {
     </div>
   );
 }
-
-export default Index;
