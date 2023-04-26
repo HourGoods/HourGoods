@@ -11,12 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
-	private final List<HandlerInterceptor> interceptors;
 
+	private final List<HandlerInterceptor> interceptors;
 	public WebMvcConfig(final List<HandlerInterceptor> interceptors) {
 		this.interceptors = interceptors;
 	}
-
 	@Override
 	public void addInterceptors(final InterceptorRegistry registry) {
 		interceptors.forEach(registry::addInterceptor);
@@ -26,4 +25,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
+
 }
