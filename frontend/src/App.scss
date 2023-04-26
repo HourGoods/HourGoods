@@ -1,12 +1,19 @@
+@import "@styles/Mixins";
+
 .App {
-  margin: 0;
+  margin: auto;
   text-align: center;
-  background: linear-gradient(
-    to bottom right,
-    rgba(165, 213, 252, 0.2),
-    rgba(251, 207, 232, 0.2),
-    rgba(254, 249, 195, 0.2),
-    rgba(237, 233, 254, 0.2),
-  );
+  min-width: 335px;
   height: 100vh;
+
+  @include desktop {
+    border: 1px solid blue;
+    max-width: 1024px;
+  }
+  @include tablet {
+    border: 1px solid green;
+  }
+  @include mobile {
+    border: 1px solid red;
+  }
 }
