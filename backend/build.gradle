@@ -51,7 +51,7 @@ dependencies {
 
     // mattertmost 연동용
     implementation group: 'com.google.code.gson', name: 'gson', version: '2.8.9'
-    
+
     //querydsl 추가
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
@@ -63,6 +63,12 @@ dependencies {
 
     // Geometry Point 객체 사용
     implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.9.Final'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // h2 Datebase
+    implementation 'com.h2database:h2'
 
 }
 
