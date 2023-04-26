@@ -20,10 +20,12 @@ public enum GlobalErrorCode {
 	METHOD_NOT_ALLOWED(405, "G200", "허용되지 않은 메서드입니다"),
 	VALID_EXCEPTION(400, "G300", ""),
 	ACCESS_DENIED(401, "G400", "허용되지 않은 사용자입니다"),
-	UNSUPPORTED_INFO(400, "O100", "지원하지 않는 로그인 방식입니다."),
-	USER_NOT_FOUND(400, "M300", "해당 id에 해당하는 사용자가 없습니다."),
-	INCORRECT_ADMIN_INFO(401, "M200", "관리자 로그인 정보가 틀렸습니다."),
-	;
+	DEAL_TYPE_NOT_FOUNDED(404, "D100", "잘못된 Deal Type 형식입니다."),
+	CONCERT_NOT_FOUNDED(404, "C100", "해당하는 공연을 찾을 수 없습니다."),
+    UNSUPPORTED_INFO(400, "M100", "지원하지 않는 로그인 방식입니다."),
+    INCORRECT_ADMIN_INFO(401, "M200", "관리자 로그인 정보가 틀렸습니다."),
+    USER_NOT_FOUND(400, "M300", "해당 id에 해당하는 사용자가 없습니다."),
+    ;
 
 	private final String code;
 	private final String message;

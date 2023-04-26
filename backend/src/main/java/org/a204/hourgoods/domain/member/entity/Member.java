@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.a204.hourgoods.domain.chatting.entity.ChattingLog;
 import org.a204.hourgoods.domain.chatting.entity.ChattingRoom;
 import org.a204.hourgoods.domain.concert.entity.ConcertBookmark;
+import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.DealBookmark;
 import org.a204.hourgoods.domain.participant.entity.Participant;
 import org.a204.hourgoods.domain.report.entity.Report;
@@ -51,9 +52,12 @@ public class Member {
 	@Column(name = "status")
 	private Integer status;
 
-	// 신고한 목록
-	@OneToMany(mappedBy = "reporterMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private List<Report> reportList = new ArrayList<>();
+    @OneToMany(mappedBy = "dealHost", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Deal> deals = new ArrayList<>();
+
+    // 신고한 목록
+    @OneToMany(mappedBy = "reporterMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Report> reportList = new ArrayList<>();
 
 	// 신고 당한 목록
 	@OneToMany(mappedBy = "reportedMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
