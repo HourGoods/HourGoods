@@ -1,7 +1,9 @@
 @import "./Variables";
+@import "./Colors";
 
+// 반응형 미디어쿼리
 @mixin mobile {
-  @media (min-width: #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet - 1px}) {
+  @media ( (max-width: #{$breakpoint-tablet - 1px})) {
     @content;
   }
 }
@@ -15,5 +17,18 @@
 @mixin desktop {
   @media (min-width: #{$breakpoint-desktop}) {
     @content;
+  }
+}
+
+// 네브바 hover & active 함수
+@mixin pink-hover-active {
+  &:hover,
+  &:active {
+    transition: transform 0.5s ease;
+    color: $pink-1;
+    text-decoration: underline;
+    text-underline-position: under;
+    scale: 1.1;
+    font-weight: 900;
   }
 }
