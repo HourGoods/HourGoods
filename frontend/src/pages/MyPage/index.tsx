@@ -6,7 +6,7 @@ import "./index.scss";
 
 export default function index() {
   return (
-    <div className="MyPageBackground">
+    <div className="mypage-container">
       <UserInfo />
       <UserCash />
       <UserDeal />
