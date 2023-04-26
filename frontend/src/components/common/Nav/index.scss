@@ -95,9 +95,5 @@
     &.sidebar-closed {
       @include fadeBesideExit;
     }
-    &:not(.sidebar-closed) {
-      opacity: 1;
-    }
   }
-
 }

@@ -42,8 +42,8 @@ export default function Nav() {
             <div className="mobile-sidebar-menu">
               <p>실시간</p>
               <p>탐색하기</p>
-              <p>마이페이지</p>
               <p>로그인</p>
+              <p>마이페이지</p>
             </div>
           </div>
         )}
