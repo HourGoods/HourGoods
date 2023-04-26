@@ -1,52 +1,91 @@
 @import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
 
 // MyPage
-
-.MyPageBackground {
+.mypage-container {
   margin-top: 3vh;
 }
 
 // UserInfo
 
-.UserInfoBackground {
+.userinfo-container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
 
-.UserInfoBody {
+.userinfo-wrapper {
   display: flex;
   flex-direction: column;
-  span {
+  .userid {
     display: flex;
     align-items: center;
     width: 102px;
     height: 40px;
     font-size: 16px;
     font-weight: 700;
-    color: #374151;
+    color: $gray-2;
   }
-  button {
+  .edit-profile {
     width: 110px;
     height: 19px;
     font-size: 12px;
     font-weight: 700;
-    color: #374151;
+    color: $gray-2;
     padding: 0;
-    background-color: #ffffff;
+    background-color: $white;
     border: none;
     border-radius: 20px;
+    box-shadow: $shadow-gray;
     svg {
-      width: 6px;
-      height: 10.4px;
+      width: 10px;
+      color: $indigo-2;
     }
   }
 }
 
 // UserCash
 
-.UserCashBackground {
+.usercash-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: 2vh;
+}
+
+.usercash-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0;
+  background-color: $white;
+  border: none;
+  border-radius: 10px;
+
+  @include mobile {
+    width: 252px;
+    max-width: 252px;
+  }
+  @include tablet {
+    width: 637px;
+    max-width: 637px;
+  }
+  @include desktop {
+    width: 637px;
+    max-width: 637px;
+  }
+  .ticket-icon {
+    width: 24px;
+    height: 24px;
+    color: $indigo-2;
+  }
+  .currnecy-dollar-icon {
+    width: 24px;
+    height: 24px;
+    color: $indigo-2;
+  }
+  .chevron-right-icon {
+    width: 10px;
+    color: $indigo-2;
+  }
 }
