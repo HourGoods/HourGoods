@@ -3,8 +3,8 @@
 .App {
   margin: auto;
   text-align: center;
-  min-width: 335px;
-  height: 100vh;
+  // min-width: 335px;
+  min-height: 100vh;
 
   @include desktop {
     border: 1px solid blue;

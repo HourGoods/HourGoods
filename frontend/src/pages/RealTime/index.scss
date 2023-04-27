@@ -1,0 +1,55 @@
+@import "@styles/Mixins";
+
+.realtime-page-container {
+  justify-self: center;
+  padding: 0 20px;
+
+  // desktop영역에서 좌우배치
+  @include desktop {
+    display: flex;
+    padding: 0;
+  }
+
+  // components title
+  .realtime-page-component-title-p {
+    text-align: left;
+    font-weight: 700;
+    font-size: 22px;
+    @include mobile {
+      font-size: 16px;
+      font-weight: 800;
+    }
+  }
+
+  // map
+  .realtime-map-component-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 644px;
+
+    #map {
+      margin: auto;
+      height: 292px;
+      width: 100%;
+    }
+
+    @include desktop {
+      width: 644px;
+    }
+  }
+
+  // CardList
+  .realtime-deal-card-list-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 644px;
+
+    @include desktop {
+      width: 350px;
+    }
+  }
+}
