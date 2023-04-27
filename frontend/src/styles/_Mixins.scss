@@ -1,7 +1,10 @@
+// _Mixins.scss
 @import "./Variables";
+@import "./Colors";
 
+// 반응형 미디어쿼리
 @mixin mobile {
-  @media (min-width: #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet - 1px}) {
+  @media ( (max-width: #{$breakpoint-tablet - 1px})) {
     @content;
   }
 }

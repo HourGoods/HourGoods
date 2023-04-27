@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
+import ConcertCard from "@components/common/ConcertCard";
 
 declare global {
   interface Window {
@@ -48,9 +49,10 @@ export default function index() {
   }, [location]);
 
   return (
-    <div>
-      <p>카카오</p>
-      <div id="map" style={{ width: "500px", height: "400px" }} />
+    <div className="realtime-map-component-container">
+      <p className="realtime-page-component-title-p">내 근처 Time Deal</p>
+      <div id="map" />
+      <ConcertCard />
     </div>
   );
 }
