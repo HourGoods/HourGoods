@@ -20,7 +20,7 @@ export default function index() {
             onClick={modalClickHandler}
             color="dark-blue"
           />
-          {modalOpen && <Modal />}
+          {modalOpen && <Modal setModalOpen={setModalOpen} />}
           <Button text="purple 버튼" color="purple" />
           <Button text="pink 버튼" color="pink" />
           <Button text="yellow 버튼" color="yellow" />

@@ -2,13 +2,13 @@ import React from "react";
 import classNames from "classnames";
 import "./index.scss";
 
-interface BtnProps {
+interface IBtnProps {
   text: string;
   color?: string;
   onClick: any;
 }
 
-export default function index({ text, color, onClick }: BtnProps) {
+export default function index({ text, color, onClick }: IBtnProps) {
   const handleClick = (e: any) => onClick(e);
   return (
     <button
