@@ -38,14 +38,14 @@ public class DealService {
 	private static final Integer PAGE_SIZE = 10;
 
 	@Transactional(readOnly = true)
-	public ConcertDealListResponse getAllDealListByConcert(ConcertDealListRequest request) {
+	public ConcertDealListResponse getDealListByConcert(ConcertDealListRequest request) {
 		// 유효성 체크
 		checkConcertValidation(request.getConcertId());
 		checkDealTypeValidation(request.getDealTypeName());
 
 		// 거래 정보 조회
 		Pageable pageable = Pageable.ofSize(PAGE_SIZE);
-		Slice<Deal> deals = dealQueryDslRepository.searchByConcert(request, pageable);
+		Slice<Deal> deals = dealQueryDslRepository.searchDealByCond(request, pageable);
 
 		// 정보가 없을 경우 빈 정보 반환
 		if (deals.isEmpty()) {
@@ -62,7 +62,7 @@ public class DealService {
 		List<DealInfoResponse> response = new ArrayList<>();
 		for (Deal deal : deals) {
 			LocalDateTime endTime = null;
-			Integer limit = null;
+			Integer limitation = null;
 			Integer price = null;
 
 			// 딜 타입에 따라 repository 재탐색
@@ -72,7 +72,7 @@ public class DealService {
 			} else if (dealType.equals(DealType.GameAuction)) {
 				endTime = gameAuctionRepository.findEndTimeById(deal.getId());
 			} else if (dealType.equals(DealType.Sharing)) {
-				limit = sharingRepository.findLimitationById(deal.getId());
+				limitation = sharingRepository.findLimitationById(deal.getId());
 			} else if (dealType.equals(DealType.Trade)) {
 				price = tradeRepository.findPriceById(deal.getId());
 			}
@@ -85,7 +85,7 @@ public class DealService {
 				.title(deal.getTitle())
 				.startTime(deal.getStartTime())
 				.endTime(endTime)
-				.limit(limit)
+				.limitation(limitation)
 				.price(price)
 				.build();
 			response.add(dealInfo);
@@ -116,5 +116,4 @@ public class DealService {
 			throw new DealTypeNotFoundException();
 		}
 	}
-
 }
