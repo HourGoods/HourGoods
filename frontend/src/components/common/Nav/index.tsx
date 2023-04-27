@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useRef, useState } from "react";
 import {
   Bars3Icon,
@@ -8,14 +9,20 @@ import "./index.scss";
 import logo from "@assets/logo.svg";
 import { Link } from "react-router-dom";
 import useModalRef from "@hooks/useModalRef";
+import DropDown, { Option } from "@components/common/DropDown";
 
 export default function Nav() {
   // 사이드바 열림여부
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleDropDownClick = () => {
+    setIsDropDownOpen(!isDropDownOpen);
   };
 
   useModalRef(menuRef, () => setIsOpen(false));
@@ -35,7 +42,15 @@ export default function Nav() {
           </Link>
         </div>
         <div className="web-navbar-profile">
-          <UserCircleIcon />
+          <UserCircleIcon onClick={handleDropDownClick} />
+          {isDropDownOpen && (
+            <DropDown
+              menus={[
+                { label: "로그인", value: "login" },
+                { label: "마이페이지", value: "mypage" },
+              ]}
+            />
+          )}
         </div>
       </div>
       <div className="mobile-navbar-wrapper">
