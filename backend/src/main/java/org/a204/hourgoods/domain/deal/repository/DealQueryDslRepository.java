@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 
 import org.a204.hourgoods.domain.concert.entity.QConcert;
 import org.a204.hourgoods.domain.deal.entity.Deal;
-import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.QDeal;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +36,7 @@ public class DealQueryDslRepository {
 				checkDealType(request.getDealTypeName()),
 				checkLastDealId(request.getLastDealId()),
 				deal.concert.id.eq(request.getConcertId()),
-				deal.status.isTrue()
+				deal.isAvailable.isTrue()
 			)
 			.orderBy(deal.id.desc())
 			.limit(pageable.getPageSize() + 1L)
@@ -50,7 +49,7 @@ public class DealQueryDslRepository {
 		if (dealTypeName.equals("All")) {
 			return null;
 		}
-		return deal.dealType.eq(DealType.valueOf(dealTypeName));
+		return deal.dealType.stringValue().contains(dealTypeName);
 	}
 
 	// no-offset 방식을 처리하는 메소드 (storeId가 -1일 경우, 있을 경우)
