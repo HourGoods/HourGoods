@@ -4,13 +4,13 @@
 
 // 반응형 미디어쿼리
 @mixin mobile {
-  @media ( (max-width: #{$breakpoint-tablet - 1px})) {
+  @media ( (max-width: #{$breakpoint-tablet})) {
     @content;
   }
 }
 
 @mixin tablet {
-  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}) {
+  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop}) {
     @content;
   }
 }
@@ -21,25 +21,13 @@
   }
 }
 
+// tab 클릭시 효과적용
 @mixin mypage-tab-focus {
   &:active,
   &:hover {
     color: $pink-1;
     text-decoration: underline;
     text-underline-position: under;
-    font-weight: 700;
-  }
-}
-
-// 네브바 hover & active 함수
-@mixin pink-hover-active {
-  &:hover,
-  &:active {
-    transition: transform 0.5s ease;
-    color: $pink-1;
-    text-decoration: underline;
-    text-underline-position: under;
-    scale: 1.1;
     font-weight: 900;
   }
 }
