@@ -19,15 +19,27 @@ export default function index() {
   };
 
   return (
-    <div>
-      <div>
-        <button type="button" onClick={() => handleClick("favorite")}>
+    <div className="userdeal-container">
+      <div className="userdeal-wrapper">
+        <button
+          type="button"
+          onClick={() => handleClick("favorite")}
+          className="favorite"
+        >
           찜한 Deal
         </button>
-        <button type="button" onClick={() => handleClick("getMy")}>
+        <button
+          type="button"
+          onClick={() => handleClick("getMy")}
+          className="getmy"
+        >
           내가 만든 Deal
         </button>
-        <button type="button" onClick={() => handleClick("participated")}>
+        <button
+          type="button"
+          onClick={() => handleClick("participated")}
+          className="participated"
+        >
           참여한 Deal
         </button>
       </div>

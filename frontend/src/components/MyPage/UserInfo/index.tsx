@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 export default function index() {
   return (
@@ -14,7 +14,8 @@ export default function index() {
           </button>
         </Link>
       </div>
-      <img alt="프로필 사진" />
+      <UserCircleIcon />
+      {/* <img alt="프로필 사진" className="profile" /> */}
     </div>
   );
 }

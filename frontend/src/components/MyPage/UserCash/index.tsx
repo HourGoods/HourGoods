@@ -9,18 +9,24 @@ import {
 export default function index() {
   return (
     <div className="usercash-container">
-      <Link to="/">
+      <Link to="/" className="link-decoration">
         <button type="button" className="usercash-wrapper">
-          <TicketIcon className="ticket-icon" />
-          <p>티켓</p>
-          <p>1,000,000원</p>
-          <ChevronRightIcon className="chevron-right-icon" />
+          <div className="ticket">
+            <TicketIcon className="ticket-icon" />
+            <p className="ticket-tag">티켓</p>
+          </div>
+          <div className="cash-box">
+            <p className="cash">1,000,000원</p>
+            <ChevronRightIcon className="chevron-right-icon" />
+          </div>
         </button>
       </Link>
-      <Link to="/">
+      <Link to="/" className="link-decoration">
         <button type="button" className="usercash-wrapper">
-          <CurrencyDollarIcon className="currnecy-dollar-icon" />
-          <p>충전하기</p>
+          <div className="charge">
+            <CurrencyDollarIcon className="currnecy-dollar-icon" />
+            <p className="dollar-tag">충전하기</p>
+          </div>
           <ChevronRightIcon className="chevron-right-icon" />
         </button>
       </Link>
