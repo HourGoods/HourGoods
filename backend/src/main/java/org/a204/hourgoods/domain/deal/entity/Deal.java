@@ -40,8 +40,8 @@ public class Deal {
 	@Column(name = "start_time")
 	private LocalDateTime startTime;
 
-	@Column(name = "status")
-	private Boolean status;
+	@Column(name = "is_available")
+	private Boolean isAvailable;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "deal_type")
@@ -71,13 +71,13 @@ public class Deal {
 	private List<Transaction> transactions = new ArrayList<>();
 
 	@Builder
-	public Deal(String imageUrl, String title, String content, LocalDateTime startTime, Boolean status, Member dealHost,
+	public Deal(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvailable, Member dealHost,
 		Concert concert, DealType dealType, Point location) {
 		this.imageUrl = imageUrl;
 		this.title = title;
 		this.content = content;
 		this.startTime = startTime;
-		this.status = status;
+		this.isAvailable = isAvailable;
 		this.dealHost = dealHost;
 		this.concert = concert;
 		this.dealType = dealType;

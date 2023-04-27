@@ -6,7 +6,6 @@ import javax.persistence.EntityManager;
 
 import org.a204.hourgoods.domain.concert.entity.QConcert;
 import org.a204.hourgoods.domain.deal.entity.Deal;
-import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.QDeal;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.springframework.data.domain.Pageable;
@@ -29,15 +28,16 @@ public class DealQueryDslRepository {
 	QDeal deal = QDeal.deal;
 	QConcert concert = QConcert.concert;
 
-	public Slice<Deal> searchByConcert(ConcertDealListRequest request, Pageable pageable) {
+	public Slice<Deal> searchDealByCond (ConcertDealListRequest request, Pageable pageable) {
 		List<Deal> results = query.selectFrom(deal)
 			.join(deal.concert, concert)
 			.fetchJoin()
 			.where(
-				checkDealType(request.getDealTypeName()),
-				checkLastDealId(request.getLastDealId()),
 				deal.concert.id.eq(request.getConcertId()),
-				deal.status.isTrue()
+				checkLastDealId(request.getLastDealId()),
+				checkDealType(request.getDealTypeName()),
+				checkSearchKeyword(request.getSearchKeyword()),
+				deal.isAvailable.isTrue()
 			)
 			.orderBy(deal.id.desc())
 			.limit(pageable.getPageSize() + 1L)
@@ -50,7 +50,7 @@ public class DealQueryDslRepository {
 		if (dealTypeName.equals("All")) {
 			return null;
 		}
-		return deal.dealType.eq(DealType.valueOf(dealTypeName));
+		return deal.dealType.stringValue().eq(dealTypeName);
 	}
 
 	// no-offset 방식을 처리하는 메소드 (storeId가 -1일 경우, 있을 경우)
@@ -59,6 +59,14 @@ public class DealQueryDslRepository {
 			return null;
 		}
 		return deal.id.lt(lastDealId);
+	}
+
+	// 키워드를 처리하는 메소드
+	private BooleanExpression checkSearchKeyword(String searchKeyword) {
+		if(searchKeyword == null) {
+			return null;
+		}
+		return deal.title.contains(searchKeyword);
 	}
 
 	// 무한스크롤을 위해 다음 페이지에 정보가 있는지 없는지 전달할 메소드

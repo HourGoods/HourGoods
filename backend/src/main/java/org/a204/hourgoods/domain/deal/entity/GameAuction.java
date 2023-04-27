@@ -27,10 +27,10 @@ public class GameAuction extends Deal {
 	private LocalDateTime endTime;
 
 	@Builder(builderMethodName = "gameAuctionBuilder")
-	public GameAuction(String imageUrl, String title, String content, LocalDateTime startTime, Boolean status,
+	public GameAuction(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvaliable,
 		Member dealHost, Concert concert, DealType dealType, Point location, Integer minimumPrice, Integer finalPrice,
 		LocalDateTime endTime) {
-		super(imageUrl, title, content, startTime, status, dealHost, concert, dealType, location);
+		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, location);
 		this.minimumPrice = minimumPrice;
 		this.finalPrice = finalPrice;
 		this.endTime = endTime;

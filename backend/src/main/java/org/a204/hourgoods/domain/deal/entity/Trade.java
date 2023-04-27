@@ -22,9 +22,9 @@ public class Trade extends Deal {
 	private Integer price;
 
 	@Builder(builderMethodName = "tradeBuilder")
-	public Trade(String imageUrl, String title, String content, LocalDateTime startTime, Boolean status,
+	public Trade(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvaliable,
 		Member dealHost, Concert concert, DealType dealType, Point location, Integer price) {
-		super(imageUrl, title, content, startTime, status, dealHost, concert, dealType, location);
+		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, location);
 		this.price = price;
 	}
 }
