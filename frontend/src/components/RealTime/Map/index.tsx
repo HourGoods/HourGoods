@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
 import isWithin500mFromLocation from "@utils/isUserInConcertArea";
+import markerImg from "@assets/userLocPoint.svg";
 
 declare global {
   interface Window {
@@ -57,9 +58,19 @@ export default function index() {
         location.longitude
       );
       console.log("현재위치", markerPosition, location.latitude);
+
+      const markerImage = new window.kakao.maps.MarkerImage(
+        markerImg, // 마커 이미지 URL
+        new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
+        {
+          offset: new window.kakao.maps.Point(55, 55),
+          alt: "현재 위치",
+        }
+      );
+
       const marker = new window.kakao.maps.Marker({
         position: markerPosition,
-        text: "현재 위치",
+        image: markerImage,
       });
 
       marker.setMap(map);
@@ -71,21 +82,21 @@ export default function index() {
         location.latitude,
         location.longitude,
         map
-      )
+      );
       isWithin500mFromLocation(
         sjrStation.latitude,
         sjrStation.longitude,
         location.latitude,
         location.longitude,
         map
-      )
+      );
       isWithin500mFromLocation(
         gangnamStation.latitude,
         gangnamStation.longitude,
         location.latitude,
         location.longitude,
         map
-      )
+      );
     }
   }, [location]);
 
