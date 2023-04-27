@@ -20,3 +20,13 @@
     @content;
   }
 }
+
+@mixin mypage-tab-focus {
+  &:active,
+  &:hover {
+    color: $pink-1;
+    text-decoration: underline;
+    text-underline-position: under;
+    font-weight: 700;
+  }
+}

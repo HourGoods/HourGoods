@@ -1,5 +1,10 @@
 import React from "react";
+import UserDealCard from "@components/MyPage/UserDealCard";
 
 export default function index() {
-  return <div>favoritedeal</div>;
+  return (
+    <div>
+      <UserDealCard />
+    </div>
+  );
 }
