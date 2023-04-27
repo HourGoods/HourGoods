@@ -50,7 +50,7 @@ public class DealQueryDslRepository {
 		if (dealTypeName.equals("All")) {
 			return null;
 		}
-		return deal.dealType.stringValue().contains(dealTypeName);
+		return deal.dealType.stringValue().eq(dealTypeName);
 	}
 
 	// no-offset 방식을 처리하는 메소드 (storeId가 -1일 경우, 있을 경우)
