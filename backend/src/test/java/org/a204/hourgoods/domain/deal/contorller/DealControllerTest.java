@@ -115,7 +115,7 @@ class DealControllerTest {
 		// 게임 경매 생성
 		for (int i = 1; i < 5; i++) {
 			GameAuction gameAuction = GameAuction.gameAuctionBuilder()
-				.title("포카경매합니다")
+				.title("포카아이유 경매합니다")
 				.dealType(DealType.GameAuction)
 				.isAvaliable(i % 2 == 0)
 				.startTime(LocalDateTime.now().plusHours(8 - i))
@@ -197,6 +197,25 @@ class DealControllerTest {
 					.params(request))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
+		}
+
+		@Test
+		@DisplayName("키워드 검색 성공")
+		void getKeywordSearchList() throws Exception {
+			// given
+			MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
+			request.add("concertId", CONCERT_ID.toString());
+			request.add("lastDealId", "-1");
+			request.add("dealTypeName", "All");
+			request.add("searchKeyword", "아이유");
+
+			mockMvc
+				.perform(get(url + "list")
+					.contentType(MediaType.APPLICATION_JSON)
+					.params(request))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andDo(print());
+
 		}
 
 	}
