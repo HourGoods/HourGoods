@@ -1,0 +1,37 @@
+@import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
+
+.user-deal-card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: start;
+  width: 128px;
+  height: 182px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+  border-radius: 10px;
+  svg {
+    width: 12px;
+    height: 12px;
+    color: $indigo-2;
+  }
+
+  .user-deal-card-wrapper {
+  }
+
+  .deal-img {
+    width: 128px;
+    height: 70px;
+  }
+  .title {
+    font-size: 14px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .timeLeft {
+    font-size: 10px;
+  }
+}
