@@ -38,14 +38,14 @@ public class DealService {
 	private static final Integer PAGE_SIZE = 10;
 
 	@Transactional(readOnly = true)
-	public ConcertDealListResponse getAllDealListByConcert(ConcertDealListRequest request) {
+	public ConcertDealListResponse getDealListByConcert(ConcertDealListRequest request) {
 		// 유효성 체크
 		checkConcertValidation(request.getConcertId());
 		checkDealTypeValidation(request.getDealTypeName());
 
 		// 거래 정보 조회
 		Pageable pageable = Pageable.ofSize(PAGE_SIZE);
-		Slice<Deal> deals = dealQueryDslRepository.searchByConcert(request, pageable);
+		Slice<Deal> deals = dealQueryDslRepository.searchDealByCond(request, pageable);
 
 		// 정보가 없을 경우 빈 정보 반환
 		if (deals.isEmpty()) {
@@ -116,5 +116,4 @@ public class DealService {
 			throw new DealTypeNotFoundException();
 		}
 	}
-
 }

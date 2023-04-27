@@ -28,14 +28,15 @@ public class DealQueryDslRepository {
 	QDeal deal = QDeal.deal;
 	QConcert concert = QConcert.concert;
 
-	public Slice<Deal> searchByConcert(ConcertDealListRequest request, Pageable pageable) {
+	public Slice<Deal> searchDealByCond (ConcertDealListRequest request, Pageable pageable) {
 		List<Deal> results = query.selectFrom(deal)
 			.join(deal.concert, concert)
 			.fetchJoin()
 			.where(
-				checkDealType(request.getDealTypeName()),
-				checkLastDealId(request.getLastDealId()),
 				deal.concert.id.eq(request.getConcertId()),
+				checkLastDealId(request.getLastDealId()),
+				checkDealType(request.getDealTypeName()),
+				checkSearchKeyword(request.getSearchKeyword()),
 				deal.isAvailable.isTrue()
 			)
 			.orderBy(deal.id.desc())
@@ -58,6 +59,14 @@ public class DealQueryDslRepository {
 			return null;
 		}
 		return deal.id.lt(lastDealId);
+	}
+
+	// 키워드를 처리하는 메소드
+	private BooleanExpression checkSearchKeyword(String searchKeyword) {
+		if(searchKeyword == null) {
+			return null;
+		}
+		return deal.title.contains(searchKeyword);
 	}
 
 	// 무한스크롤을 위해 다음 페이지에 정보가 있는지 없는지 전달할 메소드

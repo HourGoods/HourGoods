@@ -31,4 +31,7 @@ public class ConcertDealListRequest {
 	@NotEmpty
 	@Schema(description = "거래 종류, All/Auction/AuctionGame/Sharing/Trade")
 	private String dealTypeName;
+
+	@Schema(description = "검색어, null일 경우 전체 목록 조회함.")
+	private String searchKeyword;
 }

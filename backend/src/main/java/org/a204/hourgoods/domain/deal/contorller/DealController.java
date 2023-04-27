@@ -32,11 +32,12 @@ public class DealController {
 	 * @param request concertId, lastDealId, dealTypeName
 	 * @return dealTypeName에 따라 거래 가능한 전체 목록 반환
 	 */
-	@Operation(summary = "콘서트별 거래별 거래 가능 목록 조회 API", description = "콘서트에 따른 거래별 거래 가능 목록 조회. All로 넘기면 전체 목록 반환")
+	@Operation(summary = "콘서트별/거래별/키워드별 거래 가능 목록 조회 API", description = "콘서트/거래별/키워드별 거래 가능 목록 조회. All로 넘기면 전체 목록 반환. 검색어 미반환시 전체 검색")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertDealListResponse.class)))
+	@ApiResponse(responseCode = "404", description = "1. C100 해당하는 콘서트 찾을 수 없음 \t\n 2. D100 거래 타입이 잘못되었음")
 	@GetMapping("/list")
-	public BaseResponse<ConcertDealListResponse> getAllDealListByConcert(@Valid ConcertDealListRequest request) {
-		ConcertDealListResponse response = dealService.getAllDealListByConcert(request);
+	public BaseResponse<ConcertDealListResponse> getDealListByConcert(@Valid ConcertDealListRequest request) {
+		ConcertDealListResponse response = dealService.getDealListByConcert(request);
 		return new BaseResponse<>(response);
 	}
 
