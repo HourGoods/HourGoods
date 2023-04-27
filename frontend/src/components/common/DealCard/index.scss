@@ -1,0 +1,75 @@
+@import "@styles/Colors";
+@import "@styles/Mixins";
+
+.deal-card-component-container {
+  margin-top: 10px;
+  height: 90px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 3px 3px 5px rgba(107, 114, 128, 0.3);
+  display: flex;
+  justify-content: space-between;
+
+  .deal-card-left-contents-container {
+    display: flex;
+
+    .deal-card-left-img-wrapper {
+      img {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+      }
+    }
+
+    .deal-card-right-contents-container {
+      margin-left: 20px;
+      text-align: left;
+      align-self: center;
+      p {
+        margin: 0;
+        font-size: 12px;
+      }
+
+      .deal-card-top-container {
+        display: flex;
+        align-items: baseline;
+        .deal-title-p {
+          font-size: 12px;
+          font-weight: 800;
+          color: $indigo-1;
+          margin-right: 5px;
+        }
+      }
+
+      .deal-card-bottom-container {
+        @include tablet {
+          display: flex;
+          p {
+            margin-right: 5px;
+          }
+        }
+        .card-icon-text-div {
+          display: flex;
+          align-items: center;
+          margin: 0;
+          svg {
+            width: 20px;
+            margin-right: 5px;
+            color: $indigo-1;
+          }
+        }
+      }
+    }
+  }
+
+  .deal-card-alert-wrapper {
+    align-self: center;
+    margin-right: 10px;
+    svg {
+      width: 30px;
+      color: $indigo-1;
+    }
+  }
+}
