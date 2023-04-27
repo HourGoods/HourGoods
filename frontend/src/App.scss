@@ -1,0 +1,19 @@
+@import "@styles/Mixins";
+
+.App {
+  margin: auto;
+  text-align: center;
+  min-width: 335px;
+  height: 100vh;
+
+  @include desktop {
+    border: 1px solid blue;
+    max-width: 1024px;
+  }
+  @include tablet {
+    border: 1px solid green;
+  }
+  @include mobile {
+    border: 1px solid red;
+  }
+}
