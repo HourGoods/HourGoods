@@ -2,29 +2,18 @@
 @import "@styles/_Mixins.scss";
 
 // MyPage
-.mypage-container-upper {
+.mypage-main-container {
   display: flex;
   justify-content: center;
+  padding: 0 20px;
 
-  .mypage-container {
-    margin-top: 3vh;
+  .mypage-contents-container {
+    margin: 20px 0;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    margin: 0;
-    @include mobile {
-      width: 252px;
-      max-width: 252px;
-    }
-    @include tablet {
-      // width: 637px;
-      max-width: 637px;
-    }
-    @include desktop {
-      // width: 637px;
-      max-width: 637px;
-    }
+    width: 100%;
+    border: 3px solid aqua;
+    // background-color: aqua;
 
     // UserInfo
     .userinfo-container {
@@ -46,7 +35,7 @@
           font-weight: 700;
           color: $gray-2;
         }
-        .edit-profile {
+        .edit-profile-button {
           width: 130px;
           height: 21px;
           font-size: 14px;
@@ -94,21 +83,22 @@
         background-color: $white;
         border: none;
         border-radius: 10px;
+        width: 100%;
         @include mobile {
-          width: 252px;
-          max-width: 252px;
+          // width: 252px;
+          // max-width: 252px;
           height: 42.5px;
           max-height: 42.5px;
         }
         @include tablet {
-          width: 637px;
+          // width: 637px;
           max-width: 637px;
           height: 42.5px;
           max-height: 42.5px;
         }
         @include desktop {
           width: 637px;
-          max-width: 637px;
+          // max-width: 637px;
           height: 42.5px;
           max-height: 42.5px;
         }
@@ -172,19 +162,20 @@
 
     // UserDeal
 
-    .userdeal-container {
+    .userdeal-components-container {
       margin-top: 5vh;
       min-width: 100%;
     }
-    .userdeal-wrapper {
+    .userdeal-tabs-container {
       display: flex;
       flex-direction: row;
       justify-content: start;
 
+      // 3개 통일!
       .favorite {
         @include mypage-tab-focus;
-        width: 54px;
-        font-size: 12px;
+        // width: 54px;
+        // font-size: 12px;
         font-weight: 400;
         margin-right: 8px;
         padding: 0;
@@ -194,8 +185,8 @@
       }
       .getmy {
         @include mypage-tab-focus;
-        width: 80px;
-        font-size: 12px;
+        // width: 80px;
+        // font-size: 12px;
         font-weight: 400;
         margin-right: 8px;
         padding: 0;
@@ -205,8 +196,8 @@
       }
       .participated {
         @include mypage-tab-focus;
-        width: 66px;
-        font-size: 12px;
+        // width: 66px;
+        // font-size: 12px;
         font-weight: 400;
         padding: 0;
         border: 0;

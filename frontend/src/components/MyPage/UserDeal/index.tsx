@@ -19,8 +19,9 @@ export default function index() {
   };
 
   return (
-    <div className="userdeal-container">
-      <div className="userdeal-wrapper">
+    <div className="userdeal-components-container">
+
+      <div className="userdeal-tabs-container">
         <button
           type="button"
           onClick={() => handleClick("favorite")}
@@ -43,6 +44,7 @@ export default function index() {
           참여한 Deal
         </button>
       </div>
+      
       {tag.favorite && <FavoriteDeal />}
       {tag.getMy && <GetMyDeal />}
       {tag.participated && <ParticipatedDeal />}
