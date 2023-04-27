@@ -27,7 +27,12 @@ public class DealController {
 
 	private final DealService dealService;
 
-	@Operation(description = "콘서트별 거래 전체 목록 조회 API", summary = "콘서트별 거래 전체 목록 조회 API")
+	/**
+	 * 콘서트id에 해당하는 거래 가능 목록 조회(Deal Type으로 거래 목록 필터링 가능)
+	 * @param request concertId, lastDealId, dealTypeName
+	 * @return dealTypeName에 따라 거래 가능한 전체 목록 반환
+	 */
+	@Operation(summary = "콘서트별 거래별 거래 가능 목록 조회 API", description = "콘서트에 따른 거래별 거래 가능 목록 조회. All로 넘기면 전체 목록 반환")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertDealListResponse.class)))
 	@GetMapping("/list")
 	public BaseResponse<ConcertDealListResponse> getAllDealListByConcert(@Valid ConcertDealListRequest request) {
