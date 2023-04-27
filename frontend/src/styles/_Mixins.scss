@@ -30,3 +30,15 @@
     font-weight: 700;
   }
 }
+
+// 네브바 hover & active 함수
+@mixin pink-hover-active {
+  &:hover, &:active {
+    transition: transform 0.5s ease;
+    color: $pink-1;
+    text-decoration: underline;
+    text-underline-position : under;
+    scale: 1.1;
+    font-weight: 900;
+  }
+}

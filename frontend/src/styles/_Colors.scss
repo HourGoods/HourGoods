@@ -30,6 +30,9 @@ $gray-6: #f9fafb;
 // single colors
 $white: #fff;
 
+// 투명한 하얀색 배경
+$white-op: rgba(255, 255, 255, 0.7);
+
 // 그림자
 $shadow-gray: 2px 2px 4px rgba(107, 114, 128, 0.3);
 $shadow-indigo: 0px 0px 30px rgba(79, 70, 229, 0.5);

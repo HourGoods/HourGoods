@@ -1,19 +1,28 @@
-@import "@styles/Mixins";
+@import "@styles/Colors";
 
 .App {
   margin: auto;
   text-align: center;
-  // min-width: 335px;
-  min-height: 100vh;
-
-  @include desktop {
-    border: 1px solid blue;
-    max-width: 1024px;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom right,
+    rgba(165, 213, 252, 0.2),
+    rgba(251, 207, 232, 0.2),
+    rgba(254, 249, 195, 0.2),
+    rgba(237, 233, 254, 0.2)
+  );
+  a {
+    text-decoration: none;
+    color: $gray-1;
   }
-  @include tablet {
-    border: 1px solid green;
-  }
-  @include mobile {
-    border: 1px solid red;
+  p,
+  h1,
+  h2,
+  h3,
+  h3,
+  h4,
+  h5,
+  span {
+    color: $gray-1;
   }
 }

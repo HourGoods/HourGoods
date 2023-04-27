@@ -1,0 +1,62 @@
+@mixin fadeInUp {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-in-out forwards;
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px); /* 애니메이션 시작 시 위치 지정 */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* 애니메이션 종료 시 위치 지정 */
+    }
+  }
+}
+
+@mixin fadeOut {
+  animation: fadeOut 0.6s ease-in-out forwards;
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+@mixin fadeBesideEnter {
+  animation: fadeBeside 0.6s ease-in-out forwards;
+  @keyframes fadeBeside {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+@mixin fadeBesideExit {
+  animation: fadeBesideExit 0.6s ease-in-out forwards;
+  @keyframes fadebeside {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+@mixin moveUp {
+  animation: moveUp 0.6s ease-out;
+  transform-origin: bottom;
+  @keyframes moveUp {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-150px);
+    }
+  }
+}
