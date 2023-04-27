@@ -2,6 +2,22 @@
 @import "@styles/Colors";
 @import "@styles/Animation";
 
+@mixin navbar-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 60px;
+  .web-navbar-logo-menu {
+    display: flex;
+    gap: 50px;
+  }
+  .web-navbar-profile {
+    svg {
+      width: 35px;
+      color: $gray-4;
+    }
+  }
+}
+
 .navbar {
   p {
     @include pink-hover-active;
@@ -9,18 +25,7 @@
   // 데스크톱
   @include desktop {
     .web-navbar-wrapper {
-      display: flex;
-      justify-content: space-between;
-      .web-navbar-logo-menu {
-        display: flex;
-        gap: 50px;
-      }
-      .web-navbar-profile {
-        svg {
-          width: 35px;
-          color: $gray-4;
-        }
-      }
+      @include navbar-wrapper;
     }
     .mobile-navbar-wrapper {
       display: none;
@@ -30,42 +35,31 @@
   // 테블릿
   @include tablet {
     .web-navbar-wrapper {
-      display: flex;
-      justify-content: space-between;
-      .web-navbar-logo-menu {
-        display: flex;
-        gap: 50px;
-      }
-      .web-navbar-profile {
-        svg {
-          width: 35px;
-          color: $gray-4;
-        }
-      }
+      @include navbar-wrapper;
     }
     .mobile-navbar-wrapper {
       display: none;
     }
   }
-
   // 모바일
   @include mobile {
     .web-navbar-wrapper {
       display: none;
     }
     .mobile-navbar-wrapper {
+      padding: 30px 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px;
       svg {
-        width: 24px;
+        width: 35px;
         color: $gray-1;
       }
     }
     .mobile-sidebar-wrapper {
       @include fadeBesideEnter;
       position: absolute;
+      z-index: 100;
       top: 0;
       right: 0;
       width: 70%;
@@ -79,7 +73,7 @@
         justify-content: flex-end;
         svg {
           color: $pink-1;
-          width: 24px;
+          width: 35px;
         }
       }
       .mobile-sidebar-menu {
@@ -91,9 +85,6 @@
           font-size: 16px;
         }
       }
-    }
-    &.sidebar-closed {
-      @include fadeBesideExit;
     }
   }
 }

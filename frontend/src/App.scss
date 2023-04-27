@@ -3,6 +3,7 @@
 .App {
   margin: 0;
   text-align: center;
+  height: 100vh;
   background: linear-gradient(
     to bottom right,
     rgba(165, 213, 252, 0.2),
@@ -10,6 +11,18 @@
     rgba(254, 249, 195, 0.2),
     rgba(237, 233, 254, 0.2)
   );
-  height: 100vh;
-  color: $gray-1;
+  a {
+    text-decoration: none;
+    color: $gray-1;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h3,
+  h4,
+  h5,
+  span {
+    color: $gray-1;
+  }
 }
