@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
+import isWithin500mFromLocation from "@utils/isUserInConcertArea";
 
 declare global {
   interface Window {
@@ -13,6 +14,23 @@ export default function index() {
     { latitude: number; longitude: number } | string
   >("");
 
+  // 위치 확인용 좌표
+  const sillaLocation = {
+    latitude: 37.504768995486,
+    longitude: 127.04144944792,
+  };
+
+  const sjrStation = {
+    latitude: 37.510257428761,
+    longitude: 127.04391561527,
+  };
+
+  const gangnamStation = {
+    latitude: 37.497,
+    longitude: 127.0254,
+  };
+
+  // 현재 위치를 받아옴
   useEffect(() => {
     getCurrentLocation().then((result) => {
       setLocation(result);
@@ -23,17 +41,17 @@ export default function index() {
     if (location && location !== "" && typeof location !== "string") {
       const container = document.getElementById("map");
 
-      // 그리기
+      // 현재 위치 기준으로 지도 생성
       const options = {
         center: new window.kakao.maps.LatLng(
           location.latitude,
           location.longitude
         ),
-        level: 3,
+        level: 4,
       };
       const map = new window.kakao.maps.Map(container, options);
 
-      // 마커 생성
+      // 현재 위치를 표시하는 마커 생성
       const markerPosition = new window.kakao.maps.LatLng(
         location.latitude,
         location.longitude
@@ -45,6 +63,29 @@ export default function index() {
       });
 
       marker.setMap(map);
+
+      // 현재 위치가 콘서트장 범위에 포함되는지 확인 후 색 지정
+      isWithin500mFromLocation(
+        sillaLocation.latitude,
+        sillaLocation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      )
+      isWithin500mFromLocation(
+        sjrStation.latitude,
+        sjrStation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      )
+      isWithin500mFromLocation(
+        gangnamStation.latitude,
+        gangnamStation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      )
     }
   }, [location]);
 
