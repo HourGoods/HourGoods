@@ -20,33 +20,32 @@ export default function index() {
 
   return (
     <div className="userdeal-components-container">
-
       <div className="userdeal-tabs-container">
         <button
           type="button"
           onClick={() => handleClick("favorite")}
-          className="favorite"
+          // className="favorite"
         >
           찜한 Deal
         </button>
         <button
           type="button"
           onClick={() => handleClick("getMy")}
-          className="getmy"
+          // className="getmy"
         >
           내가 만든 Deal
         </button>
         <button
           type="button"
           onClick={() => handleClick("participated")}
-          className="participated"
+          // className="participated"
         >
           참여한 Deal
         </button>
       </div>
-      
+
       {tag.favorite && <FavoriteDeal />}
-      {tag.getMy && <GetMyDeal />}
+      {tag.getMy && <GetMyDeal tag={tag.getMy} />}
       {tag.participated && <ParticipatedDeal />}
     </div>
   );

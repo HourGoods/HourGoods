@@ -7,29 +7,39 @@ import {
   MapPinIcon,
 } from "@heroicons/react/24/solid";
 
-export default function index() {
+interface props {
+  tag?: boolean;
+}
+
+export default function index({ tag }: props) {
+  console.log(tag);
   return (
     <div className="user-deal-card-container">
-      <img alt="아이유" className="deal-img" />
-      <div className="user-deal-card-wrapper">
-        <span className="title">분홍드레스 아이유 포...</span>
-        <div>
+      <div className="user-deal-card-wrapper-img">
+        <img
+          src="https://openimage.interpark.com/goods_image_big/1/3/6/7/10657921367_l.jpg"
+          alt="아이유"
+          className="deal-img"
+        />
+        <p className="deal-tag">경매</p>
+      </div>
+      <div className="user-deal-card-wrapper-containers">
+        <p className="user-deal-card-title">분홍드레스 아이유 포토카드</p>
+        <div className="user-deal-card-wrapper">
           <BellIcon />
-          <span>
-            오픈 <span>{40}</span>분 전
-          </span>
+          <p className="user-deal-card-container-p">오픈 40분 전</p>
         </div>
-        <div>
+        <div className="user-deal-card-wrapper">
           <CalendarIcon />
-          <span>23.04.18</span>
+          <p className="user-deal-card-container-p">23.04.18</p>
         </div>
-        <div>
+        <div className="user-deal-card-wrapper">
           <ClockIcon />
-          <span>17:00 ~ 18:00</span>
+          <p className="user-deal-card-container-p">17:00 ~ 18:00</p>
         </div>
-        <div>
+        <div className="user-deal-card-wrapper">
           <MapPinIcon />
-          <span>종합운동장역 8번 출구</span>
+          <p className="user-deal-card-container-p">종합운동장역 8번 출구</p>
         </div>
       </div>
     </div>
