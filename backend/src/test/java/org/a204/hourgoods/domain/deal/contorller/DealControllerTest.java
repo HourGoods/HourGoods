@@ -51,6 +51,7 @@ class DealControllerTest {
 	private String token;
 	private final String url = "http://localhost:8080/api/deal/";
 	private Long CONCERT_ID;
+	private Long DEAL_ID;
 
 	@BeforeEach
 	void setUp() {
@@ -122,8 +123,11 @@ class DealControllerTest {
 				.minimumPrice(10_000)
 				.concert(concert)
 				.dealHost(member)
+				.longitude(126.9780)
+				.latitude(37.5665)
 				.build();
 			em.persist(gameAuction);
+			DEAL_ID = gameAuction.getId();
 		}
 	}
 
@@ -218,6 +222,25 @@ class DealControllerTest {
 
 		}
 
+	}
+
+	@Nested
+	@DisplayName("거래 아이디로 거래 상세 조회")
+	class GetDealDeatilById {
+		@Test
+		@DisplayName("거래 상세 조회 성공")
+		void getDealDetailById() throws Exception {
+			// given
+			MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
+			request.add("dealId", DEAL_ID.toString());
+
+			mockMvc
+				.perform(get(url + "detail")
+					.contentType(MediaType.APPLICATION_JSON)
+					.params(request))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andDo(print());
+		}
 	}
 
 }

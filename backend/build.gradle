@@ -70,6 +70,8 @@ dependencies {
     // h2 Datebase
     implementation 'com.h2database:h2'
 
+    // jts-core
+    implementation group: 'org.locationtech.jts', name: 'jts-core', version: '1.19.0'
 }
 
 //jacocoTestReport {

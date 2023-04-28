@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.member.entity.Member;
-import org.locationtech.jts.geom.Point;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,8 +22,8 @@ public class Sharing extends Deal {
 
 	@Builder(builderMethodName = "sharingBuilder")
 	public Sharing(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvaliable,
-		Member dealHost, Concert concert, DealType dealType, Point location, Integer limitation) {
-		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, location);
+		Member dealHost, Concert concert, DealType dealType,  Double longitude, Double latitude, Integer limitation) {
+		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, longitude, latitude);
 		this.limitation = limitation;
 	}
 }
