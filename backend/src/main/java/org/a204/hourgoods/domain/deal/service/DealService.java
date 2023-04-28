@@ -8,8 +8,11 @@ import lombok.RequiredArgsConstructor;
 
 import org.a204.hourgoods.domain.concert.exception.ConcertNotFoundException;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
+import org.a204.hourgoods.domain.deal.entity.Auction;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.DealType;
+import org.a204.hourgoods.domain.deal.entity.GameAuction;
+import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealTypeNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.AuctionRepository;
 import org.a204.hourgoods.domain.deal.repository.DealQueryDslRepository;
@@ -18,6 +21,7 @@ import org.a204.hourgoods.domain.deal.repository.SharingRepository;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.a204.hourgoods.domain.deal.response.ConcertDealListResponse;
+import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
 import org.a204.hourgoods.domain.deal.response.DealInfoResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -69,7 +73,7 @@ public class DealService {
 			DealType dealType = deal.getDealType();
 			if (dealType.equals(DealType.Auction)) {
 				endTime = auctionRepository.findEndTimeById(deal.getId());
-			} else if (dealType.equals(DealType.GameAuction)) {
+			} else if (dealType.equals(DealType.HourAuction)) {
 				endTime = gameAuctionRepository.findEndTimeById(deal.getId());
 			} else if (dealType.equals(DealType.Sharing)) {
 				limitation = sharingRepository.findLimitationById(deal.getId());
@@ -99,6 +103,50 @@ public class DealService {
 			.dealInfoList(response)
 			.build();
 
+	}
+
+	@Transactional(readOnly = true)
+	public DealDetailResponse getDealDetail(Long dealId) {
+		Deal deal = dealQueryDslRepository.searchDealById(dealId);
+
+		Integer minPrice = null;
+		LocalDateTime endTime = null;
+		Integer limitation = null;
+		Integer price = null;
+
+		// 딜 타입에 따라 repository 재탐색
+		DealType dealType = deal.getDealType();
+		if (dealType.equals(DealType.Auction)) {
+			Auction auction = auctionRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
+			minPrice = auction.getMinimumPrice();
+			endTime = auction.getEndTime();
+		} else if (dealType.equals(DealType.HourAuction)) {
+			GameAuction gameAuction = gameAuctionRepository.findById(dealId)
+				.orElseThrow(DealNotFoundException::new);
+			minPrice = gameAuction.getMinimumPrice();
+			endTime = gameAuction.getEndTime();
+		} else if (dealType.equals(DealType.Sharing)) {
+			limitation = sharingRepository.findLimitationById(deal.getId());
+		} else if (dealType.equals(DealType.Trade)) {
+			price = tradeRepository.findPriceById(deal.getId());
+		}
+
+		// 종합하여 response 생성하여 반환
+		return DealDetailResponse.builder()
+			.dealTitle(deal.getTitle())
+			.dealImageUrl(deal.getImageUrl())
+			.dealContent(deal.getContent())
+			.dealLongitude(deal.getLongitude())
+			.dealLatitude(deal.getLatitude())
+			.dealType(deal.getDealType().toString())
+			.userImageUrl(deal.getDealHost().getImageUrl())
+			.userNickname(deal.getDealHost().getNickname())
+			.startTime(deal.getStartTime())
+			.concertTitle(deal.getConcert().getTitle())
+			.minPrice(minPrice)
+			.endTime(endTime)
+			.price(price)
+			.limit(limitation).build();
 	}
 
 	// concert id validation check

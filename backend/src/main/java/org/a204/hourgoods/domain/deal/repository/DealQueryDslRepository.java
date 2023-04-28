@@ -7,7 +7,9 @@ import javax.persistence.EntityManager;
 import org.a204.hourgoods.domain.concert.entity.QConcert;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.QDeal;
+import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
+import org.a204.hourgoods.domain.member.entity.QMember;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -27,8 +29,9 @@ public class DealQueryDslRepository {
 
 	QDeal deal = QDeal.deal;
 	QConcert concert = QConcert.concert;
+	QMember member = QMember.member;
 
-	public Slice<Deal> searchDealByCond (ConcertDealListRequest request, Pageable pageable) {
+	public Slice<Deal> searchDealByCond(ConcertDealListRequest request, Pageable pageable) {
 		List<Deal> results = query.selectFrom(deal)
 			.join(deal.concert, concert)
 			.fetchJoin()
@@ -63,7 +66,7 @@ public class DealQueryDslRepository {
 
 	// 키워드를 처리하는 메소드
 	private BooleanExpression checkSearchKeyword(String searchKeyword) {
-		if(searchKeyword == null) {
+		if (searchKeyword == null) {
 			return null;
 		}
 		return deal.title.contains(searchKeyword);
@@ -82,4 +85,15 @@ public class DealQueryDslRepository {
 
 	}
 
+	public Deal searchDealById(Long dealId) {
+		List<Deal> result = query.selectFrom(deal)
+			.join(deal.concert, concert)
+			.join(deal.dealHost, member)
+			.fetchJoin()
+			.where(deal.id.eq(dealId))
+			.fetch();
+		if (result.isEmpty())
+			throw new DealNotFoundException();
+		return result.get(0);
+	}
 }

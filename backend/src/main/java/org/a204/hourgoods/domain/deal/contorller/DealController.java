@@ -12,10 +12,12 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.a204.hourgoods.domain.deal.response.ConcertDealListResponse;
+import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
 import org.a204.hourgoods.domain.deal.service.DealService;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -38,6 +40,12 @@ public class DealController {
 	@GetMapping("/list")
 	public BaseResponse<ConcertDealListResponse> getDealListByConcert(@Valid ConcertDealListRequest request) {
 		ConcertDealListResponse response = dealService.getDealListByConcert(request);
+		return new BaseResponse<>(response);
+	}
+
+	@GetMapping("/detail")
+	public BaseResponse<DealDetailResponse> getDealDetail(@RequestParam Long dealId) {
+		DealDetailResponse response = dealService.getDealDetail(dealId);
 		return new BaseResponse<>(response);
 	}
 

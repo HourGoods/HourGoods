@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.member.entity.Member;
-import org.locationtech.jts.geom.Point;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,9 +27,9 @@ public class GameAuction extends Deal {
 
 	@Builder(builderMethodName = "gameAuctionBuilder")
 	public GameAuction(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvaliable,
-		Member dealHost, Concert concert, DealType dealType, Point location, Integer minimumPrice, Integer finalPrice,
+		Member dealHost, Concert concert, DealType dealType,  Double longitude, Double latitude, Integer minimumPrice, Integer finalPrice,
 		LocalDateTime endTime) {
-		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, location);
+		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType,  longitude, latitude);
 		this.minimumPrice = minimumPrice;
 		this.finalPrice = finalPrice;
 		this.endTime = endTime;
