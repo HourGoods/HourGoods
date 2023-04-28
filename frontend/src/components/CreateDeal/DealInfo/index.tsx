@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "@components/common/Button";
 
 export default function index() {
   const [activeDealType, setActiveDealType] = useState({
@@ -7,13 +8,52 @@ export default function index() {
     auction: false,
     hourAuction: false,
   });
+
+  const activationHandler = (type: string) => {
+    setActiveDealType((prev) => ({
+      ...prev,
+      trade: type === "trade",
+      sharing: type === "sharing",
+      auction: type === "auction",
+      hourAuction: type === "hourAuction",
+    }));
+  };
+
   return (
     <div className="deal-info-input-component-container">
       <div className="deal-type-buttons-container">
-        <button type="button">거래</button>
-        <button type="button">나눔</button>
-        <button type="button">경매</button>
-        <button type="button">Hour경매</button>
+        <Button
+          color="spink"
+          size="deal"
+          isActive={activeDealType.trade}
+          onClick={() => activationHandler("trade")}
+        >
+          거래
+        </Button>
+        <Button
+          color="syellow"
+          size="deal"
+          isActive={activeDealType.sharing}
+          onClick={() => activationHandler("sharing")}
+        >
+          나눔
+        </Button>
+        <Button
+          color="sindigo"
+          size="deal"
+          isActive={activeDealType.auction}
+          onClick={() => activationHandler("auction")}
+        >
+          경매
+        </Button>
+        <Button
+          color="spurple"
+          size="deal"
+          isActive={activeDealType.hourAuction}
+          onClick={() => activationHandler("hourAuction")}
+        >
+          Hour경매
+        </Button>
       </div>
       <input
         type="text"
@@ -47,13 +87,12 @@ export default function index() {
           <input type="text" id="AuctionTimeInput" />
         </label>
       )}
-      {activeDealType.auction ||
-        (activeDealType.hourAuction && (
-          <label htmlFor="AuctionTimeInput">
-            <p>경매 지속 시간</p>
-            <input type="time" id="AuctionTimeInput" />
-          </label>
-        ))}
+      {activeDealType.auction || activeDealType.hourAuction ? (
+        <label htmlFor="AuctionTimeInput">
+          <p>경매 지속 시간</p>
+          <input type="time" id="AuctionTimeInput" />
+        </label>
+      ) : null}
 
       <label htmlFor="DealNoticeInput">
         <p>공지사항</p>

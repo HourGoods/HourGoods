@@ -7,8 +7,8 @@ import "./index.scss";
 export default function index() {
   return (
     <div className="create-deal-page-container">
-      <UploadImage />
       <DealInfo />
+      <UploadImage />
       <UploadDealLocation />
     </div>
   );
