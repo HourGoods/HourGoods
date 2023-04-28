@@ -31,7 +31,7 @@ export default function Modal({ setModalOpen, children }: IModalProps) {
           >
             <XCircleIcon />
           </button>
-          {children}
+          <div className="common-modal-content">{children}</div>
           <img src={purpleCloud} alt="" className="bottom-cloud-img" />
         </div>
       </div>
