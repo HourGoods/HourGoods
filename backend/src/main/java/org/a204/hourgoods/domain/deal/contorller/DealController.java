@@ -11,11 +11,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
+import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
 import org.a204.hourgoods.domain.deal.response.ConcertDealListResponse;
+import org.a204.hourgoods.domain.deal.response.DealCreateResponse;
 import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
 import org.a204.hourgoods.domain.deal.service.DealService;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,10 +47,25 @@ public class DealController {
 		return new BaseResponse<>(response);
 	}
 
+	/**
+	 * 거래id에 해당하는 거래 상세 조회
+	 * @param dealId 조회할 거래id
+	 * @return 해당 deal의 상세 내용 반환
+	 */
 	@GetMapping("/detail")
 	public BaseResponse<DealDetailResponse> getDealDetail(@RequestParam Long dealId) {
 		DealDetailResponse response = dealService.getDealDetail(dealId);
 		return new BaseResponse<>(response);
 	}
 
+	/**
+	 * 거래 생성
+	 * @param dealCreateRequest 거래 생성에 필요한 정보
+	 * @return 생성된 거래 id 반환
+	 */
+	@PostMapping("/create")
+	public BaseResponse<DealCreateResponse> createDeal(@RequestBody @Valid DealCreateRequest dealCreateRequest) {
+		DealCreateResponse dealCreateResponse = dealService.createDeal(dealCreateRequest);
+		return new BaseResponse<>(dealCreateResponse);
+	}
 }
