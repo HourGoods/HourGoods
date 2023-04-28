@@ -45,7 +45,7 @@ export default function index() {
       </div>
 
       {tag.favorite && <FavoriteDeal />}
-      {tag.getMy && <GetMyDeal tag={tag.getMy} />}
+      {tag.getMy && <GetMyDeal />}
       {tag.participated && <ParticipatedDeal />}
     </div>
   );

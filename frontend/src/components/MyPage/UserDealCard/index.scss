@@ -32,11 +32,23 @@
   .user-deal-card-wrapper-img {
     position: relative;
 
+    .user-deal-card-delete {
+      position: absolute;
+      top: -10px;
+      left: 0;
+      margin: 0px 0px 0px 2px;
+      background-color: inherit;
+      svg {
+        width: 19.5px;
+        height: 19.5px;
+        color: $pink-1;
+      }
+    }
+
     .deal-tag {
       position: absolute;
       top: 0;
       right: 0;
-      margin: 0;
       width: 37px;
       height: 13px;
       margin: 5px 5px 0px 0px;

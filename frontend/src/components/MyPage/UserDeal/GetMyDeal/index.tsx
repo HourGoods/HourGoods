@@ -6,11 +6,9 @@ import "./index.scss";
 // import { Pagination } from "swiper";
 import UserDealCard from "@components/MyPage/UserDealCard";
 
-interface props {
-  tag?: boolean;
-}
+const getmy = "getmy";
 
-export default function index({ tag }: props) {
+export default function index() {
   return (
     <Swiper
       slidesPerView={1}
@@ -40,7 +38,7 @@ export default function index({ tag }: props) {
       className="mySwiper"
     >
       <SwiperSlide>
-        <UserDealCard tag={tag} />
+        <UserDealCard getmy={getmy} />
       </SwiperSlide>
     </Swiper>
   );
