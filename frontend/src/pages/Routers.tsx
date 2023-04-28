@@ -2,14 +2,22 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "@pages/Main";
 import RealTimePage from "@pages/RealTime";
-import MyPage from "@pages/MyPage"
+import SearchPage from "@pages/Search";
+import LoginPage from "@pages/Login";
+import MyPage from "@pages/MyPage";
+import TempMain from "@pages/TempMain";
 
 export default function Routers() {
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
+      {/* 임시 메인페이지 */}
+      <Route path="/" element={<TempMain />} />
+      <Route path="/main" element={<MainPage />} />
+      {/* 기존 메인페이지 */}
+      {/* <Route path="/" element={<MainPage />} /> */}
       <Route path="/realtime" element={<RealTimePage />} />
-      {/* User */}
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="/mypage" element={<MyPage />} />
     </Routes>
   );

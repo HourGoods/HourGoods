@@ -6,10 +6,12 @@ import "./index.scss";
 
 export default function index() {
   return (
-    <div className="mypage-container">
-      <UserInfo />
-      <UserCash />
-      <UserDeal />
+    <div className="mypage-main-container">
+      <div className="mypage-contents-container">
+        <UserInfo />
+        <UserCash />
+        <UserDeal />
+      </div>
     </div>
   );
 }

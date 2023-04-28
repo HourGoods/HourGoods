@@ -1,10 +1,9 @@
 import React from "react";
-import UserDealCard from "@components/MyPage/UserDealCard";
 
 export default function index() {
   return (
     <div>
-      <UserDealCard />
+      <h1>로그인페이지입니다.</h1>
     </div>
   );
 }

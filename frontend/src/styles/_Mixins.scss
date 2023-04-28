@@ -1,13 +1,16 @@
+// _Mixins.scss
 @import "./Variables";
+@import "./Colors";
 
+// 반응형 미디어쿼리
 @mixin mobile {
-  @media (min-width: #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet - 1px}) {
+  @media ( (max-width: #{$breakpoint-tablet})) {
     @content;
   }
 }
 
 @mixin tablet {
-  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop - 1px}) {
+  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop}) {
     @content;
   }
 }
@@ -15,5 +18,16 @@
 @mixin desktop {
   @media (min-width: #{$breakpoint-desktop}) {
     @content;
+  }
+}
+
+// tab 클릭시 효과적용
+@mixin mypage-tab-focus {
+  &:active,
+  &:hover {
+    color: $pink-1;
+    text-decoration: underline;
+    text-underline-position: under;
+    font-weight: 900;
   }
 }

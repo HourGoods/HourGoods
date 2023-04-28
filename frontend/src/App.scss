@@ -1,14 +1,37 @@
+@import "@styles/Colors";
 @import "@styles/Mixins";
 
 .App {
   margin: auto;
   text-align: center;
-  min-width: 335px;
-  height: 100vh;
+  min-height: 100vh;
+  max-width: 1024px;
+  a {
+    text-decoration: none;
+    color: $gray-1;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h3,
+  h4,
+  h5,
+  span {
+    color: $gray-1;
+    padding: 0;
+    margin: 0;
+  }
+
+  button {
+    background-color: transparent;
+    border: none;
+    color: $gray-1;
+    padding: 0;
+  }
 
   @include desktop {
     border: 1px solid blue;
-    max-width: 1024px;
   }
   @include tablet {
     border: 1px solid green;
