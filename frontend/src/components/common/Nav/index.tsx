@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/24/solid";
 import "./index.scss";
 import logo from "@assets/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useModalRef from "@hooks/useModalRef";
 import DropDown, { Option } from "@components/common/DropDown";
 
@@ -27,6 +27,11 @@ export default function Nav() {
 
   useModalRef(menuRef, () => setIsOpen(false));
 
+  // 임시 메인페이지에서 nav 가립니다
+  const location = useLocation();
+  if (location.pathname === "/") {
+    return null;
+  }
   return (
     <nav className="navbar">
       <div className="web-navbar-wrapper">

@@ -1,0 +1,129 @@
+@import "@styles/Colors";
+
+@mixin button-color($color1, $color2) {
+  background: linear-gradient(to right, $color1, $color2);
+  box-shadow: $shadow-gray;
+  &:hover,
+  &:active {
+    background: $white-op;
+    box-shadow: 0px 0px 30px $color1 / 0.7;
+    p {
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      background-image: linear-gradient(180deg, $color1, $color2, $color1);
+      background-size: 100% 300%;
+      background-position-y: 0%;
+      animation: gradient 3s infinite;
+      @keyframes gradient {
+        from {
+          background-position-y: 0%;
+        }
+        to {
+          background-position-y: 100%;
+        }
+      }
+    }
+  }
+}
+
+@mixin small-btn-color($maincolor, $fontcolor) {
+  background-color: $maincolor;
+  box-shadow: $shadow-gray;
+  color: $fontcolor;
+  &:hover,
+  &:active {
+    background: $fontcolor;
+    color: $maincolor;
+    box-shadow: 0px 0px 10px $maincolor / 0.7;
+  }
+}
+@mixin deal-btn-color($color) {
+  background-color: $gray-5;
+  color: $gray-4;
+  &:hover,
+  &:active {
+    background-color: $color;
+    color: $gray-2;
+    box-shadow: 0px 0px 15px darken($color, 20%);
+  }
+}
+
+.commonButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  gap: 20px;
+
+  // 크기관리
+  &.large {
+    border-radius: 10px;
+    width: 300px;
+    height: 63px;
+    font-weight: 900;
+    font-size: 18px;
+    padding: 14px 56px;
+    color: white;
+  }
+  &.small {
+    min-width: 40px;
+    height: 22px;
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 0px 7px;
+  }
+
+  // 색상관리
+  &.dark-blue {
+    @include button-color($indigo-1, $gray-1);
+  }
+  &.purple {
+    @include button-color($indigo-2, $violet-1);
+  }
+  &.pink {
+    @include button-color($pink-1, $pink-2);
+  }
+  &.yellow {
+    @include button-color($yellow-1, $yellow-2);
+  }
+  &.indigo {
+    @include small-btn-color($indigo-2, white);
+  }
+  &.white {
+    @include small-btn-color(white, $gray-2);
+  }
+  &.kakao {
+    @include button-color($yellow-1, $yellow-1);
+  }
+
+  // 경매 Dealtype
+  &.deal {
+    width: 70px;
+    height: 22px;
+    border-radius: 20px;
+    font-size: 12px;
+    padding: 0px 7px;
+  }
+  &.shotpink {
+    @include deal-btn-color($pink-1);
+  }
+  &.spurple {
+    @include deal-btn-color($violet-2);
+  }
+  &.sindigo {
+    @include deal-btn-color($indogo-4);
+  }
+  &.syellow {
+    @include deal-btn-color($yellow-2);
+  }
+  &.spink {
+    @include deal-btn-color($pink-2);
+  }
+
+  // 나중에 삭제
+  & + & {
+    margin: 10px;
+  }
+}

@@ -1,7 +1,7 @@
-/* eslint-disable */
 import React, { useRef, useState } from "react";
 import useModalRef from "@hooks/useModalRef";
 import { useNavigate } from "react-router";
+import "./index.scss";
 
 export type Option = {
   label: string;
@@ -28,14 +28,17 @@ export default function index({ menus }: MenuProps): JSX.Element {
     <div className="dropdown-container">
       {isOpen && (
         <div className="dropdown-menu" ref={dropdownRef}>
-          {menus.map((menu: Option) => (
-            <div
-              key={menu.value}
-              className="dropdown-option"
-              onClick={() => handleOptionClick(menu)}
-            >
-              {menu.label}
-            </div>
+          {menus.map((menu: Option, index: number) => (
+            <React.Fragment key={menu.value}>
+              <button
+                className="dropdown-option"
+                type="button"
+                onClick={() => handleOptionClick(menu)}
+              >
+                {menu.label}
+              </button>
+              {index % 2 === 0 && index !== menus.length - 1 && <hr />}
+            </React.Fragment>
           ))}
         </div>
       )}

@@ -5,12 +5,15 @@
 @mixin navbar-wrapper {
   display: flex;
   justify-content: space-between;
-  padding: 30px 60px;
+  padding: 30px 20px;
   .web-navbar-logo-menu {
+    align-items: center;
     display: flex;
     gap: 50px;
   }
   .web-navbar-profile {
+    display: flex;
+    align-items: center;
     svg {
       width: 35px;
       color: $gray-4;
@@ -20,7 +23,7 @@
 
 .navbar {
   p {
-    @include pink-hover-active;
+    @include mypage-tab-focus;
   }
   // 데스크톱
   @include desktop {
@@ -47,7 +50,7 @@
       display: none;
     }
     .mobile-navbar-wrapper {
-      padding: 30px 60px;
+      padding: 30px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;

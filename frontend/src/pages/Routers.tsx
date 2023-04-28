@@ -5,11 +5,16 @@ import RealTimePage from "@pages/RealTime";
 import SearchPage from "@pages/Search";
 import LoginPage from "@pages/Login";
 import MyPage from "@pages/MyPage";
+import TempMain from "@pages/TempMain";
 
 export default function Routers() {
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
+      {/* 임시 메인페이지 */}
+      <Route path="/" element={<TempMain />} />
+      <Route path="/main" element={<MainPage />} />
+      {/* 기존 메인페이지 */}
+      {/* <Route path="/" element={<MainPage />} /> */}
       <Route path="/realtime" element={<RealTimePage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
