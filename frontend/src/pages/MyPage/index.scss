@@ -1,6 +1,15 @@
 @import "@styles/Colors.scss";
 @import "@styles/_Mixins.scss";
 
+@mixin userdeal-tag-button {
+  font-size: 16px;
+  font-weight: 400;
+  margin-right: 8px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: $gray-2;
+}
 // MyPage
 .mypage-main-container {
   display: flex;
@@ -8,11 +17,9 @@
   padding: 0 20px;
 
   .mypage-contents-container {
-    margin: 20px 0;
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: 3px solid aqua;
     // background-color: aqua;
 
     // UserInfo
@@ -20,7 +27,6 @@
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      min-width: 100%;
 
       .userinfo-wrapper {
         display: flex;
@@ -29,8 +35,7 @@
         .userid {
           display: flex;
           align-items: center;
-          width: 102px;
-          height: 40px;
+          margin: 0;
           font-size: 18px;
           font-weight: 700;
           color: $gray-2;
@@ -68,8 +73,7 @@
     .usercash-container {
       display: flex;
       flex-direction: column;
-      // align-items: center;
-      margin-top: 5vh;
+      margin-top: 30px;
 
       .link-decoration {
         text-decoration: none;
@@ -84,24 +88,6 @@
         border: none;
         border-radius: 10px;
         width: 100%;
-        @include mobile {
-          // width: 252px;
-          // max-width: 252px;
-          height: 42.5px;
-          max-height: 42.5px;
-        }
-        @include tablet {
-          // width: 637px;
-          max-width: 637px;
-          height: 42.5px;
-          max-height: 42.5px;
-        }
-        @include desktop {
-          width: 637px;
-          // max-width: 637px;
-          height: 42.5px;
-          max-height: 42.5px;
-        }
         .ticket {
           display: flex;
           flex-direction: row;
@@ -110,8 +96,6 @@
           width: 84px;
         }
         .ticket-tag {
-          width: 31px;
-          height: 15px;
           font-size: 14px;
           font-weight: 400;
         }
@@ -127,7 +111,6 @@
           align-items: center;
 
           .cash {
-            width: 102px;
             font-size: 18px;
             font-weight: 700;
             margin: 0;
@@ -142,8 +125,6 @@
           width: 110px;
         }
         .dollar-tag {
-          width: 56px;
-          height: 18px;
           font-size: 14px;
           font-weight: 400;
         }
@@ -163,46 +144,16 @@
     // UserDeal
 
     .userdeal-components-container {
-      margin-top: 5vh;
-      min-width: 100%;
-    }
-    .userdeal-tabs-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: start;
+      margin-top: 30px;
 
-      // 3개 통일!
-      .favorite {
-        @include mypage-tab-focus;
-        // width: 54px;
-        // font-size: 12px;
-        font-weight: 400;
-        margin-right: 8px;
-        padding: 0;
-        border: 0;
-        background-color: transparent;
-        color: $gray-2;
-      }
-      .getmy {
-        @include mypage-tab-focus;
-        // width: 80px;
-        // font-size: 12px;
-        font-weight: 400;
-        margin-right: 8px;
-        padding: 0;
-        border: 0;
-        background-color: transparent;
-        color: $gray-2;
-      }
-      .participated {
-        @include mypage-tab-focus;
-        // width: 66px;
-        // font-size: 12px;
-        font-weight: 400;
-        padding: 0;
-        border: 0;
-        background-color: transparent;
-        color: $gray-2;
+      .userdeal-tabs-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        button {
+          @include mypage-tab-focus;
+          @include userdeal-tag-button;
+        }
       }
     }
   }
