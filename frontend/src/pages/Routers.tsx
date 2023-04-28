@@ -6,6 +6,7 @@ import SearchPage from "@pages/Search";
 import LoginPage from "@pages/Login";
 import MyPage from "@pages/MyPage";
 import TempMain from "@pages/TempMain";
+import CreateDealPage from "@pages/CreateDeal";
 
 export default function Routers() {
   return (
@@ -19,6 +20,7 @@ export default function Routers() {
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/create/deal" element={<CreateDealPage />} />
     </Routes>
   );
 }
