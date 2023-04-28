@@ -1,6 +1,9 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
 
+// recoil로 로그인 상태 관리하기
+// https://velog.io/@tamagoyakii/42byte-Recoil%EB%A1%9C-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EC%83%81%ED%83%9C-%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0
+
 const { persistAtom } = recoilPersist();
 
 const authState = atom({
