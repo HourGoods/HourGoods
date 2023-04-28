@@ -6,6 +6,7 @@ import {
   BellIcon,
   BellAlertIcon,
   ClockIcon,
+  MinusCircleIcon,
 } from "@heroicons/react/24/solid";
 import "./index.scss";
 

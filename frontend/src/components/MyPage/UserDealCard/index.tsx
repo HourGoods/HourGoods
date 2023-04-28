@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.scss";
 import {
   BellIcon,
   CalendarIcon,
   ClockIcon,
   MapPinIcon,
+  MinusCircleIcon,
 } from "@heroicons/react/24/solid";
+import Modal from "@components/common/Modal";
 
 interface props {
-  tag?: boolean;
+  getmy?: string;
 }
 
-export default function index({ tag }: props) {
-  console.log(tag);
+export default function index({ getmy }: props) {
+  const [modalOpen, setModalOpen] = useState(false);
+  const modalClickHandler = () => {
+    setModalOpen(true);
+  };
+
   return (
     <div className="user-deal-card-container">
       <div className="user-deal-card-wrapper-img">
+        {getmy === "getmy" ? (
+          <button
+            type="button"
+            className="user-deal-card-delete"
+            onClick={modalClickHandler}
+          >
+            <MinusCircleIcon />
+          </button>
+        ) : null}
         <img
           src="https://openimage.interpark.com/goods_image_big/1/3/6/7/10657921367_l.jpg"
           alt="아이유"
