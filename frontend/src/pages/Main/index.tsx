@@ -10,6 +10,12 @@ export default function index() {
         <p>mobile: red</p>
         <p>tablet: green</p>
         <p>desktop: blue</p>
+        <button
+          type="button"
+          style={{ margin: "20px", backgroundColor: "yellow" }}
+        >
+          <Link to="/create/deal">딜 생성하기</Link>
+        </button>
       </div>
     </div>
   );
