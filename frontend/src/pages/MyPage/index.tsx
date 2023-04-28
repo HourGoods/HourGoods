@@ -4,11 +4,14 @@ import UserCash from "@components/MyPage/UserCash";
 import UserDeal from "@components/MyPage/UserDeal";
 import "./index.scss";
 import Modal from "@components/common/Modal";
+import { useRecoilState } from "recoil";
+import { isDeleteCardModal } from "../../recoils/mypageModal/Atoms";
 
 export default function index() {
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useRecoilState(isDeleteCardModal);
   const modalClickHandler = () => {
     setModalOpen(true);
+    console.log(isDeleteCardModal);
   };
   return (
     <div className="mypage-main-container">
