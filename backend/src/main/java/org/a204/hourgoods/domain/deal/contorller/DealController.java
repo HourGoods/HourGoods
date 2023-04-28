@@ -52,6 +52,9 @@ public class DealController {
 	 * @param dealId 조회할 거래id
 	 * @return 해당 deal의 상세 내용 반환
 	 */
+	@Operation(summary = "거래 상세 API", description = "거래id에 해당하는 거래에 대한 상세 정보 조회")
+	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = DealDetailResponse.class)))
+	@ApiResponse(responseCode = "404", description = "1. D200 ID에 해당하는 거래 없음")
 	@GetMapping("/detail")
 	public BaseResponse<DealDetailResponse> getDealDetail(@RequestParam Long dealId) {
 		DealDetailResponse response = dealService.getDealDetail(dealId);
@@ -63,6 +66,10 @@ public class DealController {
 	 * @param dealCreateRequest 거래 생성에 필요한 정보
 	 * @return 생성된 거래 id 반환
 	 */
+	@Operation(summary = "거래 생성 API", description = "경매, 게임경매, 거래, 나눔 모두 하나의 API로 생성, 종류에 따라 필요한 request 다름")
+	@ApiResponse(responseCode = "200", description = "생성 완료", content = @Content(schema = @Schema(implementation = DealCreateResponse.class)))
+	@ApiResponse(responseCode = "400", description = "1. M300 해당 사용자ID 조회 실패")
+	@ApiResponse(responseCode = "404", description = "1. C100 해당 콘서트ID 조회 실패")
 	@PostMapping("/create")
 	public BaseResponse<DealCreateResponse> createDeal(@RequestBody @Valid DealCreateRequest dealCreateRequest) {
 		DealCreateResponse dealCreateResponse = dealService.createDeal(dealCreateRequest);
