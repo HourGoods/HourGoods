@@ -73,7 +73,7 @@ public class DealService {
 			DealType dealType = deal.getDealType();
 			if (dealType.equals(DealType.Auction)) {
 				endTime = auctionRepository.findEndTimeById(deal.getId());
-			} else if (dealType.equals(DealType.GameAuction)) {
+			} else if (dealType.equals(DealType.HourAuction)) {
 				endTime = gameAuctionRepository.findEndTimeById(deal.getId());
 			} else if (dealType.equals(DealType.Sharing)) {
 				limitation = sharingRepository.findLimitationById(deal.getId());
@@ -120,7 +120,7 @@ public class DealService {
 			Auction auction = auctionRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
 			minPrice = auction.getMinimumPrice();
 			endTime = auction.getEndTime();
-		} else if (dealType.equals(DealType.GameAuction)) {
+		} else if (dealType.equals(DealType.HourAuction)) {
 			GameAuction gameAuction = gameAuctionRepository.findById(dealId)
 				.orElseThrow(DealNotFoundException::new);
 			minPrice = gameAuction.getMinimumPrice();

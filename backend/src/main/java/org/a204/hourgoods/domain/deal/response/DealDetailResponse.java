@@ -26,7 +26,7 @@ public class DealDetailResponse {
 	private Double dealLongitude;
 	@Schema(description = "거래 위치 위도")
 	private Double dealLatitude;
-	@Schema(description = "거래 종류, Auction/AuctionGame/Sharing/Trade")
+	@Schema(description = "거래 종류, Auction/HourAuction/Sharing/Trade")
 	private String dealType;
 	@Schema(description = "판매자 프로필 이미지 url")
 	private String userImageUrl;
