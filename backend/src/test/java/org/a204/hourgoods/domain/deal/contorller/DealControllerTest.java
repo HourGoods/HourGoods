@@ -117,7 +117,7 @@ class DealControllerTest {
 		for (int i = 1; i < 5; i++) {
 			GameAuction gameAuction = GameAuction.gameAuctionBuilder()
 				.title("포카아이유 경매합니다")
-				.dealType(DealType.GameAuction)
+				.dealType(DealType.HourAuction)
 				.isAvaliable(i % 2 == 0)
 				.startTime(LocalDateTime.now().plusHours(8 - i))
 				.minimumPrice(10_000)
