@@ -31,6 +31,11 @@ export default function index() {
     longitude: 127.0254,
   };
 
+  const nakseondaeStation = {
+    latitude: 37.476529777589,
+    longitude: 126.96428825991,
+  };
+
   // 현재 위치를 받아옴
   useEffect(() => {
     getCurrentLocation().then((result) => {
@@ -93,6 +98,14 @@ export default function index() {
       isWithin500mFromLocation(
         gangnamStation.latitude,
         gangnamStation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      );
+      // 낙성대역
+      isWithin500mFromLocation(
+        nakseondaeStation.latitude,
+        nakseondaeStation.longitude,
         location.latitude,
         location.longitude,
         map
