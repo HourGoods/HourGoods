@@ -4,34 +4,21 @@
 .create-deal-page-container {
   justify-self: center;
   padding: 0 20px;
+  margin-bottom: 60px;
   min-width: 230px;
+
+  // desktop 기준 레이아웃 변경
   @include desktop {
-    // display: flex;
-    // padding: 0;
-  }
-
-  // 이미지 업로드
-  .create-deal-img-input-wrapper {
-    .upload-img-wrapper {
-      min-height: 140px;
-      min-width: 266px;
-      max-width: 400px;
-      margin: auto;
-      border-radius: 10px;
-      background-color: $white-op;
-      border: 1px dashed $gray-4;
-
-      @media (min-width: 439px) {
-        height: 210px;
-      }
-
-      img {
-        width: 100%;
-        object-fit: fill;
-      }
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: calc(100%-40px);
+    margin: auto;
+    .create-deal-desktop-left-div {
+      width: 50%;
     }
-    input {
-      display: none;
+    .create-deal-desktop-right- {
+      width: 50%;
     }
   }
 
@@ -93,14 +80,61 @@
     }
   }
 
+  // 이미지 업로드
+  .create-deal-img-input-wrapper {
+    min-height: 140px;
+    min-width: 266px;
+    max-width: 400px;
+    margin: 10px auto;
+    .upload-img-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      background-color: $white-op;
+      border: 1px dashed $gray-4;
+      cursor: pointer;
+
+      @media (min-width: 439px) {
+        height: 210px;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+    input {
+      display: none;
+    }
+    @include desktop {
+      // 딜타입 버튼영역만큼 위에 여백 추가
+      padding-top: 46px;
+      width: 400px;
+    }
+  }
+
   // 주소 등록
   .create-deal-location-component-container {
-    margin-bottom: 60px;
+    text-align: left;
+    max-width: 399px;
+    margin: 10px auto;
     #map {
       margin: 0 auto;
       max-width: 400px;
       min-width: 280px;
       height: 210px;
+    }
+    input {
+      width: 97.5%;
+      height: 32px;
+      padding: 2px 5px;
+      margin: 5px auto;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+      background-color: $white-op;
+      color: $gray-2;
     }
   }
 }
