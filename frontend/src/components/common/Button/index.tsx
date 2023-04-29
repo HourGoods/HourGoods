@@ -8,9 +8,16 @@ interface IBtnProps {
   color?: string;
   size?: string;
   onClick: any;
+  isActive?: boolean;
 }
 
-export default function index({ children, color, size, onClick }: IBtnProps) {
+export default function index({
+  children,
+  color,
+  size,
+  onClick,
+  isActive,
+}: IBtnProps) {
   const handleClick = (e: any) => onClick(e);
   let imgSrc = null;
   if (color === "kakao") {
@@ -20,7 +27,12 @@ export default function index({ children, color, size, onClick }: IBtnProps) {
   return (
     <button
       type="button"
-      className={classNames("commonButton", color, size)}
+      className={classNames(
+        "commonButton",
+        color,
+        size,
+        isActive && "activated"
+      )}
       onClick={onClick && handleClick}
     >
       {imgSrc && <img src={imgSrc} alt="로고" />}

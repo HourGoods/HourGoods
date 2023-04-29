@@ -36,7 +36,7 @@ export default function Nav() {
     <nav className="navbar">
       <div className="web-navbar-wrapper">
         <div className="web-navbar-logo-menu">
-          <Link to="/">
+          <Link to="/main">
             <img src={logo} alt="로고" />
           </Link>
           <Link to="realtime">

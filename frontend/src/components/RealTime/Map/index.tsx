@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
+import watchCurrentLocation from "@utils/watchCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
 import isWithin500mFromLocation from "@utils/isUserInConcertArea";
 import markerImg from "@assets/userLocPoint.svg";
@@ -38,7 +39,10 @@ export default function index() {
 
   // 현재 위치를 받아옴
   useEffect(() => {
-    getCurrentLocation().then((result) => {
+    // getCurrentLocation().then((result) => {
+    //   setLocation(result);
+    // });
+    watchCurrentLocation((result) => {
       setLocation(result);
     });
   }, []);
