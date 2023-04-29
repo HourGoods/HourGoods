@@ -9,12 +9,18 @@ export default function index() {
   useEffect(() => {
     const mapContainer = document.getElementById("map");
     const mapOption = {
-      center: new window.kakao.maps.LatLng(33.450701, 126.570667),
+      center: new window.kakao.maps.LatLng(
+        37.511806050815686,
+        127.07376866170583
+      ),
       level: 3,
     };
     const map = new window.kakao.maps.Map(mapContainer, mapOption);
 
-    const markerPosition = new window.kakao.maps.LatLng(33.450701, 126.570667);
+    const markerPosition = new window.kakao.maps.LatLng(
+      37.511806050815686,
+      127.07376866170583
+    );
     const marker = new window.kakao.maps.Marker({
       position: markerPosition,
     });
