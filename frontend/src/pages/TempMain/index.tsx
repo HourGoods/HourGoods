@@ -13,7 +13,7 @@ export default function index() {
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    if (inputValue === "허예지") {
+    if (inputValue === "허예지" || inputValue === "8204") {
       navigate("/main");
       alert("환영합니다!");
     } else {
@@ -35,9 +35,9 @@ export default function index() {
           type="text"
           onChange={inputHandler}
           value={inputValue}
-          placeholder="코드를 입력해 주세요 :)"
+          placeholder="코드를 입력해 주세요"
         />
-        {/* <button type="submit">확인</button> */}
+        <button type="submit">확인</button>
       </form>
     </div>
   );
