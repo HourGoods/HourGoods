@@ -40,9 +40,10 @@
 }
 @mixin deal-btn-color($color) {
   background-color: $gray-5;
-  color: $gray-4;
+  color: $gray-3;
   &:hover,
-  &:active {
+  &:active,
+  &.activated {
     background-color: $color;
     color: $gray-2;
     box-shadow: 0px 0px 15px darken($color, 20%);
@@ -100,11 +101,11 @@
 
   // 경매 Dealtype
   &.deal {
-    width: 70px;
+    width: 60px;
     height: 22px;
     border-radius: 20px;
-    font-size: 12px;
-    padding: 0px 7px;
+    font-size: 10px;
+    padding: 0px 5px;
   }
   &.shotpink {
     @include deal-btn-color($pink-1);

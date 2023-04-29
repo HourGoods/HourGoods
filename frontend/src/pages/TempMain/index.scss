@@ -17,17 +17,29 @@
     }
   }
   form {
+    position: relative;
+    width: 280px;
+    margin: auto;
     input {
       margin-top: 15px;
-      width: 260px;
+      width: 80%;
       height: 35px;
       border-radius: 8px;
       padding: 5px 10px;
-      text-align: center;
+      text-align: left;
       font-size: 16px;
       background-color: $white-op;
       color: $indigo-2;
       font-weight: 600;
+    }
+    button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      color: $pink-1;
     }
   }
 }
