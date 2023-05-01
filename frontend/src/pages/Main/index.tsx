@@ -14,8 +14,8 @@ export default function Main() {
     setModalOpen(true);
   };
 
-  // const baseUrl = "https://k8a204.p.ssafy.io";
-  const baseUrl = "http://localhost:3000";
+  const baseUrl = "https://k8a204.p.ssafy.io";
+  // const baseUrl = "http://localhost:3000";
   const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
   return (

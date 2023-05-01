@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router";
 // 회원가입 성공시 /edit으로 이동
 
-export default function SocialLogin() {
+export default function Oauth() {
   const navigate = useNavigate();
   const [cookies, setCookie] = useCookies(["refreshToken"]);
 
@@ -34,6 +34,14 @@ export default function SocialLogin() {
     //     .catch((err) => {
     //       console.log(err);
     //     });
+    // }
+    // console.log(params);
+    console.log(params.get("nickname"));
+    console.log(params.get("email"));
+    console.log(params.get("registrationId"));
+
+    // if (nickname === "null") {
+    //   navigate("/")
     // }
   }, []);
 
