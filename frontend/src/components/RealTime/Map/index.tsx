@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
+import watchCurrentLocation from "@utils/watchCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
 import isWithin500mFromLocation from "@utils/isUserInConcertArea";
 import markerImg from "@assets/userLocPoint.svg";
@@ -31,11 +32,66 @@ export default function index() {
     longitude: 127.0254,
   };
 
+  const nakseondaeStation = {
+    latitude: 37.476529777589,
+    longitude: 126.96428825991,
+  };
+
   // 현재 위치를 받아옴
   useEffect(() => {
-    getCurrentLocation().then((result) => {
+    // getCurrentLocation().then((result) => {
+    //   setLocation(result);
+    // });
+    watchCurrentLocation((result) => {
+      console.log("위치 함수 실행");
       setLocation(result);
     });
+  }, []);
+
+  useEffect(() => {
+    if (location && location !== "" && typeof location !== "string") {
+      const container = document.getElementById("map");
+
+      // 현재 위치 기준으로 지도 생성
+      const options = {
+        center: new window.kakao.maps.LatLng(
+          location.latitude,
+          location.longitude
+        ),
+        level: 4,
+      };
+      const map = new window.kakao.maps.Map(container, options);
+
+      isWithin500mFromLocation(
+        sillaLocation.latitude,
+        sillaLocation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      );
+      isWithin500mFromLocation(
+        sjrStation.latitude,
+        sjrStation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      );
+      isWithin500mFromLocation(
+        gangnamStation.latitude,
+        gangnamStation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      );
+      // 낙성대역
+      isWithin500mFromLocation(
+        nakseondaeStation.latitude,
+        nakseondaeStation.longitude,
+        location.latitude,
+        location.longitude,
+        map
+      );
+    }
   }, []);
 
   useEffect(() => {
@@ -74,29 +130,6 @@ export default function index() {
       });
 
       marker.setMap(map);
-
-      // 현재 위치가 콘서트장 범위에 포함되는지 확인 후 색 지정
-      isWithin500mFromLocation(
-        sillaLocation.latitude,
-        sillaLocation.longitude,
-        location.latitude,
-        location.longitude,
-        map
-      );
-      isWithin500mFromLocation(
-        sjrStation.latitude,
-        sjrStation.longitude,
-        location.latitude,
-        location.longitude,
-        map
-      );
-      isWithin500mFromLocation(
-        gangnamStation.latitude,
-        gangnamStation.longitude,
-        location.latitude,
-        location.longitude,
-        map
-      );
     }
   }, [location]);
 

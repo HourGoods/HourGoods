@@ -45,7 +45,7 @@ async function isWithin500mFromLocation(
   map: any
 ): Promise<boolean> {
   const distance = haversineDistance(concertLat, concertLng, myLat, myLng);
-  const isWithin500m = distance <= 500;
+  const isWithin500m = distance <= 180;
   let fillColor;
   if (isWithin500m) {
     fillColor = "#6366F1";
@@ -54,7 +54,7 @@ async function isWithin500mFromLocation(
   }
   const circle = new window.kakao.maps.Circle({
     center: new window.kakao.maps.LatLng(concertLat, concertLng), // 원의 중심좌표 입니다
-    radius: 500, // 미터 단위의 원의 반지름입니다
+    radius: 180, // 미터 단위의 원의 반지름입니다
     strokeWeight: 5, // 선의 두께입니다
     strokeColor: "#75B8FA", // 선의 색깔입니다
     strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
