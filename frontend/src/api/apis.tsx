@@ -2,6 +2,7 @@ import { Axios, AxiosHeaders, AxiosResponse } from "axios";
 import request from "./agents";
 
 // 참고용 기존 로그인 api
+/*
 const memberAPI = {
   duplicateEmail: (email: string): Promise<AxiosResponse> =>
     request.get("member/duplicateEmail", {
@@ -35,3 +36,15 @@ const memberAPI = {
     profileImage: string;
   }): Promise<AxiosResponse> => request.authPut("member", userInfo),
 };
+*/
+
+const memberAPI = {
+  signup: (userInfo: {
+    email: string;
+    registrationId: string;
+    nickname: string;
+    imageUrl: string;
+  }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
+};
+
+export { memberAPI };
