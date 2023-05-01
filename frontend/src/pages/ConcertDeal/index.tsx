@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import ConcertCard from "@components/common/ConcertCard";
 import Button from "@components/common/Button";
 import SearchBar from "@components/common/SearchBar";
@@ -24,6 +25,13 @@ export default function index() {
       hourAuction: type === "hourAuction",
     }));
   };
+
+  const navigate = useNavigate();
+
+  const goMakeDeal = () => {
+    navigate("/create/deal");
+  };
+
   return (
     <div className="concert-deal-page-container">
       <ConcertCard />
@@ -81,7 +89,9 @@ export default function index() {
         <DealCard />
       </div>
       <div className="create-deal-button-wrapper">
-        <Button color="dark-blue">거래 생성하기</Button>
+        <Button color="dark-blue" onClick={goMakeDeal}>
+          거래 생성하기
+        </Button>
       </div>
     </div>
   );
