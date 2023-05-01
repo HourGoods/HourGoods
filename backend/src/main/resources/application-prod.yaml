@@ -15,8 +15,8 @@ spring:
     open-in-view: false
   security:
     user:
-      name: ${ADMIN_ID}
-      password: ${ADMIN_PW}
+      name: ${ADMIN_NAME}
+      password: ${ADMIN_PASSWORD}
       roles: ADMIN
     oauth2:
       client:
