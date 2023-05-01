@@ -22,12 +22,9 @@ public class MemberInfoFactory {
 	 * @return 요청에 맞는 MemberInfo 인스턴스
 	 */
 	public static MemberInfo getMemberInfo(Map<String, Object> attributes, OAuth2AuthenticationToken authentication) {
-		String email = (String)attributes.get("email");
 		String registrationId = authentication.getAuthorizedClientRegistrationId();
 
-		if (registrationId.equals("google")) {
-			return new GoogleMemberInfo(email);
-		} else if (registrationId.equals("kakao")) {
+		if (registrationId.equals("kakao")) {
 			return new KakaoMemberInfo(attributes);
 		}
 		throw new UnsupportedInfoException(GlobalErrorCode.UNSUPPORTED_INFO);
