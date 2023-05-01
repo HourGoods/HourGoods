@@ -9,6 +9,7 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.participant.entity.Participant;
 import org.a204.hourgoods.domain.transaction.entity.Transaction;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -40,7 +41,8 @@ public class Deal {
 	private LocalDateTime startTime;
 
 	@Column(name = "is_available")
-	private Boolean isAvailable = true;
+	@ColumnDefault("true")
+	private Boolean isAvailable ;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "deal_type")
