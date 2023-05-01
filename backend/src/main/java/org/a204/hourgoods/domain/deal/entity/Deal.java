@@ -9,7 +9,7 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.participant.entity.Participant;
 import org.a204.hourgoods.domain.transaction.entity.Transaction;
-import org.locationtech.jts.geom.Point;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -41,14 +41,18 @@ public class Deal {
 	private LocalDateTime startTime;
 
 	@Column(name = "is_available")
-	private Boolean isAvailable;
+	@ColumnDefault("true")
+	private Boolean isAvailable ;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "deal_type")
 	private DealType dealType;
 
-	@Column(columnDefinition = "GEOMETRY")
-	private Point location;
+	@Column(name = "longitude")
+	private Double longitude;
+
+	@Column(name = "latitude")
+	private Double latitude;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "deal_host_id")
@@ -72,7 +76,7 @@ public class Deal {
 
 	@Builder
 	public Deal(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvailable, Member dealHost,
-		Concert concert, DealType dealType, Point location) {
+		Concert concert, DealType dealType, Double longitude, Double latitude) {
 		this.imageUrl = imageUrl;
 		this.title = title;
 		this.content = content;
@@ -81,7 +85,8 @@ public class Deal {
 		this.dealHost = dealHost;
 		this.concert = concert;
 		this.dealType = dealType;
-		this.location = location;
+		this.longitude = longitude;
+		this.latitude = latitude;
 	}
 
 }
