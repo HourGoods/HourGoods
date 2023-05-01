@@ -1,6 +1,5 @@
 package org.a204.hourgoods.global.security.oauth2;
 
-import org.a204.hourgoods.domain.member.entity.Member.RegistrationId;
 
 /**
  * 유저 oauth 정보를 저장할 인터페이스
@@ -16,9 +15,4 @@ public interface MemberInfo {
 	 */
 	String getEmail();
 
-	/**
-	 * @implNote 사용자의 가입 경로를 반환해야 한다. {@link org.a204.hourgoods.domain.member.entity.Member.RegistrationId}
-	 * @return {@link RegistrationId}
-	 */
-	RegistrationId getRegistrationId();
 }

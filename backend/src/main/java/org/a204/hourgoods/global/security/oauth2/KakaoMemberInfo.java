@@ -2,7 +2,6 @@ package org.a204.hourgoods.global.security.oauth2;
 
 import java.util.Map;
 
-import org.a204.hourgoods.domain.member.entity.Member.RegistrationId;
 
 /**
  * @author suker80
@@ -21,8 +20,4 @@ public class KakaoMemberInfo implements MemberInfo {
 		return (String)kakaoAccount.get("email");
 	}
 
-	@Override
-	public RegistrationId getRegistrationId() {
-		return RegistrationId.kakao;
-	}
 }
