@@ -17,8 +17,10 @@ import org.a204.hourgoods.domain.deal.entity.Sharing;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealTypeNotFoundException;
+import org.a204.hourgoods.domain.deal.exception.MemberMissMatchException;
 import org.a204.hourgoods.domain.deal.repository.AuctionRepository;
 import org.a204.hourgoods.domain.deal.repository.DealQueryDslRepository;
+import org.a204.hourgoods.domain.deal.repository.DealRepository;
 import org.a204.hourgoods.domain.deal.repository.GameAuctionRepository;
 import org.a204.hourgoods.domain.deal.repository.SharingRepository;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
@@ -49,6 +51,7 @@ public class DealService {
 
 	private static final Integer PAGE_SIZE = 10;
 	private final MemberRepository memberRepository;
+	private final DealRepository dealRepository;
 
 	@Transactional(readOnly = true)
 	public ConcertDealListResponse getDealListByConcert(ConcertDealListRequest request) {
@@ -223,6 +226,14 @@ public class DealService {
 		} else
 			throw new DealTypeNotFoundException();
 		return DealCreateResponse.builder().dealId(dealId).build();
+	}
+
+	@Transactional
+	public Boolean deleteDeal(Long memberId, Long dealId) {
+		Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
+		if (memberId != deal.getDealHost().getId()) throw new MemberMissMatchException();
+		dealRepository.deleteById(dealId);
+		return true;
 	}
 
 	// concert id validation check

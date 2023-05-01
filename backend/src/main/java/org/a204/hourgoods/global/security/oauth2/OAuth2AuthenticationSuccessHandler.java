@@ -46,8 +46,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 		Map<String, Object> attributes = oAuth2User.getAttributes();
 		MemberInfo memberInfo = MemberInfoFactory.getMemberInfo(attributes, (OAuth2AuthenticationToken)authentication);
 
-		Optional<Member> optionalMember = memberRepository.findByRegistrationIdAndEmail(memberInfo.getRegistrationId(),
-			memberInfo.getEmail());
+		Optional<Member> optionalMember = memberRepository.findByEmail(memberInfo.getEmail());
 		String targetUrl;
 		if (optionalMember.isPresent()) {
 			Member member = optionalMember.get();

@@ -1,7 +1,5 @@
 package org.a204.hourgoods.domain.member.service;
 
-import java.util.Optional;
-
 import org.a204.hourgoods.domain.member.entity.AdminDetails;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
@@ -27,7 +25,7 @@ public class MemberDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String input) throws UsernameNotFoundException {
 
 		if (!input.equals(adminId)) {
-			Member member = Optional.ofNullable(memberRepository.findByEmail(input))
+			Member member = memberRepository.findByEmail(input)
 				.orElseThrow(UserNotFoundException::new);
 			return new MemberDetails(member);
 		} else

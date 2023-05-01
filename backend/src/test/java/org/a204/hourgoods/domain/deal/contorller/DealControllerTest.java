@@ -61,7 +61,6 @@ class DealControllerTest {
 		Member member = Member.builder()
 			.email("yeji@hourgoods.com")
 			.nickname("yezi")
-			.registrationId(Member.RegistrationId.kakao)
 			.build();
 		em.persist(member);
 		MEMBER_ID = member.getId();
@@ -70,7 +69,6 @@ class DealControllerTest {
 		// 콘서트 생성
 		Concert concert = Concert.builder()
 			.title("아이유 콘서트")
-			.content("아이유 단독 콘서트입니다.")
 			.imageUrl("url")
 			.startTime(LocalDateTime.now().plusHours(8))
 			.build();
@@ -278,4 +276,48 @@ class DealControllerTest {
 		}
 	}
 
+	@Nested
+	@DisplayName("거래 삭제")
+	class deleteDeal {
+		private String otherToken;
+		@BeforeEach
+		void setUp() {
+			Member otherMember = Member.builder()
+				.email("johan@hourgoods.com")
+				.imageUrl("https://shorturl.at/bix17")
+				.nickname("americaRabbit").build();
+			em.persist(otherMember);
+			otherToken = jwtTokenUtils.BEARER_PREFIX + jwtTokenUtils.createTokens(otherMember,
+				List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
+		}
+		@Test
+		@DisplayName("거래 삭제 성공")
+		void deleteDeal() throws Exception{
+			mockMvc
+				.perform(delete(url + DEAL_ID.toString())
+					.header("Authorization", token))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andDo(print());
+		}
+		@Test
+		@DisplayName("없는 거래ID 조회")
+		void invalidDealId() throws Exception {
+			mockMvc
+				.perform(delete(url + "-1")
+					.header("Authorization", token))
+				.andExpect(jsonPath("$.status", is(404)))
+				.andExpect(jsonPath("$.code", is("D200")))
+				.andDo(print());
+		}
+		@Test
+		@DisplayName("거래 생성 멤버ID와 요청 멤버ID 불일치")
+		void missMatchMemberId() throws Exception {
+			mockMvc
+				.perform(delete(url + DEAL_ID.toString())
+					.header("Authorization", otherToken))
+				.andExpect(jsonPath("$.status", is(400)))
+				.andExpect(jsonPath("$.code", is("M400")))
+				.andDo(print());
+		}
+	}
 }
