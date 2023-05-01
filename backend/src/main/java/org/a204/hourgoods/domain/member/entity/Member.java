@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -89,9 +87,6 @@ public class Member {
 
 	@OneToMany(mappedBy = "purchaser", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<Transaction> transactions = new ArrayList<>();
-	@Enumerated(EnumType.STRING)
-	@Column(name = "registration_id")
-	private RegistrationId registrationId;
 
 	@Builder
 	public Member(Long id, String email, String nickname, String imageUrl) {
@@ -99,17 +94,6 @@ public class Member {
 		this.email = email;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
-	}
-
-	public Member(String email, String nickname, RegistrationId registrationId) {
-		this.email = email;
-		this.nickname = nickname;
-		this.registrationId = registrationId;
-	}
-
-	public enum RegistrationId {
-		kakao
-
 	}
 
 }
