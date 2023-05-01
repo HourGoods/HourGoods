@@ -11,12 +11,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.a204.hourgoods.domain.deal.exception.MemberMissMatchException;
+import org.a204.hourgoods.domain.deal.request.BookmarkRequest;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
+import org.a204.hourgoods.domain.deal.response.BookmarkResponse;
 import org.a204.hourgoods.domain.deal.response.ConcertDealListResponse;
 import org.a204.hourgoods.domain.deal.response.DealCreateResponse;
 import org.a204.hourgoods.domain.deal.response.DealDeletionResponse;
 import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
+import org.a204.hourgoods.domain.deal.service.BookmarkService;
 import org.a204.hourgoods.domain.deal.service.DealService;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
@@ -39,6 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DealController {
 
 	private final DealService dealService;
+	private final BookmarkService bookmarkService;
 
 	/**
 	 * 콘서트id에 해당하는 거래 가능 목록 조회(Deal Type으로 거래 목록 필터링 가능)
@@ -94,6 +98,19 @@ public class DealController {
 		Member member = memberDetails.getMember();
 		DealDeletionResponse response = DealDeletionResponse.builder()
 			.isSuccess(dealService.deleteDeal(member.getId(), dealId)).build();
+		return new BaseResponse<>(response);
+	}
+
+	@Operation(summary = "북마크 등록 API", description = "북마크 등록 API, jwt 토큰의 사용자 이름으로 북마크 등록")
+	@ApiResponse(responseCode = "200", description = "북마크 등록 완료", content = @Content(schema = @Schema(implementation = BookmarkResponse.class)))
+	@ApiResponse(responseCode = "400", description = "1. M300 해당 사용자ID 조회 실패")
+	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
+	@PostMapping("/bookmark")
+	public BaseResponse<BookmarkResponse> createBookmark(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody
+		BookmarkRequest bookmarkRequest) {
+		Member member = memberDetails.getMember();
+		BookmarkResponse response = BookmarkResponse.builder()
+			.isSuccess(bookmarkService.registBookmark(bookmarkRequest.getDealId(), member)).build();
 		return new BaseResponse<>(response);
 	}
 }

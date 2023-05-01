@@ -1,0 +1,30 @@
+package org.a204.hourgoods.domain.deal.service;
+
+import org.a204.hourgoods.domain.deal.entity.Deal;
+import org.a204.hourgoods.domain.deal.entity.DealBookmark;
+import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
+import org.a204.hourgoods.domain.deal.repository.BookmarkRepository;
+import org.a204.hourgoods.domain.deal.repository.DealRepository;
+import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.repository.MemberRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class BookmarkService {
+	private final DealRepository dealRepository;
+	private final BookmarkRepository bookmarkRepository;
+
+	@Transactional
+	public Boolean registBookmark(Long dealId, Member member) {
+		Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
+		DealBookmark bookmark = DealBookmark.builder()
+			.deal(deal)
+			.member(member).build();
+		bookmarkRepository.save(bookmark);
+		return true;
+	}
+}
