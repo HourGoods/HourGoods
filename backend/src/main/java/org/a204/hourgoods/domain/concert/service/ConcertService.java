@@ -9,6 +9,7 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.concert.model.KopisConcertDetail;
 import org.a204.hourgoods.domain.concert.model.KopisPlaceDetail;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
+import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ConcertService {
 	}
 
 	// 공연 정보 등록
-	public Long createConcert(String kopisConcertId) {
+	public ConcertIdResponse createConcert(String kopisConcertId) {
 		KopisConcertDetail.Info concertDetail = kopisService.getConcertDetail(kopisConcertId);
 		KopisPlaceDetail.Info placeDetail = kopisService.getPlaceDetail(concertDetail.getKopisPlaceId());
 		Concert concert = Concert.builder()
@@ -43,7 +44,9 @@ public class ConcertService {
 			.latitude(Double.parseDouble(placeDetail.getLatitude()))
 			.bookmarkCount(0)
 			.build();
-		return concertRepository.save(concert).getId();
+		Long concertId = concertRepository.save(concert).getId();
+		ConcertIdResponse response = new ConcertIdResponse(concertId);
+		return response;
 	}
 
 	// 사용자 주변 콘서트 정보 조회

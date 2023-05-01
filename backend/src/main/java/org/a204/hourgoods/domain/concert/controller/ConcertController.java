@@ -1,5 +1,6 @@
 package org.a204.hourgoods.domain.concert.controller;
 
+import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
 import org.a204.hourgoods.domain.concert.service.ConcertService;
 import org.a204.hourgoods.domain.concert.service.KopisService;
@@ -60,9 +61,9 @@ public class ConcertController {
 	@Operation(description = "콘서트 정보 등록 API", summary = "콘서트 정보 등록 API")
 	@ApiResponse(responseCode = "201", description = "등록 성공", content = @Content(schema = @Schema(implementation = ConcertListResponse.class)))
 	@PostMapping("/unregistered")
-	public BaseResponse<Long> createConcert(
+	public BaseResponse<ConcertIdResponse> createConcert(
 		@RequestParam(name = "kopisConcertId") String kopisConcertId) {
-		Long response = concertService.createConcert(kopisConcertId);
+		ConcertIdResponse response = concertService.createConcert(kopisConcertId);
 		return new BaseResponse<>(response);
 	}
 
