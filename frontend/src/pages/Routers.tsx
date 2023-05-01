@@ -7,6 +7,7 @@ import LoginPage from "@pages/Login";
 import MyPage from "@pages/MyPage";
 import TempMain from "@pages/TempMain";
 import CreateDealPage from "@pages/CreateDeal";
+import ConcertDeal from "@pages/ConcertDeal";
 
 export default function Routers() {
   return (
@@ -21,6 +22,7 @@ export default function Routers() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/create/deal" element={<CreateDealPage />} />
+      <Route path="/concertname" element={<ConcertDeal />} />
     </Routes>
   );
 }
