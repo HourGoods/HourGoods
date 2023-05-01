@@ -14,7 +14,6 @@ export default function Oauth() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const registrationId = "kakao";
     const email = params.get("email") || "";
     const nickname = params.get("nickname");
     const imageUrl = params.get("imageUrl") || "";
@@ -62,18 +61,17 @@ export default function Oauth() {
     // }, []);
 
     if (nickname === null) {
-      setUserInfo({ email: email, registrationId: registrationId });
+      setUserInfo({ email: email });
       navigate("/edit");
-      console.log("확인");
+      console.log("신규회원가입");
     } else {
-      // setUserInfo({
-      //   email: email,
-      //   registrationId: registrationId,
-      //   nickname: "이지은",
-      //   imageUrl:
-      //     "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/06/28/612b6ff6-5081-4b54-a22c-38d716229c41.jpg",
-      // });
-      // memberAPI.signup(userInfo);
+      console.log("기존로그인")
+      setUserInfo({
+        email: email,
+        nickname: nickname,
+        imageUrl: imageUrl,
+      });
+      memberAPI.signup(userInfo);
     }
   }, []);
 
