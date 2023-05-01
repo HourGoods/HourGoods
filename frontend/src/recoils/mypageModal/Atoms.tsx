@@ -10,5 +10,5 @@ export const isDeleteCardModal = atom({
 // 낙찰 실패 여부 알려주는 모달창
 export const isAuctionAlarmModal = atom({
   key: "isAuctionAlarmModal",
-  default: false,
+  default: 0,
 });

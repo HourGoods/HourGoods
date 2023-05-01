@@ -9,9 +9,14 @@ import purpleCloud from "@assets/purpleCloud.svg";
 interface IModalProps {
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
+  // setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Modal({ setModalOpen, children }: IModalProps) {
+export default function Modal({
+  setModalOpen,
+  // setSuccess,
+  children,
+}: IModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
   useModalRef(modalRef, () => setModalOpen(false));
 
