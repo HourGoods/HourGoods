@@ -22,6 +22,7 @@ import org.a204.hourgoods.domain.deal.entity.DealBookmark;
 import org.a204.hourgoods.domain.participant.entity.Participant;
 import org.a204.hourgoods.domain.report.entity.Report;
 import org.a204.hourgoods.domain.transaction.entity.Transaction;
+import org.hibernate.annotations.ColumnDefault;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -47,9 +48,11 @@ public class Member {
 	private String imageUrl;
 
 	@Column(name = "cash_point")
+	@ColumnDefault("0")
 	private Integer cashPoint;
 
 	@Column(name = "status")
+	@ColumnDefault("0")
 	private Integer status;
 
     @OneToMany(mappedBy = "dealHost", cascade = CascadeType.PERSIST, orphanRemoval = true)
@@ -91,11 +94,11 @@ public class Member {
 	private RegistrationId registrationId;
 
 	@Builder
-	public Member(Long id, String email, String nickname, RegistrationId registrationId) {
+	public Member(Long id, String email, String nickname, String imageUrl) {
 		this.id = id;
 		this.email = email;
 		this.nickname = nickname;
-		this.registrationId = registrationId;
+		this.imageUrl = imageUrl;
 	}
 
 	public Member(String email, String nickname, RegistrationId registrationId) {
@@ -105,7 +108,7 @@ public class Member {
 	}
 
 	public enum RegistrationId {
-		kakao, google
+		kakao
 
 	}
 

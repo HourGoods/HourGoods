@@ -74,7 +74,7 @@ public class MemberService {
 		String token =
 			BEARER_PREFIX + jwtTokenUtils.createTokens(save, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
 		RefreshToken refreshToken = jwtTokenUtils.generateRefreshToken(token);
-		return new MemberSignUpResponse(save.getId(), save.getEmail(), save.getRegistrationId(), save.getNickname(),
+		return new MemberSignUpResponse(save.getId(), save.getEmail(), save.getImageUrl(), save.getNickname(),
 			refreshToken.getAccessTokenValue(), refreshToken.getRefreshTokenKey());
 	}
 

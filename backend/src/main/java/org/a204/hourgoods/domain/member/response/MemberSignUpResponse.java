@@ -1,7 +1,5 @@
 package org.a204.hourgoods.domain.member.response;
 
-import org.a204.hourgoods.domain.member.entity.Member.RegistrationId;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,8 +15,8 @@ public class MemberSignUpResponse {
 	@Schema(description = "이메일")
 	private String email;
 
-	@Schema(description = "가입 경로")
-	private RegistrationId registrationId;
+	@Schema(description = "프로필 이미지 경로")
+	private String imageUrl;
 	@Schema(description = "닉네임")
 	private String nickname;
 
