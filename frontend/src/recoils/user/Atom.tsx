@@ -16,10 +16,8 @@ const UserStateAtom = atom({
   key: "usersState",
   default: {
     email: "",
-    registrationId: "kakao",
-    nickname: "이지은",
-    imageUrl:
-      "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/06/28/612b6ff6-5081-4b54-a22c-38d716229c41.jpg",
+    nickname: "",
+    imageUrl: "",
   },
   effects_UNSTABLE: [persistAtom],
 });
