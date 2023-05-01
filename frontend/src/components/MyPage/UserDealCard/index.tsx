@@ -28,7 +28,8 @@ export default function index({ getmy }: props) {
 
   const [success, setSuccess] = useRecoilState(isAuctionAlarmModal);
   const successClickHandler = () => {
-    setSuccess(1);
+    const api = 1;
+    setSuccess(api);
     console.log(isAuctionAlarmModal);
     console.log(success);
   };

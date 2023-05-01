@@ -7,21 +7,23 @@ import pinkCloud from "@assets/pinkCloud.svg";
 import purpleCloud from "@assets/purpleCloud.svg";
 
 interface IModalProps {
-  setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
-  // setSuccess: React.Dispatch<React.SetStateAction<boolean>>;
+  setSuccess?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function Modal({
   setModalOpen,
-  // setSuccess,
+  setSuccess,
   children,
 }: IModalProps) {
   const modalRef = useRef<HTMLDivElement>(null);
-  useModalRef(modalRef, () => setModalOpen(false));
+  useModalRef(modalRef, () => setModalOpen?.(false));
+  useModalRef(modalRef, () => setSuccess?.(0));
 
   const closeModal = () => {
-    setModalOpen(false);
+    setModalOpen?.(false);
+    setSuccess?.(0);
   };
 
   return (
@@ -43,3 +45,8 @@ export default function Modal({
     </div>
   );
 }
+
+Modal.defaultProps = {
+  setModalOpen: undefined,
+  setSuccess: undefined,
+};
