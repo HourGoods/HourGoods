@@ -10,6 +10,7 @@ import Ticket from "@pages/Ticket";
 import CreateDealPage from "@pages/CreateDeal";
 import ConcertDeal from "@pages/ConcertDeal";
 import DealDetail from "@pages/DealDetail";
+import Payment from "@pages/Payment";
 import Oauth from "@pages/Oauth";
 import EditProfile from "@pages/EditProfile";
 
@@ -31,6 +32,7 @@ export default function Routers() {
       <Route path="/concertname" element={<ConcertDeal />} />
       <Route path="/deal/detail" element={<DealDetail />} />
       <Route path="/ticket" element={<Ticket />} />
+      <Route path="/payment" element={<Payment />} />
       <Route path="/edit" element={<EditProfile />} />
 
     </Routes>
