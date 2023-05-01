@@ -4,7 +4,9 @@ import MainPage from "@pages/Main";
 import RealTimePage from "@pages/RealTime";
 import SearchPage from "@pages/Search";
 import LoginPage from "@pages/Login";
+import Oauth from "@pages/Oauth";
 import MyPage from "@pages/MyPage";
+import MyChatRoom from "@pages/MyChatRoom";
 import TempMain from "@pages/TempMain";
 import CreateDealPage from "@pages/CreateDeal";
 
@@ -19,7 +21,9 @@ export default function Routers() {
       <Route path="/realtime" element={<RealTimePage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/oauth" element={<Oauth />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mychatroom" element={<MyChatRoom />} />
       <Route path="/create/deal" element={<CreateDealPage />} />
     </Routes>
   );

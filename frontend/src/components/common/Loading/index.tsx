@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/Loading.scss";
+import "./index.scss";
 // import { useSelector } from 'react-redux'
 
 export default function Loading() {
