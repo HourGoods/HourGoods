@@ -22,6 +22,9 @@ export default function Routers() {
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/create/deal" element={<CreateDealPage />} />
+      <Route path="/concertname" element={<ConcertDeal />} />
+      <Route path="/ticket" element={<Ticket />} />
     </Routes>
   );
 }
