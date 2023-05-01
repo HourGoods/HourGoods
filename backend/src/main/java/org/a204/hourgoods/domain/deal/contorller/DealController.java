@@ -103,7 +103,6 @@ public class DealController {
 
 	@Operation(summary = "북마크 등록 API", description = "북마크 등록 API, jwt 토큰의 사용자 이름으로 북마크 등록")
 	@ApiResponse(responseCode = "200", description = "북마크 등록 완료", content = @Content(schema = @Schema(implementation = BookmarkResponse.class)))
-	@ApiResponse(responseCode = "400", description = "1. M300 해당 사용자ID 조회 실패")
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
 	@PostMapping("/bookmark")
 	public BaseResponse<BookmarkResponse> createBookmark(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody
@@ -111,6 +110,18 @@ public class DealController {
 		Member member = memberDetails.getMember();
 		BookmarkResponse response = BookmarkResponse.builder()
 			.isSuccess(bookmarkService.registBookmark(bookmarkRequest.getDealId(), member)).build();
+		return new BaseResponse<>(response);
+	}
+
+	@Operation(summary = "북마크 해제 API", description = "북마크 해제 API, jwt 토큰의 사용자 이름으로 북마크 해제")
+	@ApiResponse(responseCode = "200", description = "북마크 해제 완료", content = @Content(schema = @Schema(implementation = BookmarkResponse.class)))
+	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패 \t\n 2. D300 북마크 조회 실패")
+	@DeleteMapping("/bookmark")
+	public BaseResponse<BookmarkResponse> cancelBookmark(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody
+	BookmarkRequest bookmarkRequest) {
+		Member member = memberDetails.getMember();
+		BookmarkResponse response = BookmarkResponse.builder()
+			.isSuccess(bookmarkService.cancelBookmark(bookmarkRequest.getDealId(), member)).build();
 		return new BaseResponse<>(response);
 	}
 }
