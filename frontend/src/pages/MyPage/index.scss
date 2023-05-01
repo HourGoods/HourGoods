@@ -22,6 +22,39 @@
     width: 100%;
     // background-color: aqua;
 
+    .modal-p {
+      font-size: 16px;
+      font-weight: 400;
+      text-align: start;
+      margin-bottom: 10px;
+    }
+
+    .modal-h2 {
+      margin: 10px 0px 20px 0px;
+    }
+
+    .common-modal-button {
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly;
+
+      .yes-button {
+        font-size: 12px;
+        width: 50px;
+        height: 20px;
+        border-radius: 5px;
+        background-color: $indigo-2;
+        color: $white;
+      }
+
+      .no-button {
+        font-size: 12px;
+        width: 50px;
+        height: 20px;
+        border-radius: 5px;
+      }
+    }
+
     // UserInfo
     .userinfo-container {
       display: flex;
