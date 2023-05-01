@@ -9,7 +9,7 @@ import {
 export default function index() {
   return (
     <div className="usercash-container">
-      <Link to="/" className="link-decoration">
+      <Link to="/ticket" className="link-decoration">
         <button type="button" className="usercash-wrapper">
           <div className="ticket">
             <TicketIcon className="ticket-icon" />
