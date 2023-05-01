@@ -69,7 +69,6 @@ class DealControllerTest {
 		// 콘서트 생성
 		Concert concert = Concert.builder()
 			.title("아이유 콘서트")
-			.content("아이유 단독 콘서트입니다.")
 			.imageUrl("url")
 			.startTime(LocalDateTime.now().plusHours(8))
 			.build();
