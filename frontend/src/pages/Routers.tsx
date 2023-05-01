@@ -11,6 +11,7 @@ import CreateDealPage from "@pages/CreateDeal";
 import ConcertDeal from "@pages/ConcertDeal";
 import DealDetail from "@pages/DealDetail";
 import Oauth from "@pages/Oauth";
+import EditProfile from "@pages/EditProfile";
 
 export default function Routers() {
   return (
@@ -30,6 +31,8 @@ export default function Routers() {
       <Route path="/concertname" element={<ConcertDeal />} />
       <Route path="/deal/detail" element={<DealDetail />} />
       <Route path="/ticket" element={<Ticket />} />
+      <Route path="/edit" element={<EditProfile />} />
+
     </Routes>
   );
 }
