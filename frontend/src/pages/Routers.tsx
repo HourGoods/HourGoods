@@ -8,6 +8,7 @@ import MyPage from "@pages/MyPage";
 import TempMain from "@pages/TempMain";
 import CreateDealPage from "@pages/CreateDeal";
 import ConcertDeal from "@pages/ConcertDeal";
+import DealDetail from "@pages/DealDetail";
 
 export default function Routers() {
   return (
@@ -22,7 +23,9 @@ export default function Routers() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/create/deal" element={<CreateDealPage />} />
+      {/* 주소 변경 필요 */}
       <Route path="/concertname" element={<ConcertDeal />} />
+      <Route path="/deal/detail" element={<DealDetail />} />
     </Routes>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import {
   MapPinIcon,
   CalendarIcon,
@@ -9,9 +10,18 @@ import {
 import "./index.scss";
 
 export default function index() {
+  const navigate = useNavigate();
+  const goDetail = () => {
+    console.log("ㄱㄱ");
+    navigate("/deal/detail");
+  };
   return (
     <div className="deal-card-component-container">
-      <div className="deal-card-left-contents-container">
+      <button
+        className="deal-card-left-contents-container"
+        type="button"
+        onClick={goDetail}
+      >
         <div className="deal-card-left-img-wrapper">
           <img
             src="https://openimage.interpark.com/goods_image_big/1/3/6/7/10657921367_l.jpg"
@@ -38,7 +48,7 @@ export default function index() {
             </div>
           </div>
         </div>
-      </div>
+      </button>
 
       <div className="deal-card-alert-wrapper">
         <BellAlertIcon />
