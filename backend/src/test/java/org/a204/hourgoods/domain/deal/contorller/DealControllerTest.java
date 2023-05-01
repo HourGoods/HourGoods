@@ -14,6 +14,7 @@ import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.GameAuction;
 import org.a204.hourgoods.domain.deal.entity.Sharing;
 import org.a204.hourgoods.domain.deal.entity.Trade;
+import org.a204.hourgoods.domain.deal.request.BookmarkRequest;
 import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.global.security.jwt.JwtTokenUtils;
@@ -318,6 +319,27 @@ class DealControllerTest {
 					.header("Authorization", otherToken))
 				.andExpect(jsonPath("$.status", is(400)))
 				.andExpect(jsonPath("$.code", is("M400")))
+				.andDo(print());
+		}
+	}
+
+	@Nested
+	@DisplayName("북마크 생성 / 삭제")
+	class Bookmark {
+		@Test
+		@DisplayName("북마크 생성 성공")
+		void registBookmark() throws Exception {
+			//given
+			String content = objectMapper.writeValueAsString(
+				BookmarkRequest.builder().dealId(DEAL_ID).build()
+			);
+			//then
+			mockMvc
+				.perform(post(url + "bookmark")
+					.header("Authorization", token)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content))
+				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
 	}
