@@ -14,6 +14,7 @@ import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.GameAuction;
 import org.a204.hourgoods.domain.deal.entity.Sharing;
 import org.a204.hourgoods.domain.deal.entity.Trade;
+import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.global.security.jwt.JwtTokenUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -52,6 +53,7 @@ class DealControllerTest {
 	private final String url = "http://localhost:8080/api/deal/";
 	private Long CONCERT_ID;
 	private Long DEAL_ID;
+	private Long MEMBER_ID;
 
 	@BeforeEach
 	void setUp() {
@@ -62,6 +64,7 @@ class DealControllerTest {
 			.registrationId(Member.RegistrationId.kakao)
 			.build();
 		em.persist(member);
+		MEMBER_ID = member.getId();
 		token = jwtTokenUtils.BEARER_PREFIX + jwtTokenUtils.createTokens(member,
 			List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
 		// 콘서트 생성
@@ -239,6 +242,38 @@ class DealControllerTest {
 					.contentType(MediaType.APPLICATION_JSON)
 					.params(request))
 				.andExpect(jsonPath("$.status", is(200)))
+				.andDo(print());
+		}
+	}
+
+	@Nested
+	@DisplayName("거래 생성")
+	class createDeal {
+		@Test
+		@DisplayName("거래 생성 성공")
+		void createDeal() throws Exception {
+			// given
+			String content = objectMapper.writeValueAsString(DealCreateRequest.builder()
+				.imageUrl("testUrl")
+				.title("testTitle")
+				.content("testContent")
+				.startTime(LocalDateTime.now())
+				.longitude(Double.valueOf("127.0"))
+				.latitude(Double.valueOf("39.0"))
+				.minimumPrice(Integer.valueOf("10000"))
+				.endTime(LocalDateTime.now())
+				.memberId(MEMBER_ID)
+				.concertId(CONCERT_ID)
+				.dealType(String.valueOf(DealType.Auction))
+				.build()
+			);
+
+			mockMvc
+				.perform(post(url + "create")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andExpect(jsonPath("$.result.dealId").isNumber())
 				.andDo(print());
 		}
 	}

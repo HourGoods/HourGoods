@@ -6,12 +6,15 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
+import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.concert.exception.ConcertNotFoundException;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
 import org.a204.hourgoods.domain.deal.entity.Auction;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.GameAuction;
+import org.a204.hourgoods.domain.deal.entity.Sharing;
+import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealTypeNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.AuctionRepository;
@@ -20,9 +23,14 @@ import org.a204.hourgoods.domain.deal.repository.GameAuctionRepository;
 import org.a204.hourgoods.domain.deal.repository.SharingRepository;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
+import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
 import org.a204.hourgoods.domain.deal.response.ConcertDealListResponse;
+import org.a204.hourgoods.domain.deal.response.DealCreateResponse;
 import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
 import org.a204.hourgoods.domain.deal.response.DealInfoResponse;
+import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
+import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -40,6 +48,7 @@ public class DealService {
 	private final ConcertRepository concertRepository;
 
 	private static final Integer PAGE_SIZE = 10;
+	private final MemberRepository memberRepository;
 
 	@Transactional(readOnly = true)
 	public ConcertDealListResponse getDealListByConcert(ConcertDealListRequest request) {
@@ -147,6 +156,73 @@ public class DealService {
 			.endTime(endTime)
 			.price(price)
 			.limit(limitation).build();
+	}
+
+	@Transactional
+	public DealCreateResponse createDeal(DealCreateRequest dealCreateRequest) {
+		String dealType = dealCreateRequest.getDealType();
+		Member member = memberRepository.findById(dealCreateRequest.getMemberId()).orElseThrow(MemberNotFoundException::new);
+		Concert concert = concertRepository.findById(dealCreateRequest.getConcertId()).orElseThrow(ConcertNotFoundException::new);
+		Long dealId;
+		if (String.valueOf(DealType.Auction).equals(dealType)) {
+			Auction auction = Auction.auctionBuilder()
+				.imageUrl(dealCreateRequest.getImageUrl())
+				.title(dealCreateRequest.getTitle())
+				.content(dealCreateRequest.getContent())
+				.startTime(dealCreateRequest.getStartTime())
+				.longitude(dealCreateRequest.getLongitude())
+				.latitude(dealCreateRequest.getLatitude())
+				.dealHost(member)
+				.concert(concert)
+				.minimumPrice(dealCreateRequest.getMinimumPrice())
+				.finalPrice(dealCreateRequest.getFinalPrice())
+				.endTime(dealCreateRequest.getEndTime()).build();
+			auctionRepository.save(auction);
+			dealId = auction.getId();
+		} else if (String.valueOf(DealType.HourAuction).equals(dealType)) {
+			GameAuction gameAuction = GameAuction.gameAuctionBuilder()
+				.imageUrl(dealCreateRequest.getImageUrl())
+				.title(dealCreateRequest.getTitle())
+				.content(dealCreateRequest.getContent())
+				.startTime(dealCreateRequest.getStartTime())
+				.longitude(dealCreateRequest.getLongitude())
+				.latitude(dealCreateRequest.getLatitude())
+				.dealHost(member)
+				.concert(concert)
+				.minimumPrice(dealCreateRequest.getMinimumPrice())
+				.finalPrice(dealCreateRequest.getFinalPrice())
+				.endTime(dealCreateRequest.getEndTime()).build();
+			gameAuctionRepository.save(gameAuction);
+			dealId = gameAuction.getId();
+		} else if (String.valueOf(DealType.Trade).equals(dealType)) {
+			Trade trade = Trade.tradeBuilder()
+				.imageUrl(dealCreateRequest.getImageUrl())
+				.title(dealCreateRequest.getTitle())
+				.content(dealCreateRequest.getContent())
+				.startTime(dealCreateRequest.getStartTime())
+				.longitude(dealCreateRequest.getLongitude())
+				.latitude(dealCreateRequest.getLatitude())
+				.dealHost(member)
+				.concert(concert)
+				.price(dealCreateRequest.getPrice()).build();
+			tradeRepository.save(trade);
+			dealId = trade.getId();
+		} else if (String.valueOf(DealType.Sharing).equals(dealType)) {
+			Sharing sharing = Sharing.sharingBuilder()
+				.imageUrl(dealCreateRequest.getImageUrl())
+				.title(dealCreateRequest.getTitle())
+				.content(dealCreateRequest.getContent())
+				.startTime(dealCreateRequest.getStartTime())
+				.longitude(dealCreateRequest.getLongitude())
+				.latitude(dealCreateRequest.getLatitude())
+				.dealHost(member)
+				.concert(concert)
+				.limitation(dealCreateRequest.getLimit()).build();
+			sharingRepository.save(sharing);
+			dealId = sharing.getId();
+		} else
+			throw new DealTypeNotFoundException();
+		return DealCreateResponse.builder().dealId(dealId).build();
 	}
 
 	// concert id validation check
