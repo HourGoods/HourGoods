@@ -41,7 +41,6 @@ const memberAPI = {
 const memberAPI = {
   signup: (userInfo: {
     email: string;
-    registrationId: string;
     nickname: string;
     imageUrl: string;
   }): Promise<AxiosResponse> => request.post("member/signup", userInfo),

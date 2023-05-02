@@ -53,6 +53,7 @@ export default function Nav() {
               menus={[
                 { label: "로그인", value: "login" },
                 { label: "마이페이지", value: "mypage" },
+                { label: "나의 채팅", value: "mychatroom" },
               ]}
             />
           )}
@@ -69,16 +70,16 @@ export default function Nav() {
               <XMarkIcon onClick={toggleMenu} />
             </div>
             <div className="mobile-sidebar-menu">
-              <Link to="realtime">
+              <Link to="realtime" onClick={toggleMenu}>
                 <p>실시간</p>
               </Link>
-              <Link to="search">
+              <Link to="search" onClick={toggleMenu}>
                 <p>탐색하기</p>
               </Link>
-              <Link to="login">
+              <Link to="login" onClick={toggleMenu}>
                 <p>로그인</p>
               </Link>
-              <Link to="mypage">
+              <Link to="mypage" onClick={toggleMenu}>
                 <p>마이페이지</p>
               </Link>
             </div>

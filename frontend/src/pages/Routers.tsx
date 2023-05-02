@@ -5,6 +5,7 @@ import RealTimePage from "@pages/RealTime";
 import SearchPage from "@pages/Search";
 import LoginPage from "@pages/Login";
 import MyPage from "@pages/MyPage";
+import MyChatRoom from "@pages/MyChatRoom";
 import TempMain from "@pages/TempMain";
 import Ticket from "@pages/Ticket";
 import CreateDealPage from "@pages/CreateDeal";
@@ -28,6 +29,7 @@ export default function Routers() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/oauth" element={<Oauth />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mychatroom" element={<MyChatRoom />} />
       <Route path="/create/deal" element={<CreateDealPage />} />
       {/* 주소 변경 필요 */}
       <Route path="/concertname" element={<ConcertDeal />} />
