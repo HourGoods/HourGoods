@@ -4,7 +4,6 @@ import MainPage from "@pages/Main";
 import RealTimePage from "@pages/RealTime";
 import SearchPage from "@pages/Search";
 import LoginPage from "@pages/Login";
-import Oauth from "@pages/Oauth";
 import MyPage from "@pages/MyPage";
 import MyChatRoom from "@pages/MyChatRoom";
 import TempMain from "@pages/TempMain";
@@ -37,7 +36,6 @@ export default function Routers() {
       <Route path="/ticket" element={<Ticket />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/edit" element={<EditProfile />} />
-
     </Routes>
   );
 }
