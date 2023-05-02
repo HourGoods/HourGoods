@@ -38,7 +38,7 @@ public class ConcertService {
 		KopisPlaceDetail.Info placeDetail = kopisService.getPlaceDetail(concertDetail.getKopisPlaceId());
 
 		// 기등록된 공연 정보인지 검사
-		if (concertRepository.findByTitle(concertDetail.getTitle()) != null) {
+		if (concertRepository.existsByTitle(concertDetail.getTitle())) {
 			throw new ConcertAlreadyExistsException();
 		}
 
