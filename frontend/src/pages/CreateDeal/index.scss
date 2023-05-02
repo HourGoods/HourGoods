@@ -7,6 +7,10 @@
   margin-bottom: 60px;
   min-width: 230px;
 
+  button {
+    margin: auto;
+  }
+
   // desktop 기준 레이아웃 변경
   @include desktop {
     display: flex;
