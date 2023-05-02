@@ -53,4 +53,11 @@ public class MemberController {
 		return new BaseResponse<>(isDuplicate);
 	}
 
+	@PostMapping("/api/test")
+	@Operation(description = "테스트용 JWT 토큰 발급 API", summary = "임시 JWT 발급")
+	@ApiResponse(responseCode = "200", description = "JWT 토큰 발급")
+	public BaseResponse<String> generateTemporaryJWT() {
+		String tempToken = memberService.testToken();
+		return new BaseResponse<>(tempToken);
+	}
 }
