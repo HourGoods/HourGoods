@@ -1,9 +1,10 @@
 /* eslint-disable */
 import { memberAPI } from "@api/apis";
 import { UserStateAtom } from "@recoils/user/Atom";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import Button from "@components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 /** To.길현
  * 회원가입 로직
@@ -28,23 +29,32 @@ import Button from "@components/common/Button";
 
 export default function Index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+  const navigate = useNavigate();
 
   const handleClick = useCallback(() => {
-    const sedingInfo = userInfo;
-    console.log(userInfo);
+    const newUserInfo = { ...userInfo };
+    // 임시저장값 -> 삭제하고 사용해주세요.
+    newUserInfo.nickname = "규투리";
+    newUserInfo.imageUrl =
+      "https://avatars.githubusercontent.com/u/88919138?v=4";
+    setUserInfo(newUserInfo);
+    // console.log(newUserInfo);
 
-    memberAPI.signup(userInfo).then(() => {
-      console.log(userInfo);
-    });
+    memberAPI
+      .signup(userInfo)
+      .then(() => {
+        // console.log(userInfo);
+        navigate("/main");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, [setUserInfo, userInfo]);
 
   return (
     <>
       <div>수정페이지</div>
-      <button type="button" onClick={handleClick}>
-        회원가입 되나요?
-      </button>
-      <Button>회원가입하기</Button>
+      <Button onClick={handleClick}>회원가입하기</Button>
     </>
   );
 }
