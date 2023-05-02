@@ -70,7 +70,6 @@ public class KopisService {
 
 		ResponseEntity<String> result = getForEntity(uriBuilder.toString());
 		KopisConcertList kopisConcertList = new KopisConcertList();
-		List<KopisConcertList.ConcertInfo> concertInfoList = new ArrayList<>();
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(KopisConcertList.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -78,10 +77,8 @@ public class KopisService {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-
-		for (KopisConcertList.ConcertInfo concertInfo : kopisConcertList.getConcertInfoList()) {
-			concertInfoList.add(concertInfo);
-		}
+		List<KopisConcertList.ConcertInfo> concertInfoList = kopisConcertList.getConcertInfoList() == null ?
+			new ArrayList<>() : kopisConcertList.getConcertInfoList();
 		System.out.println(concertInfoList.toString());
 
 		ConcertListResponse response = ConcertListResponse.builder()
