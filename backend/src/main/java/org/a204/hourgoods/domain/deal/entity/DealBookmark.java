@@ -1,5 +1,6 @@
 package org.a204.hourgoods.domain.deal.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a204.hourgoods.domain.member.entity.Member;
@@ -24,4 +25,9 @@ public class DealBookmark {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder
+    public DealBookmark(Deal deal, Member member) {
+        this.deal = deal;
+        this.member = member;
+    }
 }

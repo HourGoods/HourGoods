@@ -5,6 +5,8 @@ import static org.a204.hourgoods.global.security.jwt.JwtTokenUtils.*;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.AccessDeniedException;
 import org.a204.hourgoods.domain.member.exception.IncorrectAdminInfoException;
@@ -88,20 +90,20 @@ public class MemberService {
 		return !memberRepository.existsByNickname(nickname);
 	}
 
-	//    @PostConstruct
-	//    public void initTestUser() {
-	//        Member member = Member.builder()
-	//                .registrationId(Member.RegistrationId.kakao)
-	//                .email("suker80@naver.com")
-	//                .nickname("닉네임")
-	//                .build();
-	//
-	//        Member save = memberRepository.save(member);
-	//        memberId = save.getId();
-	//    }
-	//
-	//    public String testToken() {
-	//        Member member = memberRepository.findById(memberId).orElseThrow();
-	//        return jwtTokenUtils.createTokens(member, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
-	//    }
+	   @PostConstruct
+	   public void initTestUser() {
+	       Member member = Member.builder()
+	               .email("temp@hourgoods.com")
+	               .nickname("임시닉네임")
+			   .imageUrl("https://shorturl.at/akuBF")
+	               .build();
+
+	       Member save = memberRepository.save(member);
+	       memberId = save.getId();
+	   }
+
+	   public String testToken() {
+	       Member member = memberRepository.findById(memberId).orElseThrow();
+	       return jwtTokenUtils.createTokens(member, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
+	   }
 }
