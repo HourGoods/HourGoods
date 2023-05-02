@@ -9,7 +9,6 @@ import org.a204.hourgoods.domain.member.response.MemberSignUpResponse;
 import org.a204.hourgoods.domain.member.response.ReGenerateAccessTokenResponse;
 import org.a204.hourgoods.domain.member.service.MemberService;
 import org.a204.hourgoods.global.common.BaseResponse;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +25,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberController {
 	private final MemberService memberService;
-
-	@GetMapping("/test")
-	@Operation(description = "임시 테스트용 API", summary = "임시 테스트용 API")
-	public String test() {
-		return "ok";
-	}
 
 	@PostMapping("/api/refresh")
 	@Operation(description = "액세스 재발급 API", summary = "액세스 토큰 재발급 API")
