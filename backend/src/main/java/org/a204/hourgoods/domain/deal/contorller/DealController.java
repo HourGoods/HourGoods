@@ -51,6 +51,7 @@ public class DealController {
 	 */
 	@Operation(summary = "콘서트별/거래별/키워드별 거래 가능 목록 조회 API", description = "콘서트/거래별/키워드별 거래 가능 목록 조회. All로 넘기면 전체 목록 반환. 검색어 미반환시 전체 검색")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertDealListResponse.class)))
+	@ApiResponse(responseCode = "400", description = "1. M300 해당 닉네임에 해당하는 사용자를 찾을 수 없음")
 	@ApiResponse(responseCode = "404", description = "1. C100 해당하는 콘서트 찾을 수 없음 \t\n 2. D100 거래 타입이 잘못되었음")
 	@GetMapping("/list")
 	public BaseResponse<ConcertDealListResponse> getDealListByConcert(@Valid ConcertDealListRequest request) {
