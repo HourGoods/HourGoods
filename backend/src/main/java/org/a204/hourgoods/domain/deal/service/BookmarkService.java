@@ -38,4 +38,10 @@ public class BookmarkService {
 		}
 		return true;
 	}
+
+	@Transactional(readOnly = true)
+	public Boolean checkBookmark(Member member, Long dealId) {
+		Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
+		return bookmarkRepository.existsByMemberAndDeal(member, deal);
+	}
 }

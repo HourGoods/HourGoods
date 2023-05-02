@@ -14,6 +14,7 @@ import org.a204.hourgoods.domain.deal.exception.MemberMissMatchException;
 import org.a204.hourgoods.domain.deal.request.BookmarkRequest;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
+import org.a204.hourgoods.domain.deal.response.BookmarkCheckResponse;
 import org.a204.hourgoods.domain.deal.response.BookmarkResponse;
 import org.a204.hourgoods.domain.deal.response.ConcertDealListResponse;
 import org.a204.hourgoods.domain.deal.response.DealCreateResponse;
@@ -142,6 +143,17 @@ public class DealController {
 		Member member = memberDetails.getMember();
 		BookmarkResponse response = BookmarkResponse.builder()
 			.isSuccess(bookmarkService.cancelBookmark(bookmarkRequest.getDealId(), member)).build();
+		return new BaseResponse<>(response);
+	}
+
+	@Operation(summary = "북마크 확인 API", description = "북마크 확인 API, jwt 토큰의 사용자 이름으로 북마크 확인")
+	@ApiResponse(responseCode = "200", description = "북마크 해제 완료", content = @Content(schema = @Schema(implementation = BookmarkCheckResponse.class)))
+	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
+	@GetMapping("/bookmark")
+	public BaseResponse<BookmarkCheckResponse> cancelBookmark(@AuthenticationPrincipal MemberDetails memberDetails, @RequestParam Long dealId) {
+		Member member = memberDetails.getMember();
+		BookmarkCheckResponse response = BookmarkCheckResponse.builder()
+			.isBookmarked(bookmarkService.checkBookmark(member, dealId)).build();
 		return new BaseResponse<>(response);
 	}
 }
