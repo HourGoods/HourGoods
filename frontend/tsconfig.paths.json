@@ -8,7 +8,7 @@
       "@assets/*": ["./assets/*"],
       "@stores/*": ["./stores/*"],
       "@styles/*": ["./styles/*"],
-      "@apis/*": ["./apis/*"],
+      "@api/*": ["./api/*"],
       "@utils/*": ["./utils/*"]
     }
   }
