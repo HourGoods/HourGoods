@@ -1,10 +1,20 @@
 import React from "react";
+import { useNavigate } from "react-router";
 import { MapPinIcon, CalendarIcon } from "@heroicons/react/24/solid";
 import "./index.scss";
 
 export default function index() {
+  const navigate = useNavigate();
+  const goDetail = () => {
+    console.log("api 연결 후 주소 수정");
+    navigate("/concertname");
+  };
   return (
-    <div className="concert-card-component-container">
+    <button
+      type="button"
+      className="concert-card-component-container"
+      onClick={goDetail}
+    >
       <div className="concert-card-left-img-wrapper">
         <img
           src="https://cdnticket.melon.co.kr/resource/image/upload/product/2022/08/2022081115003052ef3ded-81f4-450b-8a60-3e0444da6d9f.jpg"
@@ -22,6 +32,6 @@ export default function index() {
           <p>종합운동장역 8번 출구</p>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

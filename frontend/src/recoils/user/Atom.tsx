@@ -6,16 +6,22 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
-const authState = atom({
+const AuthStateAtom = atom({
   key: "authState",
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
 
-const userState = atom({
+const UserStateAtom = atom({
   key: "usersState",
-  default: null,
+  default: {
+    email: "",
+    registrationId: "kakao",
+    nickname: "이지은",
+    imageUrl:
+      "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/06/28/612b6ff6-5081-4b54-a22c-38d716229c41.jpg",
+  },
   effects_UNSTABLE: [persistAtom],
 });
 
-export { authState, userState };
+export { AuthStateAtom, UserStateAtom };

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FavoriteDeal from "@components/MyPage/UserDeal/FavoriteDeal";
 import GetMyDeal from "@components/MyPage/UserDeal/GetMyDeal";
 import ParticipatedDeal from "@components/MyPage/UserDeal/ParticipatedDeal";
+import classNames from "classnames";
 
 export default function index() {
   const [tag, setTag] = useState({
@@ -11,7 +12,8 @@ export default function index() {
   });
 
   const handleClick = (tagName: string) => {
-    setTag((prevTag) => ({
+    setTag((prev) => ({
+      ...prev,
       favorite: tagName === "favorite",
       getMy: tagName === "getMy",
       participated: tagName === "participated",
@@ -20,31 +22,30 @@ export default function index() {
 
   return (
     <div className="userdeal-components-container">
-
       <div className="userdeal-tabs-container">
         <button
           type="button"
           onClick={() => handleClick("favorite")}
-          className="favorite"
+          className={classNames(tag.favorite && "activated")}
         >
           찜한 Deal
         </button>
         <button
           type="button"
           onClick={() => handleClick("getMy")}
-          className="getmy"
+          className={classNames(tag.getMy && "activated")}
         >
           내가 만든 Deal
         </button>
         <button
           type="button"
           onClick={() => handleClick("participated")}
-          className="participated"
+          className={classNames(tag.participated && "activated")}
         >
           참여한 Deal
         </button>
       </div>
-      
+
       {tag.favorite && <FavoriteDeal />}
       {tag.getMy && <GetMyDeal />}
       {tag.participated && <ParticipatedDeal />}
