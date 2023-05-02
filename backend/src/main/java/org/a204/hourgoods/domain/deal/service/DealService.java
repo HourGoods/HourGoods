@@ -131,7 +131,7 @@ public class DealService {
 	}
 
 	@Transactional(readOnly = true)
-	public DealDetailResponse getDealDetail(Long dealId) {
+	public DealDetailResponse getDealDetail(Member member, Long dealId) {
 		Deal deal = dealQueryDslRepository.searchDealById(dealId);
 
 		Integer minPrice = null;
@@ -156,6 +156,9 @@ public class DealService {
 			price = tradeRepository.findPriceById(deal.getId());
 		}
 
+		// 사용자의 북마크 여부 확인
+		Boolean isBookmarked = bookmarkRepository.existsByMemberAndDeal(member, deal);
+
 		// 종합하여 response 생성하여 반환
 		return DealDetailResponse.builder()
 			.dealTitle(deal.getTitle())
@@ -171,6 +174,7 @@ public class DealService {
 			.minPrice(minPrice)
 			.endTime(endTime)
 			.price(price)
+			.isBookmarked(isBookmarked)
 			.limit(limitation).build();
 	}
 

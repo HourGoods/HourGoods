@@ -68,8 +68,9 @@ public class DealController {
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = DealDetailResponse.class)))
 	@ApiResponse(responseCode = "404", description = "1. D200 ID에 해당하는 거래 없음")
 	@GetMapping("/detail")
-	public BaseResponse<DealDetailResponse> getDealDetail(@RequestParam Long dealId) {
-		DealDetailResponse response = dealService.getDealDetail(dealId);
+	public BaseResponse<DealDetailResponse> getDealDetail(@AuthenticationPrincipal MemberDetails memberDetails, @RequestParam Long dealId) {
+		Member member = memberDetails.getMember();
+		DealDetailResponse response = dealService.getDealDetail(member, dealId);
 		return new BaseResponse<>(response);
 	}
 

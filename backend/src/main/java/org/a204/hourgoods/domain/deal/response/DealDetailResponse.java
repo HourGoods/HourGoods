@@ -36,6 +36,8 @@ public class DealDetailResponse {
 	private LocalDateTime startTime;
 	@Schema(description = "콘서트 이름")
 	private String concertTitle;
+	@Schema(description = "북마크 여부")
+	private Boolean isBookmarked;
 
 	@Schema(description = "(경매용) 경매 시작가")
 	private Integer minPrice;
