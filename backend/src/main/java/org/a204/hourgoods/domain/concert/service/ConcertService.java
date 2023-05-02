@@ -3,6 +3,8 @@ package org.a204.hourgoods.domain.concert.service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.a204.hourgoods.domain.concert.entity.Concert;
@@ -10,6 +12,7 @@ import org.a204.hourgoods.domain.concert.exception.ConcertAlreadyExistsException
 import org.a204.hourgoods.domain.concert.model.KopisConcertDetail;
 import org.a204.hourgoods.domain.concert.model.KopisPlaceDetail;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
+import org.a204.hourgoods.domain.concert.request.ConcertIdRequest;
 import org.a204.hourgoods.domain.concert.request.TodayConcertRequest;
 import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
@@ -28,7 +31,8 @@ public class ConcertService {
 	private final KopisService kopisService;
 
 	// kopisConcertId와 일치하는 공연의 concertId 반환
-	public ConcertIdResponse getConcertId(String kopisConcertId) {
+	public ConcertIdResponse getConcertId(ConcertIdRequest concertIdRequest) {
+		String kopisConcertId = concertIdRequest.getKopisConcertId();
 		if (!concertRepository.existsByKopisConcertId(kopisConcertId)) {
 			return createConcert(kopisConcertId);
 		}
@@ -66,9 +70,13 @@ public class ConcertService {
 	// 외부 API의 공연 시간을 파싱하여 LocalDateTime으로 변환
 	private LocalDateTime parseLocalDateTime(String startDate, String timeInfo) {
 		// startDate: { yyyy.MM.dd }
-		// timeInfo: { ?요일(HH:mm) }
-		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(HH:mm)");
-		// String str = startDate + timeInfo.substring(3, 10);
+		// timeInfo: { 화요일(20:00), 수요일~금요일(18:00, 22:00) }
+		// 정규표현식 패턴 생성
+		// Pattern pattern = Pattern.compile("(?<=\\()\\d{2}:\\d{2}(?=\\))");
+		// Matcher matcher = pattern.matcher(timeInfo);
+		// String str = startDate + "/";
+		// str += matcher != null ? matcher.find() : "18:00";
+		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd/HH:mm");
 		// LocalDateTime ldt = LocalDateTime.parse(str, formatter);
 		// return ldt;
 		return null;
