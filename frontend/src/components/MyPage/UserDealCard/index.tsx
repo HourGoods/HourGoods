@@ -36,16 +36,16 @@ export default function index({ getmy }: IProps) {
 
   return (
     <div>
-      {getmy === "getmy" ? (
-        <button
-          type="button"
-          className="user-deal-card-delete"
-          onClick={modalClickHandler}
-        >
-          <MinusCircleIcon />
-        </button>
-      ) : null}
       <div className="user-deal-card-container">
+        {getmy === "getmy" ? (
+          <button
+            type="button"
+            className="user-deal-card-delete"
+            onClick={modalClickHandler}
+          >
+            <MinusCircleIcon />
+          </button>
+        ) : null}
         <Link to="/main" onClick={successClickHandler}>
           <div className="user-deal-card-wrapper-img">
             <img

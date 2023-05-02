@@ -16,23 +16,10 @@
   text-overflow: ellipsis;
 }
 
-.user-deal-card-delete {
-  position: absolute;
-  top: 0.5px;
-  left: 10px;
-  margin: 0px 0px 0px 2px;
-  background-color: inherit;
-  z-index: 1;
-  svg {
-    width: 19.5px;
-    height: 19.5px;
-    color: $pink-1;
-  }
-}
-
 .user-deal-card-container {
   display: flex;
   flex-direction: column;
+  position: relative;
   width: 140px;
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
@@ -42,6 +29,19 @@
     width: 12px;
     height: 12px;
     color: $indigo-2;
+  }
+
+  .user-deal-card-delete {
+    position: absolute;
+    top: -12px;
+    padding: 0ox;
+    background: transparent;
+    z-index: 1;
+    svg {
+      width: 19.5px;
+      height: 19.5px;
+      color: $pink-1;
+    }
   }
 
   .user-deal-card-wrapper-img {
