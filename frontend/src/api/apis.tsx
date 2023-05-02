@@ -47,4 +47,12 @@ const memberAPI = {
   }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
 };
 
-export { memberAPI };
+const concertAPI = {
+  // 전체 콘서트 조회(공연 api)
+  getAllConcert: (keyword: string): Promise<AxiosResponse> =>
+    request.get("concert/search/unregistered", {
+      params: { keyword },
+    }),
+};
+
+export { memberAPI, concertAPI };
