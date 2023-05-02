@@ -59,6 +59,8 @@ class DealControllerTest {
 	private Long CONCERT_ID;
 	private Long DEAL_ID;
 	private Long MEMBER_ID;
+	private Deal deal;
+	private Member member;
 	@Autowired
 	private MemberRepository memberRepository;
 	@Autowired
@@ -67,7 +69,7 @@ class DealControllerTest {
 	@BeforeEach
 	void setUp() {
 		// 유저 생성
-		Member member = Member.builder()
+		member = Member.builder()
 			.email("yeji@hourgoods.com")
 			.nickname("yezi")
 			.build();
@@ -138,6 +140,7 @@ class DealControllerTest {
 				.latitude(37.5665)
 				.build();
 			em.persist(gameAuction);
+			deal = gameAuction;
 			DEAL_ID = gameAuction.getId();
 		}
 	}
@@ -404,6 +407,30 @@ class DealControllerTest {
 					.content(content))
 				.andExpect(jsonPath("$.status", is(404)))
 				.andExpect(jsonPath("$.code", is("D300")))
+				.andDo(print());
+		}
+	}
+
+	@Nested
+	@DisplayName("북마크 여부 확인")
+	class checkBookmark {
+		@Test
+		@DisplayName("북마크 여부 확인 성공")
+		void bookmarkCheck() throws Exception {
+			// given
+			DealBookmark bookmark = DealBookmark.builder()
+				.deal(deal).member(member).build();
+			em.persist(bookmark);
+			em.flush();
+			em.clear();
+			// when
+			mockMvc
+				.perform(get(url + "bookmark")
+					.header("Authorization", token)
+					.param("dealId", DEAL_ID.toString()))
+			// then
+				.andExpect(jsonPath("$.status", is(200)))
+				.andExpect(jsonPath("$.result.isBookmarked", is(true)))
 				.andDo(print());
 		}
 	}
