@@ -5,7 +5,8 @@ import "./index.scss";
 
 export type Option = {
   label: string;
-  value: string;
+  value?: string;
+  onClick?: () => void;
 };
 
 type MenuProps = {
@@ -19,7 +20,12 @@ export default function index({ menus }: MenuProps): JSX.Element {
 
   function handleOptionClick(menu: Option) {
     setIsOpen(false);
-    navigate(`${menu.value}`);
+    if (menu.value) {
+      navigate(`${menu.value}`);
+    } else if (menu.onClick) {
+      // onClick 속성이 있는 경우 실행
+      menu.onClick();
+    }
   }
 
   useModalRef(dropdownRef, () => setIsOpen(false));

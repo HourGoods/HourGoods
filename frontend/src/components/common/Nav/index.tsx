@@ -18,8 +18,10 @@ export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
-  const [isLogin, setIsLogin] = useRecoilState(AuthStateAtom);
+  const [loginState, setLoginState] = useRecoilState(AuthStateAtom);
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+  const baseUrl = "https://k8a204.p.ssafy.io";
+  const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -27,6 +29,13 @@ export default function Nav() {
 
   const handleDropDownClick = () => {
     setIsDropDownOpen(!isDropDownOpen);
+  };
+
+  const logoutHandler = () => {
+    setUserInfo({ email: "", nickname: "", imageUrl: "" });
+    setLoginState({ isLogin: false, token: null });
+    toggleMenu();
+    alert("안녕히가세요!")
   };
 
   useModalRef(menuRef, () => setIsOpen(false));
@@ -51,13 +60,33 @@ export default function Nav() {
           </Link>
         </div>
         <div className="web-navbar-profile">
-          <UserCircleIcon onClick={handleDropDownClick} />
-          {isDropDownOpen && (
+          {loginState.isLogin ? (
+            <img
+              src={userInfo.imageUrl}
+              alt="프로필이미지"
+              onClick={handleDropDownClick}
+            />
+          ) : (
+            <UserCircleIcon onClick={handleDropDownClick} />
+          )}
+          {loginState.isLogin && isDropDownOpen && (
             <DropDown
               menus={[
-                { label: "로그인", value: "login" },
                 { label: "마이페이지", value: "mypage" },
                 { label: "나의 채팅", value: "mychatroom" },
+                { label: "로그아웃", onClick: logoutHandler },
+              ]}
+            />
+          )}
+          {!loginState.isLogin && isDropDownOpen && (
+            <DropDown
+              menus={[
+                {
+                  label: "로그인",
+                  onClick: () => {
+                    window.location.href = loginUrl;
+                  },
+                },
               ]}
             />
           )}
@@ -68,7 +97,7 @@ export default function Nav() {
           <img src={logo} alt="로고" />
         </Link>
         {isOpen ? "" : <Bars3Icon onClick={toggleMenu} />}
-        {isOpen && isLogin && (
+        {isOpen && !loginState.isLogin && (
           <div className="mobile-sidebar-wrapper" ref={menuRef}>
             <div className="mobile-nav-close-btn">
               <XMarkIcon onClick={toggleMenu} />
@@ -80,12 +109,31 @@ export default function Nav() {
               <Link to="search" onClick={toggleMenu}>
                 <p>탐색하기</p>
               </Link>
-              <Link to="login" onClick={toggleMenu}>
+              <a href={loginUrl}>
                 <p>로그인</p>
+              </a>
+            </div>
+          </div>
+        )}
+        {isOpen && loginState.isLogin && (
+          <div className="mobile-sidebar-wrapper" ref={menuRef}>
+            <div className="mobile-nav-close-btn">
+              <XMarkIcon onClick={toggleMenu} />
+            </div>
+            <div className="mobile-sidebar-menu">
+              <Link to="realtime" onClick={toggleMenu}>
+                <p>실시간</p>
+              </Link>
+              <Link to="search" onClick={toggleMenu}>
+                <p>탐색하기</p>
               </Link>
               <Link to="mypage" onClick={toggleMenu}>
                 <p>마이페이지</p>
               </Link>
+              <Link to="mychatroom" onClick={toggleMenu}>
+                <p>나의 채팅</p>
+              </Link>
+              <p onClick={logoutHandler}>로그아웃</p>
             </div>
           </div>
         )}
