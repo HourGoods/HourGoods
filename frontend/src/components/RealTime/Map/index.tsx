@@ -137,7 +137,7 @@ export default function index() {
     <div className="realtime-map-component-container">
       <p className="realtime-page-component-title-p">내 근처 Time Deal</p>
       <div id="map" />
-      <ConcertCard />
+      {/* <ConcertCard /> */}
     </div>
   );
 }

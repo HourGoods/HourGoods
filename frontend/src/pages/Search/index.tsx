@@ -1,73 +1,58 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import SearchBar from "@components/common/SearchBar";
-import ConcertCard from "@components/common/ConcertCard";
+import ConcertList from "@components/SearchPage/ConcertList";
 import NoResult from "@components/SearchPage/NoResult";
 import { concertAPI } from "@api/apis";
 import "./index.scss";
 
+export interface ConcertInterface {
+  imageUrl: string;
+  koPisConcertId: number;
+  place: string;
+  startDate: string;
+  title: string;
+}
+
+export type ConcertList = ConcertInterface[];
+
 export default function index() {
-  const [tempState, setTempState] = useState<Record<string, boolean>>({
-    basic: true,
-    hasResult: false,
-    noResult: false,
-  });
   const [searchInput, setSearchInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+  const [hasResult, setHasResult] = useState(false);
+  const [concertInfoList, setConcertInfoList] = useState<ConcertList>([]);
 
   const navigate = useNavigate();
 
-  const tempPageHandler = (page: keyof typeof tempState) => {
-    if (page === "hasResult") {
-      navigate("/concertname");
-    } else {
-      const changeTempState: typeof tempState = {
-        basic: false,
-        hasResult: false,
-        noResult: false,
-      };
-      changeTempState[page] = true;
-      setTempState(changeTempState);
-    }
-  };
-
   const searchHandler = () => {
-    console.log("하위");
-    console.log(searchInput);
+    setIsLoading(true); // 데이터 받아오는 중이므로 isLoading 상태 변경
     const result = concertAPI.getAllConcert(searchInput);
     result.then((res: any) => {
-      console.log(res);
+      setConcertInfoList(res.data.result.concertInfoList);
+
+      // 검색 결과가 없을 때 (0건 일 때)
+      if (res.data.result.concertInfoList.length === 0) {
+        setHasResult(false);
+      } else {
+        setHasResult(true);
+      }
+      setIsLoading(false); // 데이터 받아왔으므로 isLoading 상태 변경
     });
   };
 
   return (
     <div className="search-page-container">
+      {/* isLoading이 true일 때 로딩 중임을 나타내는 UI를 보여줌 */}
       <SearchBar
         searchInput={searchInput}
         setSearchInput={setSearchInput}
         onSubmit={searchHandler}
       />
-      {/* 거래가 가능한 콘서트 목록을 모두 띄워줍니다 */}
-      <div className="search-temp-buttons-container">
-        <p>임시 버튼입니다</p>
-        <button type="button" onClick={() => tempPageHandler("basic")}>
-          초기화
-        </button>
-        <button type="button" onClick={() => tempPageHandler("hasResult")}>
-          검색결과 있음
-        </button>
-        <button type="button" onClick={() => tempPageHandler("noResult")}>
-          검색결과 없음
-        </button>
-      </div>
-      {tempState.basic && (
-        <div>
-          <ConcertCard />
-          <ConcertCard />
-          <ConcertCard />
-          <ConcertCard />
-        </div>
+      {isLoading && <p>Loading...</p>}
+      {hasResult && !isLoading && (
+        <ConcertList concertInfoList={concertInfoList} />
       )}
-      {tempState.noResult && <NoResult />}
+      {!hasResult && !isLoading && <NoResult />}
     </div>
   );
 }
