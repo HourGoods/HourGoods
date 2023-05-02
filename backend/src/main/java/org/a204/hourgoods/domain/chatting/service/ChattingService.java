@@ -2,19 +2,25 @@ package org.a204.hourgoods.domain.chatting.service;
 
 import lombok.RequiredArgsConstructor;
 import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
+import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
 import org.a204.hourgoods.domain.chatting.exception.ReceiverNotFoundException;
 import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepository;
+import org.a204.hourgoods.domain.chatting.repository.DirectMessageRepository;
 import org.a204.hourgoods.domain.chatting.request.DirectChattingRoomRequest;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
+import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +28,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class ChattingService {
 
+    private final DirectMessageRepository directMessageRepository;
     private final DirectChattingRoomRepository directChattingRoomRepository;
     private final MemberRepository memberRepository;
     private final TradeRepository tradeRepository;
@@ -70,6 +77,26 @@ public class ChattingService {
                 .startTime(trade.getStartTime())
                 .DirectChattingRoomId(saveRoom.getId())
                 .build();
+    }
+
+    // 채팅방 이전 메시지목록 가져오기
+    @Transactional(readOnly = true)
+    public List<DirectMessageResponse> findAllMessagesByRoomId(Long memberId, Long chattingRoomId, Pageable pageable) {
+        Member user = memberRepository.findById(memberId)
+                .orElseThrow(MemberNotFoundException::new);
+        List<DirectMessage> messages = directMessageRepository.findDirectMessagesByChatRoomId(String.valueOf(chattingRoomId), pageable);
+
+        List<DirectMessageResponse> response = new ArrayList<>();
+        for (DirectMessage message : messages) {
+            boolean flag = user.getNickname().equals(message.getUserNickName());
+            response.add(DirectMessageResponse.builder()
+                    .nickname(message.getUserNickName())
+                    .isUser(flag)
+                    .sendTime(message.getSendTime())
+                    .content(message.getContent())
+                    .build());
+        }
+        return response;
     }
 
     // 거래 정보 가져오기
