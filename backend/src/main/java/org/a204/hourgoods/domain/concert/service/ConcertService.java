@@ -10,9 +10,13 @@ import org.a204.hourgoods.domain.concert.exception.ConcertAlreadyExistsException
 import org.a204.hourgoods.domain.concert.model.KopisConcertDetail;
 import org.a204.hourgoods.domain.concert.model.KopisPlaceDetail;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
+import org.a204.hourgoods.domain.concert.request.TodayConcertRequest;
 import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
+import org.a204.hourgoods.domain.concert.response.TodayConcertListResponse;
+import org.a204.hourgoods.global.error.GlobalBaseException;
+import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -23,17 +27,55 @@ public class ConcertService {
 	private final ConcertRepository concertRepository;
 	private final KopisService kopisService;
 
+	// kopisConcertId와 일치하는 공연의 concertId 반환
+	public ConcertIdResponse getConcertId(String kopisConcertId) {
+		if (!concertRepository.existsByKopisConcertId(kopisConcertId)) {
+			return createConcert(kopisConcertId);
+		}
+		Long concertId = concertRepository.findByKopisConcertId(kopisConcertId).orElseThrow().getId();
+		return new ConcertIdResponse(concertId);
+	}
+
+	// 오늘의 사용자 주변 공연 정보 리스트 조회
+	public TodayConcertListResponse getTodayConcertList(TodayConcertRequest todayConcertRequest) {
+		// 사용자 위치 기준 정렬 미구현
+		List<Concert> concertList = concertRepository.findAll();
+		if (concertList.isEmpty()) {
+			return TodayConcertListResponse.builder()
+				.hasNextPage(false)
+				.lastConcertId(Long.valueOf(-1))
+				.build();
+		}
+		final List<ConcertInfoResponse> concertInfoResponseList = concertList.stream()
+			.map(ConcertInfoResponse::new)
+			.collect(Collectors.toList());
+		final TodayConcertListResponse todayConcertListResponse = TodayConcertListResponse.builder()
+			.hasNextPage(false)
+			.lastConcertId(concertInfoResponseList.get(concertInfoResponseList.size() - 1).getConcertId())
+			.concertInfoList(concertInfoResponseList)
+			.build();
+		return todayConcertListResponse;
+	}
+
+	// concertId와 일치하는 공연 정보 반환
+	public ConcertInfoResponse getConcertDetail(Long concertId) {
+		Concert concert = concertRepository.findById(concertId).orElseThrow();
+		return new ConcertInfoResponse(concert);
+	}
+
+	// 외부 API의 공연 시간을 파싱하여 LocalDateTime으로 변환
 	private LocalDateTime parseLocalDateTime(String startDate, String timeInfo) {
 		// startDate: { yyyy.MM.dd }
 		// timeInfo: { ?요일(HH:mm) }
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(HH:mm)");
-		String str = startDate + timeInfo.substring(3, 10);
-		LocalDateTime ldt = LocalDateTime.parse(str, formatter);
-		return ldt;
+		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd(HH:mm)");
+		// String str = startDate + timeInfo.substring(3, 10);
+		// LocalDateTime ldt = LocalDateTime.parse(str, formatter);
+		// return ldt;
+		return null;
 	}
 
 	// 공연 정보 등록
-	public ConcertIdResponse createConcert(String kopisConcertId) {
+	private ConcertIdResponse createConcert(String kopisConcertId) {
 		KopisConcertDetail.Info concertDetail = kopisService.getConcertDetail(kopisConcertId);
 		KopisPlaceDetail.Info placeDetail = kopisService.getPlaceDetail(concertDetail.getKopisPlaceId());
 
@@ -50,53 +92,10 @@ public class ConcertService {
 			.longitude(Double.parseDouble(placeDetail.getLongitude()))
 			.latitude(Double.parseDouble(placeDetail.getLatitude()))
 			.bookmarkCount(0)
+			.kopisConcertId(kopisConcertId)
 			.build();
 		Long concertId = concertRepository.save(concert).getId();
 		ConcertIdResponse response = new ConcertIdResponse(concertId);
 		return response;
 	}
-
-	// 사용자 주변 콘서트 정보 조회
-	// parameter : 경도(longitude), 위도(latitude)
-	public ConcertListResponse getConcertList(Double longitude, Double latitude, Long lastConcertId) {
-		List<Concert> concertList = concertRepository.findAll();
-		if (concertList.isEmpty()) {
-			return ConcertListResponse.builder()
-				.hasNextPage(false)
-				.lastConcertId(lastConcertId)
-				.build();
-		}
-		final List<ConcertInfoResponse> concertInfoResponseList = concertList.stream()
-			.map(ConcertInfoResponse::new)
-			.collect(Collectors.toList());
-		final ConcertListResponse concertListResponse = ConcertListResponse.builder()
-			.hasNextPage(false)
-			.lastConcertId(concertInfoResponseList.get(concertInfoResponseList.size() - 1).getConcertId())
-			.concertInfoList(concertInfoResponseList)
-			.build();
-		return concertListResponse;
-	}
-
-	// 제목에 키워드가 포함된 콘서트 정보 조회
-	// parameter : 위도, 경도, 키워드
-	public ConcertListResponse getConcertListByKeyword(Double longitude, Double latitude, Long lastConcertId,
-		String keyword) {
-		List<Concert> concertList = concertRepository.findAllByTitleContaining(keyword);
-		if (concertList.isEmpty()) {
-			return ConcertListResponse.builder()
-				.hasNextPage(false)
-				.lastConcertId(lastConcertId)
-				.build();
-		}
-		final List<ConcertInfoResponse> concertInfoResponseList = concertList.stream()
-			.map(ConcertInfoResponse::new)
-			.collect(Collectors.toList());
-		final ConcertListResponse concertListResponse = ConcertListResponse.builder()
-			.hasNextPage(false)
-			.lastConcertId(concertInfoResponseList.get(concertInfoResponseList.size() - 1).getConcertId())
-			.concertInfoList(concertInfoResponseList)
-			.build();
-		return concertListResponse;
-	}
-
 }

@@ -6,6 +6,6 @@ import org.a204.hourgoods.global.error.GlobalErrorCode;
 public class ConcertNotFoundException extends GlobalBaseException {
 
 	public ConcertNotFoundException() {
-		super(GlobalErrorCode.CONCERT_NOT_FOUNDED);
+		super(GlobalErrorCode.CONCERT_NOT_FOUND);
 	}
 }
