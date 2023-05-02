@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import SearchBar from "@components/common/SearchBar";
 import ConcertCard from "@components/common/ConcertCard";
 import NoResult from "@components/SearchPage/NoResult";
+import { concertAPI } from "@api/apis";
 import "./index.scss";
 
 export default function index() {
@@ -11,6 +12,7 @@ export default function index() {
     hasResult: false,
     noResult: false,
   });
+  const [searchInput, setSearchInput] = useState("");
 
   const navigate = useNavigate();
 
@@ -28,9 +30,22 @@ export default function index() {
     }
   };
 
+  const searchHandler = () => {
+    console.log("하위");
+    console.log(searchInput);
+    const result = concertAPI.getAllConcert(searchInput);
+    result.then((res: any) => {
+      console.log(res);
+    });
+  };
+
   return (
     <div className="search-page-container">
-      <SearchBar />
+      <SearchBar
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+        onSubmit={searchHandler}
+      />
       {/* 거래가 가능한 콘서트 목록을 모두 띄워줍니다 */}
       <div className="search-temp-buttons-container">
         <p>임시 버튼입니다</p>
