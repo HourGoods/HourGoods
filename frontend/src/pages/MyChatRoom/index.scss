@@ -16,19 +16,20 @@
   h1 {
     color: white;
     font-weight: 900;
+    margin: 0;
   }
-  .private-chatroom-box {
-    padding: 0px 10px;
-    // max-width: 720px;
-    height: 640px;
-    background-color: $white-op;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    @include scrollbar-css;
-    .dealcard-chattinglist-container {
-    }
+    .private-chatroom-box {
+    //     padding: 0px 10px;
+    //     // max-width: 720px;
+    //     height: 640px;
+    //     background-color: $white-op;
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     @include scrollbar-css;
+    //     .dealcard-chattinglist-container {
+//     }
   }
 }
 
@@ -41,6 +42,7 @@
   h1 {
     color: white;
     font-weight: 900;
+    margin: 0;
   }
   .chatroom-card-list-wrapper {
     padding: 10px 0px;
