@@ -7,13 +7,14 @@ import LoginPage from "@pages/Login";
 import MyPage from "@pages/MyPage";
 import MyChatRoom from "@pages/MyChatRoom";
 import TempMain from "@pages/TempMain";
-import Ticket from "@pages/Ticket";
 import CreateDealPage from "@pages/CreateDeal";
 import ConcertDeal from "@pages/ConcertDeal";
 import DealDetail from "@pages/DealDetail";
 import Payment from "@pages/Payment";
 import Oauth from "@pages/Oauth";
 import EditProfile from "@pages/EditProfile";
+import Ticket from "@pages/Ticket";
+import UpdateProfile from "@pages/UpdateProfile";
 
 export default function Routers() {
   return (
@@ -36,6 +37,7 @@ export default function Routers() {
       <Route path="/ticket" element={<Ticket />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/edit" element={<EditProfile />} />
+      <Route path="/updateprofile" element={<UpdateProfile />} />
     </Routes>
   );
 }
