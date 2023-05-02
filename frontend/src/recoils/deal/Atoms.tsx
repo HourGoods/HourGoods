@@ -26,4 +26,10 @@ const dealState = atom({
   },
 });
 
-export { dealState };
+// 거래 검색 Modal 상태
+const searchModalState = atom({
+  key: "searchModalState",
+  default: false,
+});
+
+export { dealState, searchModalState };

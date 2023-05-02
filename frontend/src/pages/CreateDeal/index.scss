@@ -141,4 +141,17 @@
       color: $gray-2;
     }
   }
+
+  // 검색 영역
+  .search-modal-content-component-container {
+    padding: none;
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+    // @include scrollbar-css;
+
+    .concert-card-component-container {
+      margin-top: 10px;
+    }
+  }
 }

@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { dealState } from "@recoils/deal/Atoms";
+import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
-import SearchModalContent from "./SearchModalContent"
+import SearchModalContent from "./SearchModalContent";
 
 export interface ConcertInterface {
   imageUrl: string;
-  koPisConcertId: number;
+  koPisConcertId: string;
   place: string;
   startDate: string;
   title: string;
@@ -19,7 +19,7 @@ export default function index() {
   // Update할 Deal 정보
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
   // 검색 모달을 위한 값
-  const [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
 
   // Deal 타입 변화
   const [activeDealType, setActiveDealType] = useState({

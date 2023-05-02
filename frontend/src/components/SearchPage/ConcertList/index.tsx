@@ -4,14 +4,19 @@ import ConcertCard from "@components/common/ConcertCard";
 
 interface IConcertProps {
   concertInfoList: ConcertInterface[];
+  flag?: string;
 }
 
 export default function index(props: IConcertProps) {
-  const { concertInfoList } = props;
+  const { concertInfoList, flag } = props;
   return (
     <div>
       {concertInfoList.map((concert: ConcertInterface) => (
-        <ConcertCard concertInfo={concert} key={concert.koPisConcertId} />
+        <ConcertCard
+          concertInfo={concert}
+          key={concert.koPisConcertId}
+          flag={flag}
+        />
       ))}
     </div>
   );
