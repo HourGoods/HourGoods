@@ -7,7 +7,7 @@ export default function index() {
     <div className="userinfo-container">
       <div className="userinfo-wrapper">
         <p className="userid">아이유사랑해</p>
-        <Link to="/">
+        <Link to="/updateprofile">
           <button type="button" className="edit-profile-button">
             {`프로필 수정하기 `}
             <ChevronRightIcon />
