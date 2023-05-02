@@ -14,6 +14,7 @@ import DealDetail from "@pages/DealDetail";
 import Payment from "@pages/Payment";
 import Oauth from "@pages/Oauth";
 import EditProfile from "@pages/EditProfile";
+import UpdateProfile from "@pages/UpdateProfile";
 
 export default function Routers() {
   return (
@@ -36,6 +37,8 @@ export default function Routers() {
       <Route path="/ticket" element={<Ticket />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/edit" element={<EditProfile />} />
+
+      <Route path="/updateprofile" element={<UpdateProfile />} />
     </Routes>
   );
 }
