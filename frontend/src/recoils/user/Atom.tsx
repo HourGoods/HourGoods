@@ -9,12 +9,12 @@ const { persistAtom } = recoilPersist();
 const AuthStateAtom = atom({
   key: "authState",
   default: {
-    
+    isLogin: false,
+    token: null,
   },
   effects_UNSTABLE: [persistAtom],
 });
 
-// const encodedKeyword = encodeURI(keyword);
 const UserStateAtom = atom({
   key: "usersState",
   default: {
