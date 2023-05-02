@@ -37,7 +37,7 @@ export default function index({ menus }: MenuProps): JSX.Element {
               >
                 {menu.label}
               </button>
-              {index % 2 === 0 && index !== menus.length - 1 && <hr />}
+              {index !== menus.length - 1 && <hr />}
             </React.Fragment>
           ))}
         </div>

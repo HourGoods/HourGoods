@@ -1,0 +1,106 @@
+@import "@styles/Colors";
+@import "@styles/Mixins";
+
+.chatroom-container {
+  display: flex;
+  justify-content: center;
+}
+
+// PrivateChat (일대일 채팅방)
+.private-chatroom-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  h1 {
+    color: white;
+    font-weight: 900;
+  }
+  .private-chatroom-box {
+    padding: 0px 10px;
+    // max-width: 720px;
+    height: 640px;
+    background-color: $white-op;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    @include scrollbar-css;
+    .dealcard-chattinglist-container {
+    }
+  }
+}
+
+// ChatRoomCadrList (채팅방 목록리스트)
+.chatroom-card-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  h1 {
+    color: white;
+    font-weight: 900;
+  }
+  .chatroom-card-list-wrapper {
+    padding: 10px 0px;
+    width: 300px;
+    height: 620px;
+    background-color: $white-op;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    @include scrollbar-css;
+  }
+}
+
+// ChatRoomCard (채팅방 목록카드 1개)
+.chatromm-card-container {
+  display: flex;
+  align-items: center;
+  background-color: $white-op;
+  border-radius: 5px;
+  padding: 12px;
+  max-width: 255px;
+  height: 70px;
+  .chatroom-left-section {
+    img {
+      border-radius: 45px;
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
+  }
+  .chatroom-right-section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0px 10px;
+    .chatroom-name-datetime-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .chatroom-profile-name {
+        font-weight: 900;
+      }
+      .chatroom-recent-datetime {
+        font-size: 12px;
+      }
+    }
+    .chatroom-recent-msg-wrapper {
+      .recent-msg {
+        font-size: 14px;
+        width: 180px;
+        text-align: left;
+        overflow: hidden;
+        white-space: normal;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        word-break: keep-all;
+      }
+    }
+  }
+}

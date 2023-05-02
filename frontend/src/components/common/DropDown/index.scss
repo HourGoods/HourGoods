@@ -5,7 +5,6 @@
   position: relative;
   .dropdown-menu {
     background-color: $white-op;
-    z-index: 100;
     right: 0;
     position: absolute;
     border-radius: 5px;
@@ -17,6 +16,9 @@
       height: 50px;
       text-align: left;
       padding-left: 14px;
+    }
+    button {
+      background-color: transparent;
     }
     hr {
       height: 0.5px;

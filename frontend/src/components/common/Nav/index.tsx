@@ -57,6 +57,7 @@ export default function Nav() {
               menus={[
                 { label: "로그인", value: "login" },
                 { label: "마이페이지", value: "mypage" },
+                { label: "나의 채팅", value: "mychatroom" },
               ]}
             />
           )}
