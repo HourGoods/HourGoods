@@ -15,11 +15,11 @@ import {
   isAuctionAlarmModal,
 } from "../../../recoils/mypageModal/Atoms";
 
-interface props {
+interface IProps {
   getmy?: string;
 }
 
-export default function index({ getmy }: props) {
+export default function index({ getmy }: IProps) {
   const [modalOpen, setModalOpen] = useRecoilState(isDeleteCardModal);
   const modalClickHandler = () => {
     setModalOpen(true);
