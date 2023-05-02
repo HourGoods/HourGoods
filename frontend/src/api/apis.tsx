@@ -35,3 +35,13 @@ const memberAPI = {
     profileImage: string;
   }): Promise<AxiosResponse> => request.authPut("member", userInfo),
 };
+
+const concertAPI = {
+  // 전체 콘서트 조회(공연 api)
+  getAllConcert: (keyword: string): Promise<AxiosResponse> =>
+    request.get("concert/search/unregistered", {
+      params: { keyword },
+    }),
+};
+
+export { memberAPI, concertAPI };
