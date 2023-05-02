@@ -26,7 +26,8 @@ public enum GlobalErrorCode {
     UNSUPPORTED_INFO(400, "M100", "지원하지 않는 로그인 방식입니다."),
     INCORRECT_ADMIN_INFO(401, "M200", "관리자 로그인 정보가 틀렸습니다."),
     USER_NOT_FOUND(400, "M300", "해당 id에 해당하는 사용자가 없습니다."),
-	MEMBER_MISS_MATCH(400, "M400", "요청한 사용자와 현재 사용자가 다릅니다.")
+	MEMBER_MISS_MATCH(400, "M400", "요청한 사용자와 현재 사용자가 다릅니다."),
+	RECEIVER_NOT_FOUND(404, "CH100", "채팅 요청을 할 수 없는 사용자입니다."),
     ;
 
 	private final String code;

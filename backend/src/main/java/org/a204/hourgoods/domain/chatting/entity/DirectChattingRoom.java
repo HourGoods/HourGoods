@@ -1,5 +1,6 @@
 package org.a204.hourgoods.domain.chatting.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a204.hourgoods.domain.deal.entity.Deal;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "chatting_room")
-public class ChattingRoom extends BaseTime {
+public class DirectChattingRoom extends BaseTime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -28,12 +29,12 @@ public class ChattingRoom extends BaseTime {
     private LocalDateTime lastLogTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "lower_member_id")
-    private Member lowerMember;
+    @JoinColumn(name = "receiver_id")
+    private Member receiver;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "higher_member_id")
-    private Member higherMember;
+    @JoinColumn(name = "sender_id")
+    private Member sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deal_id")
@@ -41,5 +42,12 @@ public class ChattingRoom extends BaseTime {
 
     @OneToMany(mappedBy = "chattingRoom", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ChattingLog> chattingLogs = new ArrayList<>();
+
+    @Builder
+    public DirectChattingRoom(Member receiver, Member sender, Deal deal) {
+        this.receiver = receiver;
+        this.sender = sender;
+        this.deal = deal;
+    }
 
 }

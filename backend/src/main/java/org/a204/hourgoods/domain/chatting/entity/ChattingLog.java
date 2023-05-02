@@ -26,6 +26,6 @@ public class ChattingLog extends BaseTime {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatting_room_id")
-    private ChattingRoom chattingRoom;
+    private DirectChattingRoom directChattingRoom;
 
 }
