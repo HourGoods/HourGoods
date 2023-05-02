@@ -15,9 +15,8 @@ export default function Oauth() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const email = params.get("email") || "";
-    const nickname = params.get("nickname");
+    const nickname = decodeURI(params.get("nickname") || "");
     const imageUrl = params.get("imageUrl") || "";
-    // const accessToken = params.get("access_token") || "";
 
     // if (accessToken && registrationId) {
     //   memberAPI
@@ -56,24 +55,28 @@ export default function Oauth() {
     //     const refreshToken = params.get("refresh");
     //     sessionStorage.setItem("accessToken", accessToken);
     //     setCookie("refreshToken", refreshToken);
-    //     navigate("/");
+    //     navigate("/");.
     //   }
     // }, []);
 
     if (nickname === null) {
-      setUserInfo({ email: email });
       navigate("/edit");
-      console.log("신규회원가입");
+      const newUserInfo = { ...userInfo };
+      newUserInfo.email = email;
+      setUserInfo(newUserInfo);
     } else {
-      console.log("기존로그인")
       setUserInfo({
         email: email,
         nickname: nickname,
         imageUrl: imageUrl,
       });
-      memberAPI.signup(userInfo);
+      const accessToken = params.get("access") || "";
+      const refreshToken = params.get("refresh") || "";
+      sessionStorage.setItem("accessToken", accessToken);
+      setCookie("refreshToken", refreshToken);
+      navigate("/main");
     }
   }, []);
-
+  1;
   return <Loading />;
 }
