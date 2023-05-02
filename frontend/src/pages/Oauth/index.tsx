@@ -18,11 +18,11 @@ export default function Oauth() {
     const nickname = decodeURI(params.get("nickname") || "");
     const imageUrl = params.get("imageUrl") || "";
 
-    if (nickname === null) {
-      navigate("/edit");
+    if (nickname === "") {
       const newUserInfo = { ...userInfo };
       newUserInfo.email = email;
       setUserInfo(newUserInfo);
+      navigate("/edit");
     } else {
       setUserInfo({
         email: email,
