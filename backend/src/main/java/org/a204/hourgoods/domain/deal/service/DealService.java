@@ -19,6 +19,7 @@ import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealTypeNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.MemberMissMatchException;
 import org.a204.hourgoods.domain.deal.repository.AuctionRepository;
+import org.a204.hourgoods.domain.deal.repository.BookmarkRepository;
 import org.a204.hourgoods.domain.deal.repository.DealQueryDslRepository;
 import org.a204.hourgoods.domain.deal.repository.DealRepository;
 import org.a204.hourgoods.domain.deal.repository.GameAuctionRepository;
@@ -52,12 +53,17 @@ public class DealService {
 	private static final Integer PAGE_SIZE = 10;
 	private final MemberRepository memberRepository;
 	private final DealRepository dealRepository;
+	private final BookmarkRepository bookmarkRepository;
 
 	@Transactional(readOnly = true)
 	public ConcertDealListResponse getDealListByConcert(ConcertDealListRequest request) {
 		// 유효성 체크
 		checkConcertValidation(request.getConcertId());
 		checkDealTypeValidation(request.getDealTypeName());
+		Member member = null;
+		if (request.getNickname() != null) {
+			member = checkMemberValidation(request.getNickname());
+		}
 
 		// 거래 정보 조회
 		Pageable pageable = Pageable.ofSize(PAGE_SIZE);
@@ -93,6 +99,12 @@ public class DealService {
 				price = tradeRepository.findPriceById(deal.getId());
 			}
 
+			// 사용자가 있는 경우 북마크 여부 반환
+			Boolean isBookmarked = null;
+			if (request.getNickname() != null) {
+				isBookmarked = bookmarkRepository.existsByMemberAndDeal(member, deal);
+			}
+
 			// 최종 list 빌드하여 response에 추가
 			DealInfoResponse dealInfo = DealInfoResponse.builder()
 				.dealId(deal.getId())
@@ -103,6 +115,7 @@ public class DealService {
 				.endTime(endTime)
 				.limitation(limitation)
 				.price(price)
+				.isBookmarked(isBookmarked)
 				.build();
 			response.add(dealInfo);
 
@@ -118,7 +131,7 @@ public class DealService {
 	}
 
 	@Transactional(readOnly = true)
-	public DealDetailResponse getDealDetail(Long dealId) {
+	public DealDetailResponse getDealDetail(Member member, Long dealId) {
 		Deal deal = dealQueryDslRepository.searchDealById(dealId);
 
 		Integer minPrice = null;
@@ -143,6 +156,9 @@ public class DealService {
 			price = tradeRepository.findPriceById(deal.getId());
 		}
 
+		// 사용자의 북마크 여부 확인
+		Boolean isBookmarked = bookmarkRepository.existsByMemberAndDeal(member, deal);
+
 		// 종합하여 response 생성하여 반환
 		return DealDetailResponse.builder()
 			.dealTitle(deal.getTitle())
@@ -158,6 +174,7 @@ public class DealService {
 			.minPrice(minPrice)
 			.endTime(endTime)
 			.price(price)
+			.isBookmarked(isBookmarked)
 			.limit(limitation).build();
 	}
 
@@ -250,5 +267,10 @@ public class DealService {
 		} catch (IllegalArgumentException e) {
 			throw new DealTypeNotFoundException();
 		}
+	}
+
+	// member nickname validation check
+	private Member checkMemberValidation(String nickname) {
+		return memberRepository.findByNickname(nickname).orElseThrow(MemberNotFoundException::new);
 	}
 }

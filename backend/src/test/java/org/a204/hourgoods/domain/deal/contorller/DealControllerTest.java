@@ -10,12 +10,17 @@ import javax.persistence.EntityManager;
 import org.a204.hourgoods.CustomSpringBootTest;
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.Auction;
+import org.a204.hourgoods.domain.deal.entity.Deal;
+import org.a204.hourgoods.domain.deal.entity.DealBookmark;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.GameAuction;
 import org.a204.hourgoods.domain.deal.entity.Sharing;
 import org.a204.hourgoods.domain.deal.entity.Trade;
+import org.a204.hourgoods.domain.deal.repository.DealRepository;
+import org.a204.hourgoods.domain.deal.request.BookmarkRequest;
 import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
 import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.a204.hourgoods.global.security.jwt.JwtTokenUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -54,11 +59,17 @@ class DealControllerTest {
 	private Long CONCERT_ID;
 	private Long DEAL_ID;
 	private Long MEMBER_ID;
+	private Deal deal;
+	private Member member;
+	@Autowired
+	private MemberRepository memberRepository;
+	@Autowired
+	private DealRepository dealRepository;
 
 	@BeforeEach
 	void setUp() {
 		// 유저 생성
-		Member member = Member.builder()
+		member = Member.builder()
 			.email("yeji@hourgoods.com")
 			.nickname("yezi")
 			.build();
@@ -128,6 +139,7 @@ class DealControllerTest {
 				.latitude(37.5665)
 				.build();
 			em.persist(gameAuction);
+			deal = gameAuction;
 			DEAL_ID = gameAuction.getId();
 		}
 	}
@@ -317,6 +329,107 @@ class DealControllerTest {
 					.header("Authorization", otherToken))
 				.andExpect(jsonPath("$.status", is(400)))
 				.andExpect(jsonPath("$.code", is("M400")))
+				.andDo(print());
+		}
+	}
+
+	@Nested
+	@DisplayName("북마크 생성 / 삭제")
+	class Bookmark {
+		@Test
+		@DisplayName("북마크 생성 성공")
+		void registBookmark() throws Exception {
+			//given
+			String content = objectMapper.writeValueAsString(
+				BookmarkRequest.builder().dealId(DEAL_ID).build()
+			);
+			//then
+			mockMvc
+				.perform(post(url + "bookmark")
+					.header("Authorization", token)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andDo(print());
+		}
+		@Test
+		@DisplayName("묵마크 생성 중 거래ID 조회 실패")
+		void invalidDealIdInRegistration() throws Exception {
+			//given
+			String content = objectMapper.writeValueAsString(
+				BookmarkRequest.builder().dealId(-1L).build()
+			);
+			//then
+			mockMvc
+				.perform(post(url + "bookmark")
+					.header("Authorization", token)
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(content))
+				.andExpect(jsonPath("$.status", is(404)))
+				.andExpect(jsonPath("$.code", is("D200")))
+				.andDo(print());
+		}
+		@Test
+		@DisplayName("북마크 취소 성공")
+		void cancelBookmark() throws Exception {
+			//given
+			Member member = memberRepository.findById(MEMBER_ID).orElseThrow();
+			Deal deal = dealRepository.findById(DEAL_ID).orElseThrow();
+			DealBookmark bookmark = DealBookmark.builder()
+				.member(member)
+				.deal(deal).build();
+			em.persist(bookmark);
+			String content = objectMapper.writeValueAsString(
+				BookmarkRequest.builder().dealId(DEAL_ID).build()
+			);
+			//when
+			mockMvc
+				.perform(delete(url + "bookmark")
+					.contentType(MediaType.APPLICATION_JSON)
+					.header("Authorization", token)
+					.content(content))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andDo(print());
+		}
+		@Test
+		@DisplayName("북마크 취소 중 북마크 조회 실패")
+		void invalidBookmarkInCancellation() throws Exception {
+			//given
+			String content = objectMapper.writeValueAsString(
+				BookmarkRequest.builder().dealId(DEAL_ID).build()
+			);
+			//when
+			mockMvc
+				.perform(delete(url + "bookmark")
+					.contentType(MediaType.APPLICATION_JSON)
+					.header("Authorization", token)
+					.content(content))
+				.andExpect(jsonPath("$.status", is(404)))
+				.andExpect(jsonPath("$.code", is("D300")))
+				.andDo(print());
+		}
+	}
+
+	@Nested
+	@DisplayName("북마크 여부 확인")
+	class checkBookmark {
+		@Test
+		@DisplayName("북마크 여부 확인 성공")
+		void bookmarkCheck() throws Exception {
+			// given
+			DealBookmark bookmark = DealBookmark.builder()
+				.deal(deal).member(member).build();
+			em.persist(bookmark);
+			em.flush();
+			em.clear();
+			// when
+			mockMvc
+				.perform(get(url + "bookmark")
+					.header("Authorization", token)
+					.param("dealId", DEAL_ID.toString()))
+			// then
+				.andExpect(jsonPath("$.status", is(200)))
+				.andExpect(jsonPath("$.result.isBookmarked", is(true)))
 				.andDo(print());
 		}
 	}

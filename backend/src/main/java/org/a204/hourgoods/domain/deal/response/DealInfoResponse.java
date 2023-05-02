@@ -43,4 +43,7 @@ public class DealInfoResponse {
 	@Schema(description = "(거래용) 가격")
 	private Integer price;
 
+	@Schema(description = "북마크 여부")
+	private Boolean isBookmarked;
+
 }

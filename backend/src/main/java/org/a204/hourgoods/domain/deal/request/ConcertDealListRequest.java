@@ -34,4 +34,7 @@ public class ConcertDealListRequest {
 
 	@Schema(description = "검색어, null일 경우 전체 목록 조회함.")
 	private String searchKeyword;
+
+	@Schema(description = "사용자 닉네임, null인 아닌 경우, 북마크 여부 반환")
+	private String nickname;
 }
