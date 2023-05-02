@@ -89,6 +89,12 @@ public class DealController {
 		return new BaseResponse<>(dealCreateResponse);
 	}
 
+	/**
+	 * 거래 삭제 API
+	 * @param memberDetails JWT 토큰을 이용하여 member 정보를 얻는다.
+	 * @param dealId 삭제하고 싶은 deal id
+	 * @return 거래 삭제 여부를 반환한다.
+	 */
 	@Operation(summary = "거래 삭제 API", description = "거래 삭제 API, 거래를 생성한 사람만 삭제가 가능, pathVariable로 거래ID 요청")
 	@ApiResponse(responseCode = "200", description = "거래 삭제 완료", content = @Content(schema = @Schema(implementation = DealDeletionResponse.class)))
 	@ApiResponse(responseCode = "400", description = "1. M400 요청 사용자와 생성 사용자 ID 불일치")
@@ -101,6 +107,12 @@ public class DealController {
 		return new BaseResponse<>(response);
 	}
 
+	/**
+	 * 북마크 등록 API
+	 * @param memberDetails JWT 토큰을 이용하여 member 정보를 얻는다.
+	 * @param bookmarkRequest {@link BookmarkRequest} deal 아이디를 요청
+	 * @return 북마크 등록 성공 여부를 반환
+	 */
 	@Operation(summary = "북마크 등록 API", description = "북마크 등록 API, jwt 토큰의 사용자 이름으로 북마크 등록")
 	@ApiResponse(responseCode = "200", description = "북마크 등록 완료", content = @Content(schema = @Schema(implementation = BookmarkResponse.class)))
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
@@ -113,6 +125,12 @@ public class DealController {
 		return new BaseResponse<>(response);
 	}
 
+	/**
+	 * 북마크 해제 API
+	 * @param memberDetails JWT 토큰을 이용하여 member 정보를 얻는다.
+	 * @param bookmarkRequest {@link BookmarkRequest} deal 아이디를 요청
+	 * @return 북마크 해제 성공 여부를 반환
+	 */
 	@Operation(summary = "북마크 해제 API", description = "북마크 해제 API, jwt 토큰의 사용자 이름으로 북마크 해제")
 	@ApiResponse(responseCode = "200", description = "북마크 해제 완료", content = @Content(schema = @Schema(implementation = BookmarkResponse.class)))
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패 \t\n 2. D300 북마크 조회 실패")
