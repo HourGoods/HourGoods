@@ -9,13 +9,17 @@ import "./index.scss";
 import logo from "@assets/logo.svg";
 import { Link, useLocation } from "react-router-dom";
 import useModalRef from "@hooks/useModalRef";
-import DropDown, { Option } from "@components/common/DropDown";
+import DropDown from "@components/common/DropDown";
+import { AuthStateAtom, UserStateAtom } from "@recoils/user/Atom";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 export default function Nav() {
   // 사이드바 열림여부
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const [isLogin, setIsLogin] = useRecoilState(AuthStateAtom);
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -63,7 +67,7 @@ export default function Nav() {
           <img src={logo} alt="로고" />
         </Link>
         {isOpen ? "" : <Bars3Icon onClick={toggleMenu} />}
-        {isOpen && (
+        {isOpen && isLogin && (
           <div className="mobile-sidebar-wrapper" ref={menuRef}>
             <div className="mobile-nav-close-btn">
               <XMarkIcon onClick={toggleMenu} />
