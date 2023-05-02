@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.a204.hourgoods.domain.concert.entity.Concert;
+import org.a204.hourgoods.domain.concert.exception.ConcertAlreadyExistsException;
 import org.a204.hourgoods.domain.concert.model.KopisConcertDetail;
 import org.a204.hourgoods.domain.concert.model.KopisPlaceDetail;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
@@ -35,6 +36,12 @@ public class ConcertService {
 	public ConcertIdResponse createConcert(String kopisConcertId) {
 		KopisConcertDetail.Info concertDetail = kopisService.getConcertDetail(kopisConcertId);
 		KopisPlaceDetail.Info placeDetail = kopisService.getPlaceDetail(concertDetail.getKopisPlaceId());
+
+		// 기등록된 공연 정보인지 검사
+		if (concertRepository.existsByTitle(concertDetail.getTitle())) {
+			throw new ConcertAlreadyExistsException();
+		}
+
 		Concert concert = Concert.builder()
 			.title(concertDetail.getTitle())
 			.imageUrl(concertDetail.getImageUrl())
