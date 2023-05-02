@@ -24,7 +24,8 @@
 // tab 클릭시 효과적용
 @mixin mypage-tab-focus {
   &:active,
-  &:hover {
+  &:hover,
+  &.activated {
     color: $pink-1;
     text-decoration: underline;
     text-underline-position: under;

@@ -1,8 +1,23 @@
+@import "@styles/Colors.scss";
 .mainpage-button-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  .success-wrapper {
+    min-height: 300px;
+  }
+  .success-h2 {
+    margin-bottom: 20px;
+    color: $gray-2;
+  }
+
+  .success-p {
+    font-size: 16px;
+    font-weight: 600;
+    color: $gray-2;
+    margin-bottom: 10px;
+  }
 }
 
 .temp-direction-div {

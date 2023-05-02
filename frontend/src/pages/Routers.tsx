@@ -8,7 +8,13 @@ import Oauth from "@pages/Oauth";
 import MyPage from "@pages/MyPage";
 import MyChatRoom from "@pages/MyChatRoom";
 import TempMain from "@pages/TempMain";
+import Ticket from "@pages/Ticket";
 import CreateDealPage from "@pages/CreateDeal";
+import ConcertDeal from "@pages/ConcertDeal";
+import DealDetail from "@pages/DealDetail";
+import Payment from "@pages/Payment";
+import Oauth from "@pages/Oauth";
+import EditProfile from "@pages/EditProfile";
 
 export default function Routers() {
   return (
@@ -25,6 +31,13 @@ export default function Routers() {
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/mychatroom" element={<MyChatRoom />} />
       <Route path="/create/deal" element={<CreateDealPage />} />
+      {/* 주소 변경 필요 */}
+      <Route path="/concertname" element={<ConcertDeal />} />
+      <Route path="/deal/detail" element={<DealDetail />} />
+      <Route path="/ticket" element={<Ticket />} />
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/edit" element={<EditProfile />} />
+
     </Routes>
   );
 }
