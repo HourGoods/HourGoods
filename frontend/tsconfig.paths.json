@@ -9,7 +9,8 @@
       "@stores/*": ["./stores/*"],
       "@styles/*": ["./styles/*"],
       "@api/*": ["./api/*"],
-      "@utils/*": ["./utils/*"]
+      "@utils/*": ["./utils/*"],
+      "@recoils/*": ["./recoils/*"]
     }
   }
 }

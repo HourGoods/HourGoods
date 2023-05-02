@@ -11,6 +11,8 @@ import CreateDealPage from "@pages/CreateDeal";
 import ConcertDeal from "@pages/ConcertDeal";
 import DealDetail from "@pages/DealDetail";
 import Payment from "@pages/Payment";
+import Oauth from "@pages/Oauth";
+import EditProfile from "@pages/EditProfile";
 
 export default function Routers() {
   return (
@@ -23,6 +25,7 @@ export default function Routers() {
       <Route path="/realtime" element={<RealTimePage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/oauth" element={<Oauth />} />
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/create/deal" element={<CreateDealPage />} />
       {/* 주소 변경 필요 */}
@@ -30,6 +33,8 @@ export default function Routers() {
       <Route path="/deal/detail" element={<DealDetail />} />
       <Route path="/ticket" element={<Ticket />} />
       <Route path="/payment" element={<Payment />} />
+      <Route path="/edit" element={<EditProfile />} />
+
     </Routes>
   );
 }
