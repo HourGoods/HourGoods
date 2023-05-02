@@ -1,5 +1,5 @@
 import React from "react";
-import Map from "@components/RealTime/Map";
+import Map from "@components/RealTime/Map/index";
 import CardList from "@components/RealTime/CardList";
 import "./index.scss";
 
