@@ -12,14 +12,16 @@ import useModalRef from "@hooks/useModalRef";
 import DropDown from "@components/common/DropDown";
 import { AuthStateAtom, UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate } from "react-router";
 
 export default function Nav() {
   // 사이드바 열림여부
   const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const [loginState, setLoginState] = useRecoilState(AuthStateAtom);
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const baseUrl = "https://k8a204.p.ssafy.io";
   const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
@@ -35,7 +37,8 @@ export default function Nav() {
     setUserInfo({ email: "", nickname: "", imageUrl: "" });
     setLoginState({ isLogin: false, token: null });
     toggleMenu();
-    alert("안녕히가세요!")
+    navigate("/main");
+    alert("안녕히가세요!");
   };
 
   useModalRef(menuRef, () => setIsOpen(false));
