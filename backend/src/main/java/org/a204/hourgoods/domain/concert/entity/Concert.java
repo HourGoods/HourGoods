@@ -52,6 +52,9 @@ public class Concert extends BaseTime {
 	@Column(name = "bookmark_count")
 	private Integer bookmarkCount;
 
+	@Column(name = "kopis_concert_id")
+	private String kopisConcertId;
+
 	@OneToMany(mappedBy = "concert", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<Deal> deals = new ArrayList<>();
 
@@ -60,7 +63,7 @@ public class Concert extends BaseTime {
 
 	@Builder
 	public Concert(String title, String imageUrl, String place, Double latitude, Double longitude,
-		LocalDateTime startTime, Integer bookmarkCount) {
+		LocalDateTime startTime, Integer bookmarkCount, String kopisConcertId) {
 		this.title = title;
 		this.imageUrl = imageUrl;
 		this.place = place;
@@ -68,5 +71,6 @@ public class Concert extends BaseTime {
 		this.latitude = latitude;
 		this.startTime = startTime;
 		this.bookmarkCount = bookmarkCount;
+		this.kopisConcertId = kopisConcertId;
 	}
 }
