@@ -2,6 +2,14 @@ package org.a204.hourgoods.domain.deal.contorller;
 
 import javax.validation.Valid;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.a204.hourgoods.domain.deal.exception.MemberMissMatchException;
 import org.a204.hourgoods.domain.deal.request.BookmarkRequest;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
@@ -26,14 +34,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
@@ -83,15 +83,12 @@ public class DealController {
 	 */
 	@Operation(summary = "거래 생성 API", description = "경매, 게임경매, 거래, 나눔 모두 하나의 API로 생성, 종류에 따라 필요한 request 다름")
 	@ApiResponse(responseCode = "200", description = "생성 완료", content = @Content(schema = @Schema(implementation = DealCreateResponse.class)))
-	@ApiResponse(responseCode = "400", description = "1. M300 해당 사용자ID 조회 실패 \t\n 2. M400 요청 사용자와 생성 사용자 ID 불일치")
+	@ApiResponse(responseCode = "400", description = "1. M300 해당 사용자ID 조회 실패")
 	@ApiResponse(responseCode = "404", description = "1. C100 해당 콘서트ID 조회 실패")
 	@PostMapping("/create")
-	public BaseResponse<DealCreateResponse> createDeal(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody @Valid DealCreateRequest dealCreateRequest) {
+	public BaseResponse<DealCreateResponse> createDeal(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody @Valid DealCreateRequest dealCreateRequest) {
 		Member member = memberDetails.getMember();
-		if (member.getId() != dealCreateRequest.getMemberId())
-			throw new MemberMissMatchException();
-		DealCreateResponse dealCreateResponse = dealService.createDeal(dealCreateRequest);
+		DealCreateResponse dealCreateResponse = dealService.createDeal(dealCreateRequest, member);
 		return new BaseResponse<>(dealCreateResponse);
 	}
 
@@ -106,8 +103,7 @@ public class DealController {
 	@ApiResponse(responseCode = "400", description = "1. M400 요청 사용자와 생성 사용자 ID 불일치")
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
 	@DeleteMapping("/{dealId}")
-	public BaseResponse<DealDeletionResponse> deleteDeal(@AuthenticationPrincipal MemberDetails memberDetails,
-		@PathVariable Long dealId) {
+	public BaseResponse<DealDeletionResponse> deleteDeal(@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable Long dealId) {
 		Member member = memberDetails.getMember();
 		DealDeletionResponse response = DealDeletionResponse.builder()
 			.isSuccess(dealService.deleteDeal(member.getId(), dealId)).build();
@@ -124,9 +120,8 @@ public class DealController {
 	@ApiResponse(responseCode = "200", description = "북마크 등록 완료", content = @Content(schema = @Schema(implementation = BookmarkResponse.class)))
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
 	@PostMapping("/bookmark")
-	public BaseResponse<BookmarkResponse> createBookmark(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody
-			BookmarkRequest bookmarkRequest) {
+	public BaseResponse<BookmarkResponse> createBookmark(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody
+		BookmarkRequest bookmarkRequest) {
 		Member member = memberDetails.getMember();
 		BookmarkResponse response = BookmarkResponse.builder()
 			.isSuccess(bookmarkService.registBookmark(bookmarkRequest.getDealId(), member)).build();
@@ -143,9 +138,8 @@ public class DealController {
 	@ApiResponse(responseCode = "200", description = "북마크 해제 완료", content = @Content(schema = @Schema(implementation = BookmarkResponse.class)))
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패 \t\n 2. D300 북마크 조회 실패")
 	@DeleteMapping("/bookmark")
-	public BaseResponse<BookmarkResponse> cancelBookmark(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestBody
-			BookmarkRequest bookmarkRequest) {
+	public BaseResponse<BookmarkResponse> cancelBookmark(@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody
+	BookmarkRequest bookmarkRequest) {
 		Member member = memberDetails.getMember();
 		BookmarkResponse response = BookmarkResponse.builder()
 			.isSuccess(bookmarkService.cancelBookmark(bookmarkRequest.getDealId(), member)).build();
@@ -156,8 +150,7 @@ public class DealController {
 	@ApiResponse(responseCode = "200", description = "북마크 해제 완료", content = @Content(schema = @Schema(implementation = BookmarkCheckResponse.class)))
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
 	@GetMapping("/bookmark")
-	public BaseResponse<BookmarkCheckResponse> cancelBookmark(@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestParam Long dealId) {
+	public BaseResponse<BookmarkCheckResponse> cancelBookmark(@AuthenticationPrincipal MemberDetails memberDetails, @RequestParam Long dealId) {
 		Member member = memberDetails.getMember();
 		BookmarkCheckResponse response = BookmarkCheckResponse.builder()
 			.isBookmarked(bookmarkService.checkBookmark(member, dealId)).build();

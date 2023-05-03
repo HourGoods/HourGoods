@@ -37,9 +37,6 @@ public class DealCreateRequest {
 	@Schema(description = "거래 위치 위도")
 	private Double latitude;
 	@NotNull
-	@Schema(description = "거래 주최자 아이디")
-	private Long memberId;
-	@NotNull
 	@Schema(description = "거래가 속한 콘서트")
 	private Long concertId;
 	@NotNull
