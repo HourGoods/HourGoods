@@ -179,9 +179,8 @@ public class DealService {
 	}
 
 	@Transactional
-	public DealCreateResponse createDeal(DealCreateRequest dealCreateRequest) {
+	public DealCreateResponse createDeal(DealCreateRequest dealCreateRequest, Member member) {
 		String dealType = dealCreateRequest.getDealType();
-		Member member = memberRepository.findById(dealCreateRequest.getMemberId()).orElseThrow(MemberNotFoundException::new);
 		Concert concert = concertRepository.findById(dealCreateRequest.getConcertId()).orElseThrow(ConcertNotFoundException::new);
 		Long dealId;
 		if (String.valueOf(DealType.Auction).equals(dealType)) {
