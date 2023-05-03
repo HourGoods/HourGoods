@@ -65,7 +65,7 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-spatial', version: '5.6.9.Final'
 
     // Redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation group: 'redis.clients', name: 'jedis', version: '4.3.2'
 
     // h2 Datebase
     implementation 'com.h2database:h2'

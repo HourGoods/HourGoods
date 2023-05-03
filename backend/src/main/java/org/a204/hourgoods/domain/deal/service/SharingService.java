@@ -2,6 +2,8 @@ package org.a204.hourgoods.domain.deal.service;
 
 import java.time.LocalDateTime;
 
+import javax.annotation.PostConstruct;
+
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.Sharing;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
@@ -12,34 +14,24 @@ import org.a204.hourgoods.domain.deal.repository.SharingRepository;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.participant.entity.Participant;
 import org.a204.hourgoods.domain.participant.repository.ParticipantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class SharingService {
 	private final DealRepository dealRepository;
 	private final SharingRepository sharingRepository;
-	private final RedisTemplate<String, Integer> redisTemplate;
-	private ValueOperations<String, Integer> valueOperations;
+	private final RedisTemplate<String, String> redisTemplate;
+	private ZSetOperations<String, String> zSetOperations;
 	private final ParticipantRepository participantRepository;
 
-	@Autowired
-	public SharingService(DealRepository dealRepository, SharingRepository sharingRepository, RedisTemplate redisTemplate,
-		ParticipantRepository participantRepository) {
-		this.dealRepository = dealRepository;
-		this.sharingRepository = sharingRepository;
-		RedisTemplate<String, Integer> configuredTemplate = new RedisTemplate<>();
-		configuredTemplate.setConnectionFactory(redisTemplate.getConnectionFactory());
-		configuredTemplate.setKeySerializer(new StringRedisSerializer());
-		configuredTemplate.setValueSerializer(new GenericToStringSerializer<>(Integer.class));
-		configuredTemplate.afterPropertiesSet();
-		this.redisTemplate = configuredTemplate;
-		this.valueOperations = this.redisTemplate.opsForValue();
-		this.participantRepository = participantRepository;
+	@PostConstruct
+	private void init() {
+		zSetOperations = redisTemplate.opsForZSet();
 	}
 
 	public Integer applySharing(Member member, Long dealId) {
@@ -49,23 +41,31 @@ public class SharingService {
 		}
 		Sharing sharing = sharingRepository.findById(dealId).orElseThrow(DealTypeMissMatchException::new);
 		Integer sharingLimit = sharing.getLimitation();
-		String sharingCounterKey = "sharing_counter_" + sharing.getId().toString();
-		Integer sharingCounter = valueOperations.get(sharingCounterKey);
-		Integer rank;
-		if (sharingCounter == null) {
-			valueOperations.set(sharingCounterKey, 1);
-			rank = 1;
-		} else if (sharingCounter < sharingLimit) {
-			int newCounter = valueOperations.increment(sharingCounterKey).intValue();
-			rank = newCounter;
+		String userId = member.getId().toString();
+		String sharingKey = "sharing:" + dealId; // 각 sharing에 대한 고유한 키를 생성
+		Double userScore = zSetOperations.score(sharingKey, userId);
+
+		if (userScore != null) {
+			// 이미 신청한 사용자
+			return -2;
+		}
+
+		// 사용자가 처음 신청하는 경우
+		zSetOperations.add(sharingKey, userId.toString(), System.currentTimeMillis());
+		Long rank = zSetOperations.rank(sharingKey, userId);
+		Integer output;
+		if (rank < sharingLimit) {
+			output = rank.intValue() + 1; // 순위는 0부터 시작하므로 1을 더해줍니다.
 		} else {
+			// 정원 초과
+			zSetOperations.remove(sharingKey, userId);
 			return -1;
 		}
 		Participant participant = Participant.builder()
-			.rank(rank)
+			.rank(output)
 			.deal(deal)
 			.member(member).build();
 		participantRepository.save(participant);
-		return rank;
+		return output;
 	}
 }
