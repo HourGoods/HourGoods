@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SharingController {
 	private final SharingService sharingService;
 	@PostMapping("/apply")
-	@Operation(summary = "무료나눔 신청 API", description = "무료 나눔 신청 결과 반환, 순위 반환, -1은 정원이 가득참, -2는 이미 신청한 나눔")
+	@Operation(summary = "무료나눔 신청 API", description = "무료 나눔 신청 결과 반환, 순위 반환, -1은 정원이 가득찬 경우")
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 id에 해당하는 거래가 없습니다.")
 	@ApiResponse(responseCode = "400", description = "1. D400 아직 거래가 시작되지 않았습니다. \t\n 2. D500 거래 타입이 올바르지 않습니다.")
 	public BaseResponse<SharingResultResponse> applySharing(@AuthenticationPrincipal MemberDetails memberDetails, @Valid @RequestBody SharingApplyRequest request) {

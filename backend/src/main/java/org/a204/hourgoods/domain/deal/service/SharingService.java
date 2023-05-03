@@ -47,7 +47,8 @@ public class SharingService {
 
 		if (userScore != null) {
 			// 이미 신청한 사용자
-			return -2;
+			Long rank = zSetOperations.rank(sharingKey, userId);
+			return rank.intValue() + 1;
 		}
 
 		// 사용자가 처음 신청하는 경우
