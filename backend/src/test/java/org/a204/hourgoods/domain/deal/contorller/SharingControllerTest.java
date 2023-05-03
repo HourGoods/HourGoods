@@ -15,8 +15,10 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.Auction;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.Sharing;
+import org.a204.hourgoods.domain.deal.repository.SharingRepository;
 import org.a204.hourgoods.domain.deal.request.SharingApplyRequest;
 import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.a204.hourgoods.global.security.jwt.JwtTokenUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,7 +51,11 @@ class SharingControllerTest {
 	private Concert concert;
 	private Sharing sharing;
 	private Long auctionId;
-	private final String url = "http://localhost:8080/api/deal/sharing";
+	private final String url = "http://localhost:8080/api/deal/sharing/";
+	@Autowired
+	private MemberRepository memberRepository;
+	@Autowired
+	private SharingRepository sharingRepository;
 
 	@BeforeEach
 	void setup() {
@@ -63,9 +69,9 @@ class SharingControllerTest {
 			.imageUrl("https://shorturl.at/azAUY")
 			.email("test2@hourgoods.com")
 			.nickname("test2").build();
-		token = jwtTokenUtils.BEARER_PREFIX + jwtTokenUtils.createTokens(member2,
+		Member save = memberRepository.save(member2);
+		token = jwtTokenUtils.BEARER_PREFIX + jwtTokenUtils.createTokens(save,
 			List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
-		em.persist(member2);
 		// 공연 추가
 		concert = Concert.builder()
 			.title("아이유 콘서트")
@@ -83,7 +89,7 @@ class SharingControllerTest {
 			.concert(concert)
 			.dealHost(member1)
 			.build();
-		em.persist(sharing);
+		sharing = sharingRepository.save(sharing);
 		// 경매 생성
 		Auction auction = Auction.auctionBuilder()
 			.title("포카경매합니다")
