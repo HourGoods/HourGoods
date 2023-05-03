@@ -5,8 +5,7 @@ import { atom } from "recoil";
 const dealState = atom({
   key: "dealState",
   default: {
-    imageUrl:
-      "https://openimage.interpark.com/goods_image/6/9/4/6/9062906946s.jpg",
+    imageUrl: "",
     title: "",
     content: "",
     startTime: "",
