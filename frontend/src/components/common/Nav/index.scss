@@ -27,6 +27,7 @@
 
 .navbar {
   p {
+    margin: 0;
     @include mypage-tab-focus;
   }
   // 데스크톱
