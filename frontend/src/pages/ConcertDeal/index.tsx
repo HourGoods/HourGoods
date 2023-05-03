@@ -34,7 +34,7 @@ export default function index() {
 
   return (
     <div className="concert-deal-page-container">
-      <ConcertCard />
+      {/* <ConcertCard /> */}
 
       <div className="deal-type-buttons-container">
         <Button

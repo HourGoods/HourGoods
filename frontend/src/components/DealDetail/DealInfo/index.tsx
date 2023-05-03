@@ -48,7 +48,7 @@ export default function index() {
             <BellAlertIcon />
           </div>
 
-          <ConcertCard />
+          {/* <ConcertCard /> */}
 
           <div className="deal-icon-infos-container">
             <div className="deal-icon-info-div">
