@@ -34,17 +34,18 @@ export default function Index() {
   const handleClick = useCallback(() => {
     const newUserInfo = { ...userInfo };
     // 임시저장값 -> 삭제하고 사용해주세요.
-    newUserInfo.nickname = "규투리";
+    newUserInfo.nickname = "임길현";
     newUserInfo.imageUrl =
       "https://avatars.githubusercontent.com/u/88919138?v=4";
     setUserInfo(newUserInfo);
-    // console.log(newUserInfo);
+    console.log(newUserInfo);
 
     memberAPI
       .signup(userInfo)
       .then(() => {
+        // 회원가입완료
         // console.log(userInfo);
-        navigate("/main");
+        navigate("/updateprofile", { state: { mypage: false } });
       })
       .catch((err) => {
         console.error(err);
