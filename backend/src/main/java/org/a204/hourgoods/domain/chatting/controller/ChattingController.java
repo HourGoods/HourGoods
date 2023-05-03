@@ -11,6 +11,7 @@ import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
 import org.a204.hourgoods.domain.chatting.request.DirectChatRequest;
 import org.a204.hourgoods.domain.chatting.request.DirectChattingRoomRequest;
 import org.a204.hourgoods.domain.chatting.request.ChatMessageRequest;
+import org.a204.hourgoods.domain.chatting.request.MyDirectChatResponse;
 import org.a204.hourgoods.domain.chatting.response.AuctionChatMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
@@ -68,16 +69,16 @@ public class ChattingController {
     }
 
     /**
-     * 채팅룸id에 해당하는 채팅 내용 반환
+     * 채팅룸id에 해당하는 채팅 내용 반환하는 API
      *
-     * @param memberDetails 자동으로 입력
+     * @param memberDetails  자동으로 입력
      * @param chattingRoomId directChattingRoomId
-     * @param pageable 자동으로 입력
+     * @param pageable       자동으로 입력
      * @return List<DirectMessageResponse> DM 내용 반환
      */
     @Operation(summary = "채팅 내용 가져오기 API", description = "채팅룸에 해당하는 채팅 목록 가져오기")
     @ApiResponse(responseCode = "200", description = "채팅 내용 조회 성공", content = @Content(schema = @Schema(implementation = DirectMessageResponse.class)))
-    @GetMapping("/chat/{chattingRoomId}/messages")
+    @GetMapping("/{chattingRoomId}/messages")
     @PreAuthorizeMember
     public BaseResponse<List<DirectMessageResponse>> getMessagesByRoomId(@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable Long chattingRoomId, @PageableDefault(sort = "sendTime", direction = Sort.Direction.ASC) Pageable pageable) {
         List<DirectMessageResponse> messages = chattingService.findAllMessagesByRoomId(memberDetails.getMember().getId(), chattingRoomId, pageable);
@@ -85,7 +86,26 @@ public class ChattingController {
     }
 
     /**
+     * 유저 정보를 기반으로 채팅목록을 반환하는 API
+     *
+     * @param memberDetails 자동으로 입력
+     * @return List<MyDirectChatResponse> 내 채팅 목록 반환
+     */
+
+    @Operation(summary = "나의 채팅 목록 가져오기 API", description = "유저 정보를 기준으로 속해 있는 채팅방 목록 가져오기")
+    @ApiResponse(responseCode = "200", description = "채팅방 목록 조회 성공", content = @Content(schema = @Schema(implementation = MyDirectChatResponse.class)))
+    @GetMapping("/list")
+    @PreAuthorizeMember
+    public BaseResponse<List<MyDirectChatResponse>> getMyChatList(@AuthenticationPrincipal MemberDetails memberDetails) {
+        List<MyDirectChatResponse> result = chattingService.findChatLogByUserId(memberDetails);
+        return new BaseResponse<>(result);
+    }
+
+    // ==================== WebSocket관련 ===================== //
+
+    /**
      * 채팅을 받아서 Redis에 저장 후, 채널을 구독 중인 사람들에게 메시지 전송
+     *
      * @return 성공시 Success code return
      */
     @MessageMapping(value = "/messages/direct")
@@ -104,6 +124,7 @@ public class ChattingController {
     /**
      * 경매 그룹 채팅방에 메시지를 보내는 요청, 채널을 구독 중인 사람들에게 메시지 전송
      * 별도 로그를 Redis 등에 저장하지 않음
+     *
      * @param request userId, nickname, chattingRoomId, sendTime, content
      */
     @MessageMapping("/messages/group")

@@ -5,10 +5,12 @@ import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
 import org.a204.hourgoods.domain.chatting.exception.DirectChattingRoomNotFoundException;
 import org.a204.hourgoods.domain.chatting.exception.ReceiverNotFoundException;
+import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomQueryDslRepository;
 import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepository;
 import org.a204.hourgoods.domain.chatting.repository.DirectMessageRepository;
 import org.a204.hourgoods.domain.chatting.request.ChatMessageRequest;
 import org.a204.hourgoods.domain.chatting.request.DirectChattingRoomRequest;
+import org.a204.hourgoods.domain.chatting.request.MyDirectChatResponse;
 import org.a204.hourgoods.domain.chatting.response.AuctionChatMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
@@ -16,6 +18,7 @@ import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +39,7 @@ public class ChattingService {
 
     private final DirectMessageRepository directMessageRepository;
     private final DirectChattingRoomRepository directChattingRoomRepository;
+    private final DirectChattingRoomQueryDslRepository directChattingRoomQueryDslRepository;
     private final MemberRepository memberRepository;
     private final TradeRepository tradeRepository;
     private final RedisTemplate<String, DirectMessage> redisTemplate;
@@ -145,6 +149,34 @@ public class ChattingService {
                 .content(request.getContent())
                 .sendTime(request.getSendTime())
                 .build();
+    }
+
+    // 내 채팅 기록 목록 반환
+    @Transactional(readOnly = true)
+    public List<MyDirectChatResponse> findChatLogByUserId(MemberDetails memberDetails) {
+        Member user = memberRepository.findById(memberDetails.getMember().getId())
+                .orElseThrow(MemberNotFoundException::new);
+        List<DirectChattingRoom> directChattingRooms = directChattingRoomQueryDslRepository.searchAllChatListByUserId(user.getId());
+        List<MyDirectChatResponse> result = new ArrayList<>();
+        for (DirectChattingRoom directChattingRoom : directChattingRooms) {
+            String otherImageUrl;
+            String otherNickname;
+            if (directChattingRoom.getSender().getId().equals(user.getId())) {
+                otherImageUrl = directChattingRoom.getReceiver().getImageUrl();
+                otherNickname = directChattingRoom.getReceiver().getNickname();
+            } else {
+                otherImageUrl = directChattingRoom.getSender().getImageUrl();
+                otherNickname = directChattingRoom.getSender().getNickname();
+            }
+            result.add(MyDirectChatResponse.builder()
+                    .chattingRoomId(directChattingRoom.getId())
+                    .otherImageUrl(otherImageUrl)
+                    .otherNickname(otherNickname)
+                    .lastLogContent(directChattingRoom.getLastLogContent())
+                    .lastLogTime(directChattingRoom.getLastLogTime())
+                    .build());
+        }
+        return result;
     }
 
     // 거래 정보 가져오기
