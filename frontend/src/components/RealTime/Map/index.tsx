@@ -39,13 +39,13 @@ export default function index() {
 
   // 현재 위치를 받아옴
   useEffect(() => {
-    // getCurrentLocation().then((result) => {
-    //   setLocation(result);
-    // });
-    watchCurrentLocation((result) => {
-      console.log("위치 함수 실행");
+    getCurrentLocation().then((result) => {
       setLocation(result);
     });
+    // watchCurrentLocation((result) => {
+    //   console.log("위치 함수 실행");
+    //   setLocation(result);
+    // });
   }, []);
 
   useEffect(() => {
@@ -137,7 +137,7 @@ export default function index() {
     <div className="realtime-map-component-container">
       <p className="realtime-page-component-title-p">내 근처 Time Deal</p>
       <div id="map" />
-      <ConcertCard />
+      {/* <ConcertCard /> */}
     </div>
   );
 }
