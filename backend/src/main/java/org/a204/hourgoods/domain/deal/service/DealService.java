@@ -179,13 +179,13 @@ public class DealService {
 	}
 
 	@Transactional
-	public DealCreateResponse createDeal(DealCreateRequest dealCreateRequest) {
+	public DealCreateResponse createDeal(DealCreateRequest dealCreateRequest, Member member) {
 		String dealType = dealCreateRequest.getDealType();
-		Member member = memberRepository.findById(dealCreateRequest.getMemberId()).orElseThrow(MemberNotFoundException::new);
 		Concert concert = concertRepository.findById(dealCreateRequest.getConcertId()).orElseThrow(ConcertNotFoundException::new);
 		Long dealId;
 		if (String.valueOf(DealType.Auction).equals(dealType)) {
 			Auction auction = Auction.auctionBuilder()
+				.dealType(DealType.Auction)
 				.imageUrl(dealCreateRequest.getImageUrl())
 				.title(dealCreateRequest.getTitle())
 				.content(dealCreateRequest.getContent())
@@ -201,6 +201,7 @@ public class DealService {
 			dealId = auction.getId();
 		} else if (String.valueOf(DealType.HourAuction).equals(dealType)) {
 			GameAuction gameAuction = GameAuction.gameAuctionBuilder()
+				.dealType(DealType.HourAuction)
 				.imageUrl(dealCreateRequest.getImageUrl())
 				.title(dealCreateRequest.getTitle())
 				.content(dealCreateRequest.getContent())
@@ -216,6 +217,7 @@ public class DealService {
 			dealId = gameAuction.getId();
 		} else if (String.valueOf(DealType.Trade).equals(dealType)) {
 			Trade trade = Trade.tradeBuilder()
+				.dealType(DealType.Trade)
 				.imageUrl(dealCreateRequest.getImageUrl())
 				.title(dealCreateRequest.getTitle())
 				.content(dealCreateRequest.getContent())
@@ -229,6 +231,7 @@ public class DealService {
 			dealId = trade.getId();
 		} else if (String.valueOf(DealType.Sharing).equals(dealType)) {
 			Sharing sharing = Sharing.sharingBuilder()
+				.dealType(DealType.Sharing)
 				.imageUrl(dealCreateRequest.getImageUrl())
 				.title(dealCreateRequest.getTitle())
 				.content(dealCreateRequest.getContent())

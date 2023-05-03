@@ -1,12 +1,19 @@
 package org.a204.hourgoods.domain.concert.controller;
 
+import javax.validation.Valid;
+
+import org.a204.hourgoods.domain.concert.request.ConcertIdRequest;
+import org.a204.hourgoods.domain.concert.request.TodayConcertRequest;
 import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
+import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
+import org.a204.hourgoods.domain.concert.response.TodayConcertListResponse;
 import org.a204.hourgoods.domain.concert.service.ConcertService;
 import org.a204.hourgoods.domain.concert.service.KopisService;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,49 +28,42 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/concert/search")
-@Tag(name = "Concert Search", description = "공연 검색 관련 API")
+@RequestMapping("/api/concert")
+@Tag(name = "Concert", description = "공연 정보 관리 API")
 @Slf4j
 public class ConcertController {
 	private final ConcertService concertService;
 	private final KopisService kopisService;
 
-	@Operation(description = "사용자 주변 콘서트 정보 목록 조회 API", summary = "사용자 주변 콘서트 정보 목록 조회 API")
-	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertListResponse.class)))
+	@Operation(description = "kopisConcertId와 일치하는 공연의 id를 조회한다.(없으면 생성해서 반환)", summary = "공연 아이디 조회 API")
+	@ApiResponse(responseCode = "201", description = "등록 성공", content = @Content(schema = @Schema(implementation = ConcertIdResponse.class)))
+	@PostMapping()
+	public BaseResponse<ConcertIdResponse> getConcertId(@RequestBody ConcertIdRequest concertIdRequest) {
+		ConcertIdResponse response = concertService.getConcertId(concertIdRequest);
+		return new BaseResponse<>(response);
+	}
+
+	@Operation(description = "공연 id와 일치하는 공연 상세 정보를 조회한다.", summary = "공연 상세 정보 조회 API")
+	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertInfoResponse.class)))
 	@GetMapping()
-	public BaseResponse<ConcertListResponse> getConcertList(@RequestParam(name = "latitude") Double latitude,
-		@RequestParam(name = "longitude") Double longitude, @RequestParam(name = "lastConcertId") Long lastConcertId) {
-		ConcertListResponse response = concertService.getConcertList(latitude, longitude, lastConcertId);
+	public BaseResponse<ConcertInfoResponse> getConcertDetail(@RequestParam(name = "concertId") Long concertId) {
+		ConcertInfoResponse response = concertService.getConcertDetail(concertId);
 		return new BaseResponse<>(response);
 	}
 
-	@Operation(description = "사용자 주변 콘서트 정보 목록 조회 API", summary = "사용자 주변 콘서트 정보 목록 조회 API")
+	@Operation(description = "제목에 키워드를 포함하며 한 달 내로 예정된 공연 정보 리스트를 조회한다.", summary = "공연 정보 리스트 조회 API")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertListResponse.class)))
-	@GetMapping("/registered")
-	public BaseResponse<ConcertListResponse> getConcertListByKeyword(@RequestParam(name = "latitude") Double latitude,
-		@RequestParam(name = "longitude") Double longitude,
-		@RequestParam(name = "lastConcertId") Long lastConcertId,
-		@RequestParam(name = "keyword") String keyword) {
-		ConcertListResponse response = concertService.getConcertListByKeyword(latitude, longitude, lastConcertId,
-			keyword);
-		return new BaseResponse<>(response);
-	}
-
-	@Operation(description = "미등록 콘서트 정보 조회 API", summary = "미등록 콘서트 정보 조회 API")
-	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertListResponse.class)))
-	@GetMapping("/unregistered")
-	public BaseResponse<ConcertListResponse> getUnregisteredConcertListByKeyword(
-		@RequestParam(name = "keyword") String keyword) {
+	@GetMapping("/search")
+	public BaseResponse<ConcertListResponse> getConcertList(@RequestParam(name = "keyword") String keyword) {
 		ConcertListResponse response = kopisService.getConcertList(keyword);
 		return new BaseResponse<>(response);
 	}
 
-	@Operation(description = "콘서트 정보 등록 API", summary = "콘서트 정보 등록 API")
-	@ApiResponse(responseCode = "201", description = "등록 성공", content = @Content(schema = @Schema(implementation = ConcertListResponse.class)))
-	@PostMapping("/unregistered")
-	public BaseResponse<ConcertIdResponse> createConcert(
-		@RequestParam(name = "kopisConcertId") String kopisConcertId) {
-		ConcertIdResponse response = concertService.createConcert(kopisConcertId);
+	@Operation(description = "오늘 시작하는 사용자와 가까운 순으로 정렬된 공연의 정보 리스트를 조회한다.", summary = "오늘의 사용자 주변 공연 정보 목록 조회 API")
+	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = TodayConcertListResponse.class)))
+	@GetMapping("/today")
+	public BaseResponse<TodayConcertListResponse> getTodayConcertList(@Valid TodayConcertRequest todayConcertRequest) {
+		TodayConcertListResponse response = concertService.getTodayConcertList(todayConcertRequest);
 		return new BaseResponse<>(response);
 	}
 

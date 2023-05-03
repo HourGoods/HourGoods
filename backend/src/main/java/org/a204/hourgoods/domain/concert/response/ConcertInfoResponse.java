@@ -37,6 +37,9 @@ public class ConcertInfoResponse {
 	@Schema(description = "공연 시작 시간")
 	private LocalDateTime startTime;
 
+	@Schema(description = "공연 kopisConcertId")
+	private String kopisConcertId;
+
 	public ConcertInfoResponse(Concert concert) {
 		this.concertId = concert.getId();
 		this.title = concert.getTitle();
@@ -45,5 +48,6 @@ public class ConcertInfoResponse {
 		this.latitude = concert.getLatitude();
 		this.place = concert.getPlace();
 		this.startTime = concert.getStartTime();
+		this.kopisConcertId = concert.getKopisConcertId();
 	}
 }
