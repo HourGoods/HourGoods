@@ -10,10 +10,13 @@ import javax.annotation.PostConstruct;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.AccessDeniedException;
 import org.a204.hourgoods.domain.member.exception.IncorrectAdminInfoException;
+import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.a204.hourgoods.domain.member.request.LoginInfo;
-import org.a204.hourgoods.domain.member.request.MemberSignUpRequest;
+import org.a204.hourgoods.domain.member.request.MemberEditRequest;
+import org.a204.hourgoods.domain.member.request.MemberSignupRequest;
 import org.a204.hourgoods.domain.member.response.MemberSignUpResponse;
+import org.a204.hourgoods.domain.member.response.ProfileEditResponse;
 import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.a204.hourgoods.global.security.jwt.JwtTokenUtils;
 import org.a204.hourgoods.global.security.jwt.RefreshToken;
@@ -66,11 +69,11 @@ public class MemberService {
 	/**
 	 * 회원 가입 로직
 	 *
-	 * @param request {@link MemberSignUpRequest} 회원가입 요청
+	 * @param request {@link MemberSignupRequest} 회원가입 요청
 	 * @return {@link MemberSignUpResponse} 회원 가입 응답
 	 */
 
-	public MemberSignUpResponse signup(MemberSignUpRequest request) {
+	public MemberSignUpResponse signup(MemberSignupRequest request) {
 		Member member = request.toEntity();
 		Member save = memberRepository.save(member);
 		String token =
@@ -90,6 +93,15 @@ public class MemberService {
 		return !memberRepository.existsByNickname(nickname);
 	}
 
+	public ProfileEditResponse editProfile(Member member, MemberEditRequest request) {
+		Member newMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFoundException::new);
+		newMember.editMember(request.getNickname(), request.getImageUrl());
+		memberRepository.save(newMember);
+		return ProfileEditResponse.builder()
+			.imageUrl(request.getImageUrl())
+			.nickname(request.getNickname()).build();
+	}
+
 	   @PostConstruct
 	   public void initTestUser() {
 	       Member member = Member.builder()
@@ -106,4 +118,5 @@ public class MemberService {
 	       Member member = memberRepository.findById(memberId).orElseThrow();
 	       return jwtTokenUtils.createTokens(member, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
 	   }
+
 }

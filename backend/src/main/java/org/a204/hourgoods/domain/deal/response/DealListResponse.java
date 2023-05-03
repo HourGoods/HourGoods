@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "콘서트별 거래 리스트 정보 응답")
-public class ConcertDealListResponse {
+public class DealListResponse {
 
 	@Schema(description = "다음 정보가 있는지 여부")
 	private Boolean hasNextPage;
