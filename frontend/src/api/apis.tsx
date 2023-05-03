@@ -1,3 +1,4 @@
+import { promises } from "dns";
 import { Axios, AxiosHeaders, AxiosResponse } from "axios";
 import request from "./agents";
 
@@ -44,6 +45,8 @@ const memberAPI = {
     nickname: string;
     imageUrl: string;
   }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
+  duplicateNickname: (nickname: string): Promise<AxiosResponse> =>
+    request.authPost("duplicateNickname", { nickname }),
 };
 
 const concertAPI = {
