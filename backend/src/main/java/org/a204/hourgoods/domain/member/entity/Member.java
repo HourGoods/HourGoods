@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.a204.hourgoods.domain.chatting.entity.ChattingLog;
 import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.concert.entity.ConcertBookmark;
 import org.a204.hourgoods.domain.deal.entity.Deal;
@@ -74,9 +73,6 @@ public class Member {
 
 	@OneToMany(mappedBy = "sender", orphanRemoval = true)
 	private List<DirectChattingRoom> senderChattingList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private List<ChattingLog> chattingLogs = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<PointHistory> pointHistories = new ArrayList<>();

@@ -8,8 +8,6 @@ import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.global.common.BaseTime;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -41,9 +39,6 @@ public class DirectChattingRoom extends BaseTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deal_id")
     private Deal deal;
-
-    @OneToMany(mappedBy = "chattingRoom", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ChattingLog> chattingLogs = new ArrayList<>();
 
     @Builder
     public DirectChattingRoom(Member receiver, Member sender, Deal deal) {
