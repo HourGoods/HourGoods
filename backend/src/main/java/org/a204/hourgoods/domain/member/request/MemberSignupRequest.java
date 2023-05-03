@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Schema(description = "멤버 회원가입 API 요청")
 @Getter
-public class MemberSignUpRequest {
+public class MemberSignupRequest {
 
 	@Email(message = "이메일을 필수 값입니다.")
 	@Schema(description = "이메일")

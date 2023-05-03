@@ -96,4 +96,8 @@ public class Member {
 		this.imageUrl = imageUrl;
 	}
 
+	public void editMember(String nickname, String imageUrl) {
+		this.nickname = nickname;
+		this.imageUrl = imageUrl;
+	}
 }

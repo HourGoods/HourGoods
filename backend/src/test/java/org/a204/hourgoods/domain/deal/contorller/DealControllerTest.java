@@ -272,7 +272,6 @@ class DealControllerTest {
 				.latitude(Double.valueOf("39.0"))
 				.minimumPrice(Integer.valueOf("10000"))
 				.endTime(LocalDateTime.now())
-				.memberId(MEMBER_ID)
 				.concertId(CONCERT_ID)
 				.dealType(String.valueOf(DealType.Auction))
 				.build()
@@ -280,6 +279,7 @@ class DealControllerTest {
 
 			mockMvc
 				.perform(post(url + "create")
+					.header("Authorization", token)
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(content))
 				.andExpect(jsonPath("$.status", is(200)))

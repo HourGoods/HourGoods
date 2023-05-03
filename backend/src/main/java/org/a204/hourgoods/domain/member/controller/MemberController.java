@@ -2,14 +2,20 @@ package org.a204.hourgoods.domain.member.controller;
 
 import javax.validation.Valid;
 
+import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.domain.member.request.DuplicateNicknameRequest;
-import org.a204.hourgoods.domain.member.request.MemberSignUpRequest;
+import org.a204.hourgoods.domain.member.request.MemberEditRequest;
+import org.a204.hourgoods.domain.member.request.MemberSignupRequest;
 import org.a204.hourgoods.domain.member.request.ReGenerateAccessTokenRequest;
 import org.a204.hourgoods.domain.member.response.MemberSignUpResponse;
+import org.a204.hourgoods.domain.member.response.ProfileEditResponse;
 import org.a204.hourgoods.domain.member.response.ReGenerateAccessTokenResponse;
 import org.a204.hourgoods.domain.member.service.MemberService;
 import org.a204.hourgoods.global.common.BaseResponse;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,7 +45,7 @@ public class MemberController {
 	@ApiResponse(responseCode = "200", description = "회원가입 성공", content = @Content(schema = @Schema(implementation = MemberSignUpResponse.class)))
 	@Operation(description = "회원 가입 API", summary = "회원가입 API")
 	@PostMapping("/api/member/signup")
-	public BaseResponse<MemberSignUpResponse> signup(@Valid @RequestBody MemberSignUpRequest request) {
+	public BaseResponse<MemberSignUpResponse> signup(@Valid @RequestBody MemberSignupRequest request) {
 		MemberSignUpResponse signup = memberService.signup(request);
 		return new BaseResponse<>(signup);
 	}
@@ -51,6 +57,16 @@ public class MemberController {
 	public BaseResponse<Object> duplicateNickname(@Valid @RequestBody DuplicateNicknameRequest request) {
 		Boolean isDuplicate = memberService.duplicateNickname(request.getNickname());
 		return new BaseResponse<>(isDuplicate);
+	}
+
+	@PutMapping("/api/member/profile")
+	@Operation(description = "사진과 닉네임 프로필 수정 API", summary = "프로필 수정 API")
+	@ApiResponse(responseCode = "200", description = "프로필 수정 성공", content = @Content(schema = @Schema(implementation = ProfileEditResponse.class)))
+	@ApiResponse(responseCode = "400", description = "1. M300 사용자를 찾을 수 없습니다.")
+	public BaseResponse<ProfileEditResponse> profileEdit(@AuthenticationPrincipal MemberDetails memberDetails, @Valid @RequestBody MemberEditRequest request) {
+		Member member = memberDetails.getMember();
+		ProfileEditResponse response = memberService.editProfile(member, request);
+		return new BaseResponse<>(response);
 	}
 
 	@PostMapping("/api/test")
