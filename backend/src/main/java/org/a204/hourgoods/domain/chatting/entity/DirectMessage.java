@@ -17,20 +17,22 @@ public class DirectMessage implements Serializable {
     @Id
     private final String id;
 
+    private final String userId;
+
     private final String userNickName;
 
     @Indexed
-    private final String chatRoomId;
+    private final String chattingRoomId;
 
     private final String sendTime;
 
     private final String content;
 
     @Builder
-    public DirectMessage(final String id, final String chatRoomId, final String userNickName, final String content,
-                         final String sendTime) {
+    public DirectMessage(final String id, final String chattingRoomId, final String userId, final String userNickName, final String content, final String sendTime) {
         this.id = id;
-        this.chatRoomId = chatRoomId;
+        this.chattingRoomId = chattingRoomId;
+        this.userId = userId;
         this.userNickName = userNickName;
         this.content = content;
         this.sendTime = sendTime;

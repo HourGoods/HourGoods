@@ -8,7 +8,6 @@ import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.global.common.BaseTime;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,10 @@ public class DirectChattingRoom extends BaseTime {
     private String lastLogContent;
 
     @Column(name = "last_log_time")
-    private LocalDateTime lastLogTime;
+    private String lastLogTime;
+
+    @Column(name = "last_log_id")
+    private String lastLogId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_id")
@@ -48,6 +50,12 @@ public class DirectChattingRoom extends BaseTime {
         this.receiver = receiver;
         this.sender = sender;
         this.deal = deal;
+    }
+
+    public void updateLastLog(String lastLogContent, String lastLogTime, String lastLogId) {
+        this.lastLogTime = lastLogTime;
+        this.lastLogContent = lastLogContent;
+        this.lastLogId = lastLogId;
     }
 
 }

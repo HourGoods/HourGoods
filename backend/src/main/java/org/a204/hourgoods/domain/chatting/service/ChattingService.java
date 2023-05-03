@@ -3,9 +3,11 @@ package org.a204.hourgoods.domain.chatting.service;
 import lombok.RequiredArgsConstructor;
 import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
+import org.a204.hourgoods.domain.chatting.exception.DirectChattingRoomNotFoundException;
 import org.a204.hourgoods.domain.chatting.exception.ReceiverNotFoundException;
 import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepository;
 import org.a204.hourgoods.domain.chatting.repository.DirectMessageRepository;
+import org.a204.hourgoods.domain.chatting.request.ChatMessageRequest;
 import org.a204.hourgoods.domain.chatting.request.DirectChattingRoomRequest;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
@@ -16,11 +18,14 @@ import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,6 +37,7 @@ public class ChattingService {
     private final DirectChattingRoomRepository directChattingRoomRepository;
     private final MemberRepository memberRepository;
     private final TradeRepository tradeRepository;
+    private final RedisTemplate<String, DirectMessage> redisTemplate;
 
     // 1:1 채팅방 재접속하기
     @Transactional(readOnly = true)
@@ -97,6 +103,33 @@ public class ChattingService {
                     .build());
         }
         return response;
+    }
+
+    // 1:1 채팅 내용 저장하기
+    @Transactional
+    public DirectMessage saveDirectMessage(ChatMessageRequest request) {
+        Member user = memberRepository.findById(request.getUserId())
+                .orElseThrow(MemberNotFoundException::new);
+        ListOperations<String, DirectMessage> dmListOperations = redisTemplate.opsForList();
+
+        DirectMessage directMessage = DirectMessage.builder()
+                .chattingRoomId(String.valueOf(request.getChattingRoomId()))
+                .userId(String.valueOf(user.getId()))
+                .userNickName(user.getNickname())
+                .sendTime(request.getSendTime())
+                .content(request.getContent())
+                .build();
+        dmListOperations.rightPush(String.valueOf(request.getChattingRoomId()), directMessage);
+
+        return directMessageRepository.save(Objects.requireNonNull(directMessage));
+    }
+
+    // 채팅룸의 마지막 로그 업데이트
+    @Transactional
+    public void updateChattingLastLog(Long chattingRoomId, String lastLogContent, String lastLogTime, String lastLogId) {
+        DirectChattingRoom directChattingRoom = directChattingRoomRepository.findById(chattingRoomId)
+                .orElseThrow(DirectChattingRoomNotFoundException::new);
+        directChattingRoom.updateLastLog(lastLogContent, lastLogTime, lastLogId);
     }
 
     // 거래 정보 가져오기
