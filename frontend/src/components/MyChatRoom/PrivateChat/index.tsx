@@ -8,12 +8,14 @@ export default function index() {
     //
   };
   return (
-    <div className="private-chatroom-container">
+    <div className="private-chatroom-all-container">
       <h1>채팅방</h1>
-      <div className="private-chatroom-box">
-        <div className="dealcard-chattinglist-container">
-          <DealCard />
-          <div className="private-chat-message-container">
+      <div className="private-chatroom-box-container">
+        <div className="box-upper-wrapper">
+          <div>
+            <DealCard />
+          </div>
+          <div className="private-chatroom-content-container">
             <div className="not-me-chat">
               <UserCircleIcon />
               <div className="not-me-chat-message">
@@ -22,11 +24,13 @@ export default function index() {
               </div>
             </div>
             <div className="its-me-chat">
-              <p>내가 보낸 메세지</p>
+              <p className="its-me-chatbox">내가 보낸 메세지</p>
             </div>
           </div>
         </div>
-        <InputMsgBox type="msg" onClick={sendMsgHandler} />
+        <div className="box-bottom-wrapper">
+          <InputMsgBox type="msg" onClick={sendMsgHandler} />
+        </div>
       </div>
     </div>
   );

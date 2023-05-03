@@ -7,29 +7,72 @@
 }
 
 // PrivateChat (일대일 채팅방)
-.private-chatroom-container {
+.private-chatroom-all-container {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
   gap: 20px;
   h1 {
+    text-align: left;
     color: white;
     font-weight: 900;
     margin: 0;
   }
-    .private-chatroom-box {
-    //     padding: 0px 10px;
-    //     // max-width: 720px;
-    //     height: 640px;
-    //     background-color: $white-op;
-    //     display: flex;
-    //     flex-direction: column;
-    //     justify-content: space-between;
-    //     align-items: center;
-    //     @include scrollbar-css;
-    //     .dealcard-chattinglist-container {
-//     }
+  .private-chatroom-box-container {
+    padding: 10px 20px;
+    height: 620px;
+    background-color: $white-op;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: space-between;
+    .box-upper-wrapper{
+      @include scrollbar-css;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+    }
+    .private-chatroom-content-container {
+      display: flex;
+      flex-direction: column;
+      p {
+        margin: 0;
+        text-align: left;
+        font-size: 14px;
+      }
+      .not-me-chat {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 10px 0;
+        svg {
+          width: 40px;
+          color: $gray-3;
+        }
+        .not-me-chat-message {
+          .not-me-name {
+            font-weight: 900;
+          }
+        }
+      }
+      .its-me-chat {
+        margin: 10px 0;
+        display: flex;
+        justify-content: flex-end;
+        .its-me-chatbox {
+          max-width: 60%;
+          background-color: $violet-2;
+          border-radius: 10px 10px 0px 10px;
+          padding: 5px;
+          min-width: 40px;
+        }
+      }
+    }
+    .box-bottom-wrapper {
+      width: 100%;
+    }
   }
 }
 
