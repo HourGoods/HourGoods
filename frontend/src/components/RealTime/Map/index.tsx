@@ -39,13 +39,13 @@ export default function index() {
 
   // 현재 위치를 받아옴
   useEffect(() => {
-    // getCurrentLocation().then((result) => {
-    //   setLocation(result);
-    // });
-    watchCurrentLocation((result) => {
-      console.log("위치 함수 실행");
+    getCurrentLocation().then((result) => {
       setLocation(result);
     });
+    // watchCurrentLocation((result) => {
+    //   console.log("위치 함수 실행");
+    //   setLocation(result);
+    // });
   }, []);
 
   useEffect(() => {
