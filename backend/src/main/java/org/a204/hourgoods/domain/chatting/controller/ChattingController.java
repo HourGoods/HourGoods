@@ -11,6 +11,7 @@ import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
 import org.a204.hourgoods.domain.chatting.request.DirectChatRequest;
 import org.a204.hourgoods.domain.chatting.request.DirectChattingRoomRequest;
 import org.a204.hourgoods.domain.chatting.request.ChatMessageRequest;
+import org.a204.hourgoods.domain.chatting.response.AuctionChatMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
 import org.a204.hourgoods.domain.chatting.service.ChattingService;
@@ -26,7 +27,6 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -88,8 +88,8 @@ public class ChattingController {
      * 채팅을 받아서 Redis에 저장 후, 채널을 구독 중인 사람들에게 메시지 전송
      * @return 성공시 Success code return
      */
-    @MessageMapping(value = "messages/direct")
-    public BaseResponse<Void> sendDirectMessage(@Valid ChatMessageRequest request) {
+    @MessageMapping(value = "/messages/direct")
+    public BaseResponse<Void> sendDirectMessage(final ChatMessageRequest request) {
         // 채팅 받은 것을 Redis에 저장
         DirectMessage directMessage = chattingService.saveDirectMessage(request);
         // DB 채팅의 마지막 로그 내용 업데이트
@@ -99,6 +99,21 @@ public class ChattingController {
                 "/queue/chat/rooms/enter/direct/" + request.getChattingRoomId(),
                 request);
         return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+    }
+
+    /**
+     * 경매 그룹 채팅방에 메시지를 보내는 요청, 채널을 구독 중인 사람들에게 메시지 전송
+     * 별도 로그를 Redis 등에 저장하지 않음
+     * @param request userId, nickname, chattingRoomId, sendTime, content
+     */
+    @MessageMapping("/messages/group")
+    public void sendAuctionChatMessage(final ChatMessageRequest request) {
+        // 응답 정보로 변환하여 옥션 채널 구독 중인 다른 사람들에게 메시지 전송
+        AuctionChatMessageResponse response = chattingService.convertChatRequest(request);
+
+        simpMessageSendingOperations.convertAndSend(
+                "/topic/chat/rooms/enter/group/" + request.getChattingRoomId(),
+                response);
     }
 
 

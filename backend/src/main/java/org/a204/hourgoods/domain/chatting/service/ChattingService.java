@@ -9,6 +9,7 @@ import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepositor
 import org.a204.hourgoods.domain.chatting.repository.DirectMessageRepository;
 import org.a204.hourgoods.domain.chatting.request.ChatMessageRequest;
 import org.a204.hourgoods.domain.chatting.request.DirectChattingRoomRequest;
+import org.a204.hourgoods.domain.chatting.response.AuctionChatMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
 import org.a204.hourgoods.domain.deal.entity.Trade;
@@ -130,6 +131,20 @@ public class ChattingService {
         DirectChattingRoom directChattingRoom = directChattingRoomRepository.findById(chattingRoomId)
                 .orElseThrow(DirectChattingRoomNotFoundException::new);
         directChattingRoom.updateLastLog(lastLogContent, lastLogTime, lastLogId);
+    }
+
+    // 그룹 채팅방에게 보낼 정보를 담아 보내기
+    @Transactional(readOnly = true)
+    public AuctionChatMessageResponse convertChatRequest(ChatMessageRequest request) {
+        Member user = memberRepository.findById(request.getUserId())
+                .orElseThrow(MemberNotFoundException::new);
+
+        return AuctionChatMessageResponse.builder()
+                .nickname(user.getNickname())
+                .imageUrl(user.getImageUrl())
+                .content(request.getContent())
+                .sendTime(request.getSendTime())
+                .build();
     }
 
     // 거래 정보 가져오기

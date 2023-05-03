@@ -18,7 +18,7 @@ public class ChatMessageRequest {
     private Long userId;
 
     @Schema(description = "유저 닉네임")
-    private String userNickName;
+    private String nickName;
 
     @Schema(description = "채팅방 id")
     private Long chattingRoomId;
