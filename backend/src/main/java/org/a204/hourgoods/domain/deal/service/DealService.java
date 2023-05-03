@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.concert.exception.ConcertNotFoundException;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
@@ -27,10 +25,10 @@ import org.a204.hourgoods.domain.deal.repository.SharingRepository;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
-import org.a204.hourgoods.domain.deal.response.ConcertDealListResponse;
 import org.a204.hourgoods.domain.deal.response.DealCreateResponse;
 import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
 import org.a204.hourgoods.domain.deal.response.DealInfoResponse;
+import org.a204.hourgoods.domain.deal.response.DealListResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
@@ -38,6 +36,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +56,7 @@ public class DealService {
 	private final BookmarkRepository bookmarkRepository;
 
 	@Transactional(readOnly = true)
-	public ConcertDealListResponse getDealListByConcert(ConcertDealListRequest request) {
+	public DealListResponse getDealListByConcert(ConcertDealListRequest request) {
 		// 유효성 체크
 		checkConcertValidation(request.getConcertId());
 		checkDealTypeValidation(request.getDealTypeName());
@@ -71,7 +71,7 @@ public class DealService {
 
 		// 정보가 없을 경우 빈 정보 반환
 		if (deals.isEmpty()) {
-			return ConcertDealListResponse.builder()
+			return DealListResponse.builder()
 				.hasNextPage(false)
 				.lastDealId(request.getLastDealId())
 				.dealInfoList(new ArrayList<>())
@@ -122,7 +122,7 @@ public class DealService {
 			lastDealId = deal.getId();
 		}
 
-		return ConcertDealListResponse.builder()
+		return DealListResponse.builder()
 			.hasNextPage(deals.hasNext())
 			.lastDealId(lastDealId)
 			.dealInfoList(response)
@@ -181,8 +181,10 @@ public class DealService {
 	@Transactional
 	public DealCreateResponse createDeal(DealCreateRequest dealCreateRequest) {
 		String dealType = dealCreateRequest.getDealType();
-		Member member = memberRepository.findById(dealCreateRequest.getMemberId()).orElseThrow(MemberNotFoundException::new);
-		Concert concert = concertRepository.findById(dealCreateRequest.getConcertId()).orElseThrow(ConcertNotFoundException::new);
+		Member member = memberRepository.findById(dealCreateRequest.getMemberId())
+			.orElseThrow(MemberNotFoundException::new);
+		Concert concert = concertRepository.findById(dealCreateRequest.getConcertId())
+			.orElseThrow(ConcertNotFoundException::new);
 		Long dealId;
 		if (String.valueOf(DealType.Auction).equals(dealType)) {
 			Auction auction = Auction.auctionBuilder()
@@ -248,7 +250,8 @@ public class DealService {
 	@Transactional
 	public Boolean deleteDeal(Long memberId, Long dealId) {
 		Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-		if (memberId != deal.getDealHost().getId()) throw new MemberMissMatchException();
+		if (memberId != deal.getDealHost().getId())
+			throw new MemberMissMatchException();
 		dealRepository.deleteById(dealId);
 		return true;
 	}
