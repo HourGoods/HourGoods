@@ -15,7 +15,7 @@ const dealState = atom({
     memberId: 0,
     concertId: 0,
     // dealtypes: Auction, HourAuction, Sharing, Trade
-    dealType: "",
+    dealType: "Trade",
     // 경매
     minimumPrice: 0,
     endTime: "",

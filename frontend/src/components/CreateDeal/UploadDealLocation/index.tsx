@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React, { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { dealState } from "@recoils/deal/Atoms";
 
 declare global {
   interface Window {
@@ -7,6 +9,8 @@ declare global {
   }
 }
 export default function index() {
+  const [dealInfo, setDealInfo] = useRecoilState(dealState);
+
   useEffect(() => {
     const mapContainer = document.getElementById("map");
     const mapOption = {
@@ -33,6 +37,11 @@ export default function index() {
       console.log(
         `Marker의 위치는 (${position.getLat()}, ${position.getLng()}) 입니다.`
       );
+      setDealInfo((prev) => ({
+        ...prev,
+        latitude: position.getLat(),
+        longitude: position.getLng(),
+      }));
     }
 
     // Marker의 'dragend' 이벤트에 이벤트 핸들러를 등록합니다
@@ -43,7 +52,7 @@ export default function index() {
     // 마커 위에 infoWindow
 
     const iwContent =
-        '<div style="padding:5px;">거래 장소를 지정해주세요!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        '<div style="padding:5px; font-size:10px;">마커를 움직여 거래 장소를 지정할 수 있습니다</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
       iwPosition = new window.kakao.maps.LatLng(
         37.511806050815686,
         127.07376866170583
@@ -71,8 +80,11 @@ export default function index() {
   return (
     <div className="create-deal-location-component-container">
       <p>거래 장소</p>
+      <input type="address" placeholder="예) 8번 게이트 앞, 쌀 화환 옆 화단" />
+      <p className="deal-loc-help-text-p">
+        ※ 지도에서 핀을 옮겨 거래 장소를 지정할 수 있습니다.
+      </p>
       <div id="map" />
-      <input type="address" placeholder="상세 위치" />
     </div>
   );
 }

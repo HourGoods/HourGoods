@@ -16,6 +16,10 @@ export default function index() {
     window.scrollTo(0, 0);
   }, []);
 
+  const createDeal = () => {
+    console.log(dealInfo);
+  };
+
   return (
     <div className="create-deal-page-container">
       <div className="create-deal-desktop-left-div">
@@ -25,7 +29,9 @@ export default function index() {
         <UploadImage />
         <UploadDealLocation />
       </div>
-      <Button color="yellow">생성하기</Button>
+      <Button color="yellow" onClick={createDeal}>
+        생성하기
+      </Button>
     </div>
   );
 }

@@ -3,11 +3,12 @@ import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import SearchModalContent from "./SearchModalContent";
 
 export interface ConcertInterface {
   imageUrl: string;
-  koPisConcertId: string;
+  kopisConcertId: string;
   place: string;
   startDate: string;
   title: string;
@@ -30,7 +31,11 @@ export default function index() {
   });
 
   // State Update
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setDealInfo((prev) => ({
       ...prev,
@@ -110,7 +115,7 @@ export default function index() {
           placeholder="Deal 제목을 입력해 주세요."
         />
 
-        <div>
+        <div className="concert-search-button">
           <p>공연 정보</p>
           <button
             type="button"
@@ -119,11 +124,12 @@ export default function index() {
             onClick={modalHandler}
           >
             검색하기
+            <MagnifyingGlassIcon />
           </button>
         </div>
 
         <label htmlFor="concert-date-input">
-          <p>오픈 시간</p>
+          <p>오픈 일시</p>
           <input
             type="datetime-local"
             name="startTime"
@@ -142,7 +148,7 @@ export default function index() {
               <span style={{ fontSize: "10px" }}>(단위: 원)</span>
             </p>
             <input
-              type="text"
+              type="number"
               name="price"
               value={dealInfo.price}
               onChange={handleChange}
@@ -153,21 +159,54 @@ export default function index() {
         {activeDealType.Sharing && (
           <label htmlFor="SharedInput">
             <p>나눔 받을 인원</p>
-            <input type="text" id="SharedInput" />
+            <input
+              type="number"
+              name="limit"
+              value={dealInfo.limit}
+              onChange={handleChange}
+              id="SharedInput"
+            />
           </label>
         )}
         {activeDealType.Auction || activeDealType.HourAuction ? (
-          <label htmlFor="AuctionTimeInput">
-            <p>종료 시간</p>
-            <input type="datetime-local" id="AuctionTimeInput" />
-          </label>
+          <>
+            <label htmlFor="AuctionTimeInput">
+              <p>종료 일시</p>
+              <input
+                type="datetime-local"
+                name="endTime"
+                value={dealInfo.endTime}
+                onChange={handleChange}
+                id="AuctionTimeInput"
+              />
+            </label>
+            <label htmlFor="MinimumPriceInput">
+              <p>
+                경매 시작 가격{" "}
+                <span style={{ fontSize: "10px" }}>(단위: 원)</span>
+              </p>
+              <input
+                type="number"
+                name="minimumPrice"
+                value={dealInfo.minimumPrice}
+                onChange={handleChange}
+                id="MinimumPriceInput"
+              />
+            </label>
+          </>
         ) : null}
 
         {/* ---------------- 공통 content ---------------- */}
 
         <label htmlFor="DealNoticeInput">
           <p>공지사항</p>
-          <textarea id="DealNoticeInput" placeholder="공지사항을 적어주세요" />
+          <textarea
+            id="DealNoticeInput"
+            name="content"
+            value={dealInfo.content}
+            onChange={handleChange}
+            placeholder="공지사항을 적어주세요"
+          />
         </label>
       </div>
     </>

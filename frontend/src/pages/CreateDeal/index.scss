@@ -55,6 +55,7 @@
     // 타이틀 인풋만 크기 조정
     .deal-title-input {
       font-size: 16px;
+      height: 45px;
     }
 
     // 라벨링 된 부분만 별도 마진 적용
@@ -75,12 +76,34 @@
       box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
       background-color: $white-op;
       color: $gray-2;
+      font-family: "NanumSquare";
     }
     input {
       height: 32px;
     }
     textarea {
-      height: 95px;
+      height: 110px;
+      resize: none;
+    }
+    .concert-search-button {
+      #seacrh-concert-input {
+        width: 100%;
+        padding: 2px 5px;
+        margin: 5px auto;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+        background-color: $white-op;
+        color: $gray-2;
+        cursor: pointer;
+        svg {
+          width: 20px;
+        }
+      }
     }
   }
 
@@ -95,17 +118,29 @@
       height: 100%;
       border-radius: 10px;
       background-color: $white-op;
-      border: 1px dashed $gray-4;
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      // border: 1px dashed $gray-4;
       cursor: pointer;
+      box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
 
       @media (min-width: 439px) {
         height: 210px;
       }
 
+      svg {
+        width: 60px;
+        margin: 45px auto 0px;
+        color: $indigo-1;
+      }
+
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        border-radius: 10px;
+        aspect-ratio: 5 / 3;
+        object-fit: cover;
       }
     }
     input {
@@ -128,6 +163,7 @@
       max-width: 400px;
       min-width: 280px;
       height: 210px;
+      border-radius: 10px;
     }
     input {
       width: 97.5%;
@@ -139,6 +175,17 @@
       box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
       background-color: $white-op;
       color: $gray-2;
+    }
+    p {
+      margin-bottom: 0;
+      cursor: default;
+    }
+    // 도움말
+    .deal-loc-help-text-p {
+      font-size: 12px;
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: $pink-1;
     }
   }
 

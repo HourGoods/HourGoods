@@ -5,7 +5,7 @@ import ConcertList from "@components/SearchPage/ConcertList";
 
 export interface ConcertInterface {
   imageUrl: string;
-  koPisConcertId: number;
+  kopisConcertId: string;
   place: string;
   startDate: string;
   title: string;

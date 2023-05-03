@@ -8,7 +8,7 @@ import "./index.scss";
 
 export interface ConcertInterface {
   imageUrl: string;
-  koPisConcertId: number;
+  kopisConcertId: string;
   place: string;
   startDate: string;
   title: string;

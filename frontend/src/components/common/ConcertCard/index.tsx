@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import { MapPinIcon, CalendarIcon } from "@heroicons/react/24/solid";
 import { ConcertInterface } from "@pages/Search";
+import { concertAPI } from "@api/apis";
 import "./index.scss";
 
 interface ConcertCardProps {
@@ -22,14 +23,25 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
 
   const clickHanlder = () => {
     console.log(flag);
+    console.log(concertInfo.kopisConcertId, "아이디");
+    const { kopisConcertId } = concertInfo;
     if (flag === "fromCreate") {
+      const result = concertAPI.postConcertId(kopisConcertId);
+      result
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
       // State Update
       console.log(concertInfo);
       setDealInfo((prev) => ({
         ...prev,
-        concertId: concertInfo.koPisConcertId,
+        // concertId: concertInfo.kopisConcertId,
       }));
-      setModalOpen(false);
+      // setModalOpen(false);
       console.log(dealInfo);
     } else {
       console.log("api 연결 후 주소 수정");
