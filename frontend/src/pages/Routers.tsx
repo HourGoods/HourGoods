@@ -15,6 +15,7 @@ import Oauth from "@pages/Oauth";
 import EditProfile from "@pages/EditProfile";
 import Ticket from "@pages/Ticket";
 import UpdateProfile from "@pages/UpdateProfile";
+import Auction from "@pages/Auction";
 
 export default function Routers() {
   return (
@@ -37,6 +38,7 @@ export default function Routers() {
       <Route path="/ticket" element={<Ticket />} />
       <Route path="/payment" element={<Payment />} />
       <Route path="/edit" element={<EditProfile />} />
+      <Route path="/auction" element={<Auction />} />
 
       <Route path="/updateprofile" element={<UpdateProfile />} />
     </Routes>

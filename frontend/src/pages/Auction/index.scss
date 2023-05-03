@@ -1,0 +1,41 @@
+@import "@styles/Colors";
+
+@mixin icon-wrapper {
+  .a-dealcard-icon {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin: 10px 0;
+    svg {
+      width: 24px;
+      color: $indigo-1;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.auction-page-all-container {
+  background-color: antiquewhite;
+}
+
+// Auction.tsx (상위 경매창)
+.auctionbox-all-conatiner {
+  background-color: aqua;
+}
+
+// AuctionDealCard.tsx (경매되는 거래정보 카드)
+.auction-dealcard-container {
+  background-color: $white-op;
+  @include icon-wrapper;
+  .a-dealcard-date-time {
+    display: flex;
+    gap: 20px;
+  }
+}
+
+// ChattingBox.tsx (하위 채팅창)
+.chattingbox-all-container {
+  background-color: aquamarine;
+}
