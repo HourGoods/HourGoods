@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
+import { searchResultConcertState } from "@recoils/concert/Atoms";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
+import ConcertCard from "@components/common/ConcertCard";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import SearchModalContent from "./SearchModalContent";
 
@@ -21,6 +23,9 @@ export default function index() {
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
   // 검색 모달을 위한 값
   const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
+
+  // 공연 정보가 선택된 경우 표시될 값
+  const searchResultConcertInfo = useRecoilValue(searchResultConcertState);
 
   // Deal 타입 변화
   const [activeDealType, setActiveDealType] = useState({
@@ -127,6 +132,10 @@ export default function index() {
             <MagnifyingGlassIcon />
           </button>
         </div>
+        {/* 검색 결과가 있다면 검색 결과 카드 표시 */}
+        {dealInfo.concertId ? (
+          <ConcertCard concertInfo={searchResultConcertInfo} />
+        ) : null}
 
         <label htmlFor="concert-date-input">
           <p>오픈 일시</p>

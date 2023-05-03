@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
+import { searchResultConcertState } from "@recoils/concert/Atoms";
 import { MapPinIcon, CalendarIcon } from "@heroicons/react/24/solid";
 import { ConcertInterface } from "@pages/Search";
 import { concertAPI } from "@api/apis";
@@ -20,29 +21,37 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
 
   // Update할 Deal 정보
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
+  const [searchResultDealInfo, setSearchResultDealInfo] = useRecoilState(
+    searchResultConcertState
+  );
 
   const clickHanlder = () => {
     console.log(flag);
     console.log(concertInfo.kopisConcertId, "아이디");
     const { kopisConcertId } = concertInfo;
+    // 콘서트 생성하기에서 만든 경우
     if (flag === "fromCreate") {
+      // DB에서 콘서트 아이디 탐색
       const result = concertAPI.postConcertId(kopisConcertId);
       result
         .then((res) => {
           console.log(res);
+          const { concertId } = res.data.result;
+          // 콘서트 아이디 상태값 Update
+          setDealInfo((prev) => ({
+            ...prev,
+            concertId,
+          }));
+          // 검색 결과에 표시될 내용 update
+          setSearchResultDealInfo(concertInfo);
         })
         .catch((err) => {
           console.log(err);
         });
+      // 처리가 끝나면 모달 닫기
+      setModalOpen(false);
 
-      // State Update
-      console.log(concertInfo);
-      setDealInfo((prev) => ({
-        ...prev,
-        // concertId: concertInfo.kopisConcertId,
-      }));
-      // setModalOpen(false);
-      console.log(dealInfo);
+      // 전체 검색인 경우 클릭시 디테일 페이지로 이동
     } else {
       console.log("api 연결 후 주소 수정");
       console.log(concertInfo);

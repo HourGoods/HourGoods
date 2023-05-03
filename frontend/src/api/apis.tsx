@@ -57,6 +57,10 @@ const concertAPI = {
   // DB상 콘서트 등록 여부를 확인하고, 있으면 DB상 id반환,  없으면 등록한다
   postConcertId: (kopisConcertId: string): Promise<AxiosResponse> =>
     request.post("concert", { kopisConcertId }),
+
+  // 공연 detail 조회
+  getConcertDetail: (concertId: number): Promise<AxiosResponse> =>
+    request.get("concert", { params: { concertId } }),
 };
 
 const dealAPI = {

@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { dealState } from "@recoils/deal/Atoms";
+import { concertDetailState } from "@recoils/concert/Atoms";
 
 declare global {
   interface Window {
@@ -10,10 +11,13 @@ declare global {
 }
 export default function index() {
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
+  const concertDetailInfo = useRecoilValue(concertDetailState);
 
   useEffect(() => {
     const mapContainer = document.getElementById("map");
-    const mapOption = {
+
+    // default는 종합운동장 기준 생성
+    let mapOption = {
       center: new window.kakao.maps.LatLng(
         37.511806050815686,
         127.07376866170583
@@ -22,9 +26,23 @@ export default function index() {
     };
     const map = new window.kakao.maps.Map(mapContainer, mapOption);
 
+    // 만약 dealInfo.concertId가 있다면 (콘서트 검색된 것임)
+    if (dealInfo.concertId && dealInfo.concertId !== 0) {
+      if (concertDetailInfo) {
+        const newCenter = new window.kakao.maps.LatLng(
+          concertDetailInfo.latitude,
+          concertDetailInfo.longitude
+        );
+        // 등록된 치를 기준으로 지도 범위를 재설정합니다
+        map.setCenter(newCenter);
+      }
+    }
+
+    // 중심좌표로 거래할 마커 생성
+    const currentCenter = map.getCenter();
     const markerPosition = new window.kakao.maps.LatLng(
-      37.511806050815686,
-      127.07376866170583
+      currentCenter.Ma,
+      currentCenter.La
     );
     const marker = new window.kakao.maps.Marker({
       position: markerPosition,
@@ -75,7 +93,7 @@ export default function index() {
       // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
       infowindow.close();
     });
-  }, []);
+  }, [dealInfo.concertId, concertDetailInfo.latitude]);
 
   return (
     <div className="create-deal-location-component-container">

@@ -3,12 +3,16 @@ import UploadImage from "@components/CreateDeal/UploadImage";
 import DealInfo from "@components/CreateDeal/DealInfo";
 import UploadDealLocation from "@components/CreateDeal/UploadDealLocation";
 import Button from "@components/common/Button";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { concertDetailState } from "@recoils/concert/Atoms";
 import { dealState } from "@recoils/deal/Atoms";
+import { concertAPI, dealAPI } from "@api/apis";
 import "./index.scss";
 
 export default function index() {
   const dealInfo = useRecoilValue(dealState);
+  const [concertDetailInfo, setConcertDetailInfo] =
+    useRecoilState(concertDetailState);
 
   useEffect(() => {
     console.log(dealInfo);
@@ -16,8 +20,23 @@ export default function index() {
     window.scrollTo(0, 0);
   }, []);
 
+  // 검색 결과 콘서트가 있거나, 콘서트 아이디가 있는채로 넘어온 경우
+  useEffect(() => {
+    if (dealInfo.concertId) {
+      // concert 상세 정보 조회 api
+      const result = concertAPI.getConcertDetail(dealInfo.concertId);
+      result.then((res) => {
+        setConcertDetailInfo(res.data.result);
+      });
+    }
+  }, [dealInfo.concertId]);
+
   const createDeal = () => {
     console.log(dealInfo);
+    const result = dealAPI.postDeal(dealInfo);
+    result.then((res) => {
+      console.log(res);
+    });
   };
 
   return (

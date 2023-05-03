@@ -34,6 +34,11 @@
     max-width: 399px;
     margin: auto;
 
+    // 클릭 방지
+    .concert-card-component-container {
+      pointer-events: none;
+    }
+
     // deal 타입 선택 버튼 모음
     .deal-type-buttons-container {
       display: flex;
