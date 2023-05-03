@@ -2,17 +2,19 @@
 @import "@styles/Mixins";
 
 .deal-card-component-container {
-  margin-top: 10px;
   height: 90px;
   background-color: $white-op;
   border-radius: 8px;
-  box-shadow: 3px 3px 5px rgba(107, 114, 128, 0.3);
+  box-shadow: $shadow-gray;
   display: flex;
   justify-content: space-between;
 
   .deal-card-left-contents-container {
     background-color: inherit;
     display: flex;
+    padding: 0;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
 
     .deal-card-left-img-wrapper {
       img {
@@ -48,7 +50,8 @@
         @include tablet {
           display: flex;
           p {
-            margin-right: 5px;
+            // margin-right: 5px;
+            margin: 0;
           }
         }
         .card-icon-text-div {

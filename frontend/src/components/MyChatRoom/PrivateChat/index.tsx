@@ -12,7 +12,7 @@ export default function index() {
       <h1>채팅방</h1>
       <div className="private-chatroom-box-container">
         <div className="box-upper-wrapper">
-          <div>
+          <div className="chatroom-dealcard">
             <DealCard />
           </div>
           <div className="private-chatroom-content-container">

@@ -4,6 +4,11 @@
 .chatroom-container {
   display: flex;
   justify-content: center;
+  @include mobile {
+    .private-chatroom-all-container {
+      display: none;
+    }
+  }
 }
 
 // PrivateChat (일대일 채팅방)
@@ -12,6 +17,8 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
+  min-width: 380px;
+  width: 100%;
   h1 {
     text-align: left;
     color: white;
@@ -19,20 +26,36 @@
     margin: 0;
   }
   .private-chatroom-box-container {
+    border-radius: 0 10px 10px 0;
     padding: 10px 20px;
     height: 620px;
     background-color: $white-op;
     display: flex;
     flex-direction: column;
-    gap: 5px;
     align-items: center;
     justify-content: space-between;
-    .box-upper-wrapper{
+    // width: 100%;
+    .box-upper-wrapper {
       @include scrollbar-css;
       display: flex;
       flex-direction: column;
       height: 100%;
+      width: 100%;
       justify-content: space-between;
+      .chatroom-dealcard {
+        width: 100%;
+        .deal-card-component-container {
+          width: 100%;
+        }
+        .deal-card-bottom-container {
+          @include desktop {
+            display: flex;
+            p {
+              margin: 0;
+            }
+          }
+        }
+      }
     }
     .private-chatroom-content-container {
       display: flex;
@@ -88,9 +111,10 @@
     margin: 0;
   }
   .chatroom-card-list-wrapper {
-    padding: 10px 0px;
+    padding: 10px;
     width: 300px;
     height: 620px;
+    border-radius: 10px 0 0 10px;
     background-color: $white-op;
     display: flex;
     flex-direction: column;
@@ -118,6 +142,9 @@
     }
   }
   .chatroom-right-section {
+    p {
+      margin: 0;
+    }
     display: flex;
     flex-direction: column;
     gap: 5px;
