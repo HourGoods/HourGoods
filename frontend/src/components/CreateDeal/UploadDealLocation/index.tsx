@@ -49,6 +49,13 @@ export default function index() {
     });
     marker.setMap(map);
 
+    // 중심좌표를 기준으로 최초 거래 위치 지정
+    setDealInfo((prev) => ({
+      ...prev,
+      latitude: currentCenter.Ma,
+      longitude: currentCenter.La,
+    }));
+
     // Marker의 위치가 변경될 때마다 호출될 함수를 정의합니다
     function handleMarkerDragend() {
       const position = marker.getPosition(); // Marker의 현재 위치를 얻습니다

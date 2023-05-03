@@ -71,7 +71,7 @@ const dealAPI = {
     startTime: string;
     longitude: number;
     latitude: number;
-    memberId: number;
+    // memberId: number;
     concertId: number;
     dealType: string;
     minimumPrice: number;
