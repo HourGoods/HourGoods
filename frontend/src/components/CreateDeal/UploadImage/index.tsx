@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { PhotoIcon } from "@heroicons/react/24/solid";
 
 export default function index() {
   const [inputImage, setInputImage] = useState<string>("");
@@ -18,7 +19,7 @@ export default function index() {
       <label htmlFor="uploadImg" className="file-input-label">
         {!inputImage ? (
           <div className="upload-img-wrapper">
-            <p className="file-input-label-plus">+</p>
+            <PhotoIcon />
             <p className="file-input-label-text">
               사진
               <br />

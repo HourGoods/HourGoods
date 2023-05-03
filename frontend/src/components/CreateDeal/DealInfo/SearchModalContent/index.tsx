@@ -1,10 +1,7 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { concertAPI } from "@api/apis";
 import SearchBar from "@components/common/SearchBar";
 import ConcertList from "@components/SearchPage/ConcertList";
-import NoResult from "@components/SearchPage/NoResult";
-import { concertAPI } from "@api/apis";
-import "./index.scss";
 
 export interface ConcertInterface {
   imageUrl: string;
@@ -21,8 +18,6 @@ export default function index() {
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   const [hasResult, setHasResult] = useState(false);
   const [concertInfoList, setConcertInfoList] = useState<ConcertList>([]);
-
-  const navigate = useNavigate();
 
   const searchHandler = () => {
     setIsLoading(true); // 데이터 받아오는 중이므로 isLoading 상태 변경
@@ -41,8 +36,7 @@ export default function index() {
   };
 
   return (
-    <div className="search-page-container">
-      {/* isLoading이 true일 때 로딩 중임을 나타내는 UI를 보여줌 */}
+    <div className="search-modal-content-component-container">
       <SearchBar
         searchInput={searchInput}
         setSearchInput={setSearchInput}
@@ -50,9 +44,9 @@ export default function index() {
       />
       {isLoading && <p>Loading...</p>}
       {hasResult && !isLoading && (
-        <ConcertList concertInfoList={concertInfoList} />
+        <ConcertList concertInfoList={concertInfoList} flag="fromCreate" />
       )}
-      {!hasResult && !isLoading && <NoResult />}
+      {!hasResult && !isLoading && <p>검색 결과가 없습니다.</p>}
     </div>
   );
 }
