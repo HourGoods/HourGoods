@@ -10,6 +10,7 @@ import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class SharingController {
 	@PostMapping("/apply")
 	@ApiResponse(responseCode = "404", description = "1. D200 해당 id에 해당하는 거래가 없습니다.")
 	@ApiResponse(responseCode = "400", description = "1. D400 아직 거래가 시작되지 않았습니다. \t\n 2. D500 거래 타입이 올바르지 않습니다.")
-	public BaseResponse<SharingResultResponse> applySharing(@AuthenticationPrincipal MemberDetails memberDetails, @Valid SharingApplyRequest request) {
+	public BaseResponse<SharingResultResponse> applySharing(@AuthenticationPrincipal MemberDetails memberDetails, @Valid @RequestBody SharingApplyRequest request) {
 		Member member = memberDetails.getMember();
 		Long dealId = request.getDealId();
 		SharingResultResponse response = SharingResultResponse.builder()
