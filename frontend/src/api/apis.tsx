@@ -50,9 +50,32 @@ const memberAPI = {
 const concertAPI = {
   // 전체 콘서트 조회(공연 api)
   getAllConcert: (keyword: string): Promise<AxiosResponse> =>
-    request.get("concert/search/unregistered", {
+    request.get("concert/search", {
       params: { keyword },
     }),
+
+  // DB상 콘서트 등록 여부를 확인하고, 있으면 DB상 id반환,  없으면 등록한다
+  postConcertId: (kopisConcertId: string): Promise<AxiosResponse> =>
+    request.post("concert", { kopisConcertId }),
 };
 
-export { memberAPI, concertAPI };
+const dealAPI = {
+  // Deal 생성
+  postDeal: (dealInfo: {
+    imageUrl: string;
+    title: string;
+    content: string;
+    startTime: string;
+    longitude: number;
+    latitude: number;
+    memberId: number;
+    concertId: number;
+    dealType: string;
+    minimumPrice: number;
+    endTime: string;
+    limit: number;
+    price: number;
+  }): Promise<AxiosResponse> => request.authPost("deal/create", dealInfo),
+};
+
+export { memberAPI, concertAPI, dealAPI };
