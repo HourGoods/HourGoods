@@ -1,5 +1,7 @@
 package org.a204.hourgoods.domain.participant.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.a204.hourgoods.domain.deal.entity.Deal;
@@ -10,6 +12,8 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "participant")
 public class Participant extends BaseTime {
@@ -18,8 +22,8 @@ public class Participant extends BaseTime {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "bid_price")
-    private Integer bidPrice;
+    @Column(name = "rank")
+    private Integer rank;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
