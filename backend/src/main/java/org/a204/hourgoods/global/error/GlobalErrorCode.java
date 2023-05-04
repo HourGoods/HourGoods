@@ -20,16 +20,20 @@ public enum GlobalErrorCode {
 	METHOD_NOT_ALLOWED(405, "G200", "허용되지 않은 메서드입니다"),
 	VALID_EXCEPTION(400, "G300", ""),
 	ACCESS_DENIED(401, "G400", "허용되지 않은 사용자입니다"),
-	DEAL_TYPE_NOT_FOUNDED(404, "D100", "잘못된 Deal Type 형식입니다."),
+	DEAL_TYPE_NOT_FOUND(404, "D100", "잘못된 Deal Type 형식입니다."),
 	DEAL_NOT_FOUND(404, "D200", "해당 id에 해당하는 거래가 없습니다."),
+	BOOKMARK_NOT_FOUND(404, "D300", "해당 사용자는 해당 거래를 북마크하지 않았습니다."),
+	DEAL_YET_START(400, "D400", "아직 거래가 시작되지 않았습니다."),
+	DEAL_TYPE_MISS_MATCH(400, "D500", "거래 타입이 올바르지 않습니다."),
 	CONCERT_NOT_FOUNDED(404, "C100", "해당하는 공연을 찾을 수 없습니다."),
+	CONCERT_ALREADY_EXISTS(400, "C200", "이미 등록된 공연 정보입니다."),
     UNSUPPORTED_INFO(400, "M100", "지원하지 않는 로그인 방식입니다."),
     INCORRECT_ADMIN_INFO(401, "M200", "관리자 로그인 정보가 틀렸습니다."),
     USER_NOT_FOUND(400, "M300", "해당 id에 해당하는 사용자가 없습니다."),
 	MEMBER_MISS_MATCH(400, "M400", "요청한 사용자와 현재 사용자가 다릅니다."),
 	RECEIVER_NOT_FOUND(404, "CH100", "채팅 요청을 할 수 없는 사용자입니다."),
 	DIRECT_CHATTING_ROOM_NOT_FOUND(404, "CH200", "1:1 채팅방을 찾을 수 없습니다."),
-    ;
+	;
 
 	private final String code;
 	private final String message;

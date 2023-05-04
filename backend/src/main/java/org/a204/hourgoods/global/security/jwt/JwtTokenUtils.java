@@ -42,7 +42,6 @@ public class JwtTokenUtils {
 	public String createTokens(Member member, Collection<? extends GrantedAuthority> authorities) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("email", member.getEmail());
-		map.put("registrationId", member.getRegistrationId().name());
 		map.put("id", member.getId());
 		map.put("roles", authorities);
 		return createTokens(map);

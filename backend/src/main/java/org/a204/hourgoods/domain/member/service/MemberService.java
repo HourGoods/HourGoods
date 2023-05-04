@@ -5,13 +5,18 @@ import static org.a204.hourgoods.global.security.jwt.JwtTokenUtils.*;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.AccessDeniedException;
 import org.a204.hourgoods.domain.member.exception.IncorrectAdminInfoException;
+import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.a204.hourgoods.domain.member.request.LoginInfo;
-import org.a204.hourgoods.domain.member.request.MemberSignUpRequest;
+import org.a204.hourgoods.domain.member.request.MemberEditRequest;
+import org.a204.hourgoods.domain.member.request.MemberSignupRequest;
 import org.a204.hourgoods.domain.member.response.MemberSignUpResponse;
+import org.a204.hourgoods.domain.member.response.ProfileEditResponse;
 import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.a204.hourgoods.global.security.jwt.JwtTokenUtils;
 import org.a204.hourgoods.global.security.jwt.RefreshToken;
@@ -64,17 +69,17 @@ public class MemberService {
 	/**
 	 * 회원 가입 로직
 	 *
-	 * @param request {@link MemberSignUpRequest} 회원가입 요청
+	 * @param request {@link MemberSignupRequest} 회원가입 요청
 	 * @return {@link MemberSignUpResponse} 회원 가입 응답
 	 */
 
-	public MemberSignUpResponse signup(MemberSignUpRequest request) {
+	public MemberSignUpResponse signup(MemberSignupRequest request) {
 		Member member = request.toEntity();
 		Member save = memberRepository.save(member);
 		String token =
 			BEARER_PREFIX + jwtTokenUtils.createTokens(save, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
 		RefreshToken refreshToken = jwtTokenUtils.generateRefreshToken(token);
-		return new MemberSignUpResponse(save.getId(), save.getEmail(), save.getRegistrationId(), save.getNickname(),
+		return new MemberSignUpResponse(save.getId(), save.getEmail(), save.getImageUrl(), save.getNickname(),
 			refreshToken.getAccessTokenValue(), refreshToken.getRefreshTokenKey());
 	}
 
@@ -88,20 +93,30 @@ public class MemberService {
 		return !memberRepository.existsByNickname(nickname);
 	}
 
-	//    @PostConstruct
-	//    public void initTestUser() {
-	//        Member member = Member.builder()
-	//                .registrationId(Member.RegistrationId.kakao)
-	//                .email("suker80@naver.com")
-	//                .nickname("닉네임")
-	//                .build();
-	//
-	//        Member save = memberRepository.save(member);
-	//        memberId = save.getId();
-	//    }
-	//
-	//    public String testToken() {
-	//        Member member = memberRepository.findById(memberId).orElseThrow();
-	//        return jwtTokenUtils.createTokens(member, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
-	//    }
+	public ProfileEditResponse editProfile(Member member, MemberEditRequest request) {
+		Member newMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFoundException::new);
+		newMember.editMember(request.getNickname(), request.getImageUrl());
+		memberRepository.save(newMember);
+		return ProfileEditResponse.builder()
+			.imageUrl(request.getImageUrl())
+			.nickname(request.getNickname()).build();
+	}
+
+	   @PostConstruct
+	   public void initTestUser() {
+	       Member member = Member.builder()
+	               .email("temp@hourgoods.com")
+	               .nickname("임시닉네임")
+			   .imageUrl("https://shorturl.at/akuBF")
+	               .build();
+
+	       Member save = memberRepository.save(member);
+	       memberId = save.getId();
+	   }
+
+	   public String testToken() {
+	       Member member = memberRepository.findById(memberId).orElseThrow();
+	       return jwtTokenUtils.createTokens(member, List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
+	   }
+
 }

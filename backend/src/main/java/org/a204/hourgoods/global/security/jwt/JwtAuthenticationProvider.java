@@ -51,7 +51,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 			userDetails = new MemberDetails(Member.builder()
 				.email((String)claims.get("email"))
 				.id(Long.valueOf((Integer)claims.get("id")))
-				.registrationId(Member.RegistrationId.valueOf((String)claims.get("registrationId")))
 				.build());
 		} else {
 			userDetails = new AdminDetails((String)claims.get("adminId"));

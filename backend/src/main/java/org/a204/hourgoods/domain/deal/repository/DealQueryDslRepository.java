@@ -7,9 +7,13 @@ import javax.persistence.EntityManager;
 import org.a204.hourgoods.domain.concert.entity.QConcert;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.QDeal;
+import org.a204.hourgoods.domain.deal.entity.QDealBookmark;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
+import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.QMember;
+import org.a204.hourgoods.domain.participant.entity.QParticipant;
+import org.a204.hourgoods.domain.transaction.entity.QTransaction;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -30,6 +34,9 @@ public class DealQueryDslRepository {
 	QDeal deal = QDeal.deal;
 	QConcert concert = QConcert.concert;
 	QMember member = QMember.member;
+	QDealBookmark dealBookmark = QDealBookmark.dealBookmark;
+	QTransaction transaction = QTransaction.transaction;
+	QParticipant participant = QParticipant.participant;
 
 	public Slice<Deal> searchDealByCond(ConcertDealListRequest request, Pageable pageable) {
 		List<Deal> results = query.selectFrom(deal)
@@ -43,6 +50,49 @@ public class DealQueryDslRepository {
 				deal.isAvailable.isTrue()
 			)
 			.orderBy(deal.id.desc())
+			.limit(pageable.getPageSize() + 1L)
+			.fetch();
+		return checkLastPage(pageable, results);
+	}
+
+	// 사용자가 북마크한 거래 목록 조회
+	public Slice<Deal> searchBookmarkedDealByMember(Member member, Long lastDealId, Pageable pageable) {
+		List<Deal> results = query.select(dealBookmark.deal)
+			.from(dealBookmark)
+			.where(
+				dealBookmark.member.id.eq(member.getId()),
+				checkLastDealId(lastDealId)
+			)
+			.orderBy(dealBookmark.deal.startTime.desc())
+			.limit(pageable.getPageSize() + 1L)
+			.fetch();
+		return checkLastPage(pageable, results);
+	}
+
+	// 사용자가 생성한 거래 목록 조회
+	public Slice<Deal> searchDealByHost(Member host, Long lastDealId, Pageable pageable) {
+		List<Deal> results = query.selectFrom(deal)
+			.where(
+				deal.dealHost.id.eq(host.getId()),
+				checkLastDealId(lastDealId)
+			)
+			.orderBy(deal.startTime.desc())
+			.limit(pageable.getPageSize() + 1L)
+			.fetch();
+		return checkLastPage(pageable, results);
+	}
+
+	// 사용자가 참여한 거래 목록 조회
+	public Slice<Deal> searchAttendedDealByMember(Member member, Long lastDealId, Pageable pageable) {
+		List<Deal> results = query.selectFrom(deal)
+			.innerJoin(transaction.deal, deal)
+			.leftJoin(participant.deal, deal)
+			.fetchJoin()
+			.where(
+				transaction.purchaser.id.eq(member.getId()),
+				checkLastDealId(lastDealId)
+			)
+			.orderBy(deal.startTime.desc())
 			.limit(pageable.getPageSize() + 1L)
 			.fetch();
 		return checkLastPage(pageable, results);
