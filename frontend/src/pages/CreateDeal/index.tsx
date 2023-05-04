@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import UploadImage from "@components/CreateDeal/UploadImage";
 import DealInfo from "@components/CreateDeal/DealInfo";
 import UploadDealLocation from "@components/CreateDeal/UploadDealLocation";
@@ -11,6 +12,7 @@ import uploadDealImage from "@utils/uploadDealImage";
 import "./index.scss";
 
 export default function index() {
+  const navigate = useNavigate();
   // 이미지 업로드를 위한 값
   const [inputImage, setInputImage] = useState({
     file: null,
@@ -47,11 +49,18 @@ export default function index() {
 
       if (imageUrl) {
         console.log("받아온 이미지 주소", imageUrl);
-        const result = await dealAPI.postDeal({ ...dealInfo, imageUrl });
-        console.log(result);
+        // POST API 요청
+        const result = dealAPI.postDeal({ ...dealInfo, imageUrl });
+        result.then((res) => {
+          alert("거래가 생성되었습니다!");
+          // 성공시 detail페이지로 이동
+          console.log(res, "생성된 거래 정보");
+          const { dealId } = res.data.result;
+          navigate(`/deal/detail/${dealId}`);
+        });
       }
     } catch (error) {
-      console.log(error);
+      console.log(error, "이미지 업로드 에러");
     }
   };
 
