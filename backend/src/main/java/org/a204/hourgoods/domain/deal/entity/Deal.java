@@ -9,7 +9,6 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.participant.entity.Participant;
 import org.a204.hourgoods.domain.transaction.entity.Transaction;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -41,8 +40,7 @@ public class Deal {
 	private LocalDateTime startTime;
 
 	@Column(name = "is_available")
-	@ColumnDefault("true")
-	private Boolean isAvailable ;
+	private Boolean isAvailable = true;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "deal_type")
@@ -53,6 +51,9 @@ public class Deal {
 
 	@Column(name = "latitude")
 	private Double latitude;
+
+	@Column(name = "meetingLocation")
+	private String meetingLocation;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "deal_host_id")
@@ -75,8 +76,9 @@ public class Deal {
 	private List<Transaction> transactions = new ArrayList<>();
 
 	@Builder
-	public Deal(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvailable, Member dealHost,
-		Concert concert, DealType dealType, Double longitude, Double latitude) {
+	public Deal(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvailable,
+		Member dealHost,
+		Concert concert, DealType dealType, Double longitude, Double latitude, String meetingLocation) {
 		this.imageUrl = imageUrl;
 		this.title = title;
 		this.content = content;
@@ -87,6 +89,7 @@ public class Deal {
 		this.dealType = dealType;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.meetingLocation = meetingLocation;
 	}
 
 }

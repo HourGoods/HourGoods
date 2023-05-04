@@ -116,6 +116,7 @@ public class DealService {
 				.limitation(limitation)
 				.price(price)
 				.isBookmarked(isBookmarked)
+				.meetingLocation(deal.getMeetingLocation())
 				.build();
 			response.add(dealInfo);
 
@@ -171,6 +172,7 @@ public class DealService {
 			.userNickname(deal.getDealHost().getNickname())
 			.startTime(deal.getStartTime())
 			.concertTitle(deal.getConcert().getTitle())
+			.meetingLocation(deal.getMeetingLocation())
 			.minPrice(minPrice)
 			.endTime(endTime)
 			.price(price)
@@ -181,7 +183,8 @@ public class DealService {
 	@Transactional
 	public DealCreateResponse createDeal(DealCreateRequest dealCreateRequest, Member member) {
 		String dealType = dealCreateRequest.getDealType();
-		Concert concert = concertRepository.findById(dealCreateRequest.getConcertId()).orElseThrow(ConcertNotFoundException::new);
+		Concert concert = concertRepository.findById(dealCreateRequest.getConcertId())
+			.orElseThrow(ConcertNotFoundException::new);
 		Long dealId;
 		if (String.valueOf(DealType.Auction).equals(dealType)) {
 			Auction auction = Auction.auctionBuilder()
@@ -192,6 +195,7 @@ public class DealService {
 				.startTime(dealCreateRequest.getStartTime())
 				.longitude(dealCreateRequest.getLongitude())
 				.latitude(dealCreateRequest.getLatitude())
+				.meetingLocation(dealCreateRequest.getMeetingLocation())
 				.dealHost(member)
 				.concert(concert)
 				.minimumPrice(dealCreateRequest.getMinimumPrice())
@@ -208,6 +212,7 @@ public class DealService {
 				.startTime(dealCreateRequest.getStartTime())
 				.longitude(dealCreateRequest.getLongitude())
 				.latitude(dealCreateRequest.getLatitude())
+				.meetingLocation(dealCreateRequest.getMeetingLocation())
 				.dealHost(member)
 				.concert(concert)
 				.minimumPrice(dealCreateRequest.getMinimumPrice())
@@ -224,6 +229,7 @@ public class DealService {
 				.startTime(dealCreateRequest.getStartTime())
 				.longitude(dealCreateRequest.getLongitude())
 				.latitude(dealCreateRequest.getLatitude())
+				.meetingLocation(dealCreateRequest.getMeetingLocation())
 				.dealHost(member)
 				.concert(concert)
 				.price(dealCreateRequest.getPrice()).build();
@@ -238,6 +244,7 @@ public class DealService {
 				.startTime(dealCreateRequest.getStartTime())
 				.longitude(dealCreateRequest.getLongitude())
 				.latitude(dealCreateRequest.getLatitude())
+				.meetingLocation(dealCreateRequest.getMeetingLocation())
 				.dealHost(member)
 				.concert(concert)
 				.limitation(dealCreateRequest.getLimit()).build();
@@ -251,7 +258,8 @@ public class DealService {
 	@Transactional
 	public Boolean deleteDeal(Long memberId, Long dealId) {
 		Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-		if (memberId != deal.getDealHost().getId()) throw new MemberMissMatchException();
+		if (memberId != deal.getDealHost().getId())
+			throw new MemberMissMatchException();
 		dealRepository.deleteById(dealId);
 		return true;
 	}

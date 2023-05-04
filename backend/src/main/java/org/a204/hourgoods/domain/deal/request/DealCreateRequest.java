@@ -42,6 +42,9 @@ public class DealCreateRequest {
 	@NotNull
 	@Schema(description = "거래 종류, All/Auction/AuctionGame/Sharing/Trade")
 	private String dealType;
+	@NotNull
+	@Schema(description = "거래를 위한 위치 정보")
+	private String meetingLocation;
 
 	// auction & hourAuction
 	@Schema(description = "경매 시작 금액")

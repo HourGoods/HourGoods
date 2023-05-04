@@ -22,8 +22,8 @@ public class Trade extends Deal {
 
 	@Builder(builderMethodName = "tradeBuilder")
 	public Trade(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvaliable,
-		Member dealHost, Concert concert, DealType dealType,  Double longitude, Double latitude, Integer price) {
-		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, longitude, latitude);
+		Member dealHost, Concert concert, DealType dealType,  Double longitude, Double latitude, Integer price, String meetingLocation) {
+		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, longitude, latitude, meetingLocation);
 		this.price = price;
 	}
 }
