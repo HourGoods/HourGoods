@@ -8,7 +8,7 @@ export default function index() {
     <div className="auction-page-all-container">
       <AuctionBox />
       <ChattingBox />
-      <div>
+      <div className="a-page-inputbox-container">
         <InputMsgBox type="bid" />
         <InputMsgBox type="msg" />
       </div>

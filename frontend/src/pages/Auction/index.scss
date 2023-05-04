@@ -1,41 +1,224 @@
 @import "@styles/Colors";
+@import "@styles/Mixins";
 
-@mixin icon-wrapper {
-  .a-dealcard-icon {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    margin: 10px 0;
-    svg {
-      width: 24px;
-      color: $indigo-1;
-    }
-    p {
-      margin: 0;
-    }
+@mixin icon-wrapper($color) {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin: 5px 0;
+  svg {
+    width: 24px;
+    color: $color;
+  }
+  p {
+    margin: 0;
   }
 }
 
 .auction-page-all-container {
-  background-color: antiquewhite;
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-between;
+
+  .a-page-inputbox-container {
+    bottom: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    .input-message-container {
+      // 추후수정합니다
+      width: 50%;
+    }
+  }
 }
 
 // Auction.tsx (상위 경매창)
 .auctionbox-all-conatiner {
-  background-color: aqua;
-}
-
-// AuctionDealCard.tsx (경매되는 거래정보 카드)
-.auction-dealcard-container {
   background-color: $white-op;
-  @include icon-wrapper;
-  .a-dealcard-date-time {
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @include desktop {
+    max-height: 600px;
+    width: 60%;
+  }
+  @include tablet {
+    width: 100%;
+  }
+  @include mobile {
+    width: 100%;
+  }
+
+  //AuctionDealCard.tsx(경매되는거래정보카드)
+  .auction-dealcard-container {
+    background-color: $white-op;
+    box-shadow: $shadow-gray;
+    padding: 10px;
+    border-radius: 10px;
     display: flex;
-    gap: 20px;
+    gap: 10px;
+    .a-dealcard-img {
+      img {
+        max-width: 80px;
+        max-height: 200px;
+      }
+    }
+    .a-dealcard-right {
+      .a-dealcard-icon {
+        @include icon-wrapper($indigo-1);
+      }
+      width: 100%;
+      .a-dealcard-title {
+        p {
+          margin: 5px 0;
+          text-align: left;
+          color: $indigo-1;
+          font-weight: 900;
+        }
+      }
+      .a-dealcard-date-time {
+        display: flex;
+        gap: 20px;
+      }
+      .a-dealcard-progressbar {
+        @include timer-progressbar;
+        margin: 5px 0;
+      }
+    }
+  }
+
+  // RealtimeBidCard.tsx (현재입찰가)
+  .realtime-bid-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 10px;
+    background-color: $white-op;
+    box-shadow: $shadow-gray;
+    padding: 10px;
+
+    .realtime-bid-left {
+      margin-right: 50px;
+      p {
+        font-weight: 900;
+        color: $indigo-1;
+      }
+    }
+    .realtime-bid-right {
+      @include mobile {
+        width: 100%;
+      }
+      width: 80%;
+      display: flex;
+      justify-content: space-between;
+      .fire {
+        @include icon-wrapper($pink-1);
+        font-weight: 900;
+        color: $indigo-1;
+      }
+      .r-const-ppl-wrapper {
+        display: flex;
+        gap: 40px;
+        .up {
+          display: flex;
+          gap: 5px;
+          align-items: center;
+          margin: 5px 0;
+          svg {
+            width: 20px;
+            color: $pink-1;
+            rotate: -90deg;
+          }
+          p {
+            margin: 0;
+          }
+        }
+        .user {
+          @include icon-wrapper($indigo-1);
+          svg {
+            width: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  // 경매 가격창
+  .bid-box-container {
+    .cost-box-wrapper {
+      background-color: $white-op;
+      width: 150px;
+      height: 40px;
+      border-radius: 10px;
+      align-items: center;
+      display: flex;
+      justify-content: center;
+      box-shadow: $shadow-purple;
+      color: $indigo-1;
+      margin: 10px;
+    }
   }
 }
 
 // ChattingBox.tsx (하위 채팅창)
 .chattingbox-all-container {
-  background-color: aquamarine;
+  background-color: $white-op;
+  border-radius: 10px;
+  padding: 20px;
+  @include scrollbar-css;
+  @include desktop {
+    width: 30%;
+    max-height: 600px;
+  }
+  @include tablet {
+    width: 100%;
+    max-height: 150px;
+  }
+  @include mobile {
+    width: 100%;
+    max-height: 150px;
+  }
+  .private-chatroom-content-container {
+    display: flex;
+    flex-direction: column;
+    p {
+      margin: 0;
+      text-align: left;
+      font-size: 14px;
+    }
+    .not-me-chat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin: 10px 0;
+      svg {
+        width: 40px;
+        color: $gray-3;
+      }
+      .not-me-chat-message {
+        .not-me-name {
+          font-weight: 900;
+        }
+      }
+    }
+    .its-me-chat {
+      margin: 10px 0;
+      display: flex;
+      justify-content: flex-end;
+      .its-me-chatbox {
+        max-width: 60%;
+        background-color: $violet-2;
+        border-radius: 10px 10px 0px 10px;
+        padding: 5px;
+        min-width: 40px;
+      }
+    }
+  }
+  .box-bottom-wrapper {
+    width: 100%;
+  }
 }
