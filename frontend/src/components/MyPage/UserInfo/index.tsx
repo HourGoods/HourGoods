@@ -1,16 +1,21 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ChevronRightIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { useRecoilState } from "recoil";
+import { UserStateAtom } from "@recoils/user/Atom";
 
 export default function index() {
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+  const newUserInfo = { ...userInfo };
+
   const navigate = useNavigate();
   const navigateHandler = () => {
-    navigate("/updateprofile", { state: { mypage: true } });
+    navigate("/update/profile", { state: { mypage: true } });
   };
   return (
     <div className="userinfo-container">
       <div className="userinfo-wrapper">
-        <p className="userid">아이유사랑해</p>
+        <p className="userid">{newUserInfo.nickname}</p>
         {/* <Link to="/updateprofile"> */}
         <button
           type="button"
@@ -22,8 +27,8 @@ export default function index() {
         </button>
         {/* </Link> */}
       </div>
-      <UserCircleIcon />
-      {/* <img alt="프로필 사진" className="profile" /> */}
+      {/* <UserCircleIcon /> */}
+      <img alt="프로필 사진" className="profile" src={newUserInfo.imageUrl} />
     </div>
   );
 }

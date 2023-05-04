@@ -22,7 +22,7 @@ export default function Oauth() {
       const newUserInfo = { ...userInfo };
       newUserInfo.email = email;
       setUserInfo(newUserInfo);
-      navigate("/updateprofile", { state: { mypage: false } });
+      navigate("/update/profile", { state: { mypage: false } });
     } else {
       setUserInfo({
         email: email,

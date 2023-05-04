@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { mypageAPI } from "@api/apis";
 
 export default function index() {
+  useEffect(() => {
+    mypageAPI
+      .pointHistory(-1)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
   return (
     // <div>
     //   <div className="ticketcard-container">

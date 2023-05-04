@@ -40,7 +40,7 @@ export default function Routers() {
       <Route path="/edit" element={<EditProfile />} />
       <Route path="/auction" element={<Auction />} />
 
-      <Route path="/updateprofile" element={<UpdateProfile />} />
+      <Route path="/update/profile" element={<UpdateProfile />} />
     </Routes>
   );
 }

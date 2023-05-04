@@ -45,7 +45,7 @@ export default function Index() {
       .then(() => {
         // 회원가입완료
         // console.log(userInfo);
-        navigate("/updateprofile", { state: { mypage: false } });
+        navigate("/update/profile", { state: { mypage: false } });
       })
       .catch((err) => {
         console.error(err);
