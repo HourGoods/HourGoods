@@ -4,11 +4,6 @@
 .chatroom-container {
   display: flex;
   justify-content: center;
-  @include mobile {
-    .private-chatroom-all-container {
-      display: none;
-    }
-  }
 }
 
 // PrivateChat (일대일 채팅방)
@@ -43,6 +38,10 @@
       width: 100%;
       justify-content: space-between;
       .chatroom-dealcard {
+        // display: flex;
+        // flex-wrap: wrap;
+        // justify-content: space-between;
+
         width: 100%;
         .deal-card-component-container {
           width: 100%;
