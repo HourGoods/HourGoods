@@ -29,8 +29,7 @@ export default function Routers() {
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/oauth" element={<Oauth />} />
-      {/* 주소 변경 필요 */}
-      <Route path="/concertname" element={<ConcertDeal />} />
+      <Route path="/concert/:concertId" element={<ConcertDeal />} />
 
       {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
       <Route element={<PrivateRoute />}>
