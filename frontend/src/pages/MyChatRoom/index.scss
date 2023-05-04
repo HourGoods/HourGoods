@@ -1,0 +1,178 @@
+@import "@styles/Colors";
+@import "@styles/Mixins";
+
+.chatroom-container {
+  display: flex;
+  justify-content: center;
+  @include mobile {
+    .private-chatroom-all-container {
+      display: none;
+    }
+  }
+}
+
+// PrivateChat (일대일 채팅방)
+.private-chatroom-all-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 380px;
+  width: 100%;
+  h1 {
+    text-align: left;
+    color: white;
+    font-weight: 900;
+    margin: 0;
+  }
+  .private-chatroom-box-container {
+    border-radius: 0 10px 10px 0;
+    padding: 10px 20px;
+    height: 620px;
+    background-color: $white-op;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    // width: 100%;
+    .box-upper-wrapper {
+      @include scrollbar-css;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      justify-content: space-between;
+      .chatroom-dealcard {
+        width: 100%;
+        .deal-card-component-container {
+          width: 100%;
+        }
+        .deal-card-bottom-container {
+          @include desktop {
+            display: flex;
+            p {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+    .private-chatroom-content-container {
+      display: flex;
+      flex-direction: column;
+      p {
+        margin: 0;
+        text-align: left;
+        font-size: 14px;
+      }
+      .not-me-chat {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 10px 0;
+        svg {
+          width: 40px;
+          color: $gray-3;
+        }
+        .not-me-chat-message {
+          .not-me-name {
+            font-weight: 900;
+          }
+        }
+      }
+      .its-me-chat {
+        margin: 10px 0;
+        display: flex;
+        justify-content: flex-end;
+        .its-me-chatbox {
+          max-width: 60%;
+          background-color: $violet-2;
+          border-radius: 10px 10px 0px 10px;
+          padding: 5px;
+          min-width: 40px;
+        }
+      }
+    }
+    .box-bottom-wrapper {
+      width: 100%;
+    }
+  }
+}
+
+// ChatRoomCadrList (채팅방 목록리스트)
+.chatroom-card-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  h1 {
+    color: white;
+    font-weight: 900;
+    margin: 0;
+  }
+  .chatroom-card-list-wrapper {
+    padding: 10px;
+    width: 300px;
+    height: 620px;
+    border-radius: 10px 0 0 10px;
+    background-color: $white-op;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    @include scrollbar-css;
+  }
+}
+
+// ChatRoomCard (채팅방 목록카드 1개)
+.chatromm-card-container {
+  display: flex;
+  align-items: center;
+  background-color: $white-op;
+  border-radius: 5px;
+  padding: 12px;
+  max-width: 255px;
+  height: 70px;
+  .chatroom-left-section {
+    img {
+      border-radius: 45px;
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+    }
+  }
+  .chatroom-right-section {
+    p {
+      margin: 0;
+    }
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0px 10px;
+    .chatroom-name-datetime-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .chatroom-profile-name {
+        font-weight: 900;
+      }
+      .chatroom-recent-datetime {
+        font-size: 12px;
+      }
+    }
+    .chatroom-recent-msg-wrapper {
+      .recent-msg {
+        font-size: 14px;
+        width: 180px;
+        text-align: left;
+        overflow: hidden;
+        white-space: normal;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        word-break: keep-all;
+      }
+    }
+  }
+}

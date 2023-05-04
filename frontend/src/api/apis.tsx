@@ -1,3 +1,4 @@
+import { promises } from "dns";
 import { Axios, AxiosHeaders, AxiosResponse } from "axios";
 import request from "./agents";
 
@@ -38,21 +39,73 @@ const memberAPI = {
 };
 */
 
+const mypageAPI = {
+  pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/point", { params: { lastPointHistoryId } }),
+};
+
 const memberAPI = {
   signup: (userInfo: {
     email: string;
-    registrationId: string;
     nickname: string;
     imageUrl: string;
   }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
+  duplicateNickname: (nickname: string): Promise<AxiosResponse> =>
+    request.authPost("duplicateNickname", { nickname }),
+  editUser: (userInfo: {
+    nickname: string;
+    imageUrl: string;
+  }): Promise<AxiosResponse> => request.authPut("member/profile", userInfo),
 };
 
 const concertAPI = {
   // 전체 콘서트 조회(공연 api)
   getAllConcert: (keyword: string): Promise<AxiosResponse> =>
-    request.get("concert/search/unregistered", {
+    request.get("concert/search", {
       params: { keyword },
+    }),
+
+  // DB상 콘서트 등록 여부를 확인하고, 있으면 DB상 id반환,  없으면 등록한다
+  postConcertId: (kopisConcertId: string): Promise<AxiosResponse> =>
+    request.post("concert", { kopisConcertId }),
+
+  // 공연 detail 조회
+  getConcertDetail: (concertId: number): Promise<AxiosResponse> =>
+    request.get("concert", { params: { concertId } }),
+
+  // 공연별 Deal 검색 및 상세 리스트 조회
+  getConcertDealList: (
+    concertId: number,
+    lastDealId: number,
+    dealTypeName: string,
+    searchKeyword: string
+  ): Promise<AxiosResponse> =>
+    request.get("deal/list", {
+      params: { concertId, lastDealId, dealTypeName, searchKeyword },
     }),
 };
 
-export { memberAPI, concertAPI };
+const dealAPI = {
+  // Deal 생성
+  postDeal: (dealInfo: {
+    imageUrl: string;
+    title: string;
+    content: string;
+    startTime: string;
+    longitude: number;
+    latitude: number;
+    // memberId: number;
+    concertId: number;
+    dealType: string;
+    minimumPrice: number;
+    endTime: string;
+    limit: number;
+    price: number;
+  }): Promise<AxiosResponse> => request.authPost("deal/create", dealInfo),
+
+  // Deal 조회
+  getDealDeatail: (dealId: number): Promise<AxiosResponse> =>
+    request.authGet("deal/detail", { params: { dealId } }),
+};
+
+export { memberAPI, concertAPI, dealAPI, mypageAPI };

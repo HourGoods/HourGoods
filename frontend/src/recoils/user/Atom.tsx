@@ -6,20 +6,24 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
+// 로그인 권한정보
 const AuthStateAtom = atom({
   key: "authState",
-  default: false,
+  default: {
+    isLogin: false,
+    token: null,
+  },
   effects_UNSTABLE: [persistAtom],
 });
 
+// 유저 회원정보
 const UserStateAtom = atom({
   key: "usersState",
   default: {
     email: "",
-    registrationId: "kakao",
-    nickname: "이지은",
+    nickname: "",
     imageUrl:
-      "https://talkimg.imbc.com/TVianUpload/tvian/TViews/image/2022/06/28/612b6ff6-5081-4b54-a22c-38d716229c41.jpg",
+      "https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg",
   },
   effects_UNSTABLE: [persistAtom],
 });

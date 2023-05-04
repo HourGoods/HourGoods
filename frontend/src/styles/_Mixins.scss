@@ -32,3 +32,90 @@
     font-weight: 900;
   }
 }
+
+// 스크롤바 css
+@mixin scrollbar-css {
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 10px;
+    &-thumb {
+      background-color: white;
+      border-radius: 10px;
+    }
+    &-track {
+      background-color: transparent;
+    }
+  }
+}
+
+// 경매 타이머 css
+@mixin timer-progressbar {
+  box-sizing: content-box;
+  height: 20px;
+  position: relative;
+  background: $white-op;
+  border-radius: 25px;
+  box-shadow: $shadow-gray;
+  span {
+    display: block;
+    height: 100%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    background: linear-gradient(rgba(165, 180, 252, 1), rgba(103, 232, 249, 1));
+    background-image: linear-gradient(
+      center bottom,
+      rgba(165, 180, 252, 1) 37%,
+      rgba(103, 232, 249, 1) 69%
+    );
+    position: relative;
+    overflow: hidden;
+    box-shadow: $shadow-purple;
+  }
+  p {
+    position: relative;
+    top: -20px;
+    font-weight: 900;
+    color: $indigo-1;
+    margin: 0;
+  }
+  span:after,
+  .animate > span > span {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-image: linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.2) 75%,
+      transparent 75%,
+      transparent
+    );
+    z-index: 1;
+    background-size: 50px 50px;
+    animation: move 3s linear infinite;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    overflow: hidden;
+  }
+  .animate > span:after {
+    display: none;
+  }
+  @keyframes move {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 50px 50px;
+    }
+  }
+}

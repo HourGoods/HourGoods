@@ -15,11 +15,11 @@ import {
   isAuctionAlarmModal,
 } from "../../../recoils/mypageModal/Atoms";
 
-interface props {
+interface IProps {
   getmy?: string;
 }
 
-export default function index({ getmy }: props) {
+export default function index({ getmy }: IProps) {
   const [modalOpen, setModalOpen] = useRecoilState(isDeleteCardModal);
   const modalClickHandler = () => {
     setModalOpen(true);
@@ -36,16 +36,16 @@ export default function index({ getmy }: props) {
 
   return (
     <div>
-      {getmy === "getmy" ? (
-        <button
-          type="button"
-          className="user-deal-card-delete"
-          onClick={modalClickHandler}
-        >
-          <MinusCircleIcon />
-        </button>
-      ) : null}
       <div className="user-deal-card-container">
+        {getmy === "getmy" ? (
+          <button
+            type="button"
+            className="user-deal-card-delete"
+            onClick={modalClickHandler}
+          >
+            <MinusCircleIcon />
+          </button>
+        ) : null}
         <Link to="/main" onClick={successClickHandler}>
           <div className="user-deal-card-wrapper-img">
             <img
