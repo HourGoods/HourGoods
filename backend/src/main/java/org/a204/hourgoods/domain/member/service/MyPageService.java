@@ -190,6 +190,7 @@ public class MyPageService {
 				.imageUrl(deal.getImageUrl())
 				.title(deal.getTitle())
 				.startTime(deal.getStartTime())
+				.meetingLocation(deal.getMeetingLocation())
 				.endTime(endTime)
 				.limitation(limitation)
 				.price(price)

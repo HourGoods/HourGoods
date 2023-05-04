@@ -38,6 +38,8 @@ public class DealDetailResponse {
 	private String concertTitle;
 	@Schema(description = "북마크 여부")
 	private Boolean isBookmarked;
+	@Schema(description = "거래 장소 위치 설명")
+	private String meetingLocation;
 
 	@Schema(description = "(경매용) 경매 시작가")
 	private Integer minPrice;

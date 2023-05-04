@@ -25,7 +25,6 @@ public class MemberSignupRequest {
 	@Pattern(regexp = "^[A-Za-z0-9가-힣]{2,16}$", message = "닉네임은 2글자 이상 16자 이하입니다.")
 	@Schema(description = "닉네임")
 	private String nickname;
-	@NotBlank(message = "이미지 경로는 필수입니다.")
 	@Schema(description = "이미지 S3 경로")
 	private String imageUrl;
 
