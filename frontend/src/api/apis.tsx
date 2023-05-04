@@ -72,6 +72,17 @@ const concertAPI = {
   // 공연 detail 조회
   getConcertDetail: (concertId: number): Promise<AxiosResponse> =>
     request.get("concert", { params: { concertId } }),
+
+  // 공연별 Deal 검색 및 상세 리스트 조회
+  getConcertDealList: (
+    concertId: number,
+    lastDealId: number,
+    dealTypeName: string,
+    searchKeyword: string
+  ): Promise<AxiosResponse> =>
+    request.get("deal/list", {
+      params: { concertId, lastDealId, dealTypeName, searchKeyword },
+    }),
 };
 
 const dealAPI = {
@@ -91,6 +102,10 @@ const dealAPI = {
     limit: number;
     price: number;
   }): Promise<AxiosResponse> => request.authPost("deal/create", dealInfo),
+
+  // Deal 조회
+  getDealDeatail: (dealId: number): Promise<AxiosResponse> =>
+    request.authGet("deal/detail", { params: { dealId } }),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI };
