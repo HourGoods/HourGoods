@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import org.a204.hourgoods.domain.chatting.entity.ChattingRoom;
+import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.participant.entity.Participant;
@@ -67,7 +67,7 @@ public class Deal {
 	private List<DealBookmark> dealBookmarks = new ArrayList<>();
 
 	@OneToMany(mappedBy = "deal", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private List<ChattingRoom> chattingRooms = new ArrayList<>();
+	private List<DirectChattingRoom> directChattingRooms = new ArrayList<>();
 
 	@OneToMany(mappedBy = "deal", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<Participant> participants = new ArrayList<>();

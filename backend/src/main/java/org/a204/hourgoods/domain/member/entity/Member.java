@@ -12,8 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.a204.hourgoods.domain.chatting.entity.ChattingLog;
-import org.a204.hourgoods.domain.chatting.entity.ChattingRoom;
+import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.concert.entity.ConcertBookmark;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.DealBookmark;
@@ -71,14 +70,11 @@ public class Member {
 	@OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<DealBookmark> dealBookmarks = new ArrayList<>();
 
-	@OneToMany(mappedBy = "lowerMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private List<ChattingRoom> lowerMemberChattingList = new ArrayList<>();
+	@OneToMany(mappedBy = "receiver", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	private List<DirectChattingRoom> receiverChattingList = new ArrayList<>();
 
-	@OneToMany(mappedBy = "higherMember", orphanRemoval = true)
-	private List<ChattingRoom> higherMemberChattingList = new ArrayList<>();
-
-	@OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
-	private List<ChattingLog> chattingLogs = new ArrayList<>();
+	@OneToMany(mappedBy = "sender", orphanRemoval = true)
+	private List<DirectChattingRoom> senderChattingList = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<PointHistory> pointHistories = new ArrayList<>();
