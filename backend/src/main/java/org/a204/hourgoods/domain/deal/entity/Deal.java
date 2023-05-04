@@ -41,8 +41,7 @@ public class Deal {
 	private LocalDateTime startTime;
 
 	@Column(name = "is_available")
-	@ColumnDefault("true")
-	private Boolean isAvailable ;
+	private Boolean isAvailable = true;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "deal_type")
