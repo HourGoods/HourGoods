@@ -78,37 +78,31 @@ export default function index() {
       <div className="deal-info-input-component-container">
         <div className="deal-type-buttons-container">
           <Button
-            color="spink"
+            color="Trade"
             size="deal"
             isActive={activeDealType.Trade}
             onClick={() => activationHandler("Trade")}
-          >
-            거래
-          </Button>
+          />
           <Button
-            color="syellow"
+            color="Sharing"
             size="deal"
             isActive={activeDealType.Sharing}
             onClick={() => activationHandler("Sharing")}
-          >
-            나눔
-          </Button>
+          />
+
           <Button
-            color="sindigo"
+            color="Auction"
             size="deal"
             isActive={activeDealType.Auction}
             onClick={() => activationHandler("Auction")}
-          >
-            경매
-          </Button>
+          />
+
           <Button
-            color="spurple"
+            color="HourAuction"
             size="deal"
             isActive={activeDealType.HourAuction}
             onClick={() => activationHandler("HourAuction")}
-          >
-            Hour경매
-          </Button>
+          />
         </div>
         {/* ---------------------- 버튼 구분선 ---------------------- */}
         <input
@@ -159,9 +153,10 @@ export default function index() {
             <input
               type="number"
               name="price"
-              value={dealInfo.price}
+              value={dealInfo.price || ""}
               onChange={handleChange}
               id="HopePriceInput"
+              placeholder="금액을 입력해 주세요"
             />
           </label>
         )}
@@ -171,9 +166,10 @@ export default function index() {
             <input
               type="number"
               name="limit"
-              value={dealInfo.limit}
+              value={dealInfo.limit || ""}
               onChange={handleChange}
               id="SharedInput"
+              placeholder="1명 이상 작성해주세요"
             />
           </label>
         )}
@@ -197,9 +193,10 @@ export default function index() {
               <input
                 type="number"
                 name="minimumPrice"
-                value={dealInfo.minimumPrice}
+                value={dealInfo.minimumPrice || ""}
                 onChange={handleChange}
                 id="MinimumPriceInput"
+                placeholder="입력한 금액부터 입찰할 수 있습니다"
               />
             </label>
           </>

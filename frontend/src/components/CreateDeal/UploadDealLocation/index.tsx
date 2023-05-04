@@ -13,6 +13,13 @@ export default function index() {
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
   const concertDetailInfo = useRecoilValue(concertDetailState);
 
+  const locationHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDealInfo((prev) => ({
+      ...prev,
+      meetingLocation: e.target.value,
+    }));
+  };
+
   useEffect(() => {
     const mapContainer = document.getElementById("map");
 
@@ -105,7 +112,12 @@ export default function index() {
   return (
     <div className="create-deal-location-component-container">
       <p>거래 장소</p>
-      <input type="address" placeholder="예) 8번 게이트 앞, 쌀 화환 옆 화단" />
+      <input
+        type="address"
+        placeholder="예시) 8번 게이트 앞"
+        value={dealInfo.meetingLocation}
+        onChange={locationHandler}
+      />
       <p className="deal-loc-help-text-p">
         ※ 지도에서 핀을 옮겨 거래 장소를 지정할 수 있습니다.
       </p>

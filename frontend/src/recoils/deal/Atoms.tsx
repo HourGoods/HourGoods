@@ -11,7 +11,7 @@ const dealState = atom({
     startTime: "",
     longitude: 0,
     latitude: 0,
-    memberId: 0,
+    meetingLocation: "",
     concertId: 0,
     // dealtypes: Auction, HourAuction, Sharing, Trade
     dealType: "Trade",
