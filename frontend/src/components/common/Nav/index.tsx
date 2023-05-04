@@ -90,6 +90,7 @@ export default function Nav() {
                     window.location.href = loginUrl;
                   },
                 },
+                { label: "마이페이지", value: "mypage" },
               ]}
             />
           )}
@@ -111,6 +112,9 @@ export default function Nav() {
               </Link>
               <Link to="search" onClick={toggleMenu}>
                 <p>탐색하기</p>
+              </Link>
+              <Link to="mypage" onClick={toggleMenu}>
+                <p>마이페이지</p>
               </Link>
               <a href={loginUrl}>
                 <p>로그인</p>

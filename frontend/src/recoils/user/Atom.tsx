@@ -6,6 +6,7 @@ import { recoilPersist } from "recoil-persist";
 
 const { persistAtom } = recoilPersist();
 
+// 로그인 권한정보
 const AuthStateAtom = atom({
   key: "authState",
   default: {
@@ -15,6 +16,7 @@ const AuthStateAtom = atom({
   effects_UNSTABLE: [persistAtom],
 });
 
+// 유저 회원정보
 const UserStateAtom = atom({
   key: "usersState",
   default: {
