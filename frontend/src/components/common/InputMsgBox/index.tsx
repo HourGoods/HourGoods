@@ -3,7 +3,7 @@ import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
 import "./index.scss";
 
 interface IInputProps {
-  onClick: any;
+  onClick?: any;
   type: string;
 }
 

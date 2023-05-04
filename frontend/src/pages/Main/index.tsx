@@ -46,35 +46,14 @@ export default function Main() {
             <p className="success-p">다음 경매 땐 꼭 성공하세요!</p>
           </Modal>
         )}
-        <Button color="purple">purple 버튼</Button>
-        <Button color="pink">pink 버튼</Button>
-        <Button color="yellow">yellow 버튼</Button>
-        <Button color="indigo" size="small">
-          예
-        </Button>
-        <Button color="white" size="small">
-          아니오
-        </Button>
-        <Button color="shotpink" size="deal">
-          전체보기
-        </Button>
-        <Button color="spurple" size="deal">
-          Hour경매
-        </Button>
-        <Button color="sindigo" size="deal">
-          경매
-        </Button>
-        <Button color="syellow" size="deal">
-          나눔
-        </Button>
-        <Button color="spink" size="deal">
-          거래
-        </Button>
       </div>
       <div className="temp-direction-div">
         <p>임시 바로가기 모음</p>
         <Link to="/create/deal">
           <button type="button">Deal 생성 바로가기</button>
+        </Link>
+        <Link to="/auction">
+          <Button>경매장 입장하기</Button>
         </Link>
       </div>
       <h5>임시 가이드라인 정보</h5>
