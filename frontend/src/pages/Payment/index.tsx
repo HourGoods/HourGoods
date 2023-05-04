@@ -4,8 +4,11 @@ import Payment from "@components/Payment";
 export default function index() {
   return (
     <div>
-      <p>ㅎㅎ</p>
-      <Payment />
+      <div className="ticket-main-container">
+        <div className="ticket-contents-container">
+          <Payment />
+        </div>
+      </div>
     </div>
   );
 }

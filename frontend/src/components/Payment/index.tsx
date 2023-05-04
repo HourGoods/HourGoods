@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Button from "@components/common/Button";
+import { TicketIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
 
 export default function index() {
   const [state, setState] = useState({
@@ -56,6 +57,28 @@ export default function index() {
   return (
     <div>
       <p>결제하시겠습니까?</p>
+      <div className="ticket-container">
+        <div className="link-decoration">
+          <div className="ticket-wrapper">
+            <div className="ticket">
+              <TicketIcon className="ticket-icon" />
+              <p className="ticket-tag">포인트</p>
+            </div>
+            <p className="cash">1,000,000원</p>
+          </div>
+        </div>
+      </div>
+      <div className="ticket-container">
+        <div className="link-decoration">
+          <div className="ticket-wrapper">
+            <div className="ticket">
+              <ArrowsUpDownIcon className="ticket-icon" />
+              <p className="ticket-tag">충전 금액</p>
+            </div>
+            <input className="cash" type="number" min="0" max="1000000" />
+          </div>
+        </div>
+      </div>
       <Button color="yellow">
         <a href={payUrl}>결제 링크로 고고</a>
       </Button>
