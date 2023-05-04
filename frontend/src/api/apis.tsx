@@ -39,6 +39,11 @@ const memberAPI = {
 };
 */
 
+const mypageAPI = {
+  pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/point", { params: { lastPointHistoryId } }),
+};
+
 const memberAPI = {
   signup: (userInfo: {
     email: string;
@@ -47,6 +52,10 @@ const memberAPI = {
   }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
   duplicateNickname: (nickname: string): Promise<AxiosResponse> =>
     request.authPost("duplicateNickname", { nickname }),
+  editUser: (userInfo: {
+    nickname: string;
+    imageUrl: string;
+  }): Promise<AxiosResponse> => request.authPut("member/profile", userInfo),
 };
 
 const concertAPI = {
@@ -84,4 +93,4 @@ const dealAPI = {
   }): Promise<AxiosResponse> => request.authPost("deal/create", dealInfo),
 };
 
-export { memberAPI, concertAPI, dealAPI };
+export { memberAPI, concertAPI, dealAPI, mypageAPI };

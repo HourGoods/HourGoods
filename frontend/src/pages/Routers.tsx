@@ -38,7 +38,7 @@ export default function Routers() {
       <Route path="/payment" element={<Payment />} />
       <Route path="/edit" element={<EditProfile />} />
 
-      <Route path="/updateprofile" element={<UpdateProfile />} />
+      <Route path="/update/profile" element={<UpdateProfile />} />
     </Routes>
   );
 }

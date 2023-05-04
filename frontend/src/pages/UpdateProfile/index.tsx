@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback, useEffect } from "react";
 import Button from "@components/common/Button";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useLocation } from "react-router";
@@ -6,13 +6,14 @@ import "./index.scss";
 import { useRecoilState } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
+import { useNavigate } from "react-router-dom";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+  const navigate = useNavigate();
 
-  const [uploadedImage, setUploadedIamge] = useState<string>(
-    "https://openimage.interpark.com/goods_image_big/1/3/6/7/10657921367_l.jpg"
-  );
+  // 이미지 업로드
+  const [uploadedImage, setUploadedIamge] = useState<string>("");
   const uploadImageRef = useRef<HTMLInputElement>(null);
 
   const uploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,8 +29,8 @@ export default function index() {
     uploadImageRef.current?.click();
   };
 
+  // 닉네임 변경
   const location = useLocation();
-
   const fromMy = location.state.mypage;
 
   const [nicknameInput, setNicknameInput] = useState<string>("");
@@ -75,7 +76,46 @@ export default function index() {
     }
   };
 
+  // 회원 가입
+
+  const singHandleClick = useCallback(() => {
+    memberAPI
+      .signup(userInfo)
+      .then(() => {
+        // 회원가입완료
+        console.log(userInfo);
+        navigate("/main");
+      })
+      .catch((err) => {
+        const errCode = err.response.data.status;
+        if (errCode === 400) {
+          alert("닉네임을 입력해주세요.");
+        }
+      });
+  }, [setUserInfo, userInfo]);
+
+  // 회원 수정
+
+  const editHandleClick = useCallback(() => {
+    memberAPI
+      .editUser(userInfo)
+      .then(() => {
+        navigate("/mypage");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [setUserInfo, userInfo]);
+
+  // input enter
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      nicknameChecker(e); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
+
   console.log(userInfo);
+
   return (
     <div className="upper">
       <div className="updateprofile-container">
@@ -84,7 +124,7 @@ export default function index() {
             <label htmlFor="uploadImg">
               <h2>{fromMy ? "회원정보 수정" : "회원가입"}</h2>
               <div className="updateprofile-contents-container-wrapper">
-                <img src={uploadedImage} alt="프로필 사진" />
+                <img src={userInfo.imageUrl} alt="프로필 사진" />
                 <input
                   id="uploadImg"
                   type="file"
@@ -105,8 +145,9 @@ export default function index() {
                 <input
                   type="text"
                   id="nickname"
-                  placeholder="아이유사랑해"
+                  placeholder={userInfo.nickname}
                   onChange={nicknameHandler}
+                  onKeyPress={handleOnKeyPress}
                 />
                 <button type="button" onClick={nicknameChecker}>
                   변경
@@ -131,9 +172,11 @@ export default function index() {
               alignItems: "center",
             }}
           >
-            <Button color="dark-blue">
-              {fromMy ? "회원정보 수정하기" : "회원가입"}
-            </Button>
+            {fromMy ? (
+              <Button onClick={editHandleClick}>회원정보 수정하기</Button>
+            ) : (
+              <Button onClick={singHandleClick}>회원가입</Button>
+            )}
           </div>
         </div>
       </div>
