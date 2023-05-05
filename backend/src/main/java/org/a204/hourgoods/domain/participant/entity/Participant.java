@@ -22,8 +22,8 @@ public class Participant extends BaseTime {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "rank")
-    private Integer rank;
+    @Column(name = "ranking")
+    private Integer ranking;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")

@@ -96,7 +96,7 @@ dependencies {
 //}
 //test.finalizedBy jacocoTestReport
 
-tasks.named('test') {
+test {
     useJUnitPlatform()
 }
 

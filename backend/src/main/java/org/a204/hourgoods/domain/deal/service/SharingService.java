@@ -63,7 +63,7 @@ public class SharingService {
 			return -1;
 		}
 		Participant participant = Participant.builder()
-			.rank(output)
+			.ranking(output)
 			.deal(deal)
 			.member(member).build();
 		participantRepository.save(participant);
