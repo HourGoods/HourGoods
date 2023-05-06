@@ -78,10 +78,11 @@ const concertAPI = {
     concertId: number,
     lastDealId: number,
     dealTypeName: string,
-    searchKeyword: string
+    searchKeyword: string,
+    nickname?: string
   ): Promise<AxiosResponse> =>
     request.get("deal/list", {
-      params: { concertId, lastDealId, dealTypeName, searchKeyword },
+      params: { concertId, lastDealId, dealTypeName, searchKeyword, nickname },
     }),
 };
 
