@@ -13,7 +13,8 @@ export default function index() {
       <div className="private-chatroom-box-container">
         <div className="box-upper-wrapper">
           <div className="chatroom-dealcard">
-            <DealCard />
+            {/* <DealCard /> */}
+            <p>DealCard에 DealInfo 내려주세요</p>
           </div>
           <div className="private-chatroom-content-container">
             <div className="not-me-chat">

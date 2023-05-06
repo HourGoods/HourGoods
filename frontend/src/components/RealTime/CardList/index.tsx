@@ -7,9 +7,7 @@ export default function index() {
     <div className="realtime-deal-card-list-container">
       <p className="realtime-page-component-title-p">실시간 Time Deal</p>
       <SearchBar />
-      <DealCard />
-      <DealCard />
-      <DealCard />
+      <p>딜카드 필요</p>
     </div>
   );
 }

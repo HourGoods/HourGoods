@@ -78,10 +78,11 @@ const concertAPI = {
     concertId: number,
     lastDealId: number,
     dealTypeName: string,
-    searchKeyword: string
+    searchKeyword: string,
+    nickname?: string
   ): Promise<AxiosResponse> =>
     request.get("deal/list", {
-      params: { concertId, lastDealId, dealTypeName, searchKeyword },
+      params: { concertId, lastDealId, dealTypeName, searchKeyword, nickname },
     }),
 };
 
@@ -106,6 +107,13 @@ const dealAPI = {
   // Deal 조회
   getDealDeatail: (dealId: number): Promise<AxiosResponse> =>
     request.authGet("deal/detail", { params: { dealId } }),
+
+  // Deal 북마크
+  postBookmark: (dealId: number): Promise<AxiosResponse> =>
+    request.authPost("deal/bookmark", { dealId }),
+  // Deal 북마크 해제
+  deleteBookmark: (dealId: number): Promise<AxiosResponse> =>
+    request.authDelete("deal/bookmark", { data: { dealId } }),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI };
