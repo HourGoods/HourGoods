@@ -61,7 +61,7 @@ public class DealService {
 		checkConcertValidation(request.getConcertId());
 		checkDealTypeValidation(request.getDealTypeName());
 		Member member = null;
-		if (request.getNickname() != null) {
+		if (request.getNickname().trim().length() != 0) {
 			member = checkMemberValidation(request.getNickname());
 		}
 
@@ -101,7 +101,7 @@ public class DealService {
 
 			// 사용자가 있는 경우 북마크 여부 반환
 			Boolean isBookmarked = null;
-			if (request.getNickname() != null) {
+			if (member != null) {
 				isBookmarked = bookmarkRepository.existsByMemberAndDeal(member, deal);
 			}
 
