@@ -15,6 +15,8 @@ import org.a204.hourgoods.domain.concert.model.KopisConcertDetail;
 import org.a204.hourgoods.domain.concert.model.KopisConcertList;
 import org.a204.hourgoods.domain.concert.model.KopisPlaceDetail;
 import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
+import org.a204.hourgoods.global.error.GlobalBaseException;
+import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -99,14 +101,18 @@ public class KopisService {
 
 		// 공연 상세 정보 호출
 		KopisConcertDetail kopisConcertDetail = new KopisConcertDetail();
+		KopisConcertDetail.Info concertDetail = null;
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(KopisConcertDetail.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 			kopisConcertDetail = (KopisConcertDetail)unmarshaller.unmarshal(new StringReader(result.getBody()));
+			concertDetail = kopisConcertDetail.getInfo().get(0);
 		} catch (JAXBException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			throw new GlobalBaseException(GlobalErrorCode.KOPIS_CONCET_NOT_FOUND);
 		}
-		KopisConcertDetail.Info concertDetail = kopisConcertDetail.getInfo().get(0);
+
 		return concertDetail;
 	}
 
