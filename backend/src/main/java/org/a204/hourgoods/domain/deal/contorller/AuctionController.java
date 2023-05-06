@@ -6,11 +6,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.a204.hourgoods.domain.deal.request.AuctionMessage;
+import org.a204.hourgoods.domain.deal.response.AuctionChatMessage;
 import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
 import org.a204.hourgoods.domain.deal.service.AuctionService;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.global.common.BaseResponse;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,5 +40,19 @@ public class AuctionController {
         Member member = memberDetails.getMember();
         AuctionEntryResponse auctionEntryResponse = auctionService.entryAuction(member, dealId);
         return new BaseResponse<>(auctionEntryResponse);
+    }
+
+    /*
+    소켓 관련 로직
+     */
+    private final SimpMessagingTemplate messagingTemplate;
+    @MessageMapping("/send/{dealId}")
+    public void handleMessage(@DestinationVariable String dealId, @Payload AuctionMessage message) {
+        switch(message.getMessageType()) {
+            case "CHAT":
+                AuctionChatMessage auctionChatMessage = auctionService.handleChat(dealId, message);
+                messagingTemplate.convertAndSend("/auction/" + dealId, auctionChatMessage);
+                return;
+        }
     }
 }

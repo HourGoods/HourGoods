@@ -1,11 +1,13 @@
 package org.a204.hourgoods.domain.deal.entity;
 
 import lombok.Builder;
+import lombok.Getter;
 import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
+@Getter
 public class AuctionInfo implements Serializable {
     private Integer currentBid;
     private Integer participantCount;
