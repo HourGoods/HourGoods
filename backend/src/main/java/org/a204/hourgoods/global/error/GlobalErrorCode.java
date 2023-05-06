@@ -24,6 +24,7 @@ public enum GlobalErrorCode {
 	DEAL_NOT_FOUND(404, "D200", "해당 id에 해당하는 거래가 없습니다."),
 	BOOKMARK_NOT_FOUND(404, "D300", "해당 사용자는 해당 거래를 북마크하지 않았습니다."),
 	DEAL_YET_START(400, "D400", "아직 거래가 시작되지 않았습니다."),
+	DEAL_CLOSED(400, "D500", "이미 종료된 거래입니다."),
 	DEAL_TYPE_MISS_MATCH(400, "D500", "거래 타입이 올바르지 않습니다."),
 	CONCERT_NOT_FOUND(404, "C100", "해당하는 공연을 찾을 수 없습니다."),
 	CONCERT_ALREADY_EXISTS(400, "C200", "이미 등록된 공연 정보입니다."),
