@@ -20,6 +20,7 @@ export default function DealDetail() {
     userNickname: "",
     startTime: "",
     concertTitle: "",
+    meetingLocation: "",
     isBookmarked: false,
     minPrice: 0,
     endTime: "",
@@ -29,6 +30,7 @@ export default function DealDetail() {
   const navigate = useNavigate();
   const params = useParams();
   const stringDealId = params.dealId;
+  const [dealId, setDealId] = useState(0);
 
   const userAuthInfo = useRecoilValue(AuthStateAtom);
 
@@ -41,6 +43,7 @@ export default function DealDetail() {
     if (stringDealId) {
       const dealId = parseInt(stringDealId, 10); // 문자열을 숫자로 변환
       const result = dealAPI.getDealDeatail(dealId);
+      setDealId(dealId);
       result.then((res) => {
         console.log(res, "만든 걸로 받아온 deal 정보");
         setDealInfo(res.data.result);
@@ -52,8 +55,8 @@ export default function DealDetail() {
     <div className="deal-detail-page-container">
       <DealBanner dealInfo={dealInfo} />
       <hr />
-      <DealInfo dealInfo={dealInfo}/>
-      <DealEnterButton />
+      <DealInfo dealInfo={dealInfo} setDealInfo={setDealInfo} dealId={dealId} />
+      <DealEnterButton dealType={dealInfo.dealType} />
     </div>
   );
 }
