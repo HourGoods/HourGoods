@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 import bgStars from "@assets/BGstars.svg";
 import ChatRoomCardList from "@components/MyChatRoom/ChatroomCardList";
-import PrivateChat from "@components/MyChatRoom/PrivateChat";
+import PrivateChat from "@pages/MyChatRoom/PrivateChat";
 import { useLocation } from "react-router-dom";
 import Modal from "@components/common/Modal";
 import { useRecoilState } from "recoil";
@@ -27,11 +27,7 @@ export default function index() {
   return (
     <div className="chatroom-container">
       <ChatRoomCardList />
-      {modalOpen && (
-        <Modal setModalOpen={setModalOpen}>
-          <PrivateChat />
-        </Modal>
-      )}
+      {/* <PrivateChat /> */}
     </div>
   );
 }

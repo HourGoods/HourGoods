@@ -6,6 +6,7 @@ import SearchPage from "@pages/Search";
 import LoginPage from "@pages/Login";
 import MyPage from "@pages/MyPage";
 import MyChatRoom from "@pages/MyChatRoom";
+import PrivateChat from "@pages/MyChatRoom/PrivateChat";
 import TempMain from "@pages/TempMain";
 import CreateDealPage from "@pages/CreateDeal";
 import ConcertDeal from "@pages/ConcertDeal";
@@ -41,6 +42,7 @@ export default function Routers() {
         <Route path="/ticket" element={<Ticket />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/mychatroom" element={<MyChatRoom />} />
+        <Route path="/mychatroom/1" element={<PrivateChat />} />
         <Route path="/auction" element={<Auction />} />
       </Route>
 
