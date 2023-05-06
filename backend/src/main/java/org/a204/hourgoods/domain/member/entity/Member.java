@@ -90,7 +90,7 @@ public class Member {
 		this.id = id;
 		this.email = email;
 		this.nickname = nickname;
-		this.imageUrl = imageUrl;
+		this.imageUrl = imageUrl != null? imageUrl : "'https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg'";
 	}
 
 	public void editMember(String nickname, String imageUrl) {
