@@ -30,7 +30,7 @@ public class Auction extends Deal {
 	public Auction(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvaliable,
 		Member dealHost, Concert concert, DealType dealType, Double longitude, Double latitude, Integer minimumPrice, Integer finalPrice,
 		LocalDateTime endTime, String meetingLocation) {
-		super(imageUrl, title, content, startTime, isAvaliable, dealHost, concert, dealType, longitude, latitude, meetingLocation);
+		super(imageUrl, title, content, startTime, dealHost, concert, dealType, longitude, latitude, meetingLocation);
 		this.minimumPrice = minimumPrice;
 		this.finalPrice = finalPrice;
 		this.endTime = endTime;
