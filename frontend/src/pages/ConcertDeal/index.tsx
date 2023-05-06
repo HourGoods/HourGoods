@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useLocation } from "react-router";
 import { useRecoilValue } from "recoil";
 import { concertAPI } from "@api/apis";
 import { UserStateAtom } from "@recoils/user/Atom";
@@ -34,9 +34,14 @@ export default function index() {
   const userInfo = useRecoilValue(UserStateAtom);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(location.state);
+  const {concertInfo} = location.state;
 
   const goMakeDeal = () => {
-    navigate("/create/deal");
+    navigate("/create/deal", {
+      state: { concertId, concertInfo },
+    });
   };
 
   useEffect(() => {
@@ -62,7 +67,7 @@ export default function index() {
 
   return (
     <div className="concert-deal-page-container">
-      {/* <ConcertCard /> */}
+      <ConcertCard concertInfo={concertInfo} />
       <SearchTab />
       <DealCardList concertDealList={concertDealList} />
       <div className="create-deal-button-wrapper">
