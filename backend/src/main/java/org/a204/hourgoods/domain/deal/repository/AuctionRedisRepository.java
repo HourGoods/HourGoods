@@ -39,4 +39,13 @@ public class AuctionRedisRepository {
         AuctionInfo auctionInfo = valueOperations.get(auctionKey);
         return auctionInfo.getParticipantCount();
     }
+    public AuctionInfo getAuctionInfo(String dealId) {
+        String auctionKey = "auction:" + dealId;
+        return valueOperations.get(auctionKey);
+    }
+    public AuctionInfo saveAuctionInfo(String dealId, AuctionInfo auctionInfo) {
+        String auctionKey = "auction:" + dealId;
+        valueOperations.set(auctionKey, auctionInfo);
+        return valueOperations.get(auctionKey);
+    }
 }

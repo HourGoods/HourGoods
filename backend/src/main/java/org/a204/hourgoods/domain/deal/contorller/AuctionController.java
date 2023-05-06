@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a204.hourgoods.domain.deal.request.AuctionMessage;
+import org.a204.hourgoods.domain.deal.response.AuctionBidMessage;
 import org.a204.hourgoods.domain.deal.response.AuctionChatMessage;
 import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
 import org.a204.hourgoods.domain.deal.service.AuctionService;
@@ -53,6 +54,9 @@ public class AuctionController {
                 AuctionChatMessage auctionChatMessage = auctionService.handleChat(dealId, message);
                 messagingTemplate.convertAndSend("/auction/" + dealId, auctionChatMessage);
                 return;
+            case "BID":
+                AuctionBidMessage auctionBidMessage = auctionService.handleBid(dealId, message);
+                messagingTemplate.convertAndSend("/auction/" + dealId, auctionBidMessage);
         }
     }
 }

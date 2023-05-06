@@ -2,12 +2,14 @@ package org.a204.hourgoods.domain.deal.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
 @Getter
+@NoArgsConstructor
 public class AuctionInfo implements Serializable {
     private Integer currentBid;
     private Integer participantCount;
@@ -22,6 +24,10 @@ public class AuctionInfo implements Serializable {
     }
     public void addParticipant() {
         this.participantCount += 1;
+    }
+    public void updateBidder(String nickname, Integer bidAmount) {
+        this.bidder = nickname;
+        this.currentBid = bidAmount;
     }
     public AuctionEntryResponse toEntryResponse() {
         return AuctionEntryResponse.builder()
