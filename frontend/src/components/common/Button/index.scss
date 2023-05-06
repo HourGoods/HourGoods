@@ -41,6 +41,9 @@
 @mixin deal-btn-color($color) {
   background-color: $gray-5;
   color: $gray-3;
+  p {
+    text-align: center;
+  }
   &:hover,
   &:active,
   &.activated {
@@ -107,19 +110,19 @@
     font-size: 10px;
     padding: 0px 5px;
   }
-  &.shotpink {
+  &.All {
     @include deal-btn-color($pink-1);
   }
-  &.spurple {
+  &.HourAuction {
     @include deal-btn-color($violet-2);
   }
-  &.sindigo {
+  &.Auction {
     @include deal-btn-color($indogo-4);
   }
-  &.syellow {
+  &.Sharing {
     @include deal-btn-color($yellow-2);
   }
-  &.spink {
+  &.Trade {
     @include deal-btn-color($pink-2);
   }
 
