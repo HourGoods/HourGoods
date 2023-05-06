@@ -171,6 +171,7 @@ public class DealService {
 			.userImageUrl(deal.getDealHost().getImageUrl())
 			.userNickname(deal.getDealHost().getNickname())
 			.startTime(deal.getStartTime())
+			.concertId(deal.getConcert().getId())
 			.concertTitle(deal.getConcert().getTitle())
 			.meetingLocation(deal.getMeetingLocation())
 			.minPrice(minPrice)

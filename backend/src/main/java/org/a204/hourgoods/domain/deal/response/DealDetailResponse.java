@@ -34,6 +34,8 @@ public class DealDetailResponse {
 	private String userNickname;
 	@Schema(description = "거래 시작 시간")
 	private LocalDateTime startTime;
+	@Schema(description = "콘서트 ID")
+	private Long concertId;
 	@Schema(description = "콘서트 이름")
 	private String concertTitle;
 	@Schema(description = "북마크 여부")
