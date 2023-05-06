@@ -84,6 +84,15 @@ const concertAPI = {
     request.get("deal/list", {
       params: { concertId, lastDealId, dealTypeName, searchKeyword, nickname },
     }),
+
+  // 사용자 근처 오늘의 공연
+  getTodayConcert: (
+    longitude: number,
+    latitude: number
+  ): Promise<AxiosResponse> =>
+    request.get("concert/today", {
+      params: { longitude, latitude },
+    }),
 };
 
 const dealAPI = {

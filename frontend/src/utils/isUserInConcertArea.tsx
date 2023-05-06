@@ -1,4 +1,3 @@
-
 /**
  * 두 지점 간의 거리(m)를 계산하는 함수
  * @param lat1 지점 1의 위도
@@ -45,7 +44,7 @@ async function isWithin500mFromLocation(
   map: any
 ): Promise<boolean> {
   const distance = haversineDistance(concertLat, concertLng, myLat, myLng);
-  const isWithin500m = distance <= 180;
+  const isWithin500m = distance <= 500;
   let fillColor;
   if (isWithin500m) {
     fillColor = "#6366F1";
