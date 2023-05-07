@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { chattingAPI } from "@api/apis";
-import DealCard from "@components/common/DealCard";
-import InputMsgBox from "@components/common/InputMsgBox";
-import { UserCircleIcon } from "@heroicons/react/24/solid";
+import React, { useState } from "react";
+import PrivateChat from "@components/MyChatRoom/PrivateChat";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import { useNavigate } from "react-router-dom";
@@ -10,55 +7,11 @@ import { useNavigate } from "react-router-dom";
 export default function index() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const sendMsgHandler = () => {
-    //
-  };
-
-  const meetModalHandler = () => {
-    setIsModalOpen(true);
-  };
-
-  useEffect(() => {
-    const req = chattingAPI.getmychatMsg(1);
-    req
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, []);
 
   return (
     <div>
       <Modal>
-        <div className="private-chatroom-all-container">
-          <div className="private-chatroom-box-container">
-            <div className="box-upper-wrapper">
-              <div className="chatroom-dealcard">
-                {/* <DealCard /> */}
-              </div>
-              <div className="private-chatroom-content-container">
-                <div className="not-me-chat">
-                  <UserCircleIcon />
-                  <div className="not-me-chat-message">
-                    <p className="not-me-name">아이유사랑해</p>
-                    <p className="not-me-message">남이 보낸 메세지</p>
-                  </div>
-                </div>
-                <div className="its-me-chat">
-                  <p className="its-me-chatbox">내가 보낸 메세지</p>
-                </div>
-              </div>
-            </div>
-            <div className="box-bottom-wrapper">
-              <InputMsgBox type="msg" onClick={sendMsgHandler} />
-            </div>
-          </div>
-        </div>
-        <Button color="pink" onClick={meetModalHandler}>
-          만나서 거래하기
-        </Button>
+        <PrivateChat />
       </Modal>
       {isModalOpen && (
         <Modal setModalOpen={setIsModalOpen}>
