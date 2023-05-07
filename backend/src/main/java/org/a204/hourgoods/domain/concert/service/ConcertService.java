@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.concert.exception.ConcertAlreadyExistsException;
+import org.a204.hourgoods.domain.concert.exception.ConcertNotFoundException;
 import org.a204.hourgoods.domain.concert.model.KopisConcertDetail;
 import org.a204.hourgoods.domain.concert.model.KopisPlaceDetail;
 import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
@@ -36,7 +37,9 @@ public class ConcertService {
 		if (!concertRepository.existsByKopisConcertId(kopisConcertId)) {
 			return createConcert(kopisConcertId);
 		}
-		Long concertId = concertRepository.findByKopisConcertId(kopisConcertId).orElseThrow().getId();
+		Long concertId = concertRepository.findByKopisConcertId(kopisConcertId)
+			.orElseThrow(ConcertNotFoundException::new)
+			.getId();
 		return new ConcertIdResponse(concertId);
 	}
 
@@ -63,7 +66,7 @@ public class ConcertService {
 
 	// concertId와 일치하는 공연 정보 반환
 	public ConcertInfoResponse getConcertDetail(Long concertId) {
-		Concert concert = concertRepository.findById(concertId).orElseThrow();
+		Concert concert = concertRepository.findById(concertId).orElseThrow(ConcertNotFoundException::new);
 		return new ConcertInfoResponse(concert);
 	}
 
@@ -72,14 +75,13 @@ public class ConcertService {
 		// startDate: { yyyy.MM.dd }
 		// timeInfo: { 화요일(20:00), 수요일~금요일(18:00, 22:00) }
 		// 정규표현식 패턴 생성
-		// Pattern pattern = Pattern.compile("(?<=\\()\\d{2}:\\d{2}(?=\\))");
-		// Matcher matcher = pattern.matcher(timeInfo);
-		// String str = startDate + "/";
-		// str += matcher != null ? matcher.find() : "18:00";
-		// DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd/HH:mm");
-		// LocalDateTime ldt = LocalDateTime.parse(str, formatter);
-		// return ldt;
-		return null;
+		Pattern pattern = Pattern.compile("(?<=\\()\\d{2}:\\d{2}(?=\\))");
+		Matcher matcher = pattern.matcher(timeInfo);
+		String str = startDate + "/";
+		str += matcher.find() ? matcher.group() : "18:00";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd/HH:mm");
+		LocalDateTime ldt = LocalDateTime.parse(str, formatter);
+		return ldt;
 	}
 
 	// 공연 정보 등록
