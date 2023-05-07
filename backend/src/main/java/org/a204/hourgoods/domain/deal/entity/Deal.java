@@ -76,14 +76,13 @@ public class Deal {
 	private List<Transaction> transactions = new ArrayList<>();
 
 	@Builder
-	public Deal(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvailable,
+	public Deal(String imageUrl, String title, String content, LocalDateTime startTime,
 		Member dealHost,
 		Concert concert, DealType dealType, Double longitude, Double latitude, String meetingLocation) {
 		this.imageUrl = imageUrl;
 		this.title = title;
 		this.content = content;
 		this.startTime = startTime;
-		this.isAvailable = isAvailable;
 		this.dealHost = dealHost;
 		this.concert = concert;
 		this.dealType = dealType;
