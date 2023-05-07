@@ -108,4 +108,10 @@ const dealAPI = {
     request.authGet("deal/detail", { params: { dealId } }),
 };
 
-export { memberAPI, concertAPI, dealAPI, mypageAPI };
+// 채팅관련 api
+const chattingAPI = {
+  // 내채팅 목록 조회
+  getmychatList: (): Promise<AxiosResponse> => request.authGet("/chat/list"),
+};
+
+export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI };
