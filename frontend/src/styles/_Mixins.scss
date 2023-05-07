@@ -4,7 +4,7 @@
 
 // 반응형 미디어쿼리
 @mixin mobile {
-  @media ( (max-width: #{$breakpoint-tablet})) {
+  @media screen and (max-width: #{$breakpoint-tablet}) {
     @content;
   }
 }

@@ -5,6 +5,7 @@ import "./index.scss";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import pinkCloud from "@assets/pinkCloud.svg";
 import purpleCloud from "@assets/purpleCloud.svg";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface IModalProps {
   setModalOpen?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,9 +22,15 @@ export default function Modal({
   useModalRef(modalRef, () => setModalOpen?.(false));
   useModalRef(modalRef, () => setSuccess?.(0));
 
+  const location = useLocation();
+  const navigate = useNavigate();
   const closeModal = () => {
     setModalOpen?.(false);
     setSuccess?.(0);
+    // 일대일채팅에서 넘어올 때
+    if (location.pathname.startsWith("/mychatroom")) {
+      navigate("/mychatroom");
+    }
   };
 
   return (

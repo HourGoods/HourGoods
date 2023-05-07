@@ -18,6 +18,20 @@
     height: 40px;
   }
 
+  // 딜 카드 리스트
+  .concert-deals-component-container {
+    .deal-card-component-container {
+      margin: 10px auto;
+      .deal-card-bottom-container {
+        display: flex;
+        flex-direction: row;
+        @include mobile {
+          display: inline-block;
+        }
+      }
+    }
+  }
+
   .create-deal-button-wrapper {
     // position: absolute;
     button {

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { useLocation } from "react-router-dom";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import { searchResultConcertState } from "@recoils/concert/Atoms";
 import Button from "@components/common/Button";
@@ -25,7 +26,21 @@ export default function index() {
   const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
 
   // 공연 정보가 선택된 경우 표시될 값
-  const searchResultConcertInfo = useRecoilValue(searchResultConcertState);
+  // const searchResultConcertInfo = useRecoilValue(searchResultConcertState);
+  const [searchResultConcertInfo, setSearchResultConcertInfo] = useRecoilState(
+    searchResultConcertState
+  );
+
+  // 만약 콘서트가 선택된채 왔다면 표시할 값
+  const location = useLocation();
+  const concertInfo = location.state;
+
+  useEffect(() => {
+    if (location.state) {
+      const { concertId, concertInfo } = location.state;
+      setSearchResultConcertInfo(concertInfo);
+    }
+  }, []);
 
   // Deal 타입 변화
   const [activeDealType, setActiveDealType] = useState({
@@ -46,6 +61,7 @@ export default function index() {
       ...prev,
       [name]: value,
     }));
+    console.log(dealInfo);
   };
 
   // 검색
@@ -116,6 +132,7 @@ export default function index() {
 
         <div className="concert-search-button">
           <p>공연 정보</p>
+
           <button
             type="button"
             id="seacrh-concert-input"
