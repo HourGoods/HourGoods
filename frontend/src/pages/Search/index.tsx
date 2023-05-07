@@ -12,6 +12,9 @@ export interface ConcertInterface {
   place: string;
   startDate: string;
   title: string;
+  concertId?: number;
+  longitude?: number;
+  latitude?: number;
 }
 
 export type ConcertList = ConcertInterface[];

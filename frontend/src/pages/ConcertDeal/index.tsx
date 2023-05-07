@@ -36,7 +36,7 @@ export default function index() {
   const navigate = useNavigate();
   const location = useLocation();
   // console.log(location.state);
-  const {concertInfo} = location.state;
+  const { concertInfo } = location.state;
 
   const goMakeDeal = () => {
     navigate("/create/deal", {
@@ -68,7 +68,11 @@ export default function index() {
   return (
     <div className="concert-deal-page-container">
       <ConcertCard concertInfo={concertInfo} />
-      <SearchTab />
+      <SearchTab
+        concertId={concertId}
+        nickname={userInfo.nickname}
+        setConcertDealList={setConcertDealList}
+      />
       <DealCardList concertDealList={concertDealList} />
       <div className="create-deal-button-wrapper">
         <Button color="dark-blue" onClick={goMakeDeal}>

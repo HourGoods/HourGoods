@@ -29,7 +29,7 @@ interface ButtonContent {
 }
 
 export default function index(props: any) {
-  const { dealInfo, setDealInfo, dealId } = props;
+  const { dealInfo, setDealInfo, dealId, concertInfo } = props;
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [auctionDuration, setAuctionDuration] = useState(0);
@@ -120,6 +120,7 @@ export default function index(props: any) {
         {/* 위 */}
         <div className="deal-info-desktop-top-container">
           <Button color={dealInfo.dealType} size="deal" isActive />
+          <ConcertCard concertInfo={concertInfo} />
         </div>
 
         {/* 아래 */}

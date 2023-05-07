@@ -10,7 +10,7 @@ export default function index(props: IDealInfoProps) {
   const { concertDealList } = props;
 
   return (
-    <div>
+    <div className="concert-deals-component-container">
       {concertDealList.map((deal: DealInfoInterface) => (
         <DealCard dealInfo={deal} key={deal.dealId} />
       ))}
