@@ -112,6 +112,13 @@ const dealAPI = {
 const chattingAPI = {
   // 내채팅 목록 조회
   getmychatList: (): Promise<AxiosResponse> => request.authGet("/chat/list"),
+  // 일대일채팅창 대화내용 조회
+  getmychatMsg: (
+    chattingRoomId: number,
+  ): Promise<AxiosResponse> =>
+    request.authGet(
+      `/chat/${chattingRoomId}/messages`
+    ),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI };
