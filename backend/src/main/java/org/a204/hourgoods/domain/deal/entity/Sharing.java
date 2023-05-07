@@ -21,7 +21,7 @@ public class Sharing extends Deal {
 	private Integer limitation;
 
 	@Builder(builderMethodName = "sharingBuilder")
-	public Sharing(String imageUrl, String title, String content, LocalDateTime startTime, Boolean isAvaliable,
+	public Sharing(String imageUrl, String title, String content, LocalDateTime startTime,
 		Member dealHost, Concert concert, DealType dealType,  Double longitude, Double latitude, Integer limitation, String meetingLocation) {
 		super(imageUrl, title, content, startTime, dealHost, concert, dealType, longitude, latitude, meetingLocation);
 		this.limitation = limitation;
