@@ -44,7 +44,9 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
           }));
           setSearchResultDealInfo(concertInfo); // 검색 결과에 표시될 내용 update
         } else {
-          navigate(`/concert/${concertId}`); // 전체 검색인 경우 클릭시 디테일 페이지로 이동
+          navigate(`/concert/${concertId}`, {
+            state: { concertId, concertInfo },
+          }); // 전체 검색인 경우 클릭시 디테일 페이지로 이동
         }
       })
       .catch((err) => {

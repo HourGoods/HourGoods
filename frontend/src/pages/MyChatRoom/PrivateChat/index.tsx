@@ -36,7 +36,7 @@ export default function index() {
           <div className="private-chatroom-box-container">
             <div className="box-upper-wrapper">
               <div className="chatroom-dealcard">
-                <DealCard />
+                {/* <DealCard /> */}
               </div>
               <div className="private-chatroom-content-container">
                 <div className="not-me-chat">
