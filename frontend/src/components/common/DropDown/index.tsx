@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useRef, useState } from "react";
 import useModalRef from "@hooks/useModalRef";
 import { useNavigate } from "react-router";
@@ -35,7 +36,7 @@ export default function index({ menus }: MenuProps): JSX.Element {
       {isOpen && (
         <div className="dropdown-menu" ref={dropdownRef}>
           {menus.map((menu: Option, index: number) => (
-            <React.Fragment key={menu.value}>
+            <React.Fragment key={menu.label}>
               <button
                 className="dropdown-option"
                 type="button"
@@ -43,7 +44,7 @@ export default function index({ menus }: MenuProps): JSX.Element {
               >
                 {menu.label}
               </button>
-              {index !== menus.length - 1 && <hr />}
+              {index !== menus.length - 1 && <hr key={`hr-${index}`} />}
             </React.Fragment>
           ))}
         </div>

@@ -58,7 +58,7 @@ export default function DealDetail() {
       const result = dealAPI.getDealDeatail(dealId);
       setDealId(dealId);
       result.then((res) => {
-        console.log(res, "만든 걸로 받아온 deal 정보");
+        // console.log(res, "만든 걸로 받아온 deal 정보");
         setDealInfo(res.data.result);
         // 표시할 concert정보도 받아오기
         const { concertId } = res.data.result;
@@ -74,13 +74,8 @@ export default function DealDetail() {
     <div className="deal-detail-page-container">
       <DealBanner dealInfo={dealInfo} />
       <hr />
-      <DealInfo
-        dealInfo={dealInfo}
-        setDealInfo={setDealInfo}
-        dealId={dealId}
-        concertInfo={concertInfo}
-      />
-      <DealEnterButton dealType={dealInfo.dealType} />
+      <DealInfo dealInfo={dealInfo} setDealInfo={setDealInfo} dealId={dealId} concertInfo={concertInfo}/>
+      <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
     </div>
   );
 }
