@@ -25,7 +25,6 @@ export default function index() {
             .then((res) => {
               console.log(res, "api요청");
               setConcerList(res.data.result.concertInfoList);
-              setFlag(true);
             });
         }
       })
@@ -36,7 +35,14 @@ export default function index() {
 
   return (
     <div className="realtime-page-container">
-      <Map concertList={concertList} />
+      <Map
+        concertList={concertList}
+        flag={flag}
+        setFlag={setFlag}
+        location={location}
+        setLocation={setLocation}
+      />
+
       <CardList concertList={concertList} />
     </div>
   );
