@@ -53,9 +53,17 @@ export default function index(props: any) {
       const req = AuctionAPI.getableAuction(dealId);
       req
         .then((res) => {
-          console.log(res);
-          navigate(`/auction/${dealId}`);
+          const result = res.data;
+          const currBid = result.result.currentBid;
+          const participantCnt = result.result.participantCount;
+
+          console.log(currBid);
+          console.log(participantCnt);
+          navigate(`/auction/${dealId}`, {
+            state: { dealinfo: dealInfo, dealid: dealId, bidMoney: currBid, pplCnt: participantCnt },
+          });
         })
+        // 참여할 수 없는 경매
         .catch((err) => {
           const errCode = err.response.data.errorCode;
           if (errCode === "D400") {
