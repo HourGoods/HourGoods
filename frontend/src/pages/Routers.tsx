@@ -43,8 +43,8 @@ export default function Routers() {
         <Route path="/ticket" element={<Ticket />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/mychatroom" element={<MyChatRoom />} />
-        <Route path="/mychatroom/1" element={<PrivateChat />} />
-        <Route path="/meetingdeal/1" element={<MeetingDeal />} />
+        <Route path="/mychatroom/:chattingroomId" element={<PrivateChat />} />
+        <Route path="/meetingdeal/:dealId" element={<MeetingDeal />} />
         <Route path="/auction" element={<Auction />} />
       </Route>
 
