@@ -6,6 +6,7 @@ import org.a204.hourgoods.domain.deal.entity.AuctionInfo;
 import org.a204.hourgoods.domain.deal.exception.DealClosedException;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealYetStartException;
+import org.a204.hourgoods.domain.deal.quartz.AuctionEndJob;
 import org.a204.hourgoods.domain.deal.repository.AuctionRedisRepository;
 import org.a204.hourgoods.domain.deal.repository.AuctionRepository;
 import org.a204.hourgoods.domain.deal.request.AuctionMessage;
@@ -15,9 +16,12 @@ import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
+import org.quartz.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.HashMap;
 
 @Service
@@ -26,6 +30,7 @@ public class AuctionService {
     private final AuctionRepository auctionRepository;
     private final AuctionRedisRepository auctionRedisRepository;
     private final MemberRepository memberRepository;
+    private final Scheduler scheduler;
     public AuctionEntryResponse entryAuction(Member member, Long dealId) {
         // 경매 시작 시간이 지났는지 확인
         Auction auction = auctionRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
@@ -73,5 +78,21 @@ public class AuctionService {
                 .messageType(message.getMessageType())
                 .participantCount(auctionRedisRepository.getParticipantCount(dealId))
                 .build();
+    }
+    private void scheduleAuctionEnding(LocalDateTime endTime, Long auctionId) throws SchedulerException {
+        JobDataMap jobDataMap = new JobDataMap();
+        jobDataMap.put("auctionId", auctionId);
+
+        JobDetail jobDetail = JobBuilder.newJob(AuctionEndJob.class)
+                .withIdentity("auctionEndJob_" + auctionId, "auctionEnd")
+                .usingJobData(jobDataMap)
+                .build();
+
+        Trigger trigger = TriggerBuilder.newTrigger()
+                .withIdentity("auctionEndTrigger_" + auctionId, "auctionEnd")
+                .startAt(Date.from(endTime.atZone(ZoneId.systemDefault()).toInstant()))
+                .build();
+
+        scheduler.scheduleJob(jobDetail, trigger);
     }
 }
