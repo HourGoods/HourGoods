@@ -4,9 +4,10 @@ import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useLocation } from "react-router";
 import "./index.scss";
 import { useRecoilState } from "recoil";
-import { UserStateAtom } from "@recoils/user/Atom";
+import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
@@ -77,14 +78,22 @@ export default function index() {
   };
 
   // 회원 가입
-
+  const [authState, setAuthState] = useRecoilState(AuthStateAtom);
+  const [cookies, setCookie] = useCookies(["refreshToken"]);
   const singHandleClick = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
     memberAPI
       .signup(userInfo)
       .then(() => {
         // 회원가입완료
         console.log(userInfo);
+        const accessToken = params.get("access") || "";
+        const refreshToken = params.get("refresh") || "";
+        setAuthState({ isLogin: true, token: accessToken });
+        sessionStorage.setItem("accessToken", accessToken);
+        setCookie("refreshToken", refreshToken);
         navigate("/main");
+        alert(`${userInfo.nickname}님 환영합니다!`);
       })
       .catch((err) => {
         const errCode = err.response.data.status;
