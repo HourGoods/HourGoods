@@ -44,7 +44,9 @@ export default function index(props: any) {
         .then((res) => {
           console.log(res);
           const chattingRoomId = res.data.result;
-          // navigate(`/mychatroom/${chattingRoomId}`);
+          navigate(`/mychatroom/${chattingRoomId}`, {
+            state: { dealinfo: dealInfo },
+          });
         })
         .catch((err) => {
           console.error(err);

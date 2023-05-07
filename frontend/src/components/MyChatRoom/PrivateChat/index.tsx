@@ -5,10 +5,12 @@ import InputMsgBox from "@components/common/InputMsgBox";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function index() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const dealInfo = location.state;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const sendMsgHandler = () => {
     //
@@ -19,6 +21,7 @@ export default function index() {
   };
 
   useEffect(() => {
+    console.log(dealInfo);
     const req = chattingAPI.getmychatMsg(1);
     req
       .then((res) => {
@@ -36,7 +39,7 @@ export default function index() {
           <div className="private-chatroom-box-container">
             <div className="box-upper-wrapper">
               <div className="chatroom-dealcard">
-                {/* <DealCard /> */}
+                <DealCard dealInfo={dealInfo} />
               </div>
               <div className="private-chatroom-content-container">
                 <div className="not-me-chat">
