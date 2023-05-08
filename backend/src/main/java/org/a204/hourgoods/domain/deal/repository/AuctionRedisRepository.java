@@ -48,4 +48,8 @@ public class AuctionRedisRepository {
         valueOperations.set(auctionKey, auctionInfo);
         return valueOperations.get(auctionKey);
     }
+    public void deleteAuctionInfo(Long dealId) {
+        String auctionKey = "auction:" + dealId;
+        redisTemplate.delete(auctionKey);
+    }
 }

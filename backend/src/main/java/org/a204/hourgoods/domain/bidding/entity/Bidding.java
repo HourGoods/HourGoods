@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.member.entity.Member;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,4 +40,12 @@ public class Bidding {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "deal_id")
 	private Deal deal;
+
+	@Builder
+	public Bidding(Integer bidAmount, Boolean isWinner, Member member, Deal deal) {
+		this.bidAmount = bidAmount;
+		this.isWinner = isWinner;
+		this.bidder = member;
+		this.deal = deal;
+	}
 }
