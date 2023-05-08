@@ -3,10 +3,10 @@ import { UserCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
 
 interface Props {
-  messages: string[];
+  socketList: string[];
 }
 
-export default function index({ messages }: Props) {
+export default function index({ socketList }: Props) {
   return (
     <div className="chattingbox-all-container">
       <div className="private-chatroom-content-container">
@@ -34,7 +34,7 @@ export default function index({ messages }: Props) {
             <p className="not-me-message">남이 보낸 메세지</p>
           </div>
         </div> */}
-        {messages.map((msg: string, index: number) => (
+        {socketList.map((msg: string, index: number) => (
           <p key={index}>{msg}</p>
         ))}
       </div>

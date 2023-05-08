@@ -18,24 +18,28 @@ export default function index() {
   const [msgValue, setMsgValue] = useState("");
   const [bidValue, setBidValue] = useState("");
 
-  // 메세지 받으면 AuctionBox 컴포넌트에 띄워주기
-  const [messages, setMessages] = useState<string[]>([]);
+  // Socket 통신으로 받은 list 결과값 저장
+  const [socketList, setsocketList] = useState<string[]>([]);
   const handleMessage = (message: string) => {
-    setMessages((prevMessages) => [...prevMessages, message]);
+    setsocketList((prevsocketList) => [...prevsocketList, message]);
   };
 
+  // 클라이언트 측 영역
   const clientRef = useRef<Client>();
 
-  // 최초렌더링시 소켓통신이 되었는지 확인
+  // 최초렌더링시 Socket 통신이 되었는지 확인
+  // clientRef가 없다면 socket에 연결
   useEffect(() => {
     if (!clientRef.current) connect();
     return () => disconnect();
   }, []);
 
+  // Socket으로 받은 list의 결과가 바뀔 때마다 렌더링 작업
   useEffect(() => {
-    console.log(messages);
-  }, [messages]);
+    console.log(socketList);
+  }, [socketList]);
 
+  // Socket 연결
   const connect = () => {
     const serverUrl = "https://hourgoods.co.kr/ws";
     const socket = new SockJS(serverUrl);
@@ -45,11 +49,10 @@ export default function index() {
         authorization: localStorage.getItem("accessToken") || "",
       },
       onConnect: () => {
-        console.log("소켓에 연결되었습니당");
+        // console.log("소켓에 연결되었습니당");
         clientRef.current?.subscribe(
           `/bidding/${dealId}`,
           (message: Message) => {
-            console.log(`Received message: ${message.body}`);
             handleMessage(message.body);
           }
         );
@@ -58,41 +61,46 @@ export default function index() {
     clientRef.current?.activate(); // client측 활성화
   };
 
+  // Socket 연결 끊기
   const disconnect = () => {
-    console.log("소켓 연결이 끊어졌습니당");
+    // console.log("소켓 연결이 끊어졌습니당");
     clientRef.current?.deactivate(); // client측 비활성화
   };
 
   // Socket을 통해 메세지 보내기
   const sendMessage = () => {
+    if (!msgValue) return; // 빈값 return
     const message = {
       nickname: userName,
       messageType: "CHAT",
-      content: msgValue,
+      content: msgValue, // 채팅내용
     };
     const destination = `/app/send/${dealId}`;
     const body = JSON.stringify(message);
 
     clientRef.current?.publish({ destination, body });
     setMsgValue(""); // Input 초기화
-    console.log(message);
   };
 
   // Socket을 통해 응찰하기
   const sendBid = () => {
-    if (!bidValue) return;
-    clientRef.current?.publish({
-      destination: `/app/send/${dealId}`,
-      body: bidValue,
-    });
+    if (!bidValue) return; // 빈값 return
+    const bidMoney = {
+      nickname: userName,
+      messageType: "BID",
+      bidAmount: bidValue, // 응찰가격
+    };
+    const destination = `/app/send/${dealId}`;
+    const body = JSON.stringify(bidMoney);
+
+    clientRef.current?.publish({ destination, body });
     setBidValue(""); // Input 초기화
-    console.log(bidValue);
   };
 
   return (
     <div className="auction-page-all-container">
       <AuctionBox />
-      <ChattingBox messages={messages} />
+      <ChattingBox socketList={socketList} />
       <div className="a-page-inputbox-container">
         <div className="input-message-container">
           <div className="icon-message-wrapper">
