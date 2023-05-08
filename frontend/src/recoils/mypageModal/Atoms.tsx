@@ -12,3 +12,9 @@ export const isAuctionAlarmModal = atom({
   key: "isAuctionAlarmModal",
   default: 0,
 });
+
+// 딜 카드 삭제 dealId
+export const isdealDelete = atom({
+  key: "isdealDelete",
+  default: 0,
+});

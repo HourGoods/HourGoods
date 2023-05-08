@@ -6,8 +6,8 @@ import classNames from "classnames";
 
 export default function index() {
   const [tag, setTag] = useState({
-    favorite: true,
-    getMy: false,
+    getMy: true,
+    favorite: false,
     participated: false,
   });
 
@@ -25,17 +25,17 @@ export default function index() {
       <div className="userdeal-tabs-container">
         <button
           type="button"
-          onClick={() => handleClick("favorite")}
-          className={classNames(tag.favorite && "activated")}
-        >
-          찜한 Deal
-        </button>
-        <button
-          type="button"
           onClick={() => handleClick("getMy")}
           className={classNames(tag.getMy && "activated")}
         >
           내가 만든 Deal
+        </button>
+        <button
+          type="button"
+          onClick={() => handleClick("favorite")}
+          className={classNames(tag.favorite && "activated")}
+        >
+          찜한 Deal
         </button>
         <button
           type="button"
@@ -46,8 +46,8 @@ export default function index() {
         </button>
       </div>
 
-      {tag.favorite && <FavoriteDeal />}
       {tag.getMy && <GetMyDeal />}
+      {tag.favorite && <FavoriteDeal />}
       {tag.participated && <ParticipatedDeal />}
     </div>
   );
