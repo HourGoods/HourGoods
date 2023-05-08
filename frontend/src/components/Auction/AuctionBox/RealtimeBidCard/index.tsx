@@ -8,7 +8,12 @@ import {
 } from "@heroicons/react/24/solid";
 import React from "react";
 
-export default function index() {
+interface BidInfoProps {
+  currentBid: number;
+  participantCount: number;
+}
+
+export default function index({ currentBid, participantCount }: BidInfoProps) {
   return (
     <>
       <div className="realtime-bid-card-container">
@@ -18,7 +23,7 @@ export default function index() {
         <div className="realtime-bid-right">
           <div className="r-bid-card-icon fire">
             <FireIcon />
-            <p>₩ 16,000</p>
+            <p>{currentBid}</p>
           </div>
           <div className="r-const-ppl-wrapper">
             <div className="r-bid-card-icon up">
@@ -27,18 +32,12 @@ export default function index() {
             </div>
             <div className="r-bid-card-icon user">
               <UserGroupIcon />
-              <p>12</p>
+              <p>{participantCount}</p>
             </div>
           </div>
         </div>
       </div>
       <div className="bid-box-container">
-        <div className="cost-box-wrapper">
-          <p>₩ 15,500</p>
-        </div>
-        <div className="cost-box-wrapper">
-          <p>₩ 15,500</p>
-        </div>
         <div className="cost-box-wrapper">
           <p>₩ 15,500</p>
         </div>
