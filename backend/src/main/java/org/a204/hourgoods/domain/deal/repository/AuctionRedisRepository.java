@@ -26,6 +26,7 @@ public class AuctionRedisRepository {
         String auctionKey = "auction:" + dealId;
         AuctionInfo auctionInfo = valueOperations.get(auctionKey);
         auctionInfo.addParticipant();
+        valueOperations.set(auctionKey, auctionInfo);
         return auctionInfo;
     }
     public AuctionInfo initAuction(Auction auction) {
