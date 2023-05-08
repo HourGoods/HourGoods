@@ -125,7 +125,7 @@ export default function index() {
 
   return (
     <div className="auction-page-all-container">
-      <AuctionBox />
+      <AuctionBox bidList={bidList} />
       <ChattingBox msgList={msgList} />
       <div className="a-page-inputbox-container">
         <div className="input-message-container">

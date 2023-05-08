@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import AuctionDealCard from "./AuctionDealCard";
 import RealtimeBidCard from "./RealtimeBidCard";
+import { BidMessage } from "..";
 
 export interface IDealInfo {
   concertId: number;
@@ -23,9 +24,11 @@ export interface IDealInfo {
   userNickname: string;
 }
 
+interface Props {
+  bidList: BidMessage[];
+}
 
-
-export default function index() {
+export default function index({ bidList }: Props) {
   // DealEnterButton 에서 state로 넘겨받은 정보
   const location = useLocation();
   const dealInfo = location.state.dealinfo; // DealCard에 들어갈 Deal 정보
@@ -35,10 +38,7 @@ export default function index() {
   return (
     <div className="auctionbox-all-conatiner">
       <AuctionDealCard dealInfo={dealInfo} />
-      <RealtimeBidCard
-        currentBid={currentBid}
-        participantCount={participantCount}
-      />
+      <RealtimeBidCard bidList={bidList} />
     </div>
   );
 }
