@@ -22,7 +22,7 @@ public class AuctionRedisRepository {
         String auctionKey = "auction:" + dealId;
         return valueOperations.get(auctionKey) != null;
     }
-    public AuctionInfo addParticipant(Long dealId) {
+    public AuctionInfo addParticipant(String dealId) {
         String auctionKey = "auction:" + dealId;
         AuctionInfo auctionInfo = valueOperations.get(auctionKey);
         auctionInfo.addParticipant();

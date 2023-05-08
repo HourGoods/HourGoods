@@ -7,10 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a204.hourgoods.domain.deal.request.AuctionMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionBidMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionChatMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
-import org.a204.hourgoods.domain.deal.response.AuctionResultResponse;
+import org.a204.hourgoods.domain.deal.response.*;
 import org.a204.hourgoods.domain.deal.service.AuctionService;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
@@ -71,6 +68,9 @@ public class AuctionController {
             case "BID":
                 AuctionBidMessage auctionBidMessage = auctionService.handleBid(dealId, message);
                 messagingTemplate.convertAndSend("/bidding/" + dealId, auctionBidMessage);
+            case "JOIN":
+                AuctionJoinMessage auctionJoinMessage = auctionService.handleJoin(dealId, message);
+                messagingTemplate.convertAndSend("/bidding/" + dealId, auctionJoinMessage);
         }
     }
 }

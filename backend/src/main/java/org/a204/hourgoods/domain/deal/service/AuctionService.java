@@ -16,10 +16,7 @@ import org.a204.hourgoods.domain.deal.repository.AuctionRedisRepository;
 import org.a204.hourgoods.domain.deal.repository.AuctionRepository;
 import org.a204.hourgoods.domain.deal.repository.DealRepository;
 import org.a204.hourgoods.domain.deal.request.AuctionMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionBidMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionChatMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
-import org.a204.hourgoods.domain.deal.response.AuctionResultResponse;
+import org.a204.hourgoods.domain.deal.response.*;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
@@ -49,7 +46,7 @@ public class AuctionService {
         // 해당 dealId로 redis 기록이 있는지 확인
         // 있으면 추가
         if (auctionRedisRepository.isExist(dealId)) {
-            return auctionRedisRepository.addParticipant(dealId).toEntryResponse();
+            return auctionRedisRepository.getAuctionInfo(dealId.toString()).toEntryResponse();
         }
         // 없으면 경매 시작 금액으로 생성
         else {
@@ -93,6 +90,13 @@ public class AuctionService {
                 .messageType(message.getMessageType())
                 .participantCount(auctionRedisRepository.getParticipantCount(dealId))
                 .build();
+    }
+    public AuctionJoinMessage handleJoin(String dealId, AuctionMessage message) {
+        AuctionInfo auctionInfo = auctionRedisRepository.addParticipant(dealId);
+        return AuctionJoinMessage.builder()
+                .messageType("JOIN")
+                .nickname(message.getNickname())
+                .participantCount(auctionInfo.getParticipantCount()).build();
     }
     private void scheduleAuctionEnding(LocalDateTime endTime, Long auctionId) throws SchedulerException {
         JobDataMap jobDataMap = new JobDataMap();
