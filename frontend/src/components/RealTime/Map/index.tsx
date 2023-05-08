@@ -23,6 +23,7 @@ export default function index(props: any) {
   const [CloseConcertInfo, setCloseConcertInfo] = useState<ConcertInterface[]>(
     []
   );
+  const [circles, setCicles] = useState([])
 
   // Props로 내려준 최초의 location
   useEffect(() => {
@@ -45,7 +46,7 @@ export default function index(props: any) {
         location.longitude
       );
       // 콘서트장 그리기
-      return drawCircles(distance, concert.latitude, concert.longitude, map);
+      return drawCircles(distance, concert.latitude, concert.longitude, map, setCicles);
     });
     // 콘서트장 위치 그렸으면 중심 이동
 

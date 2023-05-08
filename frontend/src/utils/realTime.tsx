@@ -38,11 +38,14 @@ export function haversineDistance(
  * @returns 현재 위치가 콘서트장의 위도, 경도를 중심으로 500m 이내에 있으면 true, 그렇지 않으면 false를 반환하는 Promise
  */
 
+let circle: any;
+
 export async function drawCircles(
   distance: number,
   concertLat: number,
   concertLng: number,
   map: any,
+  setCicles: React.Dispatch<React.SetStateAction<any>>,
   concertId?: number
 ): Promise<any> {
   const isWithin500m = distance <= 500;
@@ -54,12 +57,13 @@ export async function drawCircles(
     fillColor = "#8D8D8E";
   }
 
-  const circle = new window.kakao.maps.Circle();
-  const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
-  circle.setPosition(circlePosition);
-
   // concertId가 주어졌다는 건 이미 circle이 존재한다는 것
-  if (concertId) {
+  if (concertId && circle) {
+    circle.setMap(null);
+
+    const newCircle = new window.kakao.maps.Circle();
+    const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
+    circle.setPosition(circlePosition);
     circle.setOptions({
       radius: 500,
       strokeWeight: 5,
@@ -70,6 +74,9 @@ export async function drawCircles(
       fillOpacity: 0.3,
     });
   } else {
+    circle = new window.kakao.maps.Circle();
+    const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
+    circle.setPosition(circlePosition);
     circle.setOptions({
       radius: 500,
       strokeWeight: 5,
@@ -79,8 +86,8 @@ export async function drawCircles(
       fillColor,
       fillOpacity: 0.3,
     });
-    circle.setMap(map);
   }
+  circle.setMap(map);
 
   return map;
 }
