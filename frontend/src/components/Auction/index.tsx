@@ -9,6 +9,7 @@ import ChattingBox from "./ChattingBox";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
 import { useRecoilValue } from "recoil";
+import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 
 export default function index() {
   const location = useLocation();
@@ -36,7 +37,7 @@ export default function index() {
 
   // Socket으로 받은 list의 결과가 바뀔 때마다 렌더링 작업
   useEffect(() => {
-    console.log(socketList);
+    console.log("socket에서 받은 리스트", socketList);
   }, [socketList]);
 
   // Socket 연결
@@ -111,6 +112,7 @@ export default function index() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setBidValue(e.target.value)
               }
+              onKeyPress={handleOnKeyPress(sendBid)}
             />
           </div>
           <button type="button" onClick={sendBid}>
@@ -126,6 +128,7 @@ export default function index() {
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setMsgValue(e.target.value)
               }
+              onKeyPress={handleOnKeyPress(sendMessage)}
             />
           </div>
           <button type="button" onClick={sendMessage}>
