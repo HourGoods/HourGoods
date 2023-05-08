@@ -66,11 +66,11 @@ public class AuctionController {
         switch(message.getMessageType()) {
             case "CHAT":
                 AuctionChatMessage auctionChatMessage = auctionService.handleChat(dealId, message);
-                messagingTemplate.convertAndSend("/auction/" + dealId, auctionChatMessage);
+                messagingTemplate.convertAndSend("/bidding/" + dealId, auctionChatMessage);
                 return;
             case "BID":
                 AuctionBidMessage auctionBidMessage = auctionService.handleBid(dealId, message);
-                messagingTemplate.convertAndSend("/auction/" + dealId, auctionBidMessage);
+                messagingTemplate.convertAndSend("/bidding/" + dealId, auctionBidMessage);
         }
     }
 }
