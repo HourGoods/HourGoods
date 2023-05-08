@@ -195,12 +195,12 @@
       align-items: center;
       gap: 5px;
       margin: 10px 0;
-      svg {
+      img {
         width: 40px;
         color: $gray-3;
       }
       .not-me-chat-message {
-        .not-me-name {
+        .not-me-chat-name {
           font-weight: 900;
         }
       }
@@ -209,7 +209,7 @@
       margin: 10px 0;
       display: flex;
       justify-content: flex-end;
-      .its-me-chatbox {
+      .its-me-chat-box {
         max-width: 60%;
         background-color: $violet-2;
         border-radius: 10px 10px 0px 10px;

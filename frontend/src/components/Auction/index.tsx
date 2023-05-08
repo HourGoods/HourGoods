@@ -7,9 +7,24 @@ import over, { Client, Message } from "@stomp/stompjs";
 import AuctionBox from "./AuctionBox";
 import ChattingBox from "./ChattingBox";
 import { UserStateAtom } from "@recoils/user/Atom";
-import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
 import { useRecoilValue } from "recoil";
+import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
+
+export interface ChatMessage {
+  messageType: string;
+  imageUrl: string;
+  nickname: string;
+  content: string;
+  participantCount: number;
+}
+
+export interface BidMessage {
+  messageType: string;
+  currentBid: number;
+  interval: number;
+  participantCount: number;
+}
 
 export default function index() {
   const location = useLocation();
@@ -21,8 +36,16 @@ export default function index() {
 
   // Socket 통신으로 받은 list 결과값 저장
   const [socketList, setsocketList] = useState<string[]>([]);
+  const [msgList, setMsgList] = useState<ChatMessage[]>([]); // 채팅목록 저장
+  const [bidList, setBidList] = useState<BidMessage[]>([]); // 응찰가격 저장
   const handleMessage = (message: string) => {
     setsocketList((prevsocketList) => [...prevsocketList, message]);
+    const parsedMessage = JSON.parse(message);
+    if (parsedMessage.messageType === "CHAT") {
+      setMsgList((prevSocketList) => [...prevSocketList, parsedMessage]);
+    } else if (parsedMessage.messageType === "BID") {
+      setBidList((prevSocketList) => [...prevSocketList, parsedMessage]);
+    }
   };
 
   // 클라이언트 측 영역
@@ -38,6 +61,8 @@ export default function index() {
   // Socket으로 받은 list의 결과가 바뀔 때마다 렌더링 작업
   useEffect(() => {
     console.log("socket에서 받은 리스트", socketList);
+    console.log("채팅리스트", msgList);
+    console.log("경매리스트", bidList);
   }, [socketList]);
 
   // Socket 연결
@@ -101,7 +126,7 @@ export default function index() {
   return (
     <div className="auction-page-all-container">
       <AuctionBox />
-      <ChattingBox socketList={socketList} />
+      <ChattingBox msgList={msgList} />
       <div className="a-page-inputbox-container">
         <div className="input-message-container">
           <div className="icon-message-wrapper">

@@ -23,12 +23,12 @@ export default function index({ currentBid, participantCount }: BidInfoProps) {
         <div className="realtime-bid-right">
           <div className="r-bid-card-icon fire">
             <FireIcon />
-            <p>{currentBid}</p>
+            {/* <p>{currentBid}</p> 현재입찰가: 갱신되는 값 */}
           </div>
           <div className="r-const-ppl-wrapper">
             <div className="r-bid-card-icon up">
               <PlayIcon />
-              <p>₩ 500</p>
+              {/* <p>{interval }</p> 현재입찰가와 갱신된 값의 차이 */}
             </div>
             <div className="r-bid-card-icon user">
               <UserGroupIcon />
@@ -39,7 +39,7 @@ export default function index({ currentBid, participantCount }: BidInfoProps) {
       </div>
       <div className="bid-box-container">
         <div className="cost-box-wrapper">
-          <p>₩ 15,500</p>
+          {/* <p>₩ 15,500</p> 내가 보낸 bidValue이면서 타인이 보낸 bidValue */}
         </div>
       </div>
     </>
