@@ -1,28 +1,41 @@
+// InputMsgBox.tsx
 import React from "react";
 import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
 import "./index.scss";
 
 interface IInputProps {
-  onClick?: any;
-  type: string;
+  placeholder?: string;
+  value: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  type?: string;
+  onConfirm?: () => void;
 }
 
-export default function index({ type, onClick }: IInputProps) {
-  const handleInput = (e: any) => onClick(e);
+export default function index({
+  placeholder,
+  value,
+  onChange,
+  type,
+  onConfirm,
+}: IInputProps) {
+  const handleConfirm = () => {
+    if (onConfirm) {
+      onConfirm();
+    }
+  };
 
-  let txt = "";
-  if (type === "bid") {
-    txt = "경매가를 입력해주세요.";
-  } else if (type === "msg") {
-    txt = "메세지를 입력해주세요.";
-  }
   return (
     <div className="input-message-container">
       <div className="icon-message-wrapper">
         {type === "bid" ? <TicketIcon /> : <ChatBubbleOvalLeftIcon />}
-        <input placeholder={txt} />
+        <input
+          type={type === "bid" ? "number" : "text"}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+        />
       </div>
-      <button type="button" onClick={onClick && handleInput}>
+      <button type="button" onClick={handleConfirm}>
         확인
       </button>
     </div>

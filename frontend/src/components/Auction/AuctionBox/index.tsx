@@ -23,24 +23,22 @@ export interface IDealInfo {
   userNickname: string;
 }
 
+
+
 export default function index() {
   // DealEnterButton 에서 state로 넘겨받은 정보
   const location = useLocation();
   const dealInfo = location.state.dealinfo; // DealCard에 들어갈 Deal 정보
-  const dealId = location.state.dealid; // 해당 delaId값
   const currentBid = location.state.bidMoney; // 경매 시작가 혹은 입장하는 시점의 경매가
   const participantCount = location.state.pplCnt; // 입장시점의 경매참여자 수
 
-  // useEffect(() => {
-  //   console.log(dealInfo);
-  //   console.log(dealId);
-  //   console.log(currentBid);
-  //   console.log(participantCount);
-  // });
   return (
     <div className="auctionbox-all-conatiner">
       <AuctionDealCard dealInfo={dealInfo} />
-      <RealtimeBidCard />
+      <RealtimeBidCard
+        currentBid={currentBid}
+        participantCount={participantCount}
+      />
     </div>
   );
 }

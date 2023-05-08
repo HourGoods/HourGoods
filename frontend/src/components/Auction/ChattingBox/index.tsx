@@ -1,15 +1,20 @@
+/* eslint-disable react/no-array-index-key */
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import React from "react";
 
-export default function index() {
+interface Props {
+  messages: string[];
+}
+
+export default function index({ messages }: Props) {
   return (
     <div className="chattingbox-all-container">
       <div className="private-chatroom-content-container">
-        <div className="not-me-chat">
+        {/* <div className="not-me-chat">
           <UserCircleIcon />
           <div className="not-me-chat-message">
             <p className="not-me-name">아이유사랑해</p>
-            <p className="not-me-message">남이 보낸 메세지</p>
+            <p className="not-me-message">{messages}</p>
           </div>
         </div>
         <div className="not-me-chat">
@@ -28,7 +33,10 @@ export default function index() {
             <p className="not-me-name">아이유사랑해</p>
             <p className="not-me-message">남이 보낸 메세지</p>
           </div>
-        </div>
+        </div> */}
+        {messages.map((msg: string, index: number) => (
+          <p key={index}>{msg}</p>
+        ))}
       </div>
     </div>
   );

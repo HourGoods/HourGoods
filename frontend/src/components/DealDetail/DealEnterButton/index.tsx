@@ -56,11 +56,18 @@ export default function index(props: any) {
           const result = res.data;
           const currBid = result.result.currentBid;
           const participantCnt = result.result.participantCount;
+          const userName = result.result.userNickname;
 
           console.log(currBid);
           console.log(participantCnt);
           navigate(`/auction/${dealId}`, {
-            state: { dealinfo: dealInfo, dealid: dealId, bidMoney: currBid, pplCnt: participantCnt },
+            state: {
+              dealinfo: dealInfo,
+              dealid: dealId,
+              bidMoney: currBid,
+              pplCnt: participantCnt,
+              userNickName: userName,
+            },
           });
         })
         // 참여할 수 없는 경매
