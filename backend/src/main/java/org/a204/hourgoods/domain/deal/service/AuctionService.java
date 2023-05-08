@@ -1,18 +1,25 @@
 package org.a204.hourgoods.domain.deal.service;
 
 import lombok.RequiredArgsConstructor;
+
+import org.a204.hourgoods.domain.bidding.entity.Bidding;
+import org.a204.hourgoods.domain.bidding.repository.BiddingRepository;
 import org.a204.hourgoods.domain.deal.entity.Auction;
 import org.a204.hourgoods.domain.deal.entity.AuctionInfo;
+import org.a204.hourgoods.domain.deal.entity.Deal;
+import org.a204.hourgoods.domain.deal.exception.BiddingNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealClosedException;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealYetStartException;
 import org.a204.hourgoods.domain.deal.quartz.AuctionEndJob;
 import org.a204.hourgoods.domain.deal.repository.AuctionRedisRepository;
 import org.a204.hourgoods.domain.deal.repository.AuctionRepository;
+import org.a204.hourgoods.domain.deal.repository.DealRepository;
 import org.a204.hourgoods.domain.deal.request.AuctionMessage;
 import org.a204.hourgoods.domain.deal.response.AuctionBidMessage;
 import org.a204.hourgoods.domain.deal.response.AuctionChatMessage;
 import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
+import org.a204.hourgoods.domain.deal.response.AuctionResultResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
@@ -31,6 +38,9 @@ public class AuctionService {
     private final AuctionRedisRepository auctionRedisRepository;
     private final MemberRepository memberRepository;
     private final Scheduler scheduler;
+    private final BiddingRepository biddingRepository;
+    private final DealRepository dealRepository;
+
     public AuctionEntryResponse entryAuction(Member member, Long dealId) {
         // 경매 시작 시간이 지났는지 확인
         Auction auction = auctionRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
@@ -99,5 +109,17 @@ public class AuctionService {
                 .build();
 
         scheduler.scheduleJob(jobDetail, trigger);
+    }
+    public AuctionResultResponse getResult(Member member, Long dealId) {
+        Long memberId = member.getId();
+        Member retrieved = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
+        Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
+        Bidding bidding = biddingRepository.findByDealAndMember(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
+        Auction auction = auctionRepository.findById(dealId).get();
+        return AuctionResultResponse.builder()
+            .isWinner(bidding.getIsWinner())
+            .bidderCount(auction.getBidderCount())
+            .bidAmount(bidding.getBidAmount())
+            .build();
     }
 }
