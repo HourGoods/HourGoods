@@ -1,4 +1,6 @@
-import React, { useRef, useState } from "react";
+/* eslint-disable @typescript-eslint/no-empty-function */
+import React, { useRef, useState, useEffect } from "react";
+import { mypageAPI } from "@api/apis";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -9,6 +11,21 @@ import UserDealCard from "@components/MyPage/UserDealCard";
 const getmy = "getmy";
 
 export default function index() {
+  const [dealList, setDealList] = useState([]);
+
+  useEffect(() => {
+    mypageAPI
+      .getMyDeal(-1)
+      .then((res) => {
+        setDealList(res.data.result.dealInfoList);
+        console.log(res.data.result.dealInfoList);
+        console.log(dealList);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
+
   return (
     <Swiper
       slidesPerView={1}
@@ -37,9 +54,11 @@ export default function index() {
       // modules={[Pagination]}
       className="mySwiper"
     >
-      <SwiperSlide>
-        <UserDealCard getmy={getmy} />
-      </SwiperSlide>
+      {dealList.map((deal) => (
+        <SwiperSlide>
+          <UserDealCard getmy={getmy} deal={deal} />
+        </SwiperSlide>
+      ))}
     </Swiper>
   );
 }

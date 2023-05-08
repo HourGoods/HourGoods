@@ -42,6 +42,12 @@ const memberAPI = {
 const mypageAPI = {
   pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
     request.authGet("mypage/point", { params: { lastPointHistoryId } }),
+  getMyDeal: (lastDealId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/create", { params: { lastDealId } }),
+  favoriteDeal: (lastDealId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/bookmark", { params: { lastDealId } }),
+  participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/attend", { params: { lastDealId } }),
 };
 
 const memberAPI = {
@@ -106,6 +112,10 @@ const dealAPI = {
   // Deal 조회
   getDealDeatail: (dealId: number): Promise<AxiosResponse> =>
     request.authGet("deal/detail", { params: { dealId } }),
+  // Deal 삭제
+
+  getDealDelete: (dealId: number): Promise<AxiosResponse> =>
+    request.authDelete(`deal/${dealId}`),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI };
