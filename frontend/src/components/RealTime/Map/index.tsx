@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
 import watchCurrentLocation from "@utils/watchCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
-import {
-  haversineDistance,
-  isWithin500mFromLocation,
-} from "@utils/isUserInConcertArea";
-import { drawCircles } from "@utils/realTime";
+import { haversineDistance, drawCircles } from "@utils/realTime";
 import { ConcertInterface } from "@pages/Search";
 import { MapIcon } from "@heroicons/react/24/solid";
 import markerImg from "@assets/userLocPoint.svg";
@@ -23,7 +19,9 @@ export default function index(props: any) {
   const [CloseConcertInfo, setCloseConcertInfo] = useState<ConcertInterface[]>(
     []
   );
-  const [circles, setCicles] = useState([])
+  const [inConcertList, setInConcertList] = useState<
+    { concertId: number; isInList: boolean }[]
+  >([]);
 
   // Props로 내려준 최초의 location
   useEffect(() => {
@@ -45,8 +43,21 @@ export default function index(props: any) {
         location.latitude,
         location.longitude
       );
+      // 만약 500m안에 있는 게 있으면 저장해두기
+      if (distance <= 500) {
+        setInConcertList((prev: any) => [
+          ...prev,
+          { concertId: concert.concertId, isInList: true },
+        ]);
+      }
       // 콘서트장 그리기
-      return drawCircles(distance, concert.latitude, concert.longitude, map, setCicles);
+      return drawCircles(
+        distance,
+        concert.latitude,
+        concert.longitude,
+        map,
+        concert.concertId
+      );
     });
     // 콘서트장 위치 그렸으면 중심 이동
 
@@ -75,13 +86,25 @@ export default function index(props: any) {
             location.longitude
           );
           if (distance <= 500) {
-            return drawCircles(
-              distance,
-              concert.latitude,
-              concert.longitude,
-              map,
-              concert.concertId
+            // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
+            const isInConcertList = inConcertList.find(
+              (inConcert: any) => inConcert.concertId === concert.concertId
             );
+            if (isInConcertList) {
+              console.log("이미 등록되어 있으니 아무 것도 하지 말자");
+            } else {
+              console.log("없었던 애니까 등록하자!");
+            }
+          } else if (distance > 500) {
+            // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
+            const isInConcertList = inConcertList.find(
+              (inConcert: any) => inConcert.concertId === concert.concertId
+            );
+            if (isInConcertList) {
+              console.log("등록되어 있던 애다. 없애자!");
+            } else {
+              console.log("없던 애구나. 계속 없어라!");
+            }
           }
           return null;
         });

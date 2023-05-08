@@ -45,8 +45,7 @@ export async function drawCircles(
   concertLat: number,
   concertLng: number,
   map: any,
-  setCicles: React.Dispatch<React.SetStateAction<any>>,
-  concertId?: number
+  concertId: number
 ): Promise<any> {
   const isWithin500m = distance <= 500;
   let fillColor;
@@ -57,37 +56,36 @@ export async function drawCircles(
     fillColor = "#8D8D8E";
   }
 
-  // concertId가 주어졌다는 건 이미 circle이 존재한다는 것
-  if (concertId && circle) {
-    circle.setMap(null);
+  circle = new window.kakao.maps.Circle();
+  const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
+  circle.setPosition(circlePosition);
+  circle.setOptions({
+    radius: 500,
+    strokeWeight: 5,
+    strokeColor: "#75B8F",
+    strokeOpacity: 0,
+    strokeStyle: "dashed",
+    fillColor,
+    fillOpacity: 0.3,
+  });
 
-    const newCircle = new window.kakao.maps.Circle();
-    const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
-    circle.setPosition(circlePosition);
-    circle.setOptions({
-      radius: 500,
-      strokeWeight: 5,
-      strokeColor: "#75B8F",
-      strokeOpacity: 0,
-      strokeStyle: "dashed",
-      fillColor,
-      fillOpacity: 0.3,
-    });
-  } else {
-    circle = new window.kakao.maps.Circle();
-    const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
-    circle.setPosition(circlePosition);
-    circle.setOptions({
-      radius: 500,
-      strokeWeight: 5,
-      strokeColor: "#75B8F",
-      strokeOpacity: 0,
-      strokeStyle: "dashed",
-      fillColor,
-      fillOpacity: 0.3,
-    });
-  }
   circle.setMap(map);
+
+  return map;
+}
+
+export async function deleteCircle(
+  circle: any,
+  concertLat: number,
+  concertLng: number,
+  map: any,
+  concertId?: number
+): Promise<any> {
+  const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
+  circle.setPosition(circlePosition);
+  circle.setMap(null);
+
+  console.log(circle, "이게 원이라고?");
 
   return map;
 }
