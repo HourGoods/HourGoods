@@ -11,14 +11,33 @@
   }
 
   // components title
-  .realtime-page-component-title-p {
-    text-align: left;
-    font-weight: 700;
-    font-size: 22px;
-    @include mobile {
-      font-size: 16px;
-      font-weight: 800;
+
+  .realtime-page-title-div {
+    display: flex;
+    align-items: flex-end;
+    svg {
+      width: 25px;
+      margin-right: 5px;
+      margin-bottom: 2px;
+      color: $indigo-1;
     }
+    .realtime-page-component-title-p {
+      text-align: left;
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 0;
+      @include mobile {
+        font-size: 16px;
+        font-weight: 800;
+      }
+    }
+  }
+  .realtime-page-helper-p {
+    font-size: 12px;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 5px;
+    color: $pink-1;
   }
 
   // map
@@ -28,6 +47,11 @@
     margin: 0 auto;
     width: 100%;
     max-width: 644px;
+
+    a {
+      color: $indigo-2;
+      text-decoration: underline;
+    }
 
     #map {
       margin: 0 auto;

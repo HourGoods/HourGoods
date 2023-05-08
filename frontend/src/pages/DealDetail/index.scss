@@ -90,6 +90,9 @@
         display: flex;
         justify-content: space-between;
         margin: 15px auto;
+        button {
+          background: none;
+        }
         svg {
           width: 30px;
           color: $indigo-2;
@@ -107,28 +110,40 @@
           display: flex;
           align-items: center;
           justify-content: center;
-          flex-wrap: wrap;
+          flex-direction: column;
+
           background-color: white;
           min-width: 80px;
+          flex-wrap: wrap;
           width: 30%;
           height: 60px;
           border-radius: 8px;
           box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
 
+          .icon-text-div {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            h5 {
+              margin: 0;
+            }
+          }
           svg {
             // margin-top: 8px;
             width: 20px;
             color: $indigo-2;
-            margin-right: 10px;
+            margin-right: 5px;
           }
           p {
+            margin: 0 auto;
             font-size: 12px;
+            text-align: center;
           }
-
-          @include mobile {
-            flex-direction: column;
+          @include tablet {
+            flex-direction: row;
             svg {
-              margin: 8px;
+              margin-left: 15px;
             }
           }
         }

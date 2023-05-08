@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
-import { UserStateAtom, AuthStateAtom } from "../../recoils/user/Atom";
+import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
 
 export default function Oauth() {
   const navigate = useNavigate();

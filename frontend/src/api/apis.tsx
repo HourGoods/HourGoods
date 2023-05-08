@@ -2,43 +2,6 @@ import { promises } from "dns";
 import { Axios, AxiosHeaders, AxiosResponse } from "axios";
 import request from "./agents";
 
-// 참고용 기존 로그인 api
-/*
-const memberAPI = {
-  duplicateEmail: (email: string): Promise<AxiosResponse> =>
-    request.get("member/duplicateEmail", {
-      params: { email },
-    }),
-  duplicateNickName: (nickname: string): Promise<AxiosResponse> =>
-    request.get("member/duplicateNickname", {
-      params: { nickname },
-    }),
-  signUp: (userInfo: {
-    nickname: string;
-    password: string;
-    organization: string;
-    email: string;
-  }): Promise<AxiosResponse> => request.post("member/signup", userInfo),
-  logIn: (email: string, password: string): Promise<AxiosResponse> =>
-    request.post("member/login", { email, password }),
-  socialLogin: (
-    accessToken: string,
-    registrationId: string
-  ): Promise<AxiosResponse> =>
-    request.post("member/social/login", { accessToken, registrationId }),
-  logOut: (accessToken: string, refreshToken: string): Promise<AxiosResponse> =>
-    request.authPost("member/logout", { accessToken, refreshToken }),
-  editUser: (userInfo: {
-    id: number;
-    nickname: string;
-    organization: string;
-    email: string;
-    registrationId: string;
-    profileImage: string;
-  }): Promise<AxiosResponse> => request.authPut("member", userInfo),
-};
-*/
-
 const mypageAPI = {
   pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
     request.authGet("mypage/point", { params: { lastPointHistoryId } }),
@@ -84,10 +47,20 @@ const concertAPI = {
     concertId: number,
     lastDealId: number,
     dealTypeName: string,
-    searchKeyword: string
+    searchKeyword: string,
+    nickname?: string
   ): Promise<AxiosResponse> =>
     request.get("deal/list", {
-      params: { concertId, lastDealId, dealTypeName, searchKeyword },
+      params: { concertId, lastDealId, dealTypeName, searchKeyword, nickname },
+    }),
+
+  // 사용자 근처 오늘의 공연
+  getTodayConcert: (
+    longitude: number,
+    latitude: number
+  ): Promise<AxiosResponse> =>
+    request.get("concert/today", {
+      params: { longitude, latitude },
     }),
 };
 
@@ -112,10 +85,32 @@ const dealAPI = {
   // Deal 조회
   getDealDeatail: (dealId: number): Promise<AxiosResponse> =>
     request.authGet("deal/detail", { params: { dealId } }),
+
+  // Deal 북마크
+  postBookmark: (dealId: number): Promise<AxiosResponse> =>
+    request.authPost("deal/bookmark", { dealId }),
+  // Deal 북마크 해제
+  deleteBookmark: (dealId: number): Promise<AxiosResponse> =>
+    request.authDelete("deal/bookmark", { data: { dealId } }),
+};
+
+// 채팅관련 api
+const chattingAPI = {
+  // 내채팅 목록 조회
+  getmychatList: (): Promise<AxiosResponse> => request.authGet("/chat/list"),
+  // 일대일채팅창 대화내용 조회
+  getmychatMsg: (chattingRoomId: number): Promise<AxiosResponse> =>
+    request.authGet(`/chat/${chattingRoomId}/messages`),
+  // 일대일채팅방 생성하기
+  postchatDirect: (
+    receiverId: number,
+    dealId: number
+  ): Promise<AxiosResponse> =>
+    request.authPost("/chat/direct", { receiverId, dealId }),
   // Deal 삭제
 
   getDealDelete: (dealId: number): Promise<AxiosResponse> =>
     request.authDelete(`deal/${dealId}`),
 };
 
-export { memberAPI, concertAPI, dealAPI, mypageAPI };
+export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI };

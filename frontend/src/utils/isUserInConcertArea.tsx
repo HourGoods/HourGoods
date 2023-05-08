@@ -1,4 +1,3 @@
-
 /**
  * 두 지점 간의 거리(m)를 계산하는 함수
  * @param lat1 지점 1의 위도
@@ -7,7 +6,7 @@
  * @param lon2 지점 2의 경도
  * @returns 지점 1과 지점 2 간의 거리(m)
  */
-function haversineDistance(
+export function haversineDistance(
   lat1: number,
   lon1: number,
   lat2: number,
@@ -37,34 +36,36 @@ function haversineDistance(
  * @param myLng 현재 위치의 경도
  * @returns 현재 위치가 콘서트장의 위도, 경도를 중심으로 500m 이내에 있으면 true, 그렇지 않으면 false를 반환하는 Promise
  */
-async function isWithin500mFromLocation(
+
+export async function isWithin500mFromLocation(
   concertLat: number,
   concertLng: number,
   myLat: number,
   myLng: number,
   map: any
-): Promise<boolean> {
+): Promise<any> {
   const distance = haversineDistance(concertLat, concertLng, myLat, myLng);
-  const isWithin500m = distance <= 180;
+  const isWithin500m = distance <= 500;
   let fillColor;
+
   if (isWithin500m) {
     fillColor = "#6366F1";
   } else {
-    fillColor = "#374151";
+    fillColor = "#8D8D8E";
   }
+
   const circle = new window.kakao.maps.Circle({
-    center: new window.kakao.maps.LatLng(concertLat, concertLng), // 원의 중심좌표 입니다
-    radius: 180, // 미터 단위의 원의 반지름입니다
-    strokeWeight: 5, // 선의 두께입니다
-    strokeColor: "#75B8FA", // 선의 색깔입니다
-    strokeOpacity: 0, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-    strokeStyle: "dashed", // 선의 스타일 입니다
-    fillColor, // 채우기 색깔입니다
-    fillOpacity: 0.3, // 채우기 불투명도 입니다
+    center: new window.kakao.maps.LatLng(concertLat, concertLng),
+    radius: 500,
+    strokeWeight: 5,
+    strokeColor: "#75B8F",
+    strokeOpacity: 0,
+    strokeStyle: "dashed",
+    fillColor,
+    fillOpacity: 0.3,
   });
+
   circle.setMap(map);
 
   return map;
 }
-
-export default isWithin500mFromLocation;

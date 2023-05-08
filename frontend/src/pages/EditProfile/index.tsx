@@ -34,7 +34,7 @@ export default function Index() {
   const handleClick = useCallback(() => {
     const newUserInfo = { ...userInfo };
     // 임시저장값 -> 삭제하고 사용해주세요.
-    newUserInfo.nickname = "임길현";
+    newUserInfo.nickname = "다솜";
     newUserInfo.imageUrl =
       "https://avatars.githubusercontent.com/u/88919138?v=4";
     setUserInfo(newUserInfo);
