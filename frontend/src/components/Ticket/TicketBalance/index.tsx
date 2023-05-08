@@ -1,10 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  ChevronRightIcon,
-  CurrencyDollarIcon,
-  TicketIcon,
-} from "@heroicons/react/24/solid";
+import { TicketIcon } from "@heroicons/react/24/solid";
 
 export default function index() {
   return (
