@@ -92,6 +92,9 @@ const dealAPI = {
   // Deal 북마크 해제
   deleteBookmark: (dealId: number): Promise<AxiosResponse> =>
     request.authDelete("deal/bookmark", { data: { dealId } }),
+  // Deal 삭제
+  getDealDelete: (dealId: number): Promise<AxiosResponse> =>
+    request.authDelete(`deal/${dealId}`),
 };
 
 // 채팅관련 api
@@ -107,10 +110,6 @@ const chattingAPI = {
     dealId: number
   ): Promise<AxiosResponse> =>
     request.authPost("/chat/direct", { receiverId, dealId }),
-  // Deal 삭제
-
-  getDealDelete: (dealId: number): Promise<AxiosResponse> =>
-    request.authDelete(`deal/${dealId}`),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI };

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useRef, useState, useEffect } from "react";
 import { mypageAPI } from "@api/apis";
@@ -54,8 +55,8 @@ export default function index() {
       // modules={[Pagination]}
       className="mySwiper"
     >
-      {dealList.map((deal) => (
-        <SwiperSlide>
+      {dealList.map((deal, index) => (
+        <SwiperSlide key={index}>
           <UserDealCard getmy={getmy} deal={deal} />
         </SwiperSlide>
       ))}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router";
 import "./index.scss";
 import {
   BellIcon,
@@ -33,6 +34,13 @@ interface IProps {
 }
 
 export default function index({ getmy, deal }: IProps) {
+  const navigate = useNavigate();
+  const detailNavigate = () => {
+    navigate(`/deal/detail/${deal.dealId}`, {
+      state: deal.dealId,
+    });
+  };
+
   const [modalOpen, setModalOpen] = useRecoilState(isDeleteCardModal);
   const modalClickHandler = () => {
     setModalOpen(true);
@@ -51,17 +59,18 @@ export default function index({ getmy, deal }: IProps) {
 
   // 시간
   const startTime = new Date(deal.startTime);
-  startTime.setHours(startTime.getHours() - 9); // 9 hours is the time difference between UTC and KST
+  // startTime.setHours(startTime.getHours() - 9); // 9 hours is the time difference between UTC and KST
   const timeDiff = Math.floor(
     (startTime.getTime() - new Date().getTime()) / (1000 * 60)
   );
-  const endTime = new Date(deal.endTime);
-  endTime.setHours(endTime.getHours() - 9); // 9 hours is the time difference between UTC and KST
 
-  const startHour = String(startTime.getUTCHours()).padStart(2, "0");
-  const startMinute = String(startTime.getUTCMinutes()).padStart(2, "0");
-  const endHour = String(endTime.getUTCHours()).padStart(2, "0");
-  const endMinute = String(endTime.getUTCMinutes()).padStart(2, "0");
+  const endTime = new Date(deal.endTime);
+  // endTime.setHours(endTime.getHours() - 9); // 9 hours is the time difference between UTC and KST
+
+  const startHour = String(startTime.getHours()).padStart(2, "0");
+  const startMinute = String(startTime.getMinutes()).padStart(2, "0");
+  const endHour = String(endTime.getHours()).padStart(2, "0");
+  const endMinute = String(endTime.getMinutes()).padStart(2, "0");
 
   // 연월일
   const year = String(startTime.getFullYear()).slice(-2);
@@ -102,7 +111,7 @@ export default function index({ getmy, deal }: IProps) {
             <MinusCircleIcon />
           </button>
         ) : null}
-        <Link to="/main" onClick={successClickHandler}>
+        <button type="button" onClick={detailNavigate}>
           <div className="user-deal-card-wrapper-img">
             <img src={deal.imageUrl} alt="아이유" className="deal-img" />
             <p className="deal-tag">{dealType}</p>
@@ -112,7 +121,11 @@ export default function index({ getmy, deal }: IProps) {
 
             <div className="user-deal-card-wrapper">
               <BellIcon />
-              <p className="user-deal-card-container-p">{`오픈 ${timeDiff}분 전`}</p>
+              {timeDiff <= 0 ? (
+                <p className="user-deal-card-container-p">종료</p>
+              ) : (
+                <p className="user-deal-card-container-p">{`오픈 ${timeDiff}분 전`}</p>
+              )}
             </div>
             <div className="user-deal-card-wrapper">
               <CalendarIcon />
@@ -122,7 +135,12 @@ export default function index({ getmy, deal }: IProps) {
             </div>
             <div className="user-deal-card-wrapper">
               <ClockIcon />
-              <p className="user-deal-card-container-p">{`${startHour}:${startMinute} ~ ${endHour}:${endMinute}`}</p>
+              {deal.dealTypeName !== "Auction" &&
+              deal.dealTypeName !== "HourAuction" ? (
+                <p className="user-deal-card-container-p">{`${startHour}:${startMinute}`}</p>
+              ) : (
+                <p className="user-deal-card-container-p">{`${startHour}:${startMinute} ~ ${endHour}:${endMinute}`}</p>
+              )}
             </div>
             <div className="user-deal-card-wrapper">
               <MapPinIcon />
@@ -131,7 +149,7 @@ export default function index({ getmy, deal }: IProps) {
               </p>
             </div>
           </div>
-        </Link>
+        </button>
       </div>
     </div>
   );
