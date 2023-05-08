@@ -89,4 +89,7 @@ public class Deal {
         this.meetingLocation = meetingLocation;
     }
 
+    public void falseAvailable() {
+        this.isAvailable = false;
+    }
 }

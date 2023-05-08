@@ -43,6 +43,11 @@ public class AuctionService {
         }
         // 없으면 경매 시작 금액으로 생성
         else {
+            try {
+                scheduleAuctionEnding(auction.getEndTime(), dealId);
+            } catch (SchedulerException e) {
+
+            }
             return auctionRedisRepository.initAuction(auction).toEntryResponse();
         }
     }
