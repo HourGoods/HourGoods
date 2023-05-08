@@ -6,6 +6,7 @@ import {
   haversineDistance,
   isWithin500mFromLocation,
 } from "@utils/isUserInConcertArea";
+import { drawCircles } from "@utils/realTime";
 import { ConcertInterface } from "@pages/Search";
 import { MapIcon } from "@heroicons/react/24/solid";
 import markerImg from "@assets/userLocPoint.svg";
@@ -17,7 +18,7 @@ declare global {
 }
 
 export default function index(props: any) {
-  const { concertList, flag, setFlag, location, setLocation } = props;
+  const { concertList, flag, setFlag, location, setConcertAreaInfo } = props;
   const [map, setMap] = useState<any>(null);
   const [CloseConcertInfo, setCloseConcertInfo] = useState<ConcertInterface[]>(
     []
@@ -35,44 +36,22 @@ export default function index(props: any) {
     setMap(map);
     setFlag(true);
 
-    // 콘서트 위치 그리기
-    const concertLocations = concertList.map((concert: any) => {
-      return {
-        latitude: concert.latitude,
-        longitude: concert.longitude,
-      };
-    });
-    const promiseList = concertLocations.map((concertLoc: any) => {
-      return isWithin500mFromLocation(
-        concertLoc.latitude,
-        concertLoc.longitude,
+    // 콘서트와 현재의 거리 받아오기
+    concertList.map((concert: any) => {
+      const distance = haversineDistance(
+        concert.latitude,
+        concert.longitude,
         location.latitude,
-        location.longitude,
-        map
+        location.longitude
       );
+      // 콘서트장 그리기
+      return drawCircles(distance, concert.latitude, concert.longitude, map);
     });
-    Promise.all(promiseList).then(() => {
-      // 현재 위치 기준으로 지도 중심 이동
-      map.setCenter(
-        new window.kakao.maps.LatLng(location.latitude, location.longitude)
-      );
+    // 콘서트장 위치 그렸으면 중심 이동
 
-      // 가까운 콘서트들은 저장
-      // 가장 가까운 3개의 콘서트 정보만 저장
-      const newInfos: ConcertInterface[] = concertList
-        .slice(0, -1)
-        .map((concert: any) => ({
-          imageUrl: concert.imageUrl,
-          kopisConcertId: concert.kopisConcertId,
-          place: concert.place,
-          startDate: concert.startime,
-          title: concert.title,
-          concertId: concert.concertId,
-          longitude: concert.longitude,
-          latitude: concert.latitude,
-        }));
-      setCloseConcertInfo(newInfos);
-    });
+    map.setCenter(
+      new window.kakao.maps.LatLng(location.latitude, location.longitude)
+    );
   }, [location, concertList]);
 
   useEffect(() => {
@@ -86,39 +65,24 @@ export default function index(props: any) {
           console.log(result);
           return;
         }
-        // setLocation(result);
-
-        // 가장 가까운 콘서트3개까지 범위 포함 여부 확인
-        CloseConcertInfo.map((closeConcert: any) => {
-          const drawingFlag = 1;
-          isWithin500mFromLocation(
-            closeConcert.latitude,
-            closeConcert.longitude,
-            result.latitude,
-            result.longitude,
-            map,
-            drawingFlag
+        // concert영역 안에 있는지 확인
+        concertList.map((concert: any) => {
+          const distance = haversineDistance(
+            concert.latitude,
+            concert.longitude,
+            location.latitude,
+            location.longitude
           );
-          // const distance = haversineDistance(
-          //   closeConcert.latitude,
-          //   closeConcert.longitude,
-          //   result.latitude,
-          //   result.longitude
-          // );
-          // if (distance <= 500) {
-          //   console.log(closeConcert.title, "가깝당 ㅎㅎ");
-          //   // 가까우면 map에 색칠 다시해
-          //   const drawingFlag = 1;
-          //   isWithin500mFromLocation(
-          //     closeConcert.latitude,
-          //     closeConcert.longitude,
-          //     result.latitude,
-          //     result.longitude,
-          //     map,
-          //     drawingFlag
-          //   );
-          // }
-          return map;
+          if (distance <= 500) {
+            return drawCircles(
+              distance,
+              concert.latitude,
+              concert.longitude,
+              map,
+              concert.concertId
+            );
+          }
+          return null;
         });
         // 지도 중심 이동, 현재 위치 표시
         map.setCenter(
@@ -143,6 +107,7 @@ export default function index(props: any) {
         오늘 Deal이 진행되는 콘서트를 확인해 보세요!
       </p>
       <div id="map" />
+      <button type="button">내 위치 불러오기</button>
       {CloseConcertInfo[0] && <ConcertCard concertInfo={CloseConcertInfo[0]} />}
     </div>
   );

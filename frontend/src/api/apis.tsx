@@ -4,6 +4,12 @@ import request from "./agents";
 const mypageAPI = {
   pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
     request.authGet("mypage/point", { params: { lastPointHistoryId } }),
+  getMyDeal: (lastDealId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/create", { params: { lastDealId } }),
+  favoriteDeal: (lastDealId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/bookmark", { params: { lastDealId } }),
+  participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
+    request.authGet("mypage/attend", { params: { lastDealId } }),
 };
 
 const memberAPI = {
@@ -85,6 +91,9 @@ const dealAPI = {
   // Deal 북마크 해제
   deleteBookmark: (dealId: number): Promise<AxiosResponse> =>
     request.authDelete("deal/bookmark", { data: { dealId } }),
+  // Deal 삭제
+  getDealDelete: (dealId: number): Promise<AxiosResponse> =>
+    request.authDelete(`deal/${dealId}`),
 };
 
 // 채팅관련 api
