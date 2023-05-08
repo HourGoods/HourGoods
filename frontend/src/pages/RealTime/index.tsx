@@ -11,6 +11,10 @@ export default function index() {
   >("");
   const [flag, setFlag] = useState(false);
   const [concertList, setConcerList] = useState([]);
+  const [concertAreaInfo, setConcertAreaInfo] = useState({
+    isIn: false,
+    concertId: -1,
+  });
 
   useEffect(() => {
     getCurrentLocation()
@@ -33,6 +37,13 @@ export default function index() {
       });
   }, []);
 
+  useEffect(() => {
+    if (concertAreaInfo.isIn) {
+      // 콘서트 영역 안에 있는 게 확인되면 api 요청
+      console.log("콘서트 영역 안에 있네용 ㅎㅎ");
+    }
+  }, [concertAreaInfo]);
+
   return (
     <div className="realtime-page-container">
       <Map
@@ -40,7 +51,7 @@ export default function index() {
         flag={flag}
         setFlag={setFlag}
         location={location}
-        setLocation={setLocation}
+        setConcertAreaInfo={setConcertAreaInfo}
       />
 
       <CardList concertList={concertList} />
