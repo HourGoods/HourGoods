@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@components/common/Button";
 import { TicketIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
 
 export default function index() {
-  const [cash, setcash] = useState(0);
-  const handleCashChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setcash(Number(e.target.value));
-  };
-
-  const newCash = cash;
-
   const [state, setState] = useState({
     // 응답에서 가져올 값들
     next_redirect_pc_url: "",
@@ -20,19 +14,62 @@ export default function index() {
       cid: "TC0ONETIME",
       partner_order_id: "partner_order_id",
       partner_user_id: "partner_user_id",
-      item_name: "초코파이",
+      item_name: "포인트 충전",
       quantity: 1,
-      total_amount: cash,
+      total_amount: 0,
       vat_amount: 200,
       tax_free_amount: 0,
-      approval_url: "http://localhost:3000/",
-      fail_url: "http://localhost:3000/",
-      cancel_url: "http://localhost:3000/",
+      approval_url: "http://localhost:3000/mypage",
+      fail_url: "http://localhost:3000/mypage",
+      cancel_url: "http://localhost:3000/mypage",
     },
   });
+
+  const navigate = useNavigate();
+
+  const handleCashChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState((prevState) => ({
+      ...prevState,
+      params: {
+        ...prevState.params,
+        total_amount: Number(e.target.value),
+      },
+    }));
+    console.log({ state });
+  };
+
   const [payUrl, setPayUrl] = useState("");
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const { params } = state;
+  //   axios({
+  //     // 프록시에 카카오 도메인을 설정했으므로 결제 준비 url만 주자
+  //     url: "https://kapi.kakao.com/v1/payment/ready",
+  //     // 결제 준비 API는 POST 메소드라고 한다.
+  //     method: "POST",
+  //     headers: {
+  //       // 카카오 developers에 등록한 admin키를 헤더에 줘야 한다.
+  //       Authorization: "KakaoAK e74d46458f51e4d2bec823b97eb4255e",
+  //       "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
+  //     },
+  //     // 설정한 매개변수들
+  //     params,
+  //   }).then((response) => {
+  //     console.log(response, "응답");
+  //     setPayUrl(response.data.next_redirect_pc_url);
+  //     // 응답에서 필요한 data만 뽑는다.
+  //     // const {
+  //     //   data: { next_redirect_pc_url, tid },
+  //     // } = response;
+
+  //     // console.log(next_redirect_pc_url);
+  //     // console.log(tid);
+  //     // 응답 data로 state 갱신
+  //     // setState({ next_redirect_pc_url, tid });
+  //   });
+  // });
+
+  const charge = () => {
     const { params } = state;
     axios({
       // 프록시에 카카오 도메인을 설정했으므로 결제 준비 url만 주자
@@ -46,9 +83,12 @@ export default function index() {
       },
       // 설정한 매개변수들
       params,
-    }).then((response) => {
-      console.log(response, "응답");
-      setPayUrl(response.data.next_redirect_pc_url);
+    })
+      .then((response) => {
+        console.log(response, "응답");
+        // setPayUrl(response.data.next_redirect_pc_url);
+        window.location.href = response.data.next_redirect_pc_url;
+      })
       // 응답에서 필요한 data만 뽑는다.
       // const {
       //   data: { next_redirect_pc_url, tid },
@@ -58,8 +98,10 @@ export default function index() {
       // console.log(tid);
       // 응답 data로 state 갱신
       // setState({ next_redirect_pc_url, tid });
-    });
-  }, [cash, state]);
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
@@ -92,8 +134,8 @@ export default function index() {
           </div>
         </div>
       </div>
-      <Button color="yellow">
-        <a href={payUrl}>결제 링크로 고고</a>
+      <Button color="yellow" onClick={charge}>
+        결제링크
       </Button>
     </div>
   );

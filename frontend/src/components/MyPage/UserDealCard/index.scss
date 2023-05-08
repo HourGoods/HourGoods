@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 5px 0px;
+  margin: 10px 0px;
 }
 @mixin user-deal-card-font-size {
   font-size: 14px;
@@ -20,7 +20,8 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 140px;
+  height: 250px;
+  width: 160px;
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
   border-radius: 10px;
@@ -67,7 +68,8 @@
   }
 
   .user-deal-card-wrapper-containers {
-    padding: 0px 5px;
+    padding: 5px;
+    height: 140px;
   }
 
   .user-deal-card-wrapper {
@@ -77,7 +79,7 @@
   .deal-img {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
-    width: 140px;
+    width: 160px;
     height: 100px;
     object-fit: cover;
   }
