@@ -86,7 +86,7 @@ export default function index(props: mapProps) {
       );
     });
     // 콘서트장 위치 그렸으면 중심 이동
-
+    setIsMapLoading(false);
     map.setCenter(
       new window.kakao.maps.LatLng(location.latitude, location.longitude)
     );
@@ -125,6 +125,8 @@ export default function index(props: mapProps) {
                 startDate: concert.startTime,
               });
               setInConcertList(newList);
+              setIsMapLoading(true);
+              window.location.reload();
             }
           } else if (distance > 500) {
             // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
@@ -138,6 +140,8 @@ export default function index(props: mapProps) {
                   (inConcert: any) => inConcert.concertId !== concert.concertId
                 )
               );
+              setIsMapLoading(true);
+              window.location.reload();
             } else {
               console.log("없던 애구나. 계속 없어라!");
             }
@@ -173,96 +177,3 @@ export default function index(props: mapProps) {
     </div>
   );
 }
-
-// useEffect(() => {
-//   if (location && location !== "" && typeof location !== "string") {
-//     // 현재 위치를 표시하는 마커 생성
-//     const markerPosition = new window.kakao.maps.LatLng(
-//       location.latitude,
-//       location.longitude
-//     );
-//     console.log("현재위치", markerPosition, location.latitude);
-
-//     const markerImage = new window.kakao.maps.MarkerImage(
-//       markerImg, // 마커 이미지 URL
-//       new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
-//       {
-//         offset: new window.kakao.maps.Point(55, 55),
-//         alt: "현재 위치",
-//       }
-//     );
-
-//     const marker = new window.kakao.maps.Marker({
-//       position: markerPosition,
-//       image: markerImage,
-//     });
-//     marker.setMap(Map);
-//   }
-// }, [location]);
-
-// // 위치 확인용 좌표
-// const sillaLocation = {
-//   latitude: 37.504768995486,
-//   longitude: 127.04144944792,
-// };
-
-// const sjrStation = {
-//   latitude: 37.510257428761,
-//   longitude: 127.04391561527,
-// };
-
-// const gangnamStation = {
-//   latitude: 37.497,
-//   longitude: 127.0254,
-// };
-
-// const nakseondaeStation = {
-//   latitude: 37.476529777589,
-//   longitude: 126.96428825991,
-// };
-
-// useEffect(() => {
-//   if (location && location !== "" && typeof location !== "string") {
-//     const container = document.getElementById("map");
-
-//     // 현재 위치 기준으로 지도 생성
-//     const options = {
-//       center: new window.kakao.maps.LatLng(
-//         location.latitude,
-//         location.longitude
-//       ),
-//       level: 4,
-//     };
-//     const map = new window.kakao.maps.Map(container, options);
-
-//     isWithin500mFromLocation(
-//       sillaLocation.latitude,
-//       sillaLocation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//     isWithin500mFromLocation(
-//       sjrStation.latitude,
-//       sjrStation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//     isWithin500mFromLocation(
-//       gangnamStation.latitude,
-//       gangnamStation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//     // 낙성대역
-//     isWithin500mFromLocation(
-//       nakseondaeStation.latitude,
-//       nakseondaeStation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//   }
-// }, []);
