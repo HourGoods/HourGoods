@@ -29,6 +29,13 @@ public class AuctionRedisRepository {
         valueOperations.set(auctionKey, auctionInfo);
         return auctionInfo;
     }
+    public AuctionInfo removeParticipant(String dealId) {
+        String auctionKey = "auction:" + dealId;
+        AuctionInfo auctionInfo = valueOperations.get(auctionKey);
+        auctionInfo.removeParticipant();
+        valueOperations.set(auctionKey, auctionInfo);
+        return auctionInfo;
+    }
     public AuctionInfo initAuction(Auction auction) {
         String auctionKey = "auction:" + auction.getId();
         AuctionInfo auctionInfo = AuctionInfo.builder().minPrice(auction.getMinimumPrice()).build();

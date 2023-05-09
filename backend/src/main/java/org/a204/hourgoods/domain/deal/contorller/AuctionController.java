@@ -68,9 +68,14 @@ public class AuctionController {
             case "BID":
                 AuctionBidMessage auctionBidMessage = auctionService.handleBid(dealId, message);
                 messagingTemplate.convertAndSend("/bidding/" + dealId, auctionBidMessage);
+                return;
             case "JOIN":
-                AuctionJoinMessage auctionJoinMessage = auctionService.handleJoin(dealId, message);
+                AuctionInOutMessage auctionJoinMessage = auctionService.handleJoin(dealId, message);
                 messagingTemplate.convertAndSend("/bidding/" + dealId, auctionJoinMessage);
+                return;
+            case "EXIT":
+                AuctionInOutMessage auctionExitMessage = auctionService.handleExit(dealId, message);
+                messagingTemplate.convertAndSend("/bidding/" + dealId, auctionExitMessage);
         }
     }
 }

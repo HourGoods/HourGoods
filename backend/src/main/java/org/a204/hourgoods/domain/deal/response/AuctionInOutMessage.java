@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @Builder
 @AllArgsConstructor
-public class AuctionJoinMessage {
+public class AuctionInOutMessage {
     private String messageType;
     private String nickname;
     private Integer participantCount;

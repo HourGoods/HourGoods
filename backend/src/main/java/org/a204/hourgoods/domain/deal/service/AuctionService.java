@@ -91,12 +91,19 @@ public class AuctionService {
                 .participantCount(auctionRedisRepository.getParticipantCount(dealId))
                 .build();
     }
-    public AuctionJoinMessage handleJoin(String dealId, AuctionMessage message) {
+    public AuctionInOutMessage handleJoin(String dealId, AuctionMessage message) {
         AuctionInfo auctionInfo = auctionRedisRepository.addParticipant(dealId);
-        return AuctionJoinMessage.builder()
+        return AuctionInOutMessage.builder()
                 .messageType("JOIN")
                 .nickname(message.getNickname())
                 .participantCount(auctionInfo.getParticipantCount()).build();
+    }
+    public AuctionInOutMessage handleExit(String dealId, AuctionMessage message) {
+        AuctionInfo auctionInfo = auctionRedisRepository.removeParticipant(dealId);
+        return AuctionInOutMessage.builder()
+            .messageType("EXIT")
+            .nickname(message.getNickname())
+            .participantCount(auctionInfo.getParticipantCount()).build();
     }
     private void scheduleAuctionEnding(LocalDateTime endTime, Long auctionId) throws SchedulerException {
         JobDataMap jobDataMap = new JobDataMap();
