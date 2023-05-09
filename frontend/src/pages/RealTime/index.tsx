@@ -26,6 +26,7 @@ export default function index() {
 
   // 최초의 현재 위치와 당일 콘서트 정보들만 불러옴
   useEffect(() => {
+    // 새로 마운팅 되어 중복으로 콘서트가 쌓이는 것을 방지함
     getCurrentLocation()
       .then((response) => {
         if (typeof response === "string") {
