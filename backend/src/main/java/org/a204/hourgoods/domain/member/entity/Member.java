@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.a204.hourgoods.domain.bidding.entity.Bidding;
 import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.concert.entity.ConcertBookmark;
 import org.a204.hourgoods.domain.deal.entity.Deal;
@@ -84,6 +85,8 @@ public class Member {
 
 	@OneToMany(mappedBy = "purchaser", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<Transaction> transactions = new ArrayList<>();
+	@OneToMany(mappedBy = "bidder", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	private List<Bidding> bidHistory = new ArrayList<>();
 
 	@Builder
 	public Member(Long id, String email, String nickname, String imageUrl) {
