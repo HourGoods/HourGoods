@@ -112,6 +112,8 @@ export default function index(props: mapProps) {
             location.longitude
           );
           if (distance <= 460) {
+            console.log(inConcertList, concert);
+
             // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
@@ -120,12 +122,14 @@ export default function index(props: mapProps) {
               console.log("이미 등록되어 있으니 아무 것도 하지 말자");
             } else {
               console.log("없었던 애니까 등록하자!");
+
               const newList = inConcertList.concat({
                 ...concert,
                 startDate: concert.startTime,
               });
               setInConcertList(newList);
               setIsMapLoading(true);
+              alert("변화! 새로이 진입");
               window.location.reload();
             }
           } else if (distance > 460) {
@@ -135,12 +139,14 @@ export default function index(props: mapProps) {
             );
             if (isInConcertList) {
               console.log("등록되어 있던 애다. 없애자!");
+
               setInConcertList((prev: any) =>
                 prev.filter(
                   (inConcert: any) => inConcert.concertId !== concert.concertId
                 )
               );
               setIsMapLoading(true);
+              alert("변화! 밖으로 나감");
               window.location.reload();
             } else {
               console.log("없던 애구나. 계속 없어라!");
