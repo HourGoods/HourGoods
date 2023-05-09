@@ -1,32 +1,40 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable react/no-array-index-key */
-import { BidMessage } from "@components/Auction";
-import {
-  ArrowUpIcon,
-  ArrowUpTrayIcon,
-  ExclamationTriangleIcon,
-  FireIcon,
-  PlayIcon,
-  UserGroupIcon,
-} from "@heroicons/react/24/solid";
+import { BidMessage, InoutMessage } from "@components/Auction";
+import { FireIcon, PlayIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import React, { useEffect, useState } from "react";
 
 interface BidInfoProps {
   bidList: BidMessage[];
+  nowBid: number;
+  nowCount: number;
+  inoutMsgList: InoutMessage[];
 }
 
-export default function Index({ bidList }: BidInfoProps) {
+export default function Index({
+  bidList,
+  nowBid,
+  nowCount,
+  inoutMsgList,
+}: BidInfoProps) {
   const [currentBid, setCurrentBid] = useState<number>(0);
   const [interval, setInterval] = useState<number>(0);
   const [participantCount, setParticipantCount] = useState<number>(0);
 
   useEffect(() => {
-    const latestBid = bidList[bidList.length - 1];
-    if (latestBid) {
-      setCurrentBid(latestBid.currentBid);
-      setInterval(latestBid.interval);
-      setParticipantCount(latestBid.participantCount);
-    }
-  }, [bidList]);
+    setCurrentBid(nowBid);
+    setParticipantCount(nowCount);
+  }, []);
+
+  useEffect(() => {
+    bidList.map((bid: BidMessage) => {
+      setCurrentBid(bid.currentBid);
+      setInterval(bid.interval);
+    });
+    inoutMsgList.map((inout: InoutMessage) => {
+      setParticipantCount(inout.participantCount);
+    });
+  }, [bidList, inoutMsgList]);
 
   // 23.05.09 12:36
   // 해야할 것
