@@ -40,8 +40,8 @@ export default function index(props: any) {
       const req = chattingAPI.postchatDirect(receiver, dealid);
       req
         .then((res) => {
-          console.log(res);
-          const chattingRoomId = res.data.result;
+          console.log(res.data.result);
+          const chattingRoomId = res.data.result.directChattingRoomId;
           navigate(`/mychatroom/${chattingRoomId}`, {
             state: { dealinfo: dealInfo },
           });

@@ -10,11 +10,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default function index() {
   const navigate = useNavigate();
   const location = useLocation();
-  const dealInfo = location.state;
+  const dealInfo = location.state.dealinfo;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const sendMsgHandler = () => {
-    //
-  };
 
   const meetModalHandler = () => {
     setIsModalOpen(true);
