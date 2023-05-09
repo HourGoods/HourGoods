@@ -125,7 +125,7 @@ public class AuctionService {
         Long memberId = member.getId();
         Member retrieved = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-        Bidding bidding = biddingRepository.findByDealAndMember(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
+        Bidding bidding = biddingRepository.findByDealAndBidder(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
         Auction auction = auctionRepository.findById(dealId).get();
         return AuctionResultResponse.builder()
             .isWinner(bidding.getIsWinner())
