@@ -67,7 +67,7 @@ export default function index(props: mapProps) {
         location.longitude
       );
       // 만약 500m안에 있는 게 있으면
-      if (distance <= 500) {
+      if (distance <= 460) {
         // 포함 여부 저장
         console.log(concert);
         const newList = inConcertList.concat({
@@ -111,7 +111,7 @@ export default function index(props: mapProps) {
             location.latitude,
             location.longitude
           );
-          if (distance <= 500) {
+          if (distance <= 460) {
             // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
@@ -128,7 +128,7 @@ export default function index(props: mapProps) {
               setIsMapLoading(true);
               window.location.reload();
             }
-          } else if (distance > 500) {
+          } else if (distance > 460) {
             // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
