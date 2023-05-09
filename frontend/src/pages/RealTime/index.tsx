@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
 import Map from "@components/RealTime/Map/index";
 import CardList from "@components/RealTime/CardList";
+import Loading from "@components/RealTime/Loading";
 import { concertAPI } from "@api/apis";
 import { ConcertInterface } from "@pages/Search";
 import "./index.scss";
@@ -23,6 +24,7 @@ export default function index() {
   const [todayConcertList, setTodayConcertList] = useState([]);
   const [inConcertList, setInConcertList] = useState<ConcertInterface[]>([]);
   const [concertDealList, setConcertDealList] = useState([]);
+  const [isMapLoading, setIsMapLoading] = useState(false);
 
   // 최초의 현재 위치와 당일 콘서트 정보들만 불러옴
   useEffect(() => {
@@ -48,22 +50,28 @@ export default function index() {
   }, []);
 
   return (
-    <div className="realtime-page-container">
-      <Map
-        location={location}
-        setLocation={setLocation}
-        flag={flag}
-        setFlag={setFlag}
-        todayConcertList={todayConcertList}
-        inConcertList={inConcertList}
-        setInConcertList={setInConcertList}
-      />
+    <>
+      {isMapLoading && <Loading />}
+      {/* <Loading /> */}
+      <div className="realtime-page-container">
+        <Map
+          location={location}
+          setLocation={setLocation}
+          flag={flag}
+          setFlag={setFlag}
+          todayConcertList={todayConcertList}
+          inConcertList={inConcertList}
+          setInConcertList={setInConcertList}
+          isMapLoading={isMapLoading}
+          setIsMapLoading={setIsMapLoading}
+        />
 
-      <CardList
-        inConcertList={inConcertList}
-        concertDealList={concertDealList}
-        setConcertDealList={setConcertDealList}
-      />
-    </div>
+        <CardList
+          inConcertList={inConcertList}
+          concertDealList={concertDealList}
+          setConcertDealList={setConcertDealList}
+        />
+      </div>
+    </>
   );
 }
