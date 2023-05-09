@@ -14,26 +14,35 @@ export default function index(props: any) {
     if (inConcertList.length === 0) {
       setConcertDealList([]);
     }
-    if (inConcertList.length > 0) {
-      Promise.all(
-        inConcertList.map((concert: any) => {
-          return concertAPI
-            .getConcertDealList(
-              concert.concertId,
-              -1,
-              "All",
-              "",
-              userInfo.nickname
-            )
-            .then((res) => {
-              return res.data.result.dealInfoList;
-            });
-        })
-      ).then((results) => {
-        console.log("새로운 콘서트별 deal 정보", results);
-        setConcertDealList(results.flat());
-      });
+    const concert = inConcertList[0];
+    if (concert) {
+      concertAPI
+        .getConcertDealList(concert.concertId, -1, "All", "", userInfo.nickname)
+        .then((res) => {
+          return setConcertDealList(res.data.result.dealInfoList);
+        });
     }
+
+    // if (inConcertList.length > 0) {
+    //   Promise.all(
+    //     inConcertList.map((concert: any) => {
+    //       return concertAPI
+    //         .getConcertDealList(
+    //           concert.concertId,
+    //           -1,
+    //           "All",
+    //           "",
+    //           userInfo.nickname
+    //         )
+    //         .then((res) => {
+    //           return res.data.result.dealInfoList;
+    //         });
+    //     })
+    //   ).then((results) => {
+    //     console.log("새로운 콘서트별 deal 정보", results);
+    //     setConcertDealList(results.flat());
+    //   });
+    // }
   }, [inConcertList]);
 
   if (inConcertList.length < 1) {
