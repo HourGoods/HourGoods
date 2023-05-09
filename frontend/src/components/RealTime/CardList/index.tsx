@@ -45,30 +45,34 @@ export default function index(props: any) {
     // }
   }, [inConcertList]);
 
-  if (inConcertList.length < 1) {
-    return (
-      <div className="realtime-deal-card-list-container">
-        <p>Deal카드가 없습니다</p>
-      </div>
-    );
-  }
   return (
     <div className="realtime-deal-card-list-container">
       <div className="realtime-page-title-div">
         <ClockIcon />
         <p className="realtime-page-component-title-p">실시간 Time Deal</p>
       </div>
-      <p className="realtime-page-helper-p">
-        콘서트 범위 안에서만 Deal을 확인할 수 있어요.
-      </p>
-      <SearchBar />
-      {concertDealList.map((dealInfo: any) => {
-        return (
-          <div key={dealInfo.dealId}>
-            <DealCard dealInfo={dealInfo} />
-          </div>
-        );
-      })}
+      {inConcertList.length < 1 ? (
+        <>
+          <p className="realtime-page-helper-p">
+            콘서트 범위 안에서만 Deal을 확인할 수 있어요.
+          </p>
+          <p>Deal카드가 없습니다</p>
+        </>
+      ) : (
+        <>
+          <p className="realtime-page-helper-p">
+            콘서트 현장에서 원하는 거래를 찾아봐요!
+          </p>
+          <SearchBar />
+          {concertDealList.map((dealInfo: any) => {
+            return (
+              <div key={dealInfo.dealId}>
+                <DealCard dealInfo={dealInfo} />
+              </div>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }

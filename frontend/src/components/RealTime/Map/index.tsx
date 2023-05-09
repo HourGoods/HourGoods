@@ -27,6 +27,8 @@ interface mapProps {
   todayConcertList: any;
   inConcertList: any;
   setInConcertList: React.Dispatch<React.SetStateAction<any>>;
+  isMapLoading: boolean;
+  setIsMapLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function index(props: mapProps) {
@@ -38,10 +40,10 @@ export default function index(props: mapProps) {
     todayConcertList,
     inConcertList,
     setInConcertList,
+    isMapLoading,
+    setIsMapLoading,
   } = props;
   const [map, setMap] = useState<any>(null);
-  const [isMapLoading, setIsMapLoading] = useState(false);
-
 
   // 최초 지도 그리기, 위치 변경에 따른 지도 그리기
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function index(props: mapProps) {
 
     // 오늘의 콘서트와 현재의 거리 받아오기
     // 오늘 콘서트 리스트 확인
-    console.log(todayConcertList)
+    console.log(todayConcertList);
     todayConcertList.map((concert: any) => {
       const distance = haversineDistance(
         concert.latitude,
@@ -84,7 +86,7 @@ export default function index(props: mapProps) {
       );
     });
     // 콘서트장 위치 그렸으면 중심 이동
-    setIsMapLoading(false);
+    setTimeout(() => setIsMapLoading(false), 3000);
     map.setCenter(
       new window.kakao.maps.LatLng(location.latitude, location.longitude)
     );
@@ -111,7 +113,6 @@ export default function index(props: mapProps) {
             result.longitude
           );
           if (distance <= 460) {
-
             // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
@@ -120,7 +121,7 @@ export default function index(props: mapProps) {
               console.log("이미 등록되어 있으니 아무 것도 하지 말자");
             } else {
               console.log("없었던 애니까 등록하자!");
-              console.log("정말 없나?", inConcertList, isInConcertList)
+              console.log("정말 없나?", inConcertList, isInConcertList);
 
               const newList = inConcertList.concat({
                 ...concert,
@@ -128,7 +129,6 @@ export default function index(props: mapProps) {
               });
               setInConcertList(newList);
               setIsMapLoading(true);
-              alert("변화! 새로이 진입");
               setLocation(result);
               // window.location.reload();
             }
@@ -146,7 +146,6 @@ export default function index(props: mapProps) {
                 )
               );
               setIsMapLoading(true);
-              alert("변화! 밖으로 나감");
               setLocation(result);
 
               // window.location.reload();
