@@ -23,6 +23,7 @@ class BookmarkRepositoryTest {
 	EntityManager em;
 	@Autowired
 	BookmarkRepository bookmarkRepository;
+
 	@Test
 	@DisplayName("북마크 여부 확인 메소드")
 	void bookmarkCheck() throws Exception {
@@ -35,7 +36,6 @@ class BookmarkRepositoryTest {
 		Auction auction = Auction.auctionBuilder()
 			.title("포카경매합니다")
 			.dealType(DealType.Auction)
-			.isAvaliable(true)
 			.startTime(LocalDateTime.now().plusHours(5))
 			.endTime(LocalDateTime.now().plusHours(8))
 			.minimumPrice(10_000)
@@ -43,8 +43,8 @@ class BookmarkRepositoryTest {
 			.dealHost(member)
 			.build();
 		DealBookmark bookmark = DealBookmark.builder()
-				.member(member)
-					.deal(auction).build();
+			.member(member)
+			.deal(auction).build();
 		em.persist(member);
 		em.persist(concert);
 		em.persist(auction);
