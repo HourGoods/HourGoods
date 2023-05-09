@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { AuthStateAtom } from "@recoils/user/Atom";
 
 export default function PrivateRoute() {
-  const token = sessionStorage.getItem("token")
+  const token = sessionStorage.getItem("accessToken")
   // const { isLogin } = useRecoilValue(AuthStateAtom)
 
   if (token) {
