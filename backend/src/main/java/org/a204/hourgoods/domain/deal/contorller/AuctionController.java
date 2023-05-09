@@ -7,9 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.a204.hourgoods.domain.deal.request.AuctionMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionBidMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionChatMessage;
-import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
+import org.a204.hourgoods.domain.deal.response.*;
 import org.a204.hourgoods.domain.deal.service.AuctionService;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
@@ -43,6 +41,19 @@ public class AuctionController {
         return new BaseResponse<>(auctionEntryResponse);
     }
 
+    @GetMapping("/result")
+    @Operation(summary = "경매 결과 조회 API", description = "jwt token과 dealID를 통해서 사용자별 경매 결과를 조회하는 API")
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "경매 결과 조회 성공"),
+        @ApiResponse(responseCode = "400", description = "1. M300 사용자를 찾을 수 없습니다."),
+        @ApiResponse(responseCode = "404", description = "1. D200 사용자를 찾을 수 없습니다. \t\n2. B100 입찰 기록이 없습니다."),
+
+    })
+    public BaseResponse<AuctionResultResponse> getAuctionResult(@AuthenticationPrincipal MemberDetails memberDetails, @RequestParam Long dealId) {
+        Member member = memberDetails.getMember();
+        AuctionResultResponse response = auctionService.getResult(member, dealId);
+        return new BaseResponse<>(response);
+    }
     /*
     소켓 관련 로직
      */
@@ -57,6 +68,14 @@ public class AuctionController {
             case "BID":
                 AuctionBidMessage auctionBidMessage = auctionService.handleBid(dealId, message);
                 messagingTemplate.convertAndSend("/bidding/" + dealId, auctionBidMessage);
+                return;
+            case "JOIN":
+                AuctionInOutMessage auctionJoinMessage = auctionService.handleJoin(dealId, message);
+                messagingTemplate.convertAndSend("/bidding/" + dealId, auctionJoinMessage);
+                return;
+            case "EXIT":
+                AuctionInOutMessage auctionExitMessage = auctionService.handleExit(dealId, message);
+                messagingTemplate.convertAndSend("/bidding/" + dealId, auctionExitMessage);
         }
     }
 }

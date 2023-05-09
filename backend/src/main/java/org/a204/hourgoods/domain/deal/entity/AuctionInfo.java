@@ -25,6 +25,9 @@ public class AuctionInfo implements Serializable {
     public void addParticipant() {
         this.participantCount += 1;
     }
+    public void removeParticipant() {
+        this.participantCount -= 1;
+    }
     public void updateBidder(String nickname, Integer bidAmount) {
         this.bidder = nickname;
         this.currentBid = bidAmount;

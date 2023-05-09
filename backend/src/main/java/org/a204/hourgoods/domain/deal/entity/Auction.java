@@ -26,6 +26,9 @@ public class Auction extends Deal {
 	@Column(name = "end_time")
 	private LocalDateTime endTime;
 
+	@Column(name = "bidder_count")
+	private Integer bidderCount;
+
 	@Builder(builderMethodName = "auctionBuilder")
 	public Auction(String imageUrl, String title, String content, LocalDateTime startTime,
 		Member dealHost, Concert concert, DealType dealType, Double longitude, Double latitude, Integer minimumPrice, Integer finalPrice,
@@ -36,4 +39,8 @@ public class Auction extends Deal {
 		this.endTime = endTime;
 	}
 
+	public void updateResult(Integer finalPrice, Integer bidderCount) {
+		this.finalPrice = finalPrice;
+		this.bidderCount = bidderCount;
+	}
 }
