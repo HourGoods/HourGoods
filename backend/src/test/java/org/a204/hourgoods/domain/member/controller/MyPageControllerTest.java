@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,7 +37,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @AutoConfigureMockMvc
 class MyPageControllerTest {
 
-	private final String url = "http://localhost:8080/api/mypage/";
 	@Autowired
 	EntityManager em;
 	@Autowired
@@ -45,6 +45,9 @@ class MyPageControllerTest {
 	ObjectMapper objectMapper;
 	@Autowired
 	JwtTokenUtils jwtTokenUtils;
+	@LocalServerPort
+	int port;
+	private final String url = "http://localhost:" + port + "/api/mypage/";
 	private Long CONCERT_ID;
 	private String token;
 	private String otherToken;
@@ -87,7 +90,6 @@ class MyPageControllerTest {
 			Sharing sharing = Sharing.sharingBuilder()
 				.title("포카판매합니다")
 				.dealType(DealType.Sharing)
-				.isAvaliable(i % 2 == 0)
 				.startTime(LocalDateTime.now().plusHours(8 - i))
 				.limitation(20)
 				.concert(concert)

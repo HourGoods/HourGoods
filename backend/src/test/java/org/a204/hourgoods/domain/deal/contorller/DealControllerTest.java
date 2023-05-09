@@ -1,6 +1,9 @@
 package org.a204.hourgoods.domain.deal.contorller;
 
 import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +31,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
@@ -36,10 +40,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @CustomSpringBootTest
 @Transactional
@@ -55,7 +55,9 @@ class DealControllerTest {
 	@Autowired
 	JwtTokenUtils jwtTokenUtils;
 	private String token;
-	private final String url = "http://localhost:8080/api/deal/";
+	@LocalServerPort
+	int port;
+	private final String url = "http://localhost:" + port + "/api/deal/";
 	private Long CONCERT_ID;
 	private Long DEAL_ID;
 	private Long MEMBER_ID;
@@ -290,6 +292,7 @@ class DealControllerTest {
 	@DisplayName("거래 삭제")
 	class deleteDeal {
 		private String otherToken;
+
 		@BeforeEach
 		void setUp() {
 			Member otherMember = Member.builder()
@@ -300,15 +303,17 @@ class DealControllerTest {
 			otherToken = jwtTokenUtils.BEARER_PREFIX + jwtTokenUtils.createTokens(otherMember,
 				List.of(new SimpleGrantedAuthority("ROLE_MEMBER")));
 		}
+
 		@Test
 		@DisplayName("거래 삭제 성공")
-		void deleteDeal() throws Exception{
+		void deleteDeal() throws Exception {
 			mockMvc
 				.perform(delete(url + DEAL_ID.toString())
 					.header("Authorization", token))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
+
 		@Test
 		@DisplayName("없는 거래ID 조회")
 		void invalidDealId() throws Exception {
@@ -319,6 +324,7 @@ class DealControllerTest {
 				.andExpect(jsonPath("$.code", is("D200")))
 				.andDo(print());
 		}
+
 		@Test
 		@DisplayName("거래 생성 멤버ID와 요청 멤버ID 불일치")
 		void missMatchMemberId() throws Exception {
@@ -350,6 +356,7 @@ class DealControllerTest {
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
+
 		@Test
 		@DisplayName("묵마크 생성 중 거래ID 조회 실패")
 		void invalidDealIdInRegistration() throws Exception {
@@ -367,6 +374,7 @@ class DealControllerTest {
 				.andExpect(jsonPath("$.code", is("D200")))
 				.andDo(print());
 		}
+
 		@Test
 		@DisplayName("북마크 취소 성공")
 		void cancelBookmark() throws Exception {
@@ -389,6 +397,7 @@ class DealControllerTest {
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
+
 		@Test
 		@DisplayName("북마크 취소 중 북마크 조회 실패")
 		void invalidBookmarkInCancellation() throws Exception {
@@ -425,7 +434,7 @@ class DealControllerTest {
 				.perform(get(url + "bookmark")
 					.header("Authorization", token)
 					.param("dealId", DEAL_ID.toString()))
-			// then
+				// then
 				.andExpect(jsonPath("$.status", is(200)))
 				.andExpect(jsonPath("$.result.isBookmarked", is(true)))
 				.andDo(print());
