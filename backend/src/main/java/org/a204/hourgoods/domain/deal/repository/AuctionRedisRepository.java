@@ -3,6 +3,8 @@ package org.a204.hourgoods.domain.deal.repository;
 import lombok.RequiredArgsConstructor;
 import org.a204.hourgoods.domain.deal.entity.Auction;
 import org.a204.hourgoods.domain.deal.entity.AuctionInfo;
+import org.a204.hourgoods.domain.deal.entity.GameAuction;
+import org.a204.hourgoods.domain.deal.entity.GameAuctionInfo;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -13,10 +15,13 @@ import javax.annotation.PostConstruct;
 @RequiredArgsConstructor
 public class AuctionRedisRepository {
     private final RedisTemplate<String, AuctionInfo> redisTemplate;
+    private final RedisTemplate<String, GameAuctionInfo> gameRedisTemplate;
     private ValueOperations<String, AuctionInfo> valueOperations;
+    private ValueOperations<String, GameAuctionInfo> gameValueOperations;
     @PostConstruct
     private void redisInit() {
         valueOperations = redisTemplate.opsForValue();
+        gameValueOperations = gameRedisTemplate.opsForValue();
     }
     public boolean isExist(Long dealId) {
         String auctionKey = "auction:" + dealId;
@@ -59,5 +64,10 @@ public class AuctionRedisRepository {
     public void deleteAuctionInfo(Long dealId) {
         String auctionKey = "auction:" + dealId;
         redisTemplate.delete(auctionKey);
+    }
+    public GameAuctionInfo initGameAuction(GameAuction gameAuction) {
+        String auctionKey = "auction:" + gameAuction.getId();
+        GameAuctionInfo gameAuctionInfo = GameAuctionInfo.builder().build();
+        gameValueOperations.set(auctionKey, );
     }
 }

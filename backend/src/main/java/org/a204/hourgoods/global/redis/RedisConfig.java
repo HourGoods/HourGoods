@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
 import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
 import org.a204.hourgoods.domain.deal.entity.AuctionInfo;
+import org.a204.hourgoods.domain.deal.entity.GameAuctionInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,7 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, AuctionInfo> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, AuctionInfo> redisAuctionTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, AuctionInfo> template = new RedisTemplate<>();
 
         template.setConnectionFactory(connectionFactory);
@@ -55,4 +56,21 @@ public class RedisConfig {
         return template;
     }
 
+    @Bean
+    public RedisTemplate<String, GameAuctionInfo> redisGameTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, GameAuctionInfo> template = new RedisTemplate<>();
+
+        template.setConnectionFactory(connectionFactory);
+        template.setKeySerializer(new StringRedisSerializer());
+
+        Jackson2JsonRedisSerializer<GameAuctionInfo> serializer = new Jackson2JsonRedisSerializer<>(GameAuctionInfo.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+        objectMapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+        serializer.setObjectMapper(objectMapper);
+
+        template.setValueSerializer(serializer);
+
+        return template;
+    }
 }
