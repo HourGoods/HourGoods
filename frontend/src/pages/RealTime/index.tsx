@@ -50,6 +50,7 @@ export default function index() {
     <div className="realtime-page-container">
       <Map
         location={location}
+        setLocation={setLocation}
         flag={flag}
         setFlag={setFlag}
         todayConcertList={todayConcertList}

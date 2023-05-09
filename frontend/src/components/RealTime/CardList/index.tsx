@@ -15,19 +15,23 @@ export default function index(props: any) {
       setConcertDealList([]);
     }
     if (inConcertList.length > 0) {
-      inConcertList.map((concert: any) => {
-        const result = concertAPI.getConcertDealList(
-          concert.concertId,
-          -1,
-          "All",
-          "",
-          userInfo.nickname
-        );
-        result.then((res) => {
-          console.log("새로운 콘서트별 deal 정보", res);
-          setConcertDealList(res.data.result.dealInfoList);
-        });
-        return null;
+      Promise.all(
+        inConcertList.map((concert: any) => {
+          return concertAPI
+            .getConcertDealList(
+              concert.concertId,
+              -1,
+              "All",
+              "",
+              userInfo.nickname
+            )
+            .then((res) => {
+              return res.data.result.dealInfoList;
+            });
+        })
+      ).then((results) => {
+        console.log("새로운 콘서트별 deal 정보", results);
+        setConcertDealList(results.flat());
       });
     }
   }, [inConcertList]);
