@@ -27,6 +27,7 @@ declare global {
 
 interface mapProps {
   location: any;
+  setLocation: React.Dispatch<React.SetStateAction<any>>;
   flag: boolean;
   setFlag: React.Dispatch<React.SetStateAction<boolean>>;
   todayConcertList: any;
@@ -37,6 +38,7 @@ interface mapProps {
 export default function index(props: mapProps) {
   const {
     location,
+    setLocation,
     flag,
     setFlag,
     todayConcertList,
@@ -47,7 +49,7 @@ export default function index(props: mapProps) {
   const [isMapLoading, setIsMapLoading] = useState(false);
   const userInfo = useRecoilValue(UserStateAtom);
 
-  // 최초 지도 그리기
+  // 최초 지도 그리기, 위치 변경
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
@@ -103,7 +105,7 @@ export default function index(props: mapProps) {
           console.log(result, "watch");
           return;
         }
-        console.log(result, "watch")
+        console.log(result, "watch");
         // 오늘 concert영역 안에 있는지 확인
         todayConcertList.map((concert: any) => {
           const distance = haversineDistance(
@@ -131,6 +133,7 @@ export default function index(props: mapProps) {
               setInConcertList(newList);
               setIsMapLoading(true);
               alert("변화! 새로이 진입");
+              setLocation(result);
               // window.location.reload();
             }
           } else if (distance > 460) {
@@ -148,6 +151,8 @@ export default function index(props: mapProps) {
               );
               setIsMapLoading(true);
               alert("변화! 밖으로 나감");
+              setLocation(result);
+
               // window.location.reload();
             } else {
               console.log("없던 애구나. 계속 없어라!");
