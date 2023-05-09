@@ -195,12 +195,12 @@
       align-items: center;
       gap: 5px;
       margin: 10px 0;
-      svg {
+      img {
         width: 40px;
         color: $gray-3;
       }
       .not-me-chat-message {
-        .not-me-name {
+        .not-me-chat-name {
           font-weight: 900;
         }
       }
@@ -209,7 +209,7 @@
       margin: 10px 0;
       display: flex;
       justify-content: flex-end;
-      .its-me-chatbox {
+      .its-me-chat-box {
         max-width: 60%;
         background-color: $violet-2;
         border-radius: 10px 10px 0px 10px;
@@ -220,5 +220,39 @@
   }
   .box-bottom-wrapper {
     width: 100%;
+  }
+}
+
+// inputMsgBox 이거는 곧 분리하면 같이 삭제해주세요.
+.input-message-container {
+  height: 50px;
+  border-radius: 30px;
+  background-color: $white-op;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  margin: 10px 0px;
+  .icon-message-wrapper {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    svg {
+      width: 24px;
+      color: $indigo-1;
+    }
+    input {
+      background-color: transparent;
+      width: 90%;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+  }
+  button {
+    background-color: transparent;
+    width: 40px;
+    color: $indigo-1;
   }
 }
