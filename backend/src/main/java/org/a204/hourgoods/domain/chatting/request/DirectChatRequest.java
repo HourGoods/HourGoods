@@ -15,8 +15,8 @@ public class DirectChatRequest {
 
     @NotNull
     @Positive
-    @Schema(description = "채팅 걸고 싶은 유저의 id")
-    private Long receiverId;
+    @Schema(description = "채팅 걸고 싶은 유저의 닉네임")
+    private String receiverNickname;
 
     @NotNull
     @Positive

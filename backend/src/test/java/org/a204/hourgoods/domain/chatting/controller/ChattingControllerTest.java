@@ -197,7 +197,7 @@ class ChattingControllerTest {
 				DirectChatRequest request = DirectChatRequest
 					.builder()
 					.dealId(trade.getId())
-					.receiverId(seller.getId())
+					.receiverNickname(seller.getNickname())
 					.build();
 				String content = objectMapper.writeValueAsString(request);
 
@@ -224,7 +224,7 @@ class ChattingControllerTest {
 				DirectChatRequest request = DirectChatRequest
 					.builder()
 					.dealId(trade.getId())
-					.receiverId(purchaser.getId())
+					.receiverNickname(purchaser.getNickname())
 					.build();
 				String content = objectMapper.writeValueAsString(request);
 
