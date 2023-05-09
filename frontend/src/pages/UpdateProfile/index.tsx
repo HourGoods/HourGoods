@@ -8,6 +8,7 @@ import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
@@ -116,13 +117,6 @@ export default function index() {
       });
   }, [setUserInfo, userInfo]);
 
-  // input enter
-  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      nicknameChecker(e); // Enter 입력이 되면 클릭 이벤트 실행
-    }
-  };
-
   console.log(userInfo);
 
   return (
@@ -156,7 +150,7 @@ export default function index() {
                   id="nickname"
                   placeholder={userInfo.nickname}
                   onChange={nicknameHandler}
-                  onKeyPress={handleOnKeyPress}
+                  onKeyPress={handleOnKeyPress(nicknameChecker)}
                 />
                 <button type="button" onClick={nicknameChecker}>
                   변경
