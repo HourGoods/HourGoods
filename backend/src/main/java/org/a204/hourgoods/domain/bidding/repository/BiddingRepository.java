@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BiddingRepository extends JpaRepository<Bidding, Long> {
-	Optional<Bidding> findByDealAndMember(Member member, Deal deal);
+	Optional<Bidding> findByDealAndBidder(Member member, Deal deal);
 }
