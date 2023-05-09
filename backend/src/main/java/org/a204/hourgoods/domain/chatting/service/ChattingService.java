@@ -51,12 +51,12 @@ public class ChattingService {
 		// 거래 정보 가져오기
 		Trade trade = getTrade(request.getDealId());
 		// receiver id가 유효하지 않으면 예외처리
-		if (!checkValidMember(request.getReceiverId())) {
+		if (!checkValidMember(request.getReceiverNickname())) {
 			throw new ReceiverNotFoundException();
 		}
 		// 방이 없다면 null, 방이 있으면 정보 담아서 반환
-		Optional<DirectChattingRoom> chattingRoom = directChattingRoomRepository.findChattingRoomBySenderIdAndReceiverIdAndDealId(
-			request.getSenderId(), request.getReceiverId(), request.getDealId());
+		Optional<DirectChattingRoom> chattingRoom = directChattingRoomRepository.findChattingRoomBySenderIdAndReceiverNicknameAndDealId(
+			request.getSenderId(), request.getReceiverNickname(), request.getDealId());
 		if (chattingRoom.isEmpty()) {
 			return null;
 		} else {
@@ -72,7 +72,7 @@ public class ChattingService {
 		// 거래 정보 가져오기
 		Trade trade = getTrade(request.getDealId());
 		// receiver, sender 정보 가져오기
-		Member receiver = memberRepository.findById(request.getReceiverId())
+		Member receiver = memberRepository.findByNickname(request.getReceiverNickname())
 			.orElseThrow(ReceiverNotFoundException::new);
 		Member sender = memberRepository.findById(request.getSenderId())
 			.orElseThrow(MemberNotFoundException::new);
@@ -186,8 +186,8 @@ public class ChattingService {
 	}
 
 	// 멤버 정보 확인하기
-	private boolean checkValidMember(Long memberId) {
-		return memberRepository.existsById(memberId);
+	private boolean checkValidMember(String memberNickname) {
+		return memberRepository.existsByNickname(memberNickname);
 	}
 
 }
