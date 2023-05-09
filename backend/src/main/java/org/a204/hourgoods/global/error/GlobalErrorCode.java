@@ -35,6 +35,7 @@ public enum GlobalErrorCode {
 	MEMBER_MISS_MATCH(400, "M400", "요청한 사용자와 현재 사용자가 다릅니다."),
 	RECEIVER_NOT_FOUND(404, "CH100", "채팅 요청을 할 수 없는 사용자입니다."),
 	DIRECT_CHATTING_ROOM_NOT_FOUND(404, "CH200", "1:1 채팅방을 찾을 수 없습니다."),
+	BIDDING_NOT_FOUND(404, "B100", "입찰 기록이 없습니다."),
 	;
 
 	private final String code;

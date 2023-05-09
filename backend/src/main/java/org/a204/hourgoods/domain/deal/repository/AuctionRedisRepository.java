@@ -22,10 +22,18 @@ public class AuctionRedisRepository {
         String auctionKey = "auction:" + dealId;
         return valueOperations.get(auctionKey) != null;
     }
-    public AuctionInfo addParticipant(Long dealId) {
+    public AuctionInfo addParticipant(String dealId) {
         String auctionKey = "auction:" + dealId;
         AuctionInfo auctionInfo = valueOperations.get(auctionKey);
         auctionInfo.addParticipant();
+        valueOperations.set(auctionKey, auctionInfo);
+        return auctionInfo;
+    }
+    public AuctionInfo removeParticipant(String dealId) {
+        String auctionKey = "auction:" + dealId;
+        AuctionInfo auctionInfo = valueOperations.get(auctionKey);
+        auctionInfo.removeParticipant();
+        valueOperations.set(auctionKey, auctionInfo);
         return auctionInfo;
     }
     public AuctionInfo initAuction(Auction auction) {
@@ -47,5 +55,9 @@ public class AuctionRedisRepository {
         String auctionKey = "auction:" + dealId;
         valueOperations.set(auctionKey, auctionInfo);
         return valueOperations.get(auctionKey);
+    }
+    public void deleteAuctionInfo(Long dealId) {
+        String auctionKey = "auction:" + dealId;
+        redisTemplate.delete(auctionKey);
     }
 }

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import org.a204.hourgoods.domain.bidding.entity.Bidding;
 import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.member.entity.Member;
@@ -74,6 +75,9 @@ public class Deal {
 
     @OneToMany(mappedBy = "deal", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
+    @OneToMany(mappedBy = "deal", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<Bidding> bidHistory = new ArrayList<>();
+
 
     @Builder
     public Deal(String imageUrl, String title, String content, LocalDateTime startTime, Member dealHost, Concert concert, DealType dealType, Double longitude, Double latitude, String meetingLocation) {
@@ -89,4 +93,7 @@ public class Deal {
         this.meetingLocation = meetingLocation;
     }
 
+    public void falseAvailable() {
+        this.isAvailable = false;
+    }
 }
