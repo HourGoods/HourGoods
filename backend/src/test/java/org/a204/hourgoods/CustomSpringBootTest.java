@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Retention(RetentionPolicy.RUNTIME)
 @ActiveProfiles(profiles = {"local", "test"})
 @Target({ElementType.TYPE})

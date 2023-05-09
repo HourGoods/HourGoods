@@ -26,6 +26,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.MockMvc;
@@ -45,13 +46,15 @@ class SharingControllerTest {
 	ObjectMapper objectMapper;
 	@Autowired
 	JwtTokenUtils jwtTokenUtils;
+	@LocalServerPort
+	int port;
 	private String token;
 	private Member member1;
 	private Member member2;
 	private Concert concert;
 	private Sharing sharing;
 	private Long auctionId;
-	private final String url = "http://localhost:8080/api/deal/sharing/";
+	private final String url = "http://localhost:" + port + "/api/deal/sharing/";
 	@Autowired
 	private MemberRepository memberRepository;
 	@Autowired
@@ -83,7 +86,6 @@ class SharingControllerTest {
 		sharing = Sharing.sharingBuilder()
 			.title("아이유 포카 나눔합니다")
 			.dealType(DealType.Sharing)
-			.isAvaliable(true)
 			.startTime(LocalDateTime.now().minusHours(1))
 			.limitation(20)
 			.concert(concert)
@@ -94,7 +96,6 @@ class SharingControllerTest {
 		Auction auction = Auction.auctionBuilder()
 			.title("포카경매합니다")
 			.dealType(DealType.Auction)
-			.isAvaliable(true)
 			.startTime(LocalDateTime.now().minusHours(3))
 			.endTime(LocalDateTime.now().minusHours(1))
 			.minimumPrice(10_000)
@@ -104,6 +105,7 @@ class SharingControllerTest {
 		em.persist(auction);
 		auctionId = auction.getId();
 	}
+
 	@Nested
 	@DisplayName("무료 나눔 신청 API")
 	class ApplySharing {

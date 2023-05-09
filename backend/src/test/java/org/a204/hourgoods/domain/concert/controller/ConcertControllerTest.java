@@ -1,6 +1,7 @@
 package org.a204.hourgoods.domain.concert.controller;
 
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -15,15 +16,13 @@ import org.a204.hourgoods.domain.concert.request.ConcertIdRequest;
 import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
 import org.a204.hourgoods.global.common.BaseResponse;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,7 +46,9 @@ class ConcertControllerTest {
 	WebApplicationContext ctx;
 	@Autowired
 	ObjectMapper objectMapper;
-	private final String url = "http://localhost:8080/api/concert/";
+	@LocalServerPort
+	int port;
+	private final String url = "http://localhost:" + port + "/api/concert/";
 	private Concert concert;
 
 	@BeforeEach
