@@ -100,16 +100,17 @@ export default function index(props: mapProps) {
       watcher = watchCurrentLocation(map, (result: any) => {
         if (typeof result === "string") {
           // 에러 처리
-          console.log(result);
+          console.log(result, "watch");
           return;
         }
+        console.log(result, "watch")
         // 오늘 concert영역 안에 있는지 확인
         todayConcertList.map((concert: any) => {
           const distance = haversineDistance(
             concert.latitude,
             concert.longitude,
-            location.latitude,
-            location.longitude
+            result.latitude,
+            result.longitude
           );
           if (distance <= 460) {
             console.log(inConcertList, concert);
@@ -130,7 +131,7 @@ export default function index(props: mapProps) {
               setInConcertList(newList);
               setIsMapLoading(true);
               alert("변화! 새로이 진입");
-              window.location.reload();
+              // window.location.reload();
             }
           } else if (distance > 460) {
             // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
@@ -147,7 +148,7 @@ export default function index(props: mapProps) {
               );
               setIsMapLoading(true);
               alert("변화! 밖으로 나감");
-              window.location.reload();
+              // window.location.reload();
             } else {
               console.log("없던 애구나. 계속 없어라!");
             }

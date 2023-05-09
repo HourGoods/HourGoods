@@ -11,7 +11,6 @@ export default function index(props: any) {
   const userInfo = useRecoilValue(UserStateAtom);
 
   useEffect(() => {
-    alert("변화 발생");
     if (inConcertList.length === 0) {
       setConcertDealList([]);
     }
