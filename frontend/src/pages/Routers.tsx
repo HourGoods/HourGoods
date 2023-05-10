@@ -24,10 +24,10 @@ export default function Routers() {
   return (
     <Routes>
       {/* 임시 메인페이지 */}
-      <Route path="/" element={<TempMain />} />
-      <Route path="/main" element={<MainPage />} />
+      {/* <Route path="/" element={<TempMain />} />
+      <Route path="/main" element={<MainPage />} /> */}
       {/* 기존 메인페이지 */}
-      {/* <Route path="/" element={<MainPage />} /> */}
+      <Route path="/" element={<MainPage />} />
       <Route path="/realtime" element={<RealTimePage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/login" element={<LoginPage />} />
