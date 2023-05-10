@@ -16,11 +16,13 @@
     align-items: center;
     img,
     svg {
+      cursor: pointer;
       width: 35px;
       color: $gray-4;
       z-index: 1;
       object-fit: cover;
       border-radius: 35px;
+      z-index: 20;
     }
   }
 }
@@ -57,6 +59,7 @@
       display: none;
     }
     .mobile-navbar-wrapper {
+      height: 35px;
       padding: 30px 20px;
       display: flex;
       justify-content: space-between;
@@ -74,7 +77,7 @@
       right: 0;
       width: 70%;
       height: 90vh;
-      background-color: $white-op;
+      background-color: rgba(255, 255, 255, 0.8);
       display: flex;
       flex-direction: column;
       padding: 30px;

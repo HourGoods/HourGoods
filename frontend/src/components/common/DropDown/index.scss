@@ -4,6 +4,7 @@
 .dropdown-container {
   position: relative;
   .dropdown-menu {
+    z-index: 10;
     background-color: $white-op;
     right: 0;
     position: absolute;
