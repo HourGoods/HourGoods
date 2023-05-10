@@ -124,7 +124,7 @@ class MyPageControllerTest {
 	}
 
 	@Nested
-	@DisplayName("사용자가 북마크한 거래 목록 조회 API")
+	@DisplayName("사용자가 북마크한 거래 목록 조회 API TEST")
 	class GetBookmarkedDealList {
 		@Test
 		@DisplayName("거래 목록 조회 성공")
@@ -152,7 +152,7 @@ class MyPageControllerTest {
 	}
 
 	@Nested
-	@DisplayName("사용자가 생성한 거래 목록 조회 API")
+	@DisplayName("사용자가 생성한 거래 목록 조회 API TEST")
 	class GetCreatedDealList {
 		@Test
 		@DisplayName("거래 목록 조회 성공")
@@ -180,7 +180,7 @@ class MyPageControllerTest {
 	}
 
 	@Nested
-	@DisplayName("사용자가 참여한 거래 목록 조회 API")
+	@DisplayName("사용자가 참여한 거래 목록 조회 API TEST")
 	class GetAttendedDealList {
 		@Test
 		@DisplayName("거래 목록 조회 성공")
@@ -208,7 +208,7 @@ class MyPageControllerTest {
 	}
 
 	@Nested
-	@DisplayName("사용자의 포인트 내역 목록 조회 API")
+	@DisplayName("사용자의 포인트 내역 목록 조회 API TEST")
 	class GetPointHistoryList {
 		@Test
 		@DisplayName("포인트 내역 목록 조회 성공")
@@ -252,7 +252,7 @@ class MyPageControllerTest {
 					.contentType(MediaType.APPLICATION_JSON)
 					.header("Authorization", otherToken)
 					.content(objectMapper.writeValueAsString(request)))
-				.andExpect(jsonPath("$.status", is(201)))
+				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print())
 				.andReturn()
 				.getResponse();
@@ -269,7 +269,7 @@ class MyPageControllerTest {
 	}
 
 	@Nested
-	@DisplayName("마이페이지 사용자 정보 조회")
+	@DisplayName("마이페이지 사용자 정보 조회 API TEST")
 	class GetMyPageMemberInfo {
 		@Test
 		@DisplayName("사용자 정보 조회 성공")

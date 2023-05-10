@@ -77,7 +77,7 @@ public class MyPageController {
 
 	// 사용자 포인트 충전
 	@Operation(description = "요청을 보낸 사용자의 포인트를 충전한다.", summary = "사용자 포인트 충전 API")
-	@ApiResponse(responseCode = "201", description = "조회 성공", content = @Content(schema = @Schema(implementation = MyPageMemberInfoResponse.class)))
+	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = MyPageMemberInfoResponse.class)))
 	@PostMapping("/point")
 	public BaseResponse<MyPageMemberInfoResponse> updateMemberCashPointInfo(
 		@AuthenticationPrincipal MemberDetails memberDetails,
