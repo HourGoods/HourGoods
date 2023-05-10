@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import getCurrentLocation from "@utils/getCurrentLocation";
 import watchCurrentLocation from "@utils/watchCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
 import { haversineDistance, drawCircles } from "@utils/realTime";
-import { ConcertInterface } from "@pages/Search";
 import { MapIcon } from "@heroicons/react/24/solid";
-import markerImg from "@assets/userLocPoint.svg";
-import { concertAPI } from "@api/apis";
-import { useRecoilValue } from "recoil";
-import { UserStateAtom } from "@recoils/user/Atom";
+import focusing from "@assets/focusing.svg";
 
 declare global {
   interface Window {
@@ -33,6 +28,8 @@ interface mapProps {
   todayConcertList: any;
   inConcertList: any;
   setInConcertList: React.Dispatch<React.SetStateAction<any>>;
+  isMapLoading: boolean;
+  setIsMapLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function index(props: mapProps) {
@@ -44,12 +41,12 @@ export default function index(props: mapProps) {
     todayConcertList,
     inConcertList,
     setInConcertList,
+    isMapLoading,
+    setIsMapLoading,
   } = props;
   const [map, setMap] = useState<any>(null);
-  const [isMapLoading, setIsMapLoading] = useState(false);
-  const userInfo = useRecoilValue(UserStateAtom);
 
-  // 최초 지도 그리기, 위치 변경
+  // 최초 지도 그리기, 위치 변경에 따른 지도 그리기
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
@@ -58,9 +55,12 @@ export default function index(props: mapProps) {
     };
     const map = new window.kakao.maps.Map(container, options);
     setMap(map);
+    // 마운팅이 된 상태라는 뜻
     setFlag(true);
 
     // 오늘의 콘서트와 현재의 거리 받아오기
+    // 오늘 콘서트 리스트 확인
+    console.log(todayConcertList);
     todayConcertList.map((concert: any) => {
       const distance = haversineDistance(
         concert.latitude,
@@ -71,7 +71,6 @@ export default function index(props: mapProps) {
       // 만약 500m안에 있는 게 있으면
       if (distance <= 460) {
         // 포함 여부 저장
-        console.log(concert);
         const newList = inConcertList.concat({
           ...concert,
           startDate: concert.startTime,
@@ -88,7 +87,7 @@ export default function index(props: mapProps) {
       );
     });
     // 콘서트장 위치 그렸으면 중심 이동
-    setIsMapLoading(false);
+    setTimeout(() => setIsMapLoading(false), 3000);
     map.setCenter(
       new window.kakao.maps.LatLng(location.latitude, location.longitude)
     );
@@ -98,14 +97,14 @@ export default function index(props: mapProps) {
     // 지속해서 현재 위치 감시하면서 marker그리기
     let watcher: number | undefined;
 
+    // 지도가 마운팅이 된 것을 확인하고,
     if (map && flag) {
       watcher = watchCurrentLocation(map, (result: any) => {
         if (typeof result === "string") {
           // 에러 처리
-          console.log(result, "watch");
+          console.log(result, "watcher error");
           return;
         }
-        console.log(result, "watch");
         // 오늘 concert영역 안에 있는지 확인
         todayConcertList.map((concert: any) => {
           const distance = haversineDistance(
@@ -115,8 +114,6 @@ export default function index(props: mapProps) {
             result.longitude
           );
           if (distance <= 460) {
-            console.log(inConcertList, concert);
-
             // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
@@ -125,6 +122,7 @@ export default function index(props: mapProps) {
               console.log("이미 등록되어 있으니 아무 것도 하지 말자");
             } else {
               console.log("없었던 애니까 등록하자!");
+              console.log("정말 없나?", inConcertList, isInConcertList);
 
               const newList = inConcertList.concat({
                 ...concert,
@@ -132,7 +130,6 @@ export default function index(props: mapProps) {
               });
               setInConcertList(newList);
               setIsMapLoading(true);
-              alert("변화! 새로이 진입");
               setLocation(result);
               // window.location.reload();
             }
@@ -150,7 +147,6 @@ export default function index(props: mapProps) {
                 )
               );
               setIsMapLoading(true);
-              alert("변화! 밖으로 나감");
               setLocation(result);
 
               // window.location.reload();
@@ -161,9 +157,9 @@ export default function index(props: mapProps) {
           return null;
         });
         // 지도 중심 이동, 현재 위치 표시
-        map.setCenter(
-          new window.kakao.maps.LatLng(result.latitude, result.longitude)
-        );
+        // map.setCenter(
+        //   new window.kakao.maps.LatLng(result.latitude, result.longitude)
+        // );
       });
     }
     return () => {
@@ -172,6 +168,12 @@ export default function index(props: mapProps) {
       }
     };
   }, [flag, map]);
+
+  const moveFocus = () => {
+    map.setCenter(
+      new window.kakao.maps.LatLng(location.latitude, location.longitude)
+    );
+  };
 
   return (
     <div className="realtime-map-component-container">
@@ -183,8 +185,12 @@ export default function index(props: mapProps) {
         오늘 Deal이 진행되는 콘서트를 확인해 보세요!
       </p>
       {isMapLoading && <p>Map Loading...</p>}
-      <div id="map" />
-      <button type="button">내 위치 불러오기</button>
+      <div className="map-button-div">
+        <div id="map" />
+        <button type="button" onClick={moveFocus}>
+          <img src={focusing} alt="내위치로" />
+        </button>
+      </div>
       {inConcertList[0] && <ConcertCard concertInfo={inConcertList[0]} />}
     </div>
   );

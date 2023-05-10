@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DealCard from "@components/common/DealCard";
 import SearchBar from "@components/common/SearchBar";
 import { ClockIcon } from "@heroicons/react/24/solid";
@@ -8,58 +8,94 @@ import { UserStateAtom } from "@recoils/user/Atom";
 
 export default function index(props: any) {
   const { inConcertList, concertDealList, setConcertDealList } = props;
+  const [searchInput, setSearchInput] = useState("");
   const userInfo = useRecoilValue(UserStateAtom);
 
   useEffect(() => {
     if (inConcertList.length === 0) {
       setConcertDealList([]);
     }
-    if (inConcertList.length > 0) {
-      Promise.all(
-        inConcertList.map((concert: any) => {
-          return concertAPI
-            .getConcertDealList(
-              concert.concertId,
-              -1,
-              "All",
-              "",
-              userInfo.nickname
-            )
-            .then((res) => {
-              return res.data.result.dealInfoList;
-            });
-        })
-      ).then((results) => {
-        console.log("새로운 콘서트별 deal 정보", results);
-        setConcertDealList(results.flat());
-      });
+    const concert = inConcertList[0];
+    if (concert) {
+      concertAPI
+        .getConcertDealList(concert.concertId, -1, "All", "", userInfo.nickname)
+        .then((res) => {
+          return setConcertDealList(res.data.result.dealInfoList);
+        });
     }
+
+    // if (inConcertList.length > 0) {
+    //   Promise.all(
+    //     inConcertList.map((concert: any) => {
+    //       return concertAPI
+    //         .getConcertDealList(
+    //           concert.concertId,
+    //           -1,
+    //           "All",
+    //           "",
+    //           userInfo.nickname
+    //         )
+    //         .then((res) => {
+    //           return res.data.result.dealInfoList;
+    //         });
+    //     })
+    //   ).then((results) => {
+    //     console.log("새로운 콘서트별 deal 정보", results);
+    //     setConcertDealList(results.flat());
+    //   });
+    // }
   }, [inConcertList]);
 
-  if (inConcertList.length < 1) {
-    return (
-      <div className="realtime-deal-card-list-container">
-        <p>Deal카드가 없습니다</p>
-      </div>
-    );
-  }
+  const searchHandler = () => {
+    if (inConcertList[0]) {
+      const {concertId} = inConcertList[0];
+      // api
+      const result = concertAPI.getConcertDealList(
+        concertId,
+        -1,
+        "All",
+        searchInput,
+        userInfo.nickname
+      );
+      result.then((res) => {
+        console.log("콘서트별 딜 정보", res);
+        setConcertDealList(res.data.result.dealInfoList);
+      });
+    }
+  };
+
   return (
     <div className="realtime-deal-card-list-container">
       <div className="realtime-page-title-div">
         <ClockIcon />
         <p className="realtime-page-component-title-p">실시간 Time Deal</p>
       </div>
-      <p className="realtime-page-helper-p">
-        콘서트 범위 안에서만 Deal을 확인할 수 있어요.
-      </p>
-      <SearchBar />
-      {concertDealList.map((dealInfo: any) => {
-        return (
-          <div key={dealInfo.dealId}>
-            <DealCard dealInfo={dealInfo} />
-          </div>
-        );
-      })}
+      {inConcertList.length < 1 ? (
+        <>
+          <p className="realtime-page-helper-p">
+            콘서트 범위 안에서만 Deal을 확인할 수 있어요.
+          </p>
+          <p>Deal카드가 없습니다</p>
+        </>
+      ) : (
+        <>
+          <p className="realtime-page-helper-p">
+            콘서트 현장에서 원하는 거래를 찾아봐요!
+          </p>
+          <SearchBar
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            onSubmit={searchHandler}
+          />
+          {concertDealList.map((dealInfo: any) => {
+            return (
+              <div key={dealInfo.dealId}>
+                <DealCard dealInfo={dealInfo} />
+              </div>
+            );
+          })}
+        </>
+      )}
     </div>
   );
 }

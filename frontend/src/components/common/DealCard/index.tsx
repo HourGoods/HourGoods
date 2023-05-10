@@ -32,6 +32,7 @@ export default function index({ dealInfo }: DealCardProps) {
   };
 
   useEffect(() => {
+    console.log(dealInfo);
     // 북마크 정보
     setIsBookmarked(dealInfo.isBookmarked);
     // 시간정보
@@ -55,7 +56,7 @@ export default function index({ dealInfo }: DealCardProps) {
         timeInfo: `${hour}~${end}`,
       });
     }
-  }, []);
+  }, [dealInfo]);
 
   // bookmark API
   const bookmarkHanlder = () => {
