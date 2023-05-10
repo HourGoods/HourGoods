@@ -17,13 +17,16 @@ import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.domain.member.entity.PointHistory;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
-import org.a204.hourgoods.domain.member.repository.MemberQueryDslRepository;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
+import org.a204.hourgoods.domain.member.repository.PointHistoryRepository;
+import org.a204.hourgoods.domain.member.request.UpdateCashPointRequest;
+import org.a204.hourgoods.domain.member.response.MyPageMemberInfoResponse;
 import org.a204.hourgoods.domain.member.response.PointHistoryInfoResponse;
 import org.a204.hourgoods.domain.member.response.PointHistoryListResponse;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,8 +39,8 @@ public class MyPageService {
 	private final GameAuctionRepository gameAuctionRepository;
 	private final SharingRepository sharingRepository;
 	private final TradeRepository tradeRepository;
+	private final PointHistoryRepository pointHistoryRepository;
 	private final DealQueryDslRepository dealQueryDslRepository;
-	private final MemberQueryDslRepository memberQueryDslRepository;
 	private Pageable pageable = Pageable.ofSize(PAGE_SIZE);
 
 	// 사용자가 북마크한 거래 목록 조회
@@ -117,44 +120,98 @@ public class MyPageService {
 			member = checkMemberValidation(memberDetails.getMember());
 		}
 
-		Slice<PointHistory> pointHistories = memberQueryDslRepository.searchPointHistoryByMember(member,
-			lastPointHistoryId, pageable);
-		// 정보가 없을 경우 빈 정보 반환
-		if (pointHistories.isEmpty()) {
-			return PointHistoryListResponse.builder()
-				.hasNextPage(false)
-				.lastPointHistoryId(lastPointHistoryId)
-				.pointHistoryInfoList(new ArrayList<>())
-				.build();
-		}
-
-		// lastId 저장위한 변수 생성
-		Long lastPointHistoryResponse = null;
-
-		// 정보가 있을 경우, 거래 정보에 따라 추가 정보 업데이트 후 정보 반환
-		List<PointHistoryInfoResponse> response = new ArrayList<>();
-		for (PointHistory pointHistory : pointHistories) {
-			LocalDateTime endTime = null;
-			Integer limitation = null;
-			Integer price = null;
-
-			// 최종 list 빌드하여 response에 추가
-			PointHistoryInfoResponse pointHistoryInfo = PointHistoryInfoResponse.builder()
+		// 회원의 모든 포인트 내역 조회
+		List<PointHistory> pointHistoryList = pointHistoryRepository.findAllByMemberOrderByIdDesc(member);
+		List<PointHistoryInfoResponse> pointHistoryInfoList = new ArrayList<>(pointHistoryList.size());
+		for (PointHistory pointHistory : pointHistoryList) {
+			PointHistoryInfoResponse response = PointHistoryInfoResponse.builder()
 				.pointHistoryId(pointHistory.getId())
 				.description(pointHistory.getDescription())
-				.usageTime(pointHistory.getUsageTime())
 				.amount(pointHistory.getAmount())
+				.usageTime(pointHistory.getUsageTime())
 				.build();
+			pointHistoryInfoList.add(response);
+		}
+		return PointHistoryListResponse.builder()
+			.pointHistoryInfoList(pointHistoryInfoList)
+			.hasNextPage(false)
+			.lastPointHistoryId(pointHistoryInfoList.get(pointHistoryInfoList.size()).getPointHistoryId())
+			.build();
 
-			response.add(pointHistoryInfo);
+		// *
+		//    페이징된 리스트를 반환하는 로직
+		// *
+		// Slice<PointHistory> pointHistories = memberQueryDslRepository.searchPointHistoryByMember(member,
+		// 	lastPointHistoryId, pageable);
+		// // 정보가 없을 경우 빈 정보 반환
+		// if (pointHistories.isEmpty()) {
+		// 	return PointHistoryListResponse.builder()
+		// 		.hasNextPage(false)
+		// 		.lastPointHistoryId(lastPointHistoryId)
+		// 		.pointHistoryInfoList(new ArrayList<>())
+		// 		.build();
+		// }
+		//
+		// // lastId 저장위한 변수 생성
+		// Long lastPointHistoryResponse = null;
+		//
+		// // 정보가 있을 경우, 거래 정보에 따라 추가 정보 업데이트 후 정보 반환
+		// List<PointHistoryInfoResponse> response = new ArrayList<>();
+		// for (PointHistory pointHistory : pointHistories) {
+		// 	LocalDateTime endTime = null;
+		// 	Integer limitation = null;
+		// 	Integer price = null;
+		//
+		// 	// 최종 list 빌드하여 response에 추가
+		// 	PointHistoryInfoResponse pointHistoryInfo = PointHistoryInfoResponse.builder()
+		// 		.pointHistoryId(pointHistory.getId())
+		// 		.description(pointHistory.getDescription())
+		// 		.usageTime(pointHistory.getUsageTime())
+		// 		.amount(pointHistory.getAmount())
+		// 		.build();
+		//
+		// 	response.add(pointHistoryInfo);
+		//
+		// 	lastPointHistoryResponse = pointHistory.getId();
+		// }
+		//
+		// return PointHistoryListResponse.builder()
+		// 	.hasNextPage(pointHistories.hasNext())
+		// 	.lastPointHistoryId(lastPointHistoryResponse)
+		// 	.pointHistoryInfoList(response)
+		// 	.build();
+	}
 
-			lastPointHistoryResponse = pointHistory.getId();
+	// 사용자 포인트 충전
+	@Transactional
+	public MyPageMemberInfoResponse updateMemberCashPoint(MemberDetails memberDetails, UpdateCashPointRequest request) {
+		// 유효성 체크
+		Member member = null;
+		if (memberDetails.getMember() != null) {
+			member = checkMemberValidation(memberDetails.getMember());
 		}
 
-		return PointHistoryListResponse.builder()
-			.hasNextPage(pointHistories.hasNext())
-			.lastPointHistoryId(lastPointHistoryResponse)
-			.pointHistoryInfoList(response)
+		// 포인트 정보 변경
+		member.updateCashPoint(request.getCashPoint());
+
+		return MyPageMemberInfoResponse.builder()
+			.nickname(member.getNickname())
+			.cashPoint(member.getCashPoint())
+			.build();
+	}
+
+	// 사용자 마이페이지 정보 조회
+	public MyPageMemberInfoResponse getMyPageMemberInfo(MemberDetails memberDetails) {
+		// 유효성 체크
+		Member member = null;
+		if (memberDetails.getMember() != null) {
+			member = checkMemberValidation(memberDetails.getMember());
+		}
+
+		return MyPageMemberInfoResponse.builder()
+			.nickname(member.getNickname())
+			.imageUrl(member.getImageUrl())
+			.cashPoint(member.getCashPoint())
 			.build();
 	}
 
