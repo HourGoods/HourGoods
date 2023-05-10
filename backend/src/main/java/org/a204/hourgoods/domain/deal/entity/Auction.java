@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +31,9 @@ public class Auction extends Deal {
 
 	@Column(name = "bidder_count")
 	private Integer bidderCount;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "member_id")
+	private Member winner;
 
 	@Builder(builderMethodName = "auctionBuilder")
 	public Auction(String imageUrl, String title, String content, LocalDateTime startTime,
@@ -39,8 +45,9 @@ public class Auction extends Deal {
 		this.endTime = endTime;
 	}
 
-	public void updateResult(Integer finalPrice, Integer bidderCount) {
+	public void updateResult(Integer finalPrice, Integer bidderCount, Member winner) {
 		this.finalPrice = finalPrice;
 		this.bidderCount = bidderCount;
+		this.winner = winner;
 	}
 }
