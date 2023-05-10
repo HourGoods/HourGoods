@@ -122,7 +122,7 @@ public class ChattingController {
 	@MessageMapping(value = "/chat")
 	public BaseResponse<Void> sendDirectMessage(@Payload final ChatMessageRequest request) {
 		// 채널 구독 중인 다른 사람들에게 메시지 전송
-		simpMessageSendingOperations.convertAndSend("/topic/chat" + request.getChattingRoomId(), request);
+		simpMessageSendingOperations.convertAndSend("/topic/chat/" + request.getChattingRoomId(), request);
 		// 채팅 받은 것을 Redis에 저장
 		DirectMessage directMessage = chattingService.saveDirectMessage(request);
 		// DB 채팅의 마지막 로그 내용 업데이트
