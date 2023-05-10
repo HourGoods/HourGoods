@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable object-shorthand */
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Client, Message } from "@stomp/stompjs";
 import { chattingAPI } from "@api/apis";
 import DealCard from "@components/common/DealCard";
-import InputMsgBox from "@components/common/InputMsgBox";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
+import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
+import { handleOnKeyPress } from "@utils/handleOnKeyPress";
+import { UserStateAtom } from "@recoils/user/Atom";
+import { useRecoilValue } from "recoil";
+import SockJS from "sockjs-client";
 import ChatContent from "./ChatContent";
 
 export interface PrivatChatMessage {
@@ -23,7 +29,6 @@ export default function index() {
   const dealInfo = location.state.dealinfo;
   const chattingRoomId = location.state.chatId;
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [chatMsgList, setChatMsgList] = useState<PrivatChatMessage[]>([]);
 
   const meetModalHandler = () => {
     setIsModalOpen(true);
@@ -42,6 +47,77 @@ export default function index() {
       });
   }, []);
 
+  /** -----------------------채팅하기----------------------------------- */
+  // 클라이언트 측 영역
+  const clientRef = useRef<Client>();
+  const [socketList, setsocketList] = useState<string[]>([]);
+  const [chatMsgList, setChatMsgList] = useState<PrivatChatMessage[]>([]);
+  const [msgValue, setMsgValue] = useState("");
+  const userInfo = useRecoilValue(UserStateAtom);
+  const userName = userInfo.nickname;
+
+  const handleMessage = (message: string) => {
+    setsocketList((prevSocketList) => [...prevSocketList, message]);
+    const parsedMessage = JSON.parse(message) as PrivatChatMessage;
+    // console.log(parsedMessage);
+    setChatMsgList((prevSocketList) => [...prevSocketList, parsedMessage]);
+  };
+
+  useEffect(() => {
+    if (!clientRef.current) connect();
+    return () => disconnect();
+  }, []);
+
+  useEffect(() => {
+    console.log("소켓리스트", socketList);
+    console.log("채팅리스트", chatMsgList);
+  }, [socketList, chatMsgList]);
+
+  // Socket 연결
+  const connect = () => {
+    const serverUrl = "https://hourgoods.co.kr/ws";
+    const socket = new SockJS(serverUrl);
+    clientRef.current = new Client({
+      webSocketFactory: () => socket,
+      // connectHeaders: {
+      //   authorization: localStorage.getItem("accessToken") || "",
+      // },
+      onConnect: () => {
+        console.log("소켓에 연결되었습니당");
+        clientRef.current?.subscribe(
+          `/topic/chat/${chattingRoomId}`,
+          (message: Message) => {
+            handleMessage(message.body);
+          }
+        );
+      },
+    });
+    clientRef.current?.activate(); // client측 활성화
+  };
+
+  // Socket 연결 끊기
+  const disconnect = () => {
+    console.log("소켓 연결이 끊어졌습니당");
+    clientRef.current?.deactivate(); // client측 비활성화
+  };
+
+  // Socket을 통해 메세지 보내기
+  const sendMessage = () => {
+    if (!msgValue) return; // 빈값 return
+    const now = new Date();
+    const message = {
+      nickname: userName, // 닉네임
+      chattingRoomId: chattingRoomId, // 채팅방 id
+      sendTime: now.toISOString(), // 현재시간
+      content: msgValue, // 채팅내용
+    };
+    const destination = "/pub/chat";
+    const body = JSON.stringify(message);
+
+    clientRef.current?.publish({ destination, body });
+    setMsgValue(""); // Input 초기화
+  };
+
   return (
     <div>
       <div className="private-chatroom-all-container">
@@ -53,11 +129,25 @@ export default function index() {
             <ChatContent chatMsgList={chatMsgList} />
           </div>
           <div className="box-bottom-wrapper">
-            {/* <InputMsgBox type="msg" onClick={sendMsgHandler} /> */}
+            <div className="input-message-container">
+              <div className="icon-message-wrapper">
+                <ChatBubbleOvalLeftIcon />
+                <input
+                  placeholder="메세지를 입력해주세요."
+                  value={msgValue}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setMsgValue(e.target.value)
+                  }
+                  onKeyPress={handleOnKeyPress(sendMessage)}
+                />
+              </div>
+              <button type="button" onClick={sendMessage}>
+                확인
+              </button>
+            </div>
           </div>
         </div>
       </div>
-
 
       {/* 만나서 거래하기  */}
       <Button color="pink" onClick={meetModalHandler}>
