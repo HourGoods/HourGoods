@@ -43,7 +43,7 @@ export default function index(props: any) {
           console.log(res.data.result);
           const chattingRoomId = res.data.result.directChattingRoomId;
           navigate(`/mychatroom/${chattingRoomId}`, {
-            state: { dealinfo: dealInfo, chatId: chattingRoomId },
+            state: { dealid: dealId, chatId: chattingRoomId },
           });
         })
         .catch((err) => {
