@@ -95,6 +95,10 @@ const dealAPI = {
   // Deal 삭제
   getDealDelete: (dealId: number): Promise<AxiosResponse> =>
     request.authDelete(`deal/${dealId}`),
+
+  // 나눔 참여
+  postSharingApply: (dealId: number): Promise<AxiosResponse> =>
+    request.authPost("deal/sharing/apply", { dealId }),
 };
 
 // 채팅관련 api

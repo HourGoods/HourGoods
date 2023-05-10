@@ -32,12 +32,15 @@
       margin: auto;
       min-width: 266px;
       justify-content: end;
-      img {
-        margin-left: 10px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
+      button {
+        background: none;
+        img {
+          margin-left: 10px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
       }
     }
 
@@ -184,6 +187,17 @@
     margin: 50px auto;
     button {
       margin: auto;
+    }
+  }
+  .no-enter-button {
+    pointer-events: none;
+    padding: 3px 5px;
+    margin: 50px auto;
+    background-color: rgba($color: $gray-4, $alpha: 0.5);
+    border-radius: 10px;
+
+    p {
+      color: $gray-2;
     }
   }
 }

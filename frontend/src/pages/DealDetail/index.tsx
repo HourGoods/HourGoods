@@ -8,6 +8,8 @@ import DealEnterButton from "@components/DealDetail/DealEnterButton";
 import ConcertCard from "@components/common/ConcertCard";
 import { ConcertInterface } from "@pages/Search";
 import { concertAPI, dealAPI } from "@api/apis";
+import getCurrentLocation from "@utils/getCurrentLocation";
+import { haversineDistance } from "@utils/isUserInConcertArea";
 import "./index.scss";
 
 export default function DealDetail() {
@@ -34,7 +36,7 @@ export default function DealDetail() {
   const params = useParams();
   const stringDealId = params.dealId;
   const [dealId, setDealId] = useState(0);
-  const [concertInfo, setConcertInfo] = useState<ConcertInterface>({
+  const [concertInfo, setConcertInfo] = useState({
     imageUrl: "",
     kopisConcertId: "",
     place: "",
@@ -44,6 +46,7 @@ export default function DealDetail() {
     longitude: 0,
     latitude: 0,
   });
+  const [isInConcert, setIsInConcert] = useState(false);
 
   const userAuthInfo = useRecoilValue(AuthStateAtom);
 
@@ -70,12 +73,46 @@ export default function DealDetail() {
     }
   }, []);
 
+  // 현재 위치와 콘서트장 위치 대조
+  useEffect(() => {
+    if (concertInfo.latitude !== 0 && concertInfo.longitude !== 0) {
+      let res: string | { latitude: number; longitude: number };
+      getCurrentLocation().then((location) => {
+        res = location;
+        if (typeof res === "object" && res !== null) {
+          const distance = haversineDistance(
+            concertInfo.latitude,
+            concertInfo.longitude,
+            res.latitude,
+            res.longitude
+          );
+          if (distance <= 500) {
+            setIsInConcert(true);
+          }
+        }
+      });
+    }
+  }, [concertInfo.latitude]);
+
   return (
     <div className="deal-detail-page-container">
       <DealBanner dealInfo={dealInfo} />
       <hr />
-      <DealInfo dealInfo={dealInfo} setDealInfo={setDealInfo} dealId={dealId} concertInfo={concertInfo}/>
-      <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
+      <DealInfo
+        dealInfo={dealInfo}
+        setDealInfo={setDealInfo}
+        dealId={dealId}
+        concertInfo={concertInfo}
+      />
+      {isInConcert ? (
+        <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
+      ) : (
+        <div className="no-enter-button">
+          <p>
+            콘서트장에 도착하면 거래에 참여할 수 있어요 🤩
+          </p>
+        </div>
+      )}
     </div>
   );
 }
