@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Client, Message } from "@stomp/stompjs";
-import { chattingAPI } from "@api/apis";
+import { chattingAPI, dealAPI } from "@api/apis";
 import DealCard from "@components/common/DealCard";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
@@ -19,6 +19,18 @@ export interface PrivatChatMessage {
   sendTime: string;
   content: string;
 }
+interface DealInfoInterface {
+  dealId: number;
+  dealTypeName: string;
+  endTime?: string;
+  imageUrl: string;
+  isBookmarked: boolean;
+  limitation?: number;
+  meetingLocation: string;
+  price?: number;
+  startTime: string;
+  title: string;
+}
 
 // 23.05.10 10:42
 // chattingRoomId 값에 포함된 dealId 값으로 api 요청 새로보내는 로직 짜서 DealCard 수정할 것
@@ -26,21 +38,56 @@ export interface PrivatChatMessage {
 export default function index() {
   const navigate = useNavigate();
   const location = useLocation();
-  const dealInfo = location.state.dealinfo;
+  const dealId = location.state.dealid;
   const chattingRoomId = location.state.chatId;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [dealInfo, setDealInfo] = useState<DealInfoInterface>({
+    dealId: 0,
+    dealTypeName: "",
+    endTime: "",
+    imageUrl: "",
+    isBookmarked: false,
+    limitation: 0,
+    meetingLocation: "",
+    price: 0,
+    startTime: "",
+    title: "",
+  });
 
   const meetModalHandler = () => {
     setIsModalOpen(true);
   };
 
   useEffect(() => {
-    // console.log(dealInfo);
-    const req = chattingAPI.getmychatMsg(chattingRoomId);
-    req
+    console.log("dealInfo", dealInfo);
+    console.log("chattingRoomId", chattingRoomId);
+    const chatReq = chattingAPI.getmychatMsg(chattingRoomId);
+    chatReq
       .then((res) => {
         // 채팅내용 가져오기
         setChatMsgList(res.data.result);
+        console.log("채팅내용가져오기", res.data.result);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    const dealReq = dealAPI.getDealDeatail(dealId);
+    dealReq
+      .then((res) => {
+        console.log(res.data.result);
+        const getInfo = res.data.result;
+        setDealInfo({
+          dealId: getInfo.dealId,
+          dealTypeName: getInfo.dealType,
+          endTime: getInfo.endTime,
+          imageUrl: getInfo.dealImageUrl,
+          isBookmarked: getInfo.isBookmarked,
+          limitation: getInfo.limitation,
+          meetingLocation: getInfo.meetingLocation,
+          price: getInfo.price,
+          startTime: getInfo.startTime,
+          title: getInfo.dealTitle,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -79,11 +126,11 @@ export default function index() {
     const socket = new SockJS(serverUrl);
     clientRef.current = new Client({
       webSocketFactory: () => socket,
-      // connectHeaders: {
-      //   authorization: localStorage.getItem("accessToken") || "",
-      // },
+      connectHeaders: {
+        authorization: localStorage.getItem("accessToken") || "",
+      },
       onConnect: () => {
-        console.log("소켓에 연결되었습니당");
+        // console.log("소켓에 연결되었습니당");
         clientRef.current?.subscribe(
           `/topic/chat/${chattingRoomId}`,
           (message: Message) => {
@@ -97,7 +144,7 @@ export default function index() {
 
   // Socket 연결 끊기
   const disconnect = () => {
-    console.log("소켓 연결이 끊어졌습니당");
+    // console.log("소켓 연결이 끊어졌습니당");
     clientRef.current?.deactivate(); // client측 비활성화
   };
 
