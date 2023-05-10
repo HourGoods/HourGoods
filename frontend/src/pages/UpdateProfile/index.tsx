@@ -8,10 +8,17 @@ import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { handleOnKeyPress } from "@utils/handleOnKeyPress";
+import uploadDealImage from "@utils/uploadDealImage";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
   const navigate = useNavigate();
+
+  const [inputImage, setInputImage] = useState({
+    file: null,
+    filename: "",
+  });
 
   // 이미지 업로드
   const [uploadedImage, setUploadedIamge] = useState<string>("");
@@ -23,6 +30,13 @@ export default function index() {
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
       setUploadedIamge(fileURL);
+      const file = files[0];
+      const filename = file.name;
+      setInputImage((prev: any) => ({
+        ...prev,
+        file,
+        filename,
+      }));
     }
   };
 
@@ -78,30 +92,73 @@ export default function index() {
   };
 
   // 회원 가입
+  // const [authState, setAuthState] = useRecoilState(AuthStateAtom);
+  // const [cookies, setCookie] = useCookies(["refreshToken"]);
+  // const singHandleClick = useCallback(() => {
+  //   const params = new URLSearchParams(window.location.search);
+  //   memberAPI
+  //     .signup(userInfo)
+  //     .then(() => {
+  //       // 회원가입완료
+  //       console.log(userInfo);
+  //       const accessToken = params.get("access") || "";
+  //       const refreshToken = params.get("refresh") || "";
+  //       setAuthState({ isLogin: true, token: accessToken });
+  //       sessionStorage.setItem("accessToken", accessToken);
+  //       setCookie("refreshToken", refreshToken);
+  //       navigate("/main");
+  //       alert(`${userInfo.nickname}님 환영합니다!`);
+  //     })
+  //     .catch((err) => {
+  //       const errCode = err.response.data.status;
+  //       if (errCode === 400) {
+  //         alert("닉네임을 입력해주세요.");
+  //       }
+  //     });
+  // }, [setUserInfo, userInfo]);
+
   const [authState, setAuthState] = useRecoilState(AuthStateAtom);
   const [cookies, setCookie] = useCookies(["refreshToken"]);
-  const singHandleClick = useCallback(() => {
+  const singupprofile = async () => {
     const params = new URLSearchParams(window.location.search);
-    memberAPI
-      .signup(userInfo)
-      .then(() => {
-        // 회원가입완료
-        console.log(userInfo);
-        const accessToken = params.get("access") || "";
-        const refreshToken = params.get("refresh") || "";
-        setAuthState({ isLogin: true, token: accessToken });
-        sessionStorage.setItem("accessToken", accessToken);
-        setCookie("refreshToken", refreshToken);
-        navigate("/main");
-        alert(`${userInfo.nickname}님 환영합니다!`);
-      })
-      .catch((err) => {
-        const errCode = err.response.data.status;
-        if (errCode === 400) {
-          alert("닉네임을 입력해주세요.");
-        }
-      });
-  }, [setUserInfo, userInfo]);
+    // 로딩 추가하기
+    try {
+      // 이미지 업로드하여 이미지 주소 받아오기
+      const imageUrl = await uploadDealImage(
+        inputImage.file,
+        inputImage.filename
+      );
+      if (imageUrl) {
+        console.log("받아온 이미지 주소", imageUrl);
+        console.log(inputImage.file);
+        console.log(inputImage.filename);
+        // POST API 요청
+        const result = memberAPI.signup({ ...userInfo, imageUrl });
+        result
+          .then((res) => {
+            const accessToken = params.get("access") || "";
+            const refreshToken = params.get("refresh") || "";
+            setAuthState({ isLogin: true, token: accessToken });
+            sessionStorage.setItem("accessToken", accessToken);
+            setCookie("refreshToken", refreshToken);
+            navigate("/main");
+            alert(`${userInfo.nickname}님 환영합니다!`);
+            setUserInfo((prevUserInfo: any) => ({
+              ...prevUserInfo,
+              imageUrl,
+            }));
+          })
+          .catch((err) => {
+            const errCode = err.response.data.status;
+            if (errCode === 400) {
+              alert("닉네임을 입력해주세요.");
+            }
+          });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // 회원 수정
 
@@ -115,6 +172,36 @@ export default function index() {
         console.error(err);
       });
   }, [setUserInfo, userInfo]);
+
+  const editprofile = async () => {
+    // 로딩 추가하기
+    try {
+      // 이미지 업로드하여 이미지 주소 받아오기
+      const imageUrl = await uploadDealImage(
+        inputImage.file,
+        inputImage.filename
+      );
+      if (imageUrl) {
+        console.log("받아온 이미지 주소", imageUrl);
+        console.log(inputImage.file);
+        console.log(inputImage.filename);
+        // POST API 요청
+        const result = memberAPI.editUser({ ...userInfo, imageUrl });
+        result.then((res) => {
+          // 성공시 detail페이지로 이동
+          console.log(res);
+          // const { dealId } = res.data.result;
+          navigate(`/mypage`);
+          setUserInfo((prevUserInfo: any) => ({
+            ...prevUserInfo,
+            imageUrl: uploadedImage,
+          }));
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // input enter
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -133,7 +220,13 @@ export default function index() {
             <label htmlFor="uploadImg">
               <h2>{fromMy ? "회원정보 수정" : "회원가입"}</h2>
               <div className="updateprofile-contents-container-wrapper">
-                <img src={userInfo.imageUrl} alt="프로필 사진" />
+                {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
+
+                {!uploadedImage ? (
+                  <img src={userInfo.imageUrl} alt="프로필 사진" />
+                ) : (
+                  <img src={uploadedImage} alt="프로필 사진" />
+                )}
                 <input
                   id="uploadImg"
                   type="file"
@@ -182,9 +275,9 @@ export default function index() {
             }}
           >
             {fromMy ? (
-              <Button onClick={editHandleClick}>회원정보 수정하기</Button>
+              <Button onClick={editprofile}>회원정보 수정하기</Button>
             ) : (
-              <Button onClick={singHandleClick}>회원가입</Button>
+              <Button onClick={singupprofile}>회원가입</Button>
             )}
           </div>
         </div>

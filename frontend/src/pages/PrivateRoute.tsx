@@ -4,9 +4,10 @@ import { useRecoilValue } from "recoil";
 import { AuthStateAtom } from "@recoils/user/Atom";
 
 export default function PrivateRoute() {
-  const { isLogin } = useRecoilValue(AuthStateAtom);
+  const token = sessionStorage.getItem("accessToken")
+  // const { isLogin } = useRecoilValue(AuthStateAtom)
 
-  if (isLogin) {
+  if (token) {
     // 인증이 반드시 필요한 페이지
     return <Outlet />;
   }

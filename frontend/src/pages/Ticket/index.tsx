@@ -1,10 +1,16 @@
-import React, { Component } from "react";
+/* eslint-disable react/no-array-index-key */
+import React, { Component, useEffect } from "react";
 import "./index.scss";
 import TicketBalance from "@components/Ticket/TicketBalance";
 import TickCard from "@components/Ticket/TicketCard";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { useParams } from "react-router-dom";
 
 export default function index() {
+  const parms = useParams();
+  useEffect(() => {
+    console.log(parms);
+  });
   const ticketlist = [
     {
       pointHistoryId: 1,
@@ -41,8 +47,8 @@ export default function index() {
     <div className="ticket-main-container">
       <div className="ticket-contents-container">
         <TicketBalance />
-        {ticketlist.map((ticket) => (
-          <TickCard ticket={ticket} />
+        {ticketlist.map((ticket, index) => (
+          <TickCard ticket={ticket} key={index} />
         ))}
         <div>
           <button type="button" className="next-button">

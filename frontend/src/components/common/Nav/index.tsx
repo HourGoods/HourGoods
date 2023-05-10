@@ -22,7 +22,7 @@ export default function Nav() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
   const menuRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
-  const baseUrl = "https://k8a204.p.ssafy.io";
+  const baseUrl = "https://hourgoods.co.kr";
   const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
   const toggleMenu = () => {

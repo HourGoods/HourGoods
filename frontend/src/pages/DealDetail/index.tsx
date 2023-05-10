@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
+import { useLocation } from "react-router-dom";
 import { AuthStateAtom } from "@recoils/user/Atom";
 import DealBanner from "@components/DealDetail/DealBanner";
 import DealInfo from "@components/DealDetail/DealInfo";
@@ -8,9 +9,15 @@ import DealEnterButton from "@components/DealDetail/DealEnterButton";
 import ConcertCard from "@components/common/ConcertCard";
 import { ConcertInterface } from "@pages/Search";
 import { concertAPI, dealAPI } from "@api/apis";
+import { UserStateAtom } from "@recoils/user/Atom";
 import "./index.scss";
 
 export default function DealDetail() {
+  const userInfo = useRecoilValue(UserStateAtom);
+  const location = useLocation();
+  const dealid = location.state.dealId;
+  const timediff = location.state.timeDiff;
+
   const [dealInfo, setDealInfo] = useState({
     dealTitle: "",
     dealImageUrl: "",
@@ -30,8 +37,13 @@ export default function DealDetail() {
     limit: 0,
     concertId: 0,
   });
+
+  console.log(dealInfo.userNickname);
+  console.log(userInfo.nickname);
+
   const navigate = useNavigate();
   const params = useParams();
+  console.log(params);
   const stringDealId = params.dealId;
   const [dealId, setDealId] = useState(0);
   const [concertInfo, setConcertInfo] = useState<ConcertInterface>({
@@ -74,7 +86,12 @@ export default function DealDetail() {
     <div className="deal-detail-page-container">
       <DealBanner dealInfo={dealInfo} />
       <hr />
-      <DealInfo dealInfo={dealInfo} setDealInfo={setDealInfo} dealId={dealId} concertInfo={concertInfo}/>
+      <DealInfo
+        dealInfo={dealInfo}
+        setDealInfo={setDealInfo}
+        dealId={dealId}
+        concertInfo={concertInfo}
+      />
       <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
     </div>
   );

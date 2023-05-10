@@ -45,7 +45,7 @@ export default function Routers() {
         <Route path="/mychatroom" element={<MyChatRoom />} />
         <Route path="/mychatroom/:chattingroomId" element={<PrivateChat />} />
         <Route path="/meetingdeal/:dealId" element={<MeetingDeal />} />
-        <Route path="/auction" element={<Auction />} />
+        <Route path="/auction/:dealId" element={<Auction />} />
       </Route>
 
       <Route path="/edit" element={<EditProfile />} />

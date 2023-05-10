@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { dealAPI } from "@api/apis";
+import { dealAPI, mypageAPI } from "@api/apis";
 import UserInfo from "@components/MyPage/UserInfo";
 import UserCash from "@components/MyPage/UserCash";
 import UserDeal from "@components/MyPage/UserDeal";
 import "./index.scss";
 import Modal from "@components/common/Modal";
 import { useRecoilState } from "recoil";
+import { UserStateAtom } from "@recoils/user/Atom";
 import {
   isDeleteCardModal,
   isAuctionAlarmModal,
@@ -16,8 +17,9 @@ export default function index() {
   const [modalOpen, setModalOpen] = useRecoilState(isDeleteCardModal);
   const [success, setSuccess] = useRecoilState(isAuctionAlarmModal);
   const [dealId, setDealId] = useRecoilState(isdealDelete);
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
 
-  console.log(dealId);
+  console.log(userInfo);
 
   // 삭제
   const handleDelete = (dealId: number) => {
@@ -33,6 +35,23 @@ export default function index() {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    mypageAPI
+      .userinfo()
+      .then((res) => {
+        setUserInfo((prevUserInfo: any) => ({
+          ...prevUserInfo,
+          nickname: res.data.result.nickname,
+          imageUrl: res.data.result.imageUrl,
+          cash: res.data.result.cash,
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  console.log(userInfo);
 
   return (
     <div className="mypage-main-container">

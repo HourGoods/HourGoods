@@ -22,9 +22,10 @@ const UserStateAtom = atom({
   default: {
     email: "",
     nickname: "",
-    imageUrl:
-      "https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg",
+    imageUrl: "",
+    cash: 0,
   },
+  // https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg
   effects_UNSTABLE: [persistAtom],
 });
 

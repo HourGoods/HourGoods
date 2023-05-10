@@ -55,7 +55,7 @@ export default function index() {
               </div>
             </div>
             <div className="box-bottom-wrapper">
-              <InputMsgBox type="msg" onClick={sendMsgHandler} />
+              {/* <InputMsgBox type="msg" onClick={sendMsgHandler} /> */}
             </div>
           </div>
         </div>
