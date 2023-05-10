@@ -1,4 +1,4 @@
-package org.a204.hourgoods.domain.chatting.request;
+package org.a204.hourgoods.domain.chatting.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -27,5 +27,8 @@ public class MyDirectChatResponse {
 
     @Schema(description = "마지막 시간")
     private String lastLogTime;
+
+    @Schema(description = "연관된 거래 id")
+    private Long dealId;
 
 }

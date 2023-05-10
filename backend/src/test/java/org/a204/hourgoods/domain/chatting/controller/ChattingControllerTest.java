@@ -24,9 +24,9 @@ import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
 import org.a204.hourgoods.domain.chatting.model.ChatMessageRequest;
 import org.a204.hourgoods.domain.chatting.repository.DirectMessageRepository;
 import org.a204.hourgoods.domain.chatting.request.DirectChatRequest;
-import org.a204.hourgoods.domain.chatting.request.MyDirectChatResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
+import org.a204.hourgoods.domain.chatting.response.MyDirectChatResponse;
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.Trade;
@@ -297,9 +297,14 @@ class ChattingControllerTest {
 					.otherImageUrl(seller.getImageUrl())
 					.lastLogContent(directChattingRoom.getLastLogContent())
 					.lastLogTime(directChattingRoom.getLastLogTime())
+					.dealId(directChattingRoom.getDeal().getId())
 					.build());
-				assertEquals(responses.get(0).getChattingRoomId(),
-					directChattingInfo.getResult().get(0).getChattingRoomId());
+				assertEquals(directChattingRoom.getId(), responses.get(0).getChattingRoomId());
+				assertEquals(seller.getNickname(), responses.get(0).getOtherNickname());
+				assertEquals(seller.getImageUrl(), responses.get(0).getOtherImageUrl());
+				assertEquals(directChattingRoom.getLastLogContent(), responses.get(0).getLastLogContent());
+				assertEquals(directChattingRoom.getLastLogTime(), responses.get(0).getLastLogTime());
+				assertEquals(directChattingRoom.getDeal().getId(), responses.get(0).getDealId());
 			}
 		}
 	}
