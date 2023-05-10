@@ -132,10 +132,16 @@ public class MyPageService {
 				.build();
 			pointHistoryInfoList.add(response);
 		}
+
+		Long responsePointHistoryId = lastPointHistoryId;
+		if (!pointHistoryInfoList.isEmpty()) {
+			responsePointHistoryId = pointHistoryInfoList.get(pointHistoryInfoList.size() - 1).getPointHistoryId();
+		}
+
 		return PointHistoryListResponse.builder()
 			.pointHistoryInfoList(pointHistoryInfoList)
 			.hasNextPage(false)
-			.lastPointHistoryId(pointHistoryInfoList.get(pointHistoryInfoList.size()).getPointHistoryId())
+			.lastPointHistoryId(responsePointHistoryId)
 			.build();
 
 		// *
@@ -196,6 +202,7 @@ public class MyPageService {
 
 		return MyPageMemberInfoResponse.builder()
 			.nickname(member.getNickname())
+			.imageUrl(member.getImageUrl())
 			.cashPoint(member.getCashPoint())
 			.build();
 	}
