@@ -12,6 +12,8 @@ import org.a204.hourgoods.domain.deal.service.AuctionService;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.global.common.BaseResponse;
+import org.a204.hourgoods.global.event.AuctionDisconnectEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -72,10 +74,13 @@ public class AuctionController {
             case "JOIN":
                 AuctionInOutMessage auctionJoinMessage = auctionService.handleJoin(dealId, message);
                 messagingTemplate.convertAndSend("/bidding/" + dealId, auctionJoinMessage);
-                return;
-            case "EXIT":
-                AuctionInOutMessage auctionExitMessage = auctionService.handleExit(dealId, message);
-                messagingTemplate.convertAndSend("/bidding/" + dealId, auctionExitMessage);
         }
+    }
+
+    @EventListener
+    public void onAuctionDisconnectEvent(AuctionDisconnectEvent event) {
+        String dealId = event.getDealId();
+        AuctionInOutMessage exitMessage = auctionService.handleExit(dealId);
+        messagingTemplate.convertAndSend("/bidding/" + dealId, exitMessage);
     }
 }
