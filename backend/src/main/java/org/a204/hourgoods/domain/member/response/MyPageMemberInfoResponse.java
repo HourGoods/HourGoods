@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "사용자 잔여 포인트 조회")
+@Schema(name = "마이페이지 사용자 정보 응답")
 public class MyPageMemberInfoResponse {
 	@Schema(description = "사용자 닉네임")
 	private String nickname;
