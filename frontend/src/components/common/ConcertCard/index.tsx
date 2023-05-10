@@ -21,7 +21,7 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
 
   // Update할 Deal 정보
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
-  const [searchResultDealInfo, setSearchResultDealInfo] = useRecoilState(
+  const [searchResultConcertInfo, setSearchResultConcertInfo] = useRecoilState(
     searchResultConcertState
   );
 
@@ -42,7 +42,11 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
             ...prev,
             concertId,
           }));
-          setSearchResultDealInfo(concertInfo); // 검색 결과에 표시될 내용 update
+          concertAPI.getConcertDetail(concertId).then((res) => {
+            console.log(res);
+            const startDate = res.data.result.startTime;
+            setSearchResultConcertInfo({ ...res.data.result, startDate });
+          });
         } else {
           navigate(`/concert/${concertId}`, {
             state: { concertId, concertInfo },
@@ -68,7 +72,11 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
         <p className="concert-title-p">{concertInfo.title}</p>
         <div className="card-icon-text-div">
           <CalendarIcon />
-          <p>{concertInfo.startDate}</p>
+          {concertInfo.startTime ? (
+            <p>{concertInfo.startTime}</p>
+          ) : (
+            <p>{concertInfo.startDate}</p>
+          )}
         </div>
         <div className="card-icon-text-div">
           <MapPinIcon />

@@ -12,8 +12,8 @@ export default function index() {
   return (
     <div className="no-result-component-container">
       <div className="result-texts-container">
-        <p>거래가 있는 공연이 존재하지 않아요!</p>
-        <p>새로 생성하러 가볼까요?</p>
+        <p>콘서트와 거래를 미리 볼 수 있어요!</p>
+        <p>바로 거래를 생성하고 싶으면 <br /> 거래 생성하기 버튼을 눌러주세요</p>
       </div>
       <div>
         <Button color="dark-blue" onClick={goMakeDeal}>

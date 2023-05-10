@@ -29,14 +29,4 @@
     cursor: pointer;
     font-family: "NanumSquare", sans-serif;
   }
-
-  @include desktop {
-    border: 1px solid blue;
-  }
-  @include tablet {
-    border: 1px solid green;
-  }
-  @include mobile {
-    border: 1px solid red;
-  }
 }
