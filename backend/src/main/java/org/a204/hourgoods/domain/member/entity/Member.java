@@ -54,12 +54,12 @@ public class Member {
 	@ColumnDefault("0")
 	private Integer status;
 
-    @OneToMany(mappedBy = "dealHost", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Deal> deals = new ArrayList<>();
+	@OneToMany(mappedBy = "dealHost", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	private List<Deal> deals = new ArrayList<>();
 
-    // 신고한 목록
-    @OneToMany(mappedBy = "reporterMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<Report> reportList = new ArrayList<>();
+	// 신고한 목록
+	@OneToMany(mappedBy = "reporterMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
+	private List<Report> reportList = new ArrayList<>();
 
 	// 신고 당한 목록
 	@OneToMany(mappedBy = "reportedMember", cascade = CascadeType.PERSIST, orphanRemoval = true)
@@ -89,15 +89,22 @@ public class Member {
 	private List<Bidding> bidHistory = new ArrayList<>();
 
 	@Builder
-	public Member(Long id, String email, String nickname, String imageUrl) {
+	public Member(Long id, String email, String nickname, String imageUrl, Integer cashPoint) {
 		this.id = id;
 		this.email = email;
 		this.nickname = nickname;
-		this.imageUrl = imageUrl != null ? imageUrl : "'https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg'";
+		this.imageUrl = imageUrl != null ? imageUrl :
+			"'https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg'";
+		this.cashPoint = cashPoint;
 	}
 
 	public void editMember(String nickname, String imageUrl) {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl;
+	}
+
+	// 사용자 포인트 갱신
+	public void updateCashPoint(Integer cashPoint) {
+		this.cashPoint += cashPoint;
 	}
 }
