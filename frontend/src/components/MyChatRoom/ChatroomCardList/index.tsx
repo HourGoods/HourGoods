@@ -12,7 +12,7 @@ export default function ChatroomList() {
     const req = chattingAPI.getmychatList();
     req
       .then((response) => {
-        console.log(response.data.result); // 채팅목록 불러오는 api
+        console.log("채팅목록 불러오는 api", response.data.result); // 채팅목록 불러오는 api
         setChatrooms(response.data.result);
       })
       .catch((err) => {
