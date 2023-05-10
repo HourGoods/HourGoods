@@ -63,7 +63,7 @@ public class ChattingController {
 		@AuthenticationPrincipal MemberDetails memberDetails, @RequestBody DirectChatRequest request) {
 		DirectChattingRoomRequest chattingRoomRequest = DirectChattingRoomRequest.builder()
 			.dealId(request.getDealId())
-			.receiverId(request.getReceiverId())
+			.receiverNickname(request.getReceiverNickname())
 			.senderId(memberDetails.getMember().getId())
 			.build();
 		// 이미 기존에 채팅한 이력이 있다면 해당 방을 바로 리턴
