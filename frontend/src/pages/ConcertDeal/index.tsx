@@ -9,6 +9,7 @@ import ConcertCard from "@components/common/ConcertCard";
 import Button from "@components/common/Button";
 import SearchBar from "@components/common/SearchBar";
 import DealCard from "@components/common/DealCard";
+import { ConcertInterface } from "@pages/Search";
 import "./index.scss";
 
 export interface DealInfoInterface {
@@ -30,38 +31,54 @@ export default function index() {
   const params = useParams();
   const stringConcertId = params.concertId;
   const [concertId, setConcertId] = useState(0);
+  const [concertInfo, setConcertInfo] = useState<ConcertInterface>({
+    imageUrl: "",
+    kopisConcertId: "",
+    place: "",
+    startDate: "",
+    title: "",
+    concertId: 0,
+    longitude: 0,
+    latitude: 0,
+  });
   const [concertDealList, setConcertDealList] = useState<ConcertDealList>([]);
   const userInfo = useRecoilValue(UserStateAtom);
 
   const navigate = useNavigate();
   const location = useLocation();
   // console.log(location.state);
-  const { concertInfo } = location.state;
-
   const goMakeDeal = () => {
-    navigate("/create/deal", {
-      state: { concertId, concertInfo },
-    });
+    navigate(`/create/deal/${concertId}`);
   };
 
   useEffect(() => {
-    // 렌더링 시 전체 검색 실행
+    // 렌더링 시 먼저 콘서트 디테일 검색
+
+    // 후 딜 검색 실행
     if (stringConcertId) {
       const { nickname } = userInfo;
       const concertId = parseInt(stringConcertId, 10);
       setConcertId(concertId);
 
-      const result = concertAPI.getConcertDealList(
-        concertId,
-        -1,
-        "All",
-        "",
-        nickname
-      );
-      result.then((res) => {
-        console.log("콘서트별 딜 정보", res);
-        setConcertDealList(res.data.result.dealInfoList);
-      });
+      concertAPI
+        .getConcertDetail(concertId)
+        .then((res) => {
+          const startDate = res.data.result.startTime;
+          setConcertInfo({ ...res.data.result, startDate });
+        })
+        .then(() => {
+          const result = concertAPI.getConcertDealList(
+            concertId,
+            -1,
+            "All",
+            "",
+            nickname
+          );
+          result.then((res) => {
+            console.log("콘서트별 딜 정보", res);
+            setConcertDealList(res.data.result.dealInfoList);
+          });
+        });
     }
   }, []);
 

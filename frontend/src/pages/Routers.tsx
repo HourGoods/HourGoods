@@ -36,6 +36,7 @@ export default function Routers() {
 
       {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
       <Route element={<PrivateRoute />}>
+        <Route path="/create/deal/:concertId" element={<CreateDealPage />} />
         <Route path="/create/deal" element={<CreateDealPage />} />
         <Route path="/deal/detail/:dealId" element={<DealDetail />} />
         {/* ----------------- 유저 ----------------- */}
