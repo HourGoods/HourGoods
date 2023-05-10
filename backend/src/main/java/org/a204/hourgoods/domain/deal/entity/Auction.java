@@ -45,8 +45,9 @@ public class Auction extends Deal {
 		this.endTime = endTime;
 	}
 
-	public void updateResult(Integer finalPrice, Integer bidderCount) {
+	public void updateResult(Integer finalPrice, Integer bidderCount, Member winner) {
 		this.finalPrice = finalPrice;
 		this.bidderCount = bidderCount;
+		this.winner = winner;
 	}
 }
