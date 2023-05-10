@@ -1,30 +1,107 @@
 @import "@styles/Colors.scss";
-.mainpage-button-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .success-wrapper {
-    min-height: 300px;
-  }
-  .success-h2 {
-    margin-bottom: 20px;
-    color: $gray-2;
+@import "@styles/Mixins.scss";
+
+.main-page-container {
+  margin: 40px auto;
+
+  .title-texts-container {
+    height: 60vh;
+    padding-top: 30px;
+    h2 {
+      color: $pink-1;
+      font-weight: 800;
+    }
+    img {
+      width: 100px;
+      animation: fadein 3s;
+      -moz-animation: fadein 3s; /* Firefox */
+      -webkit-animation: fadein 3s; /* Safari and Chrome */
+    }
   }
 
-  .success-p {
-    font-size: 16px;
-    font-weight: 600;
-    color: $gray-2;
-    margin-bottom: 10px;
+  .about-texts-container {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    min-width: 300px;
+    max-width: 450px;
+    justify-content: space-between;
+
+    h3 {
+      margin-bottom: 30px;
+    }
+
+    .icon-text-fist-wrapper {
+      display: flex;
+      justify-self: flex-start;
+      margin: 15px 0;
+    }
+    .icon-text-right-wrapper {
+      display: flex;
+      align-self: flex-end;
+      margin: 15px 0;
+    }
+    .icon-text-last-wrapper {
+      display: flex;
+      justify-self: flex-start;
+      margin: 15px 0;
+    }
+    p {
+      background-color: white;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: 1px solid $gray-4;
+    }
+    svg {
+      margin-top: 30px;
+      width: 40px;
+      color: $indogo-4;
+    }
+  }
+  .footer-texts-container {
+    margin: 50px auto;
+  }
+
+  .how-to-use-div-box {
+    height: 300px;
+    background-color: white;
+    min-width: 280px;
+    max-width: 450px;
+    border-radius: 20px;
+    border: 1px solid $gray-4;
+    margin: auto;
+  }
+
+  footer {
+    margin-top: 50px;
+    font-size: 8px;
   }
 }
 
-.temp-direction-div {
-  margin: 10px;
-  button {
-    width: 100px;
-    height: 50px;
-    background-color: bisque;
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

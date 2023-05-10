@@ -3,6 +3,7 @@
 .realtime-page-container {
   justify-self: center;
   padding: 0 20px;
+  margin-bottom: 60px;
 
   // desktop영역에서 좌우배치
   @include desktop {
@@ -53,11 +54,21 @@
       text-decoration: underline;
     }
 
-    #map {
-      margin: 0 auto;
-      margin-top: 10px;
-      height: 292px;
-      width: 100%;
+    .map-button-div {
+      position: relative;
+      #map {
+        margin: 0 auto;
+        margin-top: 10px;
+        height: 292px;
+        width: 100%;
+      }
+      button {
+        position: absolute;
+        right: 5px;
+        bottom: 10px;
+        z-index: 15;
+        background: none;
+      }
     }
 
     @include desktop {
@@ -73,8 +84,53 @@
     width: 100%;
     max-width: 644px;
 
+    .deal-card-component-container {
+      margin: 10px auto;
+    }
+
     @include desktop {
       width: 350px;
     }
+  }
+}
+
+// Loading
+.loading-modal-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 98;
+  background: rgba(40, 40, 40, 0.85);
+  background-image: url("../../assets/BGstars.svg");
+  position: absolute;
+
+  .loading-modal-content-box {
+    margin-top: 250px;
+    position: relative;
+
+    p {
+      color: white;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    img {
+      position: absolute;
+      width: 45px;
+      animation: walking 3s infinite;
+    }
+  }
+}
+
+@keyframes walking {
+  0% {
+    left: 40%;
+  }
+  100% {
+    left: 51%;
   }
 }

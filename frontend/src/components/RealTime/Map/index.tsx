@@ -1,14 +1,9 @@
 import React, { useEffect, useState } from "react";
-import getCurrentLocation from "@utils/getCurrentLocation";
 import watchCurrentLocation from "@utils/watchCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
 import { haversineDistance, drawCircles } from "@utils/realTime";
-import { ConcertInterface } from "@pages/Search";
 import { MapIcon } from "@heroicons/react/24/solid";
-import markerImg from "@assets/userLocPoint.svg";
-import { concertAPI } from "@api/apis";
-import { useRecoilValue } from "recoil";
-import { UserStateAtom } from "@recoils/user/Atom";
+import focusing from "@assets/focusing.svg";
 
 declare global {
   interface Window {
@@ -27,27 +22,31 @@ declare global {
 
 interface mapProps {
   location: any;
+  setLocation: React.Dispatch<React.SetStateAction<any>>;
   flag: boolean;
   setFlag: React.Dispatch<React.SetStateAction<boolean>>;
   todayConcertList: any;
   inConcertList: any;
   setInConcertList: React.Dispatch<React.SetStateAction<any>>;
+  isMapLoading: boolean;
+  setIsMapLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function index(props: mapProps) {
   const {
     location,
+    setLocation,
     flag,
     setFlag,
     todayConcertList,
     inConcertList,
     setInConcertList,
+    isMapLoading,
+    setIsMapLoading,
   } = props;
   const [map, setMap] = useState<any>(null);
-  const [isMapLoading, setIsMapLoading] = useState(false);
-  const userInfo = useRecoilValue(UserStateAtom);
 
-  // 최초 지도 그리기
+  // 최초 지도 그리기, 위치 변경에 따른 지도 그리기
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
@@ -56,9 +55,12 @@ export default function index(props: mapProps) {
     };
     const map = new window.kakao.maps.Map(container, options);
     setMap(map);
+    // 마운팅이 된 상태라는 뜻
     setFlag(true);
 
     // 오늘의 콘서트와 현재의 거리 받아오기
+    // 오늘 콘서트 리스트 확인
+    console.log(todayConcertList);
     todayConcertList.map((concert: any) => {
       const distance = haversineDistance(
         concert.latitude,
@@ -67,9 +69,8 @@ export default function index(props: mapProps) {
         location.longitude
       );
       // 만약 500m안에 있는 게 있으면
-      if (distance <= 500) {
+      if (distance <= 460) {
         // 포함 여부 저장
-        console.log(concert);
         const newList = inConcertList.concat({
           ...concert,
           startDate: concert.startTime,
@@ -86,7 +87,7 @@ export default function index(props: mapProps) {
       );
     });
     // 콘서트장 위치 그렸으면 중심 이동
-
+    setTimeout(() => setIsMapLoading(false), 3000);
     map.setCenter(
       new window.kakao.maps.LatLng(location.latitude, location.longitude)
     );
@@ -96,11 +97,12 @@ export default function index(props: mapProps) {
     // 지속해서 현재 위치 감시하면서 marker그리기
     let watcher: number | undefined;
 
+    // 지도가 마운팅이 된 것을 확인하고,
     if (map && flag) {
       watcher = watchCurrentLocation(map, (result: any) => {
         if (typeof result === "string") {
           // 에러 처리
-          console.log(result);
+          console.log(result, "watcher error");
           return;
         }
         // 오늘 concert영역 안에 있는지 확인
@@ -108,10 +110,10 @@ export default function index(props: mapProps) {
           const distance = haversineDistance(
             concert.latitude,
             concert.longitude,
-            location.latitude,
-            location.longitude
+            result.latitude,
+            result.longitude
           );
-          if (distance <= 500) {
+          if (distance <= 460) {
             // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
@@ -120,24 +122,34 @@ export default function index(props: mapProps) {
               console.log("이미 등록되어 있으니 아무 것도 하지 말자");
             } else {
               console.log("없었던 애니까 등록하자!");
+              console.log("정말 없나?", inConcertList, isInConcertList);
+
               const newList = inConcertList.concat({
                 ...concert,
                 startDate: concert.startTime,
               });
               setInConcertList(newList);
+              setIsMapLoading(true);
+              setLocation(result);
+              // window.location.reload();
             }
-          } else if (distance > 500) {
+          } else if (distance > 460) {
             // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
             );
             if (isInConcertList) {
               console.log("등록되어 있던 애다. 없애자!");
+
               setInConcertList((prev: any) =>
                 prev.filter(
                   (inConcert: any) => inConcert.concertId !== concert.concertId
                 )
               );
+              setIsMapLoading(true);
+              setLocation(result);
+
+              // window.location.reload();
             } else {
               console.log("없던 애구나. 계속 없어라!");
             }
@@ -145,9 +157,9 @@ export default function index(props: mapProps) {
           return null;
         });
         // 지도 중심 이동, 현재 위치 표시
-        map.setCenter(
-          new window.kakao.maps.LatLng(result.latitude, result.longitude)
-        );
+        // map.setCenter(
+        //   new window.kakao.maps.LatLng(result.latitude, result.longitude)
+        // );
       });
     }
     return () => {
@@ -156,6 +168,12 @@ export default function index(props: mapProps) {
       }
     };
   }, [flag, map]);
+
+  const moveFocus = () => {
+    map.setCenter(
+      new window.kakao.maps.LatLng(location.latitude, location.longitude)
+    );
+  };
 
   return (
     <div className="realtime-map-component-container">
@@ -167,102 +185,13 @@ export default function index(props: mapProps) {
         오늘 Deal이 진행되는 콘서트를 확인해 보세요!
       </p>
       {isMapLoading && <p>Map Loading...</p>}
-      <div id="map" />
-      <button type="button">내 위치 불러오기</button>
+      <div className="map-button-div">
+        <div id="map" />
+        <button type="button" onClick={moveFocus}>
+          <img src={focusing} alt="내위치로" />
+        </button>
+      </div>
       {inConcertList[0] && <ConcertCard concertInfo={inConcertList[0]} />}
     </div>
   );
 }
-
-// useEffect(() => {
-//   if (location && location !== "" && typeof location !== "string") {
-//     // 현재 위치를 표시하는 마커 생성
-//     const markerPosition = new window.kakao.maps.LatLng(
-//       location.latitude,
-//       location.longitude
-//     );
-//     console.log("현재위치", markerPosition, location.latitude);
-
-//     const markerImage = new window.kakao.maps.MarkerImage(
-//       markerImg, // 마커 이미지 URL
-//       new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
-//       {
-//         offset: new window.kakao.maps.Point(55, 55),
-//         alt: "현재 위치",
-//       }
-//     );
-
-//     const marker = new window.kakao.maps.Marker({
-//       position: markerPosition,
-//       image: markerImage,
-//     });
-//     marker.setMap(Map);
-//   }
-// }, [location]);
-
-// // 위치 확인용 좌표
-// const sillaLocation = {
-//   latitude: 37.504768995486,
-//   longitude: 127.04144944792,
-// };
-
-// const sjrStation = {
-//   latitude: 37.510257428761,
-//   longitude: 127.04391561527,
-// };
-
-// const gangnamStation = {
-//   latitude: 37.497,
-//   longitude: 127.0254,
-// };
-
-// const nakseondaeStation = {
-//   latitude: 37.476529777589,
-//   longitude: 126.96428825991,
-// };
-
-// useEffect(() => {
-//   if (location && location !== "" && typeof location !== "string") {
-//     const container = document.getElementById("map");
-
-//     // 현재 위치 기준으로 지도 생성
-//     const options = {
-//       center: new window.kakao.maps.LatLng(
-//         location.latitude,
-//         location.longitude
-//       ),
-//       level: 4,
-//     };
-//     const map = new window.kakao.maps.Map(container, options);
-
-//     isWithin500mFromLocation(
-//       sillaLocation.latitude,
-//       sillaLocation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//     isWithin500mFromLocation(
-//       sjrStation.latitude,
-//       sjrStation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//     isWithin500mFromLocation(
-//       gangnamStation.latitude,
-//       gangnamStation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//     // 낙성대역
-//     isWithin500mFromLocation(
-//       nakseondaeStation.latitude,
-//       nakseondaeStation.longitude,
-//       location.latitude,
-//       location.longitude,
-//       map
-//     );
-//   }
-// }, []);
