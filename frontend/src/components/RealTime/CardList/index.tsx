@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DealCard from "@components/common/DealCard";
 import SearchBar from "@components/common/SearchBar";
 import { ClockIcon } from "@heroicons/react/24/solid";
@@ -8,6 +8,7 @@ import { UserStateAtom } from "@recoils/user/Atom";
 
 export default function index(props: any) {
   const { inConcertList, concertDealList, setConcertDealList } = props;
+  const [searchInput, setSearchInput] = useState("");
   const userInfo = useRecoilValue(UserStateAtom);
 
   useEffect(() => {
@@ -45,6 +46,24 @@ export default function index(props: any) {
     // }
   }, [inConcertList]);
 
+  const searchHandler = () => {
+    if (inConcertList[0]) {
+      const {concertId} = inConcertList[0];
+      // api
+      const result = concertAPI.getConcertDealList(
+        concertId,
+        -1,
+        "All",
+        searchInput,
+        userInfo.nickname
+      );
+      result.then((res) => {
+        console.log("콘서트별 딜 정보", res);
+        setConcertDealList(res.data.result.dealInfoList);
+      });
+    }
+  };
+
   return (
     <div className="realtime-deal-card-list-container">
       <div className="realtime-page-title-div">
@@ -63,7 +82,11 @@ export default function index(props: any) {
           <p className="realtime-page-helper-p">
             콘서트 현장에서 원하는 거래를 찾아봐요!
           </p>
-          <SearchBar />
+          <SearchBar
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            onSubmit={searchHandler}
+          />
           {concertDealList.map((dealInfo: any) => {
             return (
               <div key={dealInfo.dealId}>
