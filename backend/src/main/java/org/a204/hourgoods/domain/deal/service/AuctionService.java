@@ -124,12 +124,30 @@ public class AuctionService {
         Long memberId = member.getId();
         Member retrieved = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-        Bidding bidding = biddingRepository.findByDealAndBidder(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
-        Auction auction = auctionRepository.findById(dealId).get();
-        return AuctionResultResponse.builder()
-            .isWinner(bidding.getIsWinner())
-            .bidderCount(auction.getBidderCount())
-            .bidAmount(bidding.getBidAmount())
-            .build();
+        Auction auction = auctionRepository.findByIdWithWinner(dealId).get();
+        // 1. 주최자 인 경우
+        if (retrieved.getId().equals(deal.getDealHost().getId())) {
+            return AuctionResultResponse.builder()
+                .isHost(true)
+                .bidderCount(auction.getBidderCount())
+                .winnerAmount(auction.getFinalPrice())
+                .winnerNickname(auction.getWinner().getNickname()).build();
+        } else {
+            Bidding bidding = biddingRepository.findByDealAndBidder(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
+            AuctionResultResponse response = AuctionResultResponse.builder()
+                .isHost(false)
+                .bidderCount(auction.getBidderCount())
+                .bidAmount(bidding.getBidAmount()).build();
+        // 2. 낙찰자 인 경우
+            Boolean isWinner = bidding.getIsWinner();
+            if (isWinner) {
+                response.setIsWinner(true);
+            } else {
+        // 3. 낙찰에 실패한 입찰자 인 경우
+                response.setIsWinner(false);
+                response.setWinnerAmount(auction.getFinalPrice());
+            }
+            return response;
+        }
     }
 }
