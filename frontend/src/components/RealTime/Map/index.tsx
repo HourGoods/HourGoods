@@ -3,6 +3,7 @@ import watchCurrentLocation from "@utils/watchCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
 import { haversineDistance, drawCircles } from "@utils/realTime";
 import { MapIcon } from "@heroicons/react/24/solid";
+import focusing from "@assets/focusing.svg";
 
 declare global {
   interface Window {
@@ -156,9 +157,9 @@ export default function index(props: mapProps) {
           return null;
         });
         // 지도 중심 이동, 현재 위치 표시
-        map.setCenter(
-          new window.kakao.maps.LatLng(result.latitude, result.longitude)
-        );
+        // map.setCenter(
+        //   new window.kakao.maps.LatLng(result.latitude, result.longitude)
+        // );
       });
     }
     return () => {
@@ -167,6 +168,12 @@ export default function index(props: mapProps) {
       }
     };
   }, [flag, map]);
+
+  const moveFocus = () => {
+    map.setCenter(
+      new window.kakao.maps.LatLng(location.latitude, location.longitude)
+    );
+  };
 
   return (
     <div className="realtime-map-component-container">
@@ -178,8 +185,12 @@ export default function index(props: mapProps) {
         오늘 Deal이 진행되는 콘서트를 확인해 보세요!
       </p>
       {isMapLoading && <p>Map Loading...</p>}
-      <div id="map" />
-      <button type="button">내 위치 불러오기</button>
+      <div className="map-button-div">
+        <div id="map" />
+        <button type="button" onClick={moveFocus}>
+          <img src={focusing} alt="내위치로" />
+        </button>
+      </div>
       {inConcertList[0] && <ConcertCard concertInfo={inConcertList[0]} />}
     </div>
   );

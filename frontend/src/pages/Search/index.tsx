@@ -10,8 +10,9 @@ export interface ConcertInterface {
   imageUrl: string;
   kopisConcertId: string;
   place: string;
-  startDate: string;
   title: string;
+  startDate?: string;
+  startTime?: string;
   concertId?: number;
   longitude?: number;
   latitude?: number;

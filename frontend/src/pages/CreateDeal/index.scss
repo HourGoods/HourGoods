@@ -195,15 +195,20 @@
   }
 
   // 검색 영역
-  .search-modal-content-component-container {
-    padding: none;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    // @include scrollbar-css;
+  .common-modal-box {
+    height: 80%;
+    .common-modal-content {
+      .search-modal-content-component-container {
+        height: 100%;
+        overflow-y: scroll;
+        padding: none;
+        width: 100%;
+        // @include scrollbar-css;
 
-    .concert-card-component-container {
-      margin-top: 10px;
+        .concert-card-component-container {
+          margin-top: 10px;
+        }
+      }
     }
   }
 }
