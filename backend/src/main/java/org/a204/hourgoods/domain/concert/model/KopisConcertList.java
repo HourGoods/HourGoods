@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
@@ -18,6 +19,7 @@ public class KopisConcertList {
 	private List<ConcertInfo> concertInfoList;
 
 	@Builder
+	@NoArgsConstructor
 	@AllArgsConstructor
 	@Getter
 	@ToString
