@@ -105,7 +105,7 @@ const chattingAPI = {
     request.authGet(`/chat/${chattingRoomId}/messages`),
   // 일대일채팅방 생성하기
   postchatDirect: (
-    receiverNickname: number,
+    receiverNickname: string,
     dealId: number
   ): Promise<AxiosResponse> =>
     request.authPost("/chat/direct", { receiverNickname, dealId }),
