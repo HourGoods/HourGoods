@@ -41,8 +41,8 @@ export default function index() {
           !dealInfo.title ||
           !dealInfo.concertId ||
           !dealInfo.startTime ||
-          !dealInfo.meetingLocation||
-          !dealInfo.dealType||
+          !dealInfo.meetingLocation ||
+          !dealInfo.dealType ||
           !dealInfo.meetingLocation
         ) {
           alert("내용을 모두 입력해 주세요");
