@@ -16,10 +16,8 @@ public class SessionAttributeHandshakeInterceptor extends HttpSessionHandshakeIn
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) {
         ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
         HttpSession httpSession = servletRequest.getServletRequest().getSession(true);
-        System.out.println("인터셉터 도달 완료");
         if (httpSession != null) {
             attributes.put("session", httpSession);
-            System.out.println("세션 정보 socket에 저장 완료");
         }
         return true;
     }
