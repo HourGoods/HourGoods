@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
-import { searchResultConcertState } from "@recoils/concert/Atoms";
+import {
+  searchResultConcertState,
+  concertDetailState,
+} from "@recoils/concert/Atoms";
+import { concertAPI } from "@api/apis";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import ConcertCard from "@components/common/ConcertCard";
@@ -20,27 +24,39 @@ export interface ConcertInterface {
 export type ConcertList = ConcertInterface[];
 
 export default function index() {
+  const param = useParams();
+
   // Update할 Deal 정보
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
   // 검색 모달을 위한 값
   const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
-
-  // 공연 정보가 선택된 경우 표시될 값
-  // const searchResultConcertInfo = useRecoilValue(searchResultConcertState);
-  const [searchResultConcertInfo, setSearchResultConcertInfo] = useRecoilState(
-    searchResultConcertState
-  );
-
-  // 만약 콘서트가 선택된채 왔다면 표시할 값
-  const location = useLocation();
-  const concertInfo = location.state;
+  // 공연 Detail
+  const [concertDetailInfo, setConcertDetailInfo] =
+    useRecoilState(concertDetailState);
 
   useEffect(() => {
-    if (location.state) {
-      const { concertId, concertInfo } = location.state;
-      setSearchResultConcertInfo(concertInfo);
+    // 콘서트가 선택되어 넘어온 경우 deaInfo에 아이디 추가
+    if (param.concertId) {
+      const concertId = parseInt(param.concertId, 10);
+      // concertDetail get요청
+      concertAPI.getConcertDetail(concertId).then((res) => {
+        console.log(res);
+        const getInfo = res.data.result;
+        setConcertDetailInfo(getInfo);
+      });
     }
   }, []);
+
+  // 콘서트 정보 업데이트 되면 작성 기본 값 세팅해주기
+  useEffect(() => {
+    setDealInfo((prev) => ({
+      ...prev,
+      concertId: concertDetailInfo.concertId,
+      startTime: concertDetailInfo.startTime,
+      latitude: concertDetailInfo.latitude,
+      longitude: concertDetailInfo.longitude,
+    }));
+  }, [concertDetailInfo]);
 
   // Deal 타입 변화
   const [activeDealType, setActiveDealType] = useState({
@@ -61,7 +77,6 @@ export default function index() {
       ...prev,
       [name]: value,
     }));
-    console.log(dealInfo);
   };
 
   // 검색
@@ -145,7 +160,7 @@ export default function index() {
         </div>
         {/* 검색 결과가 있다면 검색 결과 카드 표시 */}
         {dealInfo.concertId ? (
-          <ConcertCard concertInfo={searchResultConcertInfo} />
+          <ConcertCard concertInfo={concertDetailInfo} />
         ) : null}
 
         <label htmlFor="concert-date-input">

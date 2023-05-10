@@ -44,15 +44,15 @@ export default function Nav() {
   useModalRef(menuRef, () => setIsOpen(false));
 
   // 임시 메인페이지에서 nav 가립니다
-  const location = useLocation();
-  if (location.pathname === "/") {
-    return null;
-  }
+  // const location = useLocation();
+  // if (location.pathname === "/") {
+  //   return null;
+  // }
   return (
     <nav className="navbar">
       <div className="web-navbar-wrapper">
         <div className="web-navbar-logo-menu">
-          <Link to="/main">
+          <Link to="/">
             <img src={logo} alt="로고" />
           </Link>
           <Link to="realtime">

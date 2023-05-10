@@ -34,7 +34,7 @@ export default function Oauth() {
       setAuthState({ isLogin: true, token: accessToken });
       sessionStorage.setItem("accessToken", accessToken);
       setCookie("refreshToken", refreshToken);
-      navigate("/main");
+      navigate("/");
       alert(`${nickname}님 환영합니다!`);
     }
   }, []);

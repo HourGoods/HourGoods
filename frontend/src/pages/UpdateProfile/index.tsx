@@ -93,7 +93,7 @@ export default function index() {
         setAuthState({ isLogin: true, token: accessToken });
         sessionStorage.setItem("accessToken", accessToken);
         setCookie("refreshToken", refreshToken);
-        navigate("/main");
+        navigate("/");
         alert(`${userInfo.nickname}님 환영합니다!`);
       })
       .catch((err) => {
