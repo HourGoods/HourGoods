@@ -14,10 +14,10 @@ import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomQueryDslR
 import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepository;
 import org.a204.hourgoods.domain.chatting.repository.DirectMessageRepository;
 import org.a204.hourgoods.domain.chatting.request.DirectChattingRoomRequest;
-import org.a204.hourgoods.domain.chatting.request.MyDirectChatResponse;
 import org.a204.hourgoods.domain.chatting.response.AuctionChatMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
+import org.a204.hourgoods.domain.chatting.response.MyDirectChatResponse;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
@@ -174,6 +174,7 @@ public class ChattingService {
 				.otherNickname(otherNickname)
 				.lastLogContent(directChattingRoom.getLastLogContent())
 				.lastLogTime(directChattingRoom.getLastLogTime())
+				.dealId(directChattingRoom.getDeal().getId())
 				.build());
 		}
 		return result;
