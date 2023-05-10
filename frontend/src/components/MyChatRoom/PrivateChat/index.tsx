@@ -1,28 +1,41 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { chattingAPI } from "@api/apis";
 import DealCard from "@components/common/DealCard";
 import InputMsgBox from "@components/common/InputMsgBox";
-import { UserCircleIcon } from "@heroicons/react/24/solid";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
-import { useLocation, useNavigate } from "react-router-dom";
+import ChatContent from "./ChatContent";
+
+export interface PrivatChatMessage {
+  nickname: string;
+  isUser: boolean;
+  sendTime: string;
+  content: string;
+}
+
+// 23.05.10 10:42
+// chattingRoomId 값에 포함된 dealId 값으로 api 요청 새로보내는 로직 짜서 DealCard 수정할 것
 
 export default function index() {
   const navigate = useNavigate();
   const location = useLocation();
   const dealInfo = location.state.dealinfo;
+  const chattingRoomId = location.state.chatId;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [chatMsgList, setChatMsgList] = useState<PrivatChatMessage[]>([]);
 
   const meetModalHandler = () => {
     setIsModalOpen(true);
   };
 
   useEffect(() => {
-    console.log(dealInfo);
-    const req = chattingAPI.getmychatMsg(1);
+    // console.log(dealInfo);
+    const req = chattingAPI.getmychatMsg(chattingRoomId);
     req
       .then((res) => {
-        console.log(res);
+        // 채팅내용 가져오기
+        setChatMsgList(res.data.result);
       })
       .catch((err) => {
         console.error(err);
@@ -31,35 +44,25 @@ export default function index() {
 
   return (
     <div>
-      <Modal>
-        <div className="private-chatroom-all-container">
-          <div className="private-chatroom-box-container">
-            <div className="box-upper-wrapper">
-              <div className="chatroom-dealcard">
-                <DealCard dealInfo={dealInfo} />
-              </div>
-              <div className="private-chatroom-content-container">
-                <div className="not-me-chat">
-                  <UserCircleIcon />
-                  <div className="not-me-chat-message">
-                    <p className="not-me-name">아이유사랑해</p>
-                    <p className="not-me-message">남이 보낸 메세지</p>
-                  </div>
-                </div>
-                <div className="its-me-chat">
-                  <p className="its-me-chatbox">내가 보낸 메세지</p>
-                </div>
-              </div>
+      <div className="private-chatroom-all-container">
+        <div className="private-chatroom-box-container">
+          <div className="box-upper-wrapper">
+            <div className="chatroom-dealcard">
+              <DealCard dealInfo={dealInfo} />
             </div>
-            <div className="box-bottom-wrapper">
-              {/* <InputMsgBox type="msg" onClick={sendMsgHandler} /> */}
-            </div>
+            <ChatContent chatMsgList={chatMsgList} />
+          </div>
+          <div className="box-bottom-wrapper">
+            {/* <InputMsgBox type="msg" onClick={sendMsgHandler} /> */}
           </div>
         </div>
-        <Button color="pink" onClick={meetModalHandler}>
-          만나서 거래하기
-        </Button>
-      </Modal>
+      </div>
+
+
+      {/* 만나서 거래하기  */}
+      <Button color="pink" onClick={meetModalHandler}>
+        만나서 거래하기
+      </Button>
       {isModalOpen && (
         <Modal setModalOpen={setIsModalOpen}>
           <p>만나서 거래를 하시겠습니까?</p>
@@ -67,6 +70,7 @@ export default function index() {
           <Button
             size="small"
             color="indigo"
+            // dealInfo.dealId 값으로 navigate 시킬 것
             onClick={() => navigate("/meetingdeal/1")}
           >
             예
