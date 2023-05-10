@@ -78,22 +78,23 @@ export default function index({ getmy, deal }: IProps) {
   const day = String(startTime.getDate()).padStart(2, "0");
 
   let dealType = "";
+  let backgroundcolor = "";
   switch (deal.dealTypeName) {
     case "Sharing":
       dealType = "나눔";
-
+      backgroundcolor = "#fef9c3";
       break;
     case "Auction":
       dealType = "경매";
-
+      backgroundcolor = "#c7d2fe";
       break;
     case "HourAuction":
       dealType = "Hour 경매";
-
+      backgroundcolor = "#ede9fe";
       break;
     case "Trade":
       dealType = "거래";
-
+      backgroundcolor = "#fbcfe8";
       break;
     default:
       break;
@@ -114,7 +115,12 @@ export default function index({ getmy, deal }: IProps) {
         <button type="button" onClick={detailNavigate}>
           <div className="user-deal-card-wrapper-img">
             <img src={deal.imageUrl} alt="아이유" className="deal-img" />
-            <p className="deal-tag">{dealType}</p>
+            <p
+              className="deal-tag"
+              style={{ backgroundColor: backgroundcolor }}
+            >
+              {dealType}
+            </p>
           </div>
           <div className="user-deal-card-wrapper-containers">
             <p className="user-deal-card-title">{deal.title}</p>
