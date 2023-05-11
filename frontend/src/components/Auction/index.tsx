@@ -48,7 +48,11 @@ export default function index() {
   const handleMessage = (message: string) => {
     setsocketList((prevsocketList) => [...prevsocketList, message]);
     const parsedMessage = JSON.parse(message);
-    if (parsedMessage.messageType === "CHAT") {
+    if (
+      parsedMessage.messageType === "CHAT" ||
+      parsedMessage.messageType === "JOIN" ||
+      parsedMessage.messageType === "EXIT"
+    ) {
       setMsgList((prevSocketList) => [...prevSocketList, parsedMessage]);
     } else if (parsedMessage.messageType === "BID") {
       setBidList((prevSocketList) => [...prevSocketList, parsedMessage]);
