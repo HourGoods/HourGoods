@@ -1,8 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
+import { scrollToBottom } from "@utils/scrollToBottom";
 import { ChatMessage, InoutMessage } from "..";
 
 interface Props {
@@ -11,15 +12,17 @@ interface Props {
 }
 
 export default function index({ msgList, inoutMsgList }: Props) {
+  const chatMsgListRef = useRef<HTMLDivElement | null>(null);
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
 
   useEffect(() => {
-    console.log("inoutmessage list", inoutMsgList);
-  }, [inoutMsgList]);
+    // console.log("inoutmessage list", inoutMsgList);
+    scrollToBottom(chatMsgListRef.current);
+  }, [inoutMsgList, msgList]);
 
   return (
-    <div className="chattingbox-all-container">
+    <div ref={chatMsgListRef} className="chattingbox-all-container">
       <div className="private-chatroom-content-container">
         {msgList.map((message: ChatMessage, index: number) => {
           const isMe = message.nickname === userName;

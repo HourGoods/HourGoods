@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useRef, useEffect } from "react";
+import { scrollToBottom } from "@utils/scrollToBottom";
 import { PrivatChatMessage } from "..";
 
 interface Props {
@@ -11,18 +12,8 @@ export default function index({ chatMsgList, userName }: Props) {
   const chatMsgListRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    scrollToBottom();
+    scrollToBottom(chatMsgListRef.current);
   }, [chatMsgList]);
-
-  const scrollToBottom = () => {
-    if (chatMsgListRef.current) {
-      chatMsgListRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
-        inline: "nearest",
-      });
-    }
-  };
 
   return (
     <div ref={chatMsgListRef} className="private-chatroom-content-container">

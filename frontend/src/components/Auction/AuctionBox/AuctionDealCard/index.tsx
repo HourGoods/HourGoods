@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { IDealInfo } from "@components/Auction/AuctionBox";
+import Modal from "@components/common/Modal";
 
 interface IDealInfoProps {
   dealInfo: IDealInfo;
@@ -9,6 +10,7 @@ interface IDealInfoProps {
 export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
   const [remainingTime, setRemainingTime] = useState("");
   const [progressBarWidth, setProgressBarWidth] = useState("0%");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const updateRemainingTime = () => {
     const now = new Date();
@@ -16,6 +18,7 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
     const durationInMs = endTime.getTime() - now.getTime();
     if (durationInMs < 0) {
       setRemainingTime("경매 종료");
+      setModalOpen(true);
       setProgressBarWidth("100%");
       return;
     }
@@ -69,22 +72,12 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
           <p>{remainingTime}</p>
         </div>
       </div>
+      {modalOpen && (
+        <Modal setModalOpen={setModalOpen}>
+          <h1>경매 종료</h1>
+          <p>경매가 종료되었습니다.</p>
+        </Modal>
+      )}
     </div>
   );
 }
-
-// <div className="a-dealcard-progressbar">
-//   <span style={{ width: `${progressBarWidth}%` }} />
-//   <p>{formatDuration(remainingTime)}</p>
-// </div>
-// $(".meter > span").each(function () {
-//   $(this)
-//     .data("origWidth", $(this).width())
-//     .width(0)
-//     .animate(
-//       {
-//         width: $(this).data("origWidth"),
-//       },
-//       1200
-//     );
-// });
