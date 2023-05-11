@@ -59,7 +59,6 @@ export default function index() {
   };
 
   useEffect(() => {
-    console.log("dealInfo", dealInfo);
     console.log("chattingRoomId", chattingRoomId);
     const chatReq = chattingAPI.getmychatMsg(chattingRoomId);
     chatReq
@@ -116,8 +115,8 @@ export default function index() {
   }, []);
 
   useEffect(() => {
-    console.log("소켓리스트", socketList);
-    console.log("채팅리스트", chatMsgList);
+    // console.log("소켓리스트", socketList);
+    // console.log("채팅리스트", chatMsgList);
   }, [socketList, chatMsgList]);
 
   // Socket 연결
@@ -165,6 +164,12 @@ export default function index() {
     setMsgValue(""); // Input 초기화
   };
 
+  // 1:1 만남
+  const goMeetingDeal = () => {
+    console.log(dealId);
+    navigate(`/meetingdeal/${dealId}`);
+  };
+
   return (
     <div>
       <div className="private-chatroom-all-container">
@@ -208,7 +213,7 @@ export default function index() {
             size="small"
             color="indigo"
             // dealInfo.dealId 값으로 navigate 시킬 것
-            onClick={() => navigate("/meetingdeal/1")}
+            onClick={goMeetingDeal}
           >
             예
           </Button>

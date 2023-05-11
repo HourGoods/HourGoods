@@ -62,6 +62,8 @@
     display: flex;
     gap: 10px;
     .a-dealcard-img {
+      align-items: center;
+      display: flex;
       img {
         max-width: 80px;
         max-height: 200px;
@@ -83,6 +85,7 @@
       .a-dealcard-date-time {
         display: flex;
         gap: 20px;
+        flex-wrap: wrap;
       }
       .a-dealcard-progressbar {
         @include timer-progressbar;
