@@ -6,6 +6,7 @@
   padding: 0 20px;
   margin-bottom: 60px;
   min-width: 230px;
+  padding-bottom: 60px;
 
   button {
     margin: auto;
@@ -109,6 +110,18 @@
           width: 20px;
         }
       }
+    }
+    
+
+    // 도움말 상단 (여백 제거를 위함)
+    .helper-text-top-p {
+      margin-bottom: 0px;
+    }
+    // 도움말
+    .helper-text-p {
+      font-size: 12px;
+      color: $pink-1;
+      margin-top: 1px;
     }
   }
 

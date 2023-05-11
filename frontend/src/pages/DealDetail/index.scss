@@ -179,6 +179,12 @@
       @include desktop {
         width: 430px;
       }
+      p {
+        span {
+          // font-size: 12px;
+          font-weight: 400;
+        }
+      }
     }
   }
 
