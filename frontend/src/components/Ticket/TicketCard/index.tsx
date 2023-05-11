@@ -29,7 +29,7 @@ export default function index({ ticket }: IProps) {
   //     .catch((err) => {
   //       console.error(err);
   //     });
-  // });
+  // }, []);
 
   return (
     <div className="ticketcard-container" key={ticket.pointHistoryId}>
@@ -43,7 +43,10 @@ export default function index({ ticket }: IProps) {
         </div>
         <div className="ticketcard-detail-wrapper">
           <p className="detail-title">{ticket.description}</p>
-          <p className="cash">{ticket.amount}</p>
+          {/* <p className="cash">{`${ticket.amount.toLocaleString()}원`}</p> */}
+          <p
+            className={`cash ${ticket.amount < 0 ? "minus" : ""}`}
+          >{`${ticket.amount.toLocaleString()}원`}</p>
         </div>
       </div>
     </div>

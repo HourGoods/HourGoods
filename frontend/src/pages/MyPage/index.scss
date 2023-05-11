@@ -27,38 +27,50 @@
     flex-direction: column;
     width: 100%;
 
-    .modal-p {
-      font-size: 16px;
-      font-weight: 600;
-      color: $gray-2;
-      text-align: start;
-      margin-bottom: 10px;
-    }
+    .deal-card-delete-modal {
+      height: 300px;
 
-    .modal-h2 {
-      color: $gray-2;
-      margin: 10px 0px 20px 0px;
-    }
-
-    .common-modal-button {
-      width: 100%;
-      display: flex;
-      justify-content: space-evenly;
-
-      .yes-button {
-        font-size: 12px;
-        width: 50px;
-        height: 20px;
-        border-radius: 5px;
-        background-color: $indigo-2;
-        color: $white;
+      .modal-p1 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $gray-2;
+        text-align: start;
+        margin: 50px 0 0 0;
       }
 
-      .no-button {
-        font-size: 12px;
-        width: 50px;
-        height: 20px;
-        border-radius: 5px;
+      .modal-p2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $gray-2;
+        text-align: start;
+        margin: 20px 0 30px 0;
+      }
+
+      .modal-h2 {
+        color: $gray-2;
+        margin: 0 0 30px 0;
+      }
+
+      .common-modal-button {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+
+        .yes-button {
+          font-size: 16px;
+          width: 60px;
+          height: 25px;
+          border-radius: 5px;
+          background-color: $indigo-2;
+          color: $white;
+        }
+
+        .no-button {
+          font-size: 16px;
+          width: 60px;
+          height: 25px;
+          border-radius: 5px;
+        }
       }
     }
 
@@ -105,6 +117,7 @@
       .profile {
         width: 73px;
         height: 73px;
+        border-radius: 35px;
       }
       svg {
         width: 73px;

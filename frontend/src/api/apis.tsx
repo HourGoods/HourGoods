@@ -11,6 +11,8 @@ const mypageAPI = {
   participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
     request.authGet("mypage/attend", { params: { lastDealId } }),
   userinfo: (): Promise<AxiosResponse> => request.authGet("mypage"),
+  charge: (cashPoint: number): Promise<AxiosResponse> =>
+    request.authPost("mypage/point", { cashPoint }),
 };
 
 const memberAPI = {
