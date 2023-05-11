@@ -123,11 +123,14 @@ public class ChattingController {
 	public BaseResponse<Void> sendDirectMessage(@Payload final ChatMessageRequest request) {
 		// 채널 구독 중인 다른 사람들에게 메시지 전송
 		simpMessageSendingOperations.convertAndSend("/topic/chat/" + request.getChattingRoomId(), request);
+		System.out.println("!!! 상대방에게 메세지 전달 !!!");
 		// 채팅 받은 것을 Redis에 저장
 		DirectMessage directMessage = chattingService.saveDirectMessage(request);
+		System.out.println("!!! 채팅 받은 것을 redis에 저장 !!!");
 		// DB 채팅의 마지막 로그 내용 업데이트
 		chattingService.updateChattingLastLog(request.getChattingRoomId(), request.getContent(), request.getSendTime(),
 			directMessage.getId());
+		System.out.println("!!! 채팅 마지막 로그 업데이트 !!!");
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 

@@ -350,7 +350,7 @@ class ChattingControllerTest {
 
 				// request
 				ChatMessageRequest request = new ChatMessageRequest().builder()
-					.nickName(purchaser.getNickname())
+					.nickname(purchaser.getNickname())
 					.chattingRoomId(directChattingRoom.getId())
 					.sendTime(LocalDateTime.now().toString())
 					.content("hello world!")
@@ -380,7 +380,7 @@ class ChattingControllerTest {
 				// 받은 메시지가 예상한 메시지와 일치하는지 확인합니다.
 				ChatMessageRequest actual = objectMapper.readValue(receivedMessage, ChatMessageRequest.class);
 				assertEquals(request.getChattingRoomId(), actual.getChattingRoomId());
-				assertEquals(request.getNickName(), actual.getNickName());
+				assertEquals(request.getNickname(), actual.getNickname());
 				assertEquals(request.getContent(), actual.getContent());
 				assertEquals(request.getSendTime(), actual.getSendTime());
 			}

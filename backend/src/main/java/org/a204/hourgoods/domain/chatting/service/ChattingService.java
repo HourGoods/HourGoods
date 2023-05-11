@@ -111,7 +111,7 @@ public class ChattingService {
 	// 1:1 채팅 내용 저장하기
 	@Transactional
 	public DirectMessage saveDirectMessage(ChatMessageRequest request) {
-		Member user = memberRepository.findByNickname(request.getNickName())
+		Member user = memberRepository.findByNickname(request.getNickname())
 			.orElseThrow(MemberNotFoundException::new);
 		ListOperations<String, DirectMessage> dmListOperations = redisTemplate.opsForList();
 
@@ -139,7 +139,7 @@ public class ChattingService {
 	// 그룹 채팅방에게 보낼 정보를 담아 보내기
 	@Transactional(readOnly = true)
 	public AuctionChatMessageResponse convertChatRequest(ChatMessageRequest request) {
-		Member user = memberRepository.findByNickname(request.getNickName())
+		Member user = memberRepository.findByNickname(request.getNickname())
 			.orElseThrow(MemberNotFoundException::new);
 
 		return AuctionChatMessageResponse.builder()
