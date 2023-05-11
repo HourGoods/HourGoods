@@ -33,7 +33,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
-	private static final Integer PAGE_SIZE = 10;
+	private static final Integer PAGE_SIZE = 10000;
 	private final MemberRepository memberRepository;
 	private final AuctionRepository auctionRepository;
 	private final GameAuctionRepository gameAuctionRepository;
@@ -44,7 +44,8 @@ public class MyPageService {
 	private Pageable pageable = Pageable.ofSize(PAGE_SIZE);
 
 	// 사용자가 북마크한 거래 목록 조회
-	public DealListResponse getBookmarkedDealList(MemberDetails memberDetails, Long lastDealId) {
+	public DealListResponse getBookmarkedDealList(MemberDetails memberDetails) {
+		final Long lastDealId = Long.valueOf(-1);
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {
@@ -67,7 +68,8 @@ public class MyPageService {
 	}
 
 	// 사용자가 생성한 거래 목록 조회
-	public DealListResponse getCreatedDealList(MemberDetails memberDetails, Long lastDealId) {
+	public DealListResponse getCreatedDealList(MemberDetails memberDetails) {
+		final Long lastDealId = Long.valueOf(-1);
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {
@@ -90,7 +92,8 @@ public class MyPageService {
 	}
 
 	// 사용자가 참여한 거래 목록 조회
-	public DealListResponse getAttendedDealList(MemberDetails memberDetails, Long lastDealId) {
+	public DealListResponse getAttendedDealList(MemberDetails memberDetails) {
+		final Long lastDealId = Long.valueOf(-1);
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {
@@ -113,7 +116,8 @@ public class MyPageService {
 	}
 
 	// 사용자의 포인트 내역 조회
-	public PointHistoryListResponse getPointHistoryList(MemberDetails memberDetails, Long lastPointHistoryId) {
+	public PointHistoryListResponse getPointHistoryList(MemberDetails memberDetails) {
+		final Long lastPointHistoryId = Long.valueOf(-1);
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {

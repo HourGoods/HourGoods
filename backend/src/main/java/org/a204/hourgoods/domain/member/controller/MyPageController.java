@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,10 +34,8 @@ public class MyPageController {
 	@Operation(description = "요청을 보낸 사용자가 북마크한 거래 목록 리스트를 조회한다.", summary = "사용자가 북마크한 거래 목록 조회 API")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = DealListResponse.class)))
 	@GetMapping("/bookmark")
-	public BaseResponse<DealListResponse> getBookmarkedDealList(
-		@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestParam(name = "lastDealId") Long lastDealId) {
-		DealListResponse response = myPageService.getBookmarkedDealList(memberDetails, lastDealId);
+	public BaseResponse<DealListResponse> getBookmarkedDealList(@AuthenticationPrincipal MemberDetails memberDetails) {
+		DealListResponse response = myPageService.getBookmarkedDealList(memberDetails);
 		return new BaseResponse<>(response);
 	}
 
@@ -46,10 +43,8 @@ public class MyPageController {
 	@Operation(description = "요청을 보낸 사용자가 생성한 거래 목록 리스트를 조회한다.", summary = "사용자가 생성한 거래 목록 조회 API")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = DealListResponse.class)))
 	@GetMapping("/create")
-	public BaseResponse<DealListResponse> getCreatedDealList(
-		@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestParam(name = "lastDealId") Long lastDealId) {
-		DealListResponse response = myPageService.getCreatedDealList(memberDetails, lastDealId);
+	public BaseResponse<DealListResponse> getCreatedDealList(@AuthenticationPrincipal MemberDetails memberDetails) {
+		DealListResponse response = myPageService.getCreatedDealList(memberDetails);
 		return new BaseResponse<>(response);
 	}
 
@@ -57,10 +52,8 @@ public class MyPageController {
 	@Operation(description = "요청을 보낸 사용자가 참여한 거래 목록 리스트를 조회한다.", summary = "사용자가 참여한 거래 목록 조회 API")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = DealListResponse.class)))
 	@GetMapping("/attend")
-	public BaseResponse<DealListResponse> getAttendedDealList(
-		@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestParam(name = "lastDealId") Long lastDealId) {
-		DealListResponse response = myPageService.getAttendedDealList(memberDetails, lastDealId);
+	public BaseResponse<DealListResponse> getAttendedDealList(@AuthenticationPrincipal MemberDetails memberDetails) {
+		DealListResponse response = myPageService.getAttendedDealList(memberDetails);
 		return new BaseResponse<>(response);
 	}
 
@@ -69,9 +62,8 @@ public class MyPageController {
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = PointHistoryListResponse.class)))
 	@GetMapping("/point")
 	public BaseResponse<PointHistoryListResponse> getPointHistoryList(
-		@AuthenticationPrincipal MemberDetails memberDetails,
-		@RequestParam(name = "lastPointHistoryId") Long lastPointHistoryId) {
-		PointHistoryListResponse response = myPageService.getPointHistoryList(memberDetails, lastPointHistoryId);
+		@AuthenticationPrincipal MemberDetails memberDetails) {
+		PointHistoryListResponse response = myPageService.getPointHistoryList(memberDetails);
 		return new BaseResponse<>(response);
 	}
 

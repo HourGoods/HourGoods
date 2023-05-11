@@ -132,8 +132,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "bookmark")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", token)
-					.param("lastDealId", Long.valueOf(-1).toString()))
+					.header("Authorization", token))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
@@ -144,8 +143,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "bookmark")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", otherToken)
-					.param("lastDealId", Long.valueOf(-1).toString()))
+					.header("Authorization", otherToken))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
@@ -160,8 +158,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "create")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", token)
-					.param("lastDealId", Long.valueOf(-1).toString()))
+					.header("Authorization", token))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
@@ -172,8 +169,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "create")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", otherToken)
-					.param("lastDealId", Long.valueOf(-1).toString()))
+					.header("Authorization", otherToken))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
@@ -188,8 +184,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "attend")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", token)
-					.param("lastDealId", Long.valueOf(-1).toString()))
+					.header("Authorization", token))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
@@ -200,8 +195,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "attend")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", otherToken)
-					.param("lastDealId", Long.valueOf(-1).toString()))
+					.header("Authorization", otherToken))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
@@ -216,8 +210,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "point")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", token)
-					.param("lastPointHistoryId", Long.valueOf(-1).toString()))
+					.header("Authorization", token))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
@@ -228,8 +221,7 @@ class MyPageControllerTest {
 			mockMvc
 				.perform(get(url + "point")
 					.contentType(MediaType.APPLICATION_JSON)
-					.header("Authorization", otherToken)
-					.param("lastPointHistoryId", Long.valueOf(-1).toString()))
+					.header("Authorization", otherToken))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andDo(print());
 		}
