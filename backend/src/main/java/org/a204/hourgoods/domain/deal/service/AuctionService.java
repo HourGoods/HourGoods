@@ -124,14 +124,19 @@ public class AuctionService {
         Long memberId = member.getId();
         Member retrieved = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-        Auction auction = auctionRepository.findByIdWithWinner(dealId).get();
+        Auction auction = auctionRepository.findById(dealId).get();
         // 1. 주최자 인 경우
         if (retrieved.getId().equals(deal.getDealHost().getId())) {
-            return AuctionResultResponse.builder()
+            AuctionResultResponse response = AuctionResultResponse.builder()
                 .isHost(true)
                 .bidderCount(auction.getBidderCount())
-                .winnerAmount(auction.getFinalPrice())
-                .winnerNickname(auction.getWinner().getNickname()).build();
+                .winnerAmount(auction.getFinalPrice()).build();
+            if (auction.getWinner() != null) {
+                Long winnerId = auction.getWinner().getId();
+                Member winner = memberRepository.findById(winnerId).orElseThrow(MemberNotFoundException::new);
+                response.setWinnerNickname(winner.getNickname());
+            }
+            return response;
         } else {
             Bidding bidding = biddingRepository.findByDealAndBidder(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
             AuctionResultResponse response = AuctionResultResponse.builder()
