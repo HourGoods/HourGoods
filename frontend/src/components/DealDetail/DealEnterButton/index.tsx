@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Button from "@components/common/Button";
-import { AuctionAPI, chattingAPI } from "@api/apis";
+import { AuctionAPI, chattingAPI, dealAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
+import Modal from "@components/common/Modal";
 
 export default function index(props: any) {
   const { dealInfo, dealId } = props;
@@ -14,6 +15,9 @@ export default function index(props: any) {
     color: "",
     content: "",
   });
+
+  const [sharingNum, setSharingNum] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (type === "Auction" || type === "HourAuction") {
@@ -40,10 +44,10 @@ export default function index(props: any) {
       const req = chattingAPI.postchatDirect(receiver, dealid);
       req
         .then((res) => {
-          console.log(res);
-          const chattingRoomId = res.data.result;
+          console.log(res.data.result);
+          const chattingRoomId = res.data.result.directChattingRoomId;
           navigate(`/mychatroom/${chattingRoomId}`, {
-            state: { dealinfo: dealInfo },
+            state: { dealid: dealId, chatId: chattingRoomId },
           });
         })
         .catch((err) => {
@@ -79,16 +83,49 @@ export default function index(props: any) {
             alert("이미 종료된 거래입니다!");
           }
         });
+    } else if (type === "Sharing") {
+      // 나눔신청하기
+      const apply = dealAPI.postSharingApply(dealId);
+      apply.then((res) => {
+        console.log(res, "나눔이 신청되었습니다!");
+        setIsModalOpen(true);
+        setSharingNum(res.data.result);
+      });
     }
   };
 
   return (
-    <div className="deal-enter-button-component-container">
-      {typeInfo && (
-        <Button color={typeInfo.color} onClick={dealClickHandler}>
-          {typeInfo.content}
-        </Button>
+    <>
+      {isModalOpen && (
+        <Modal setModalOpen={setIsModalOpen}>
+          {sharingNum === 0 ? (
+            <>
+              <h3>😥신청 실패😥</h3>
+              <p>
+                다음 나눔 때 다시 도전해주세요. <br /> 한정된 인원만 나눔을 받을
+                수 있기에 <br /> 선착순으로 진행되는 점 양해부탁드립니다.
+              </p>
+            </>
+          ) : (
+            <>
+              <h3>🎉신청 성공!🎉</h3>
+              <p>
+                한정된 인원만 선정된 만큼 <br />
+                거래에 늦지 않게 참여해 주세요!
+              </p>
+              <p>당첨 번호</p>
+              {/* <p>{sharingNum}</p> */}
+            </>
+          )}
+        </Modal>
       )}
-    </div>
+      <div className="deal-enter-button-component-container">
+        {typeInfo && (
+          <Button color={typeInfo.color} onClick={dealClickHandler}>
+            {typeInfo.content}
+          </Button>
+        )}
+      </div>
+    </>
   );
 }

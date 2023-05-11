@@ -10,6 +10,7 @@ const mypageAPI = {
     request.authGet("mypage/bookmark", { params: { lastDealId } }),
   participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
     request.authGet("mypage/attend", { params: { lastDealId } }),
+  userinfo: (): Promise<AxiosResponse> => request.authGet("mypage"),
 };
 
 const memberAPI = {
@@ -94,6 +95,10 @@ const dealAPI = {
   // Deal 삭제
   getDealDelete: (dealId: number): Promise<AxiosResponse> =>
     request.authDelete(`deal/${dealId}`),
+
+  // 나눔 참여
+  postSharingApply: (dealId: number): Promise<AxiosResponse> =>
+    request.authPost("deal/sharing/apply", { dealId }),
 };
 
 // 채팅관련 api
@@ -105,10 +110,10 @@ const chattingAPI = {
     request.authGet(`/chat/${chattingRoomId}/messages`),
   // 일대일채팅방 생성하기
   postchatDirect: (
-    receiverId: number,
+    receiverNickname: string,
     dealId: number
   ): Promise<AxiosResponse> =>
-    request.authPost("/chat/direct", { receiverId, dealId }),
+    request.authPost("/chat/direct", { receiverNickname, dealId }),
 };
 
 // 경매관련 api
@@ -116,6 +121,8 @@ const AuctionAPI = {
   // 가능한 경매인지 조회
   getableAuction: (dealId: number): Promise<AxiosResponse> =>
     request.authGet("/auction/available", { params: { dealId } }),
+  getAuctionResult: (dealId: number): Promise<AxiosResponse> =>
+    request.authGet("/auction/result", { params: { dealId } }),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI, AuctionAPI };
