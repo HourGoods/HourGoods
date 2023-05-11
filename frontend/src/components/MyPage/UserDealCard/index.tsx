@@ -37,7 +37,7 @@ export default function index({ getmy, deal }: IProps) {
   const navigate = useNavigate();
   const detailNavigate = () => {
     navigate(`/deal/detail/${deal.dealId}`, {
-      state: deal.dealId,
+      state: { dealId, timeDiff },
     });
   };
 

@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Button from "@components/common/Button";
+import { useRecoilState } from "recoil";
 import { TicketIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
+import { UserStateAtom } from "@recoils/user/Atom";
 
 export default function index() {
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
   const [state, setState] = useState({
     // 응답에서 가져올 값들
     next_redirect_pc_url: "",
@@ -19,7 +22,7 @@ export default function index() {
       total_amount: 0,
       vat_amount: 200,
       tax_free_amount: 0,
-      approval_url: "http://localhost:3000/mypage",
+      approval_url: "http://localhost:3000/ticket",
       fail_url: "http://localhost:3000/mypage",
       cancel_url: "http://localhost:3000/mypage",
     },
@@ -35,7 +38,6 @@ export default function index() {
         total_amount: Number(e.target.value),
       },
     }));
-    console.log({ state });
   };
 
   const [payUrl, setPayUrl] = useState("");
@@ -105,27 +107,28 @@ export default function index() {
 
   return (
     <div>
-      <p>결제하시겠습니까?</p>
-      <div className="ticket-container">
-        <div className="link-decoration">
-          <div className="ticket-wrapper">
-            <div className="ticket">
-              <TicketIcon className="ticket-icon" />
-              <p className="ticket-tag">포인트</p>
+      <div className="payment-container">
+        <div className="div-decoration">
+          <div className="payment-wrapper">
+            <div className="point">
+              <TicketIcon className="point-icon" />
+              <p className="point-tag">포인트</p>
             </div>
-            <p className="cash">1,000,000원</p>
+            <p className="point-cash">{`${
+              userInfo.cash ? userInfo.cash : 0
+            }원`}</p>
           </div>
         </div>
       </div>
-      <div className="ticket-container">
-        <div className="link-decoration">
-          <div className="ticket-wrapper">
-            <div className="ticket">
-              <ArrowsUpDownIcon className="ticket-icon" />
-              <p className="ticket-tag">충전 금액</p>
+      <div className="payment-container">
+        <div className="div-decoration">
+          <div className="payment-wrapper">
+            <div className="charge">
+              <ArrowsUpDownIcon className="charge-icon" />
+              <p className="charge-tag">충전 금액</p>
             </div>
             <input
-              className="cash"
+              className="charge-cash"
               type="number"
               min="0"
               max="1000000"
@@ -134,9 +137,11 @@ export default function index() {
           </div>
         </div>
       </div>
-      <Button color="yellow" onClick={charge}>
-        결제링크
-      </Button>
+      <div className="buttondiv">
+        <Button color="yellow" onClick={charge}>
+          결제링크
+        </Button>
+      </div>
     </div>
   );
 }

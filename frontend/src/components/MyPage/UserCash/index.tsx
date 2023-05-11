@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ChevronRightIcon,
   CurrencyDollarIcon,
   TicketIcon,
 } from "@heroicons/react/24/solid";
+import { useRecoilState } from "recoil";
+import { UserStateAtom } from "@recoils/user/Atom";
 
 export default function index() {
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+
   return (
     <div className="usercash-container">
       <Link to="/ticket" className="link-decoration">
@@ -16,7 +20,7 @@ export default function index() {
             <p className="ticket-tag">티켓</p>
           </div>
           <div className="cash-box">
-            <p className="cash">1,000,000원</p>
+            <p className="cash">{`${userInfo.cash ? userInfo.cash : 0}원`}</p>
             <ChevronRightIcon className="chevron-right-icon" />
           </div>
         </button>
