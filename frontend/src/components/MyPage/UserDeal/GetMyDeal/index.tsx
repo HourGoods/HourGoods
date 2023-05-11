@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useRef, useState, useEffect } from "react";
 import { mypageAPI } from "@api/apis";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "./index.scss";
@@ -28,38 +27,22 @@ export default function index() {
   }, []);
 
   return (
-    <Swiper
-      slidesPerView={1}
-      spaceBetween={10}
-      pagination={{
-        clickable: true,
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+        rowGap: "50px",
+        columnGap: "30px",
+        marginTop: "30px",
       }}
-      breakpoints={{
-        320: {
-          slidesPerView: 2,
-          spaceBetween: 20,
-        },
-        550: {
-          slidesPerView: 3,
-          spaceBetween: 30,
-        },
-        758: {
-          slidesPerView: 4,
-          spaceBetween: 40,
-        },
-        1024: {
-          slidesPerView: 5,
-          spaceBetween: 50,
-        },
-      }}
-      // modules={[Pagination]}
-      className="mySwiper"
     >
       {dealList.map((deal, index) => (
-        <SwiperSlide key={index}>
-          <UserDealCard getmy={getmy} deal={deal} />
-        </SwiperSlide>
+        <div key={index}>
+          <UserDealCard deal={deal} />
+        </div>
       ))}
-    </Swiper>
+    </div>
   );
 }

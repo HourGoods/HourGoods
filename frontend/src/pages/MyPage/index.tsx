@@ -44,7 +44,7 @@ export default function index() {
           ...prevUserInfo,
           nickname: res.data.result.nickname,
           imageUrl: res.data.result.imageUrl,
-          cash: res.data.result.cash,
+          cash: res.data.result.cashPoint,
         }));
       })
       .catch((err) => {
@@ -61,28 +61,30 @@ export default function index() {
         <UserDeal />
         {modalOpen && (
           <Modal setModalOpen={setModalOpen}>
-            <p className="modal-p">
-              1. 거래는 콘서트가 끝나면 자동으로 비공개 됩니다.
-            </p>
-            <p className="modal-p">
-              2. 삭제 시 현재까지의 참여 내역도 함께 삭제 됩니다.
-            </p>
-            <h2 className="modal-h2">정말 삭제하시겠습니까?</h2>
-            <div className="common-modal-button">
-              <button
-                type="button"
-                className="yes-button"
-                onClick={() => handleDelete(dealId)}
-              >
-                예
-              </button>
-              <button
-                type="button"
-                className="no-button"
-                onClick={() => setModalOpen(false)}
-              >
-                아니오
-              </button>
+            <div className="deal-card-delete-modal">
+              <p className="modal-p1">
+                1. 거래는 콘서트가 끝나면 자동으로 비공개 됩니다.
+              </p>
+              <p className="modal-p2">
+                2. 삭제 시 현재까지의 참여 내역도 함께 삭제 됩니다.
+              </p>
+              <h2 className="modal-h2">정말 삭제하시겠습니까?</h2>
+              <div className="common-modal-button">
+                <button
+                  type="button"
+                  className="yes-button"
+                  onClick={() => handleDelete(dealId)}
+                >
+                  예
+                </button>
+                <button
+                  type="button"
+                  className="no-button"
+                  onClick={() => setModalOpen(false)}
+                >
+                  아니오
+                </button>
+              </div>
             </div>
           </Modal>
         )}
