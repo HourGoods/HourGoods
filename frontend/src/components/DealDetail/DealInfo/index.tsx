@@ -13,7 +13,7 @@ import {
   BellAlertIcon,
 } from "@heroicons/react/24/solid";
 import BellAlertLinIcon from "@heroicons/react/24/outline/BellAlertIcon";
-import markerImg from "@assets/dealMarkerImg.svg";
+import { drawCircles } from "@utils/realTime";
 
 declare global {
   interface Window {
@@ -29,7 +29,7 @@ interface ButtonContent {
 }
 
 export default function index(props: any) {
-  const { dealInfo, setDealInfo, dealId, concertInfo } = props;
+  const { dealInfo, setDealInfo, dealId, concertInfo, distance } = props;
   const [startDate, setStartDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [auctionDuration, setAuctionDuration] = useState(0);
@@ -70,23 +70,17 @@ export default function index(props: any) {
 
     // 지도를 표시할 dv와  지도 옵션으로  지도를 생성합니다
     const map = new window.kakao.maps.Map(container, mapOption);
-    // marker 표시
-    // const markerImage = new window.kakao.maps.MarkerImage(
-    //   markerImg, // 마커 이미지 URL
-    //   new window.kakao.maps.Size(35, 35), // 마커 이미지 크기
-    //   {
-    //     // offset: new window.kakao.maps.Point(55, 55),
-    //     alt: "거래 장소",
-    //   }
-    // );
+
     // 마커를 생성합니다
     const marker = new window.kakao.maps.Marker({
       position: mapOption.center,
-      // image: markerImage,
     });
     // 마커가 지도 위에 표시되도록 설정합니다
     marker.setMap(map);
-  }, [dealInfo]);
+
+    // 콘서트의 범위를 그려줍니다
+    drawCircles(distance, concertInfo.latitude, concertInfo.longitude, map);
+  }, [dealInfo, distance]);
 
   // bookmark API
   const bookmarkHanlder = () => {
@@ -206,7 +200,9 @@ export default function index(props: any) {
           <div className="deal-info-desktop-right-container">
             <div className="deal-info-icon-p-div">
               <MapPinIcon />
-              <p>{dealInfo.meetingLocation}</p>
+              <p>
+                장소 <span>{dealInfo.meetingLocation}</span>
+              </p>
             </div>
             <div id="map" />
           </div>
