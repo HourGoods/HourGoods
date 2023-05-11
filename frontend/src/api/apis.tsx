@@ -10,6 +10,7 @@ const mypageAPI = {
     request.authGet("mypage/bookmark", { params: { lastDealId } }),
   participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
     request.authGet("mypage/attend", { params: { lastDealId } }),
+  userinfo: (): Promise<AxiosResponse> => request.authGet("mypage"),
 };
 
 const memberAPI = {
