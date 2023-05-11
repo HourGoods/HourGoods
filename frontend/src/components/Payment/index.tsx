@@ -80,7 +80,7 @@ export default function index() {
       method: "POST",
       headers: {
         // 카카오 developers에 등록한 admin키를 헤더에 줘야 한다.
-        Authorization: "KakaoAK e74d46458f51e4d2bec823b97eb4255e",
+        Authorization: process.env.REACT_APP_KAKAO_PAYMENT_ADMIN_KEY,
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
       },
       // 설정한 매개변수들
