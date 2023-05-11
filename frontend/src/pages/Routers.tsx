@@ -13,6 +13,7 @@ import CreateDealPage from "@pages/CreateDeal";
 import ConcertDeal from "@pages/ConcertDeal";
 import DealDetail from "@pages/DealDetail";
 import Payment from "@pages/Payment";
+import Payresult from "@pages/Payresult";
 import Oauth from "@pages/Oauth";
 import EditProfile from "@pages/EditProfile";
 import Ticket from "@pages/Ticket";
@@ -43,6 +44,7 @@ export default function Routers() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/ticket" element={<Ticket />} />
         <Route path="/payment" element={<Payment />} />
+        <Route path="/payresult" element={<Payresult />} />
         <Route path="/mychatroom" element={<MyChatRoom />} />
         <Route path="/mychatroom/:chattingroomId" element={<PrivateChat />} />
         <Route path="/meetingdeal/:dealId" element={<MeetingDeal />} />

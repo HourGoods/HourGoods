@@ -2,7 +2,7 @@
 @import "@styles/Mixins";
 
 .deal-card-component-container {
-  height: 90px;
+  height: 100px;
   background-color: $white-op;
   border-radius: 8px;
   box-shadow: $shadow-gray;
@@ -20,8 +20,8 @@
       img {
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
-        width: 90px;
-        height: 90px;
+        width: 100px;
+        height: 100px;
         object-fit: cover;
       }
     }

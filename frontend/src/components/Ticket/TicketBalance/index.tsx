@@ -14,7 +14,9 @@ export default function index() {
             <TicketIcon className="ticket-icon" />
             <p className="ticket-tag">티켓</p>
           </div>
-          <p className="cash">{`${userInfo.cash ? userInfo.cash : 0}원`}</p>
+          <p className="cash">{`${
+            userInfo.cash.toLocaleString() ? userInfo.cash.toLocaleString() : 0
+          }원`}</p>
         </div>
       </div>
     </div>
