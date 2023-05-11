@@ -138,7 +138,7 @@ public class AuctionService {
             }
             return response;
         } else {
-            Bidding bidding = biddingRepository.findByDealAndBidder(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
+            Bidding bidding = biddingRepository.findByBidderAndDeal(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
             AuctionResultResponse response = AuctionResultResponse.builder()
                 .isHost(false)
                 .bidderCount(auction.getBidderCount())
