@@ -15,7 +15,7 @@ export default function index() {
 
   useEffect(() => {
     mypageAPI
-      .pointHistory(-1)
+      .pointHistory()
       .then((res) => {
         console.log(res);
         setTicketlist(res.data.result.pointHistoryInfoList);
@@ -47,11 +47,11 @@ export default function index() {
         {ticketlist.map((ticket, index) => (
           <TickCard ticket={ticket} key={index} />
         ))}
-        <div>
+        {/* <div>
           <button type="button" className="next-button">
             <ChevronDownIcon />
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

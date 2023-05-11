@@ -12,7 +12,7 @@ export default function index() {
 
   useEffect(() => {
     mypageAPI
-      .participateDeal(-1)
+      .participateDeal()
       .then((res) => {
         setDealList(res.data.result.dealInfoList);
         console.log(res.data.result.dealInfoList);

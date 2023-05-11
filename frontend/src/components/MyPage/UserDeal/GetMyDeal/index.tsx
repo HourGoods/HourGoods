@@ -15,7 +15,7 @@ export default function index() {
 
   useEffect(() => {
     mypageAPI
-      .getMyDeal(-1)
+      .getMyDeal()
       .then((res) => {
         setDealList(res.data.result.dealInfoList);
         console.log(res.data.result.dealInfoList);
