@@ -14,9 +14,6 @@ import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.a204.hourgoods.global.security.annotation.PreAuthorizeMember;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -80,7 +77,6 @@ public class ChattingController {
 	 *
 	 * @param memberDetails  자동으로 입력
 	 * @param chattingRoomId directChattingRoomId
-	 * @param pageable       자동으로 입력
 	 * @return List<DirectMessageResponse> DM 내용 반환
 	 */
 	@Operation(summary = "채팅 내용 가져오기 API", description = "채팅룸에 해당하는 채팅 목록 가져오기")
@@ -88,10 +84,9 @@ public class ChattingController {
 	@GetMapping("/{chattingRoomId}/messages")
 	@PreAuthorizeMember
 	public BaseResponse<List<DirectMessageResponse>> getMessagesByRoomId(
-		@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable Long chattingRoomId,
-		@PageableDefault(sort = "sendTime", direction = Sort.Direction.ASC) Pageable pageable) {
+		@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable Long chattingRoomId) {
 		List<DirectMessageResponse> messages = chattingService.findAllMessagesByRoomId(
-			memberDetails.getMember().getId(), chattingRoomId, pageable);
+			memberDetails.getMember().getId(), chattingRoomId);
 		return new BaseResponse<>(messages);
 	}
 
