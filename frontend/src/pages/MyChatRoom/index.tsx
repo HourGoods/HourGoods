@@ -3,14 +3,9 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 import bgStars from "@assets/BGstars.svg";
 import ChatRoomCardList from "@components/MyChatRoom/ChatroomCardList";
-import PrivateChat from "@pages/MyChatRoom/PrivateChat";
 import { useLocation } from "react-router-dom";
-import Modal from "@components/common/Modal";
-import { useRecoilState } from "recoil";
-import { isDMOpen } from "@recoils/mychatroom/Atoms";
 
 export default function index() {
-  const [modalOpen, setModalOpen] = useRecoilState(isDMOpen);
   const location = useLocation();
 
   useEffect(() => {
@@ -25,9 +20,10 @@ export default function index() {
   }, [location]);
 
   return (
-    <div className="chatroom-container">
-      <ChatRoomCardList />
-      {/* <PrivateChat /> */}
+    <div className="chatroom-container-upper">
+      <div className="chatroom-container">
+        <ChatRoomCardList />
+      </div>
     </div>
   );
 }

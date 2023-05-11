@@ -84,8 +84,8 @@ export default function index() {
   // Socket으로 받은 list의 결과가 바뀔 때마다 렌더링 작업
   useEffect(() => {
     // console.log("socket에서 받은 리스트", socketList);
-    // console.log("채팅리스트", msgList);
-    console.log("경매리스트", bidList);
+    console.log("채팅리스트", msgList);
+    // console.log("경매리스트", bidList);
   }, [socketList]);
 
   // Socket 연결

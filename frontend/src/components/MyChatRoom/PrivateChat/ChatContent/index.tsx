@@ -1,14 +1,31 @@
 /* eslint-disable react/no-array-index-key */
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { PrivatChatMessage } from "..";
 
 interface Props {
   chatMsgList: PrivatChatMessage[];
+  userName: string;
 }
 
-export default function index({ chatMsgList }: Props) {
+export default function index({ chatMsgList, userName }: Props) {
+  const chatMsgListRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chatMsgList]);
+
+  const scrollToBottom = () => {
+    if (chatMsgListRef.current) {
+      chatMsgListRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
+  };
+
   return (
-    <div className="private-chatroom-content-container">
+    <div ref={chatMsgListRef} className="private-chatroom-content-container">
       {chatMsgList.length === 0 ? (
         <>
           <p>아직 채팅이 없어요</p>
@@ -16,11 +33,12 @@ export default function index({ chatMsgList }: Props) {
         </>
       ) : (
         chatMsgList.map((message: PrivatChatMessage, index: number) => {
-          const isMe = message.isUser;
-          const messageClassName = isMe ? "its-me-chat" : "not-me-chat";
+          // const isMe = message.isUser;
+          const isMy = userName === message.nickname;
+          const messageClassName = isMy ? "its-me-chat" : "not-me-chat";
           return (
             <div key={index} className={messageClassName}>
-              {isMe ? (
+              {isMy ? (
                 <p className="its-me-chatbox">{message.content}</p>
               ) : (
                 <div className="not-me-chat-message">
