@@ -121,6 +121,8 @@ const AuctionAPI = {
   // 가능한 경매인지 조회
   getableAuction: (dealId: number): Promise<AxiosResponse> =>
     request.authGet("/auction/available", { params: { dealId } }),
+  getAuctionResult: (dealId: number): Promise<AxiosResponse> =>
+    request.authGet("/auction/result", { params: { dealId } }),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI, AuctionAPI };

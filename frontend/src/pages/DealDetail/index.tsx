@@ -5,12 +5,12 @@ import { AuthStateAtom } from "@recoils/user/Atom";
 import DealBanner from "@components/DealDetail/DealBanner";
 import DealInfo from "@components/DealDetail/DealInfo";
 import DealEnterButton from "@components/DealDetail/DealEnterButton";
-import ConcertCard from "@components/common/ConcertCard";
-import { ConcertInterface } from "@pages/Search";
+import AuctionResult from "@components/DealDetail/AuctionResult";
 import { concertAPI, dealAPI } from "@api/apis";
 import getCurrentLocation from "@utils/getCurrentLocation";
 import { haversineDistance } from "@utils/isUserInConcertArea";
 import "./index.scss";
+import Modal from "@components/common/Modal";
 
 export default function DealDetail() {
   const [dealInfo, setDealInfo] = useState({
@@ -46,7 +46,8 @@ export default function DealDetail() {
     longitude: 0,
     latitude: 0,
   });
-  const [isInConcert, setIsInConcert] = useState(false);
+  const [distance, setDistance] = useState(0);
+  const [isFinished, setIsFinished] = useState(false);
 
   const userAuthInfo = useRecoilValue(AuthStateAtom);
 
@@ -62,12 +63,21 @@ export default function DealDetail() {
       setDealId(dealId);
       result.then((res) => {
         // console.log(res, "만든 걸로 받아온 deal 정보");
-        setDealInfo(res.data.result);
+        const deal = res.data.result;
+        setDealInfo(deal);
         // 표시할 concert정보도 받아오기
         const { concertId } = res.data.result;
         concertAPI.getConcertDetail(concertId).then((res) => {
           setConcertInfo(res.data.result);
           console.log(res);
+
+          // 종료된 경매면 isFinised 바꾸고 Modal에서 api
+          const today = new Date();
+          const endday = new Date(deal.endTime);
+
+          if (endday && today > endday && deal.dealType === "Auction") {
+            setIsFinished(true);
+          }
         });
       });
     }
@@ -86,33 +96,38 @@ export default function DealDetail() {
             res.latitude,
             res.longitude
           );
-          if (distance <= 500) {
-            setIsInConcert(true);
-          }
+
+          setDistance(distance);
         }
       });
     }
   }, [concertInfo.latitude]);
 
   return (
-    <div className="deal-detail-page-container">
-      <DealBanner dealInfo={dealInfo} />
-      <hr />
-      <DealInfo
-        dealInfo={dealInfo}
-        setDealInfo={setDealInfo}
-        dealId={dealId}
-        concertInfo={concertInfo}
-      />
-      {isInConcert ? (
-        <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
-      ) : (
-        <div className="no-enter-button">
-          <p>
-            콘서트장에 도착하면 거래에 참여할 수 있어요 🤩
-          </p>
-        </div>
+    <>
+      {isFinished && (
+        <Modal setModalOpen={setIsFinished}>
+          <AuctionResult isFinished={isFinished} dealId={dealId} />
+        </Modal>
       )}
-    </div>
+      <div className="deal-detail-page-container">
+        <DealBanner dealInfo={dealInfo} />
+        <hr />
+        <DealInfo
+          dealInfo={dealInfo}
+          setDealInfo={setDealInfo}
+          dealId={dealId}
+          concertInfo={concertInfo}
+          distance={distance}
+        />
+        {distance <= 500 ? (
+          <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
+        ) : (
+          <div className="no-enter-button">
+            <p>콘서트장에 도착하면 거래에 참여할 수 있어요 🤩</p>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

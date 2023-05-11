@@ -207,3 +207,39 @@
     }
   }
 }
+
+// 경매결과
+.auction-result-contents-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  button {
+    margin-top: 25px;
+  }
+  .no-result-text-p {
+    margin-top: 40px;
+  }
+  .result-heper-text-p {
+    font-size: 12px;
+  }
+  .inline-texts-container {
+    min-width: 240px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .icon-text-wrapper {
+      display: flex;
+      svg {
+        width: 20px;
+        color: $indigo-1;
+        margin-right: 5px;
+      }
+      .small-title-p {
+        color: $indigo-2;
+        font-weight: 700;
+      }
+    }
+  }
+}
