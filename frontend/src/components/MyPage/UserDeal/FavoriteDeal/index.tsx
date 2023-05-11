@@ -12,7 +12,7 @@ export default function index() {
 
   useEffect(() => {
     mypageAPI
-      .favoriteDeal(-1)
+      .favoriteDeal()
       .then((res) => {
         setDealList(res.data.result.dealInfoList);
         console.log(res.data.result.dealInfoList);
