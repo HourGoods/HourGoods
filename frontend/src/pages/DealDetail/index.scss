@@ -32,12 +32,15 @@
       margin: auto;
       min-width: 266px;
       justify-content: end;
-      img {
-        margin-left: 10px;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
+      button {
+        background: none;
+        img {
+          margin-left: 10px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
       }
     }
 
@@ -176,6 +179,12 @@
       @include desktop {
         width: 430px;
       }
+      p {
+        span {
+          // font-size: 12px;
+          font-weight: 400;
+        }
+      }
     }
   }
 
@@ -184,6 +193,53 @@
     margin: 50px auto;
     button {
       margin: auto;
+    }
+  }
+  .no-enter-button {
+    pointer-events: none;
+    padding: 3px 5px;
+    margin: 50px auto;
+    background-color: rgba($color: $gray-4, $alpha: 0.5);
+    border-radius: 10px;
+
+    p {
+      color: $gray-2;
+    }
+  }
+}
+
+// 경매결과
+.auction-result-contents-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  button {
+    margin-top: 25px;
+  }
+  .no-result-text-p {
+    margin-top: 40px;
+  }
+  .result-heper-text-p {
+    font-size: 12px;
+  }
+  .inline-texts-container {
+    min-width: 240px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .icon-text-wrapper {
+      display: flex;
+      svg {
+        width: 20px;
+        color: $indigo-1;
+        margin-right: 5px;
+      }
+      .small-title-p {
+        color: $indigo-2;
+        font-weight: 700;
+      }
     }
   }
 }
