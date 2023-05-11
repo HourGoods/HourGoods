@@ -2,7 +2,8 @@
 /* eslint-disable react/no-array-index-key */
 import { BidMessage, InoutMessage } from "@components/Auction";
 import { FireIcon, PlayIcon, UserGroupIcon } from "@heroicons/react/24/solid";
-import React, { useEffect, useState } from "react";
+import { scrollToBottom } from "@utils/scrollToBottom";
+import React, { useEffect, useState, useRef } from "react";
 
 interface BidInfoProps {
   bidList: BidMessage[];
@@ -20,6 +21,7 @@ export default function Index({
   const [currentBid, setCurrentBid] = useState<number>(0);
   const [interval, setInterval] = useState<number>(0);
   const [participantCount, setParticipantCount] = useState<number>(0);
+  const bidListRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setCurrentBid(nowBid);
@@ -34,6 +36,7 @@ export default function Index({
     inoutMsgList.map((inout: InoutMessage) => {
       setParticipantCount(inout.participantCount);
     });
+    scrollToBottom(bidListRef.current);
   }, [bidList, inoutMsgList]);
 
   // 23.05.09 12:36
@@ -66,12 +69,14 @@ export default function Index({
           </div>
         </div>
       </div>
-      <div className="bid-box-container">
-        {bidList.map((bid: BidMessage, index: number) => (
-          <div className="cost-box-wrapper" key={index}>
-            <p>{bid.currentBid}</p>
-          </div>
-        ))}
+      <div className="bid-box-container-upper">
+        <div className="bid-box-container">
+          {bidList.map((bid: BidMessage, index: number) => (
+            <div ref={bidListRef} className="cost-box-wrapper" key={index}>
+              <p>{bid.currentBid}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );
