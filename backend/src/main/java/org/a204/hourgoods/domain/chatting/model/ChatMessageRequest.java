@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class ChatMessageRequest {
 
 	@Schema(description = "유저 닉네임")
-	private String nickName;
+	private String nickname;
 
 	@Schema(description = "채팅방 id")
 	private Long chattingRoomId;

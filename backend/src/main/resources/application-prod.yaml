@@ -11,7 +11,7 @@ spring:
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     open-in-view: false
   security:
     user:
