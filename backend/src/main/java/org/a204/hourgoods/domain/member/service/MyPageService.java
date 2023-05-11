@@ -197,6 +197,15 @@ public class MyPageService {
 			member = checkMemberValidation(memberDetails.getMember());
 		}
 
+		// 포인트 내역 생성
+		PointHistory pointHistory = PointHistory.builder()
+			.amount(request.getCashPoint())
+			.description("카카오페이 결제")
+			.usageTime(LocalDateTime.now())
+			.member(member)
+			.build();
+		pointHistoryRepository.save(pointHistory);
+
 		// 포인트 정보 변경
 		member.updateCashPoint(request.getCashPoint());
 

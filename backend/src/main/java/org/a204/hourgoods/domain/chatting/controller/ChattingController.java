@@ -14,9 +14,6 @@ import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.a204.hourgoods.global.security.annotation.PreAuthorizeMember;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -80,7 +77,6 @@ public class ChattingController {
 	 *
 	 * @param memberDetails  자동으로 입력
 	 * @param chattingRoomId directChattingRoomId
-	 * @param pageable       자동으로 입력
 	 * @return List<DirectMessageResponse> DM 내용 반환
 	 */
 	@Operation(summary = "채팅 내용 가져오기 API", description = "채팅룸에 해당하는 채팅 목록 가져오기")
@@ -88,10 +84,9 @@ public class ChattingController {
 	@GetMapping("/{chattingRoomId}/messages")
 	@PreAuthorizeMember
 	public BaseResponse<List<DirectMessageResponse>> getMessagesByRoomId(
-		@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable Long chattingRoomId,
-		@PageableDefault(sort = "sendTime", direction = Sort.Direction.ASC) Pageable pageable) {
+		@AuthenticationPrincipal MemberDetails memberDetails, @PathVariable Long chattingRoomId) {
 		List<DirectMessageResponse> messages = chattingService.findAllMessagesByRoomId(
-			memberDetails.getMember().getId(), chattingRoomId, pageable);
+			memberDetails.getMember().getId(), chattingRoomId);
 		return new BaseResponse<>(messages);
 	}
 
@@ -123,11 +118,14 @@ public class ChattingController {
 	public BaseResponse<Void> sendDirectMessage(@Payload final ChatMessageRequest request) {
 		// 채널 구독 중인 다른 사람들에게 메시지 전송
 		simpMessageSendingOperations.convertAndSend("/topic/chat/" + request.getChattingRoomId(), request);
+		System.out.println("!!! 상대방에게 메세지 전달 !!!");
 		// 채팅 받은 것을 Redis에 저장
 		DirectMessage directMessage = chattingService.saveDirectMessage(request);
+		System.out.println("!!! 채팅 받은 것을 redis에 저장 !!!");
 		// DB 채팅의 마지막 로그 내용 업데이트
 		chattingService.updateChattingLastLog(request.getChattingRoomId(), request.getContent(), request.getSendTime(),
 			directMessage.getId());
+		System.out.println("!!! 채팅 마지막 로그 업데이트 !!!");
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 

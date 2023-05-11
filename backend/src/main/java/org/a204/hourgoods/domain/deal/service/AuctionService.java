@@ -124,12 +124,35 @@ public class AuctionService {
         Long memberId = member.getId();
         Member retrieved = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-        Bidding bidding = biddingRepository.findByDealAndBidder(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
         Auction auction = auctionRepository.findById(dealId).get();
-        return AuctionResultResponse.builder()
-            .isWinner(bidding.getIsWinner())
-            .bidderCount(auction.getBidderCount())
-            .bidAmount(bidding.getBidAmount())
-            .build();
+        // 1. 주최자 인 경우
+        if (retrieved.getId().equals(deal.getDealHost().getId())) {
+            AuctionResultResponse response = AuctionResultResponse.builder()
+                .isHost(true)
+                .bidderCount(auction.getBidderCount())
+                .winnerAmount(auction.getFinalPrice()).build();
+            if (auction.getWinner() != null) {
+                Long winnerId = auction.getWinner().getId();
+                Member winner = memberRepository.findById(winnerId).orElseThrow(MemberNotFoundException::new);
+                response.setWinnerNickname(winner.getNickname());
+            }
+            return response;
+        } else {
+            Bidding bidding = biddingRepository.findByBidderAndDeal(retrieved, deal).orElseThrow(BiddingNotFoundException::new);
+            AuctionResultResponse response = AuctionResultResponse.builder()
+                .isHost(false)
+                .bidderCount(auction.getBidderCount())
+                .bidAmount(bidding.getBidAmount()).build();
+        // 2. 낙찰자 인 경우
+            Boolean isWinner = bidding.getIsWinner();
+            if (isWinner) {
+                response.setIsWinner(true);
+            } else {
+        // 3. 낙찰에 실패한 입찰자 인 경우
+                response.setIsWinner(false);
+                response.setWinnerAmount(auction.getFinalPrice());
+            }
+            return response;
+        }
     }
 }

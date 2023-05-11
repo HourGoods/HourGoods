@@ -41,7 +41,12 @@ public class AuctionEndJob implements Job {
         // 경매 결과 제공
         Integer finalPrice = auctionInfo.getCurrentBid();
         Integer bidderCount = auctionInfo.getBidHistory().size();
-        auction.updateResult(finalPrice, bidderCount);
+        String winnerNickname = auctionInfo.getBidder();
+        Member winner = null;
+        if (winnerNickname != null) {
+            winner = memberRepository.findByNickname(winnerNickname).orElseThrow(MemberNotFoundException::new);
+        }
+        auction.updateResult(finalPrice, bidderCount, winner);
         auctionRepository.save(auction);
         // 입찰 기록 저장
         for (Map.Entry<String, Integer> entry : auctionInfo.getBidHistory().entrySet()) {

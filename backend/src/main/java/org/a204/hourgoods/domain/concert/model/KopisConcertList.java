@@ -5,7 +5,10 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
@@ -15,6 +18,9 @@ public class KopisConcertList {
 	@XmlElement(name = "db")
 	private List<ConcertInfo> concertInfoList;
 
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
 	@Getter
 	@ToString
 	@XmlRootElement(name = "db")

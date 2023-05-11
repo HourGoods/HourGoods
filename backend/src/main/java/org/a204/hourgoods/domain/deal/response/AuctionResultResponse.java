@@ -14,7 +14,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Schema(description = "경매 결과 조회")
 public class AuctionResultResponse {
-	@Schema(description = "낙찰 여부", example = "true")
+	@Schema(description = "주최자 여부", example = "true")
+	private Boolean isHost;
+	@Schema(description = "낙찰 여부", example = "false")
 	private Boolean isWinner;
 
 	@Schema(description = "응찰자 수", example = "5")
@@ -25,4 +27,7 @@ public class AuctionResultResponse {
 
 	@Schema(description = "최고 낙찰가 (본인이 낙찰자가 아닌 경우)", example = "150000")
 	private Integer winnerAmount;
+
+	@Schema(description = "낙찰자 닉네임 (주최자인 경우)", example = "john123")
+	private String winnerNickname;
 }

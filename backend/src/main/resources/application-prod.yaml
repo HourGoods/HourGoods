@@ -11,7 +11,7 @@ spring:
     database-platform: org.hibernate.spatial.dialect.mysql.MySQL56InnoDBSpatialDialect
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     open-in-view: false
   security:
     user:
@@ -45,6 +45,7 @@ spring:
   redis:
     host: ${REDIS_HOST}
     port: ${REDIS_PORT}
+    password: ${REDIS_PASS}
   kopis:
     api-key: ${KOPIS_KEY}
   quartz:

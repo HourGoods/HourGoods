@@ -25,7 +25,6 @@ import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -89,11 +88,11 @@ public class ChattingService {
 
 	// 채팅방 이전 메시지목록 가져오기
 	@Transactional(readOnly = true)
-	public List<DirectMessageResponse> findAllMessagesByRoomId(Long memberId, Long chattingRoomId, Pageable pageable) {
+	public List<DirectMessageResponse> findAllMessagesByRoomId(Long memberId, Long chattingRoomId) {
 		Member user = memberRepository.findById(memberId)
 			.orElseThrow(MemberNotFoundException::new);
-		List<DirectMessage> messages = directMessageRepository.findDirectMessagesByChattingRoomId(
-			String.valueOf(chattingRoomId), pageable);
+		List<DirectMessage> messages = directMessageRepository.findDirectMessagesByChattingRoomIdOrderBySendTimeAsc(
+			String.valueOf(chattingRoomId));
 
 		List<DirectMessageResponse> response = new ArrayList<>();
 		for (DirectMessage message : messages) {
@@ -111,7 +110,7 @@ public class ChattingService {
 	// 1:1 채팅 내용 저장하기
 	@Transactional
 	public DirectMessage saveDirectMessage(ChatMessageRequest request) {
-		Member user = memberRepository.findByNickname(request.getNickName())
+		Member user = memberRepository.findByNickname(request.getNickname())
 			.orElseThrow(MemberNotFoundException::new);
 		ListOperations<String, DirectMessage> dmListOperations = redisTemplate.opsForList();
 
@@ -139,7 +138,7 @@ public class ChattingService {
 	// 그룹 채팅방에게 보낼 정보를 담아 보내기
 	@Transactional(readOnly = true)
 	public AuctionChatMessageResponse convertChatRequest(ChatMessageRequest request) {
-		Member user = memberRepository.findByNickname(request.getNickName())
+		Member user = memberRepository.findByNickname(request.getNickname())
 			.orElseThrow(MemberNotFoundException::new);
 
 		return AuctionChatMessageResponse.builder()
