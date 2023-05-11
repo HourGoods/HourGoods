@@ -37,7 +37,7 @@ export default function index({ getmy, deal }: IProps) {
   const navigate = useNavigate();
   const detailNavigate = () => {
     navigate(`/deal/detail/${deal.dealId}`, {
-      state: { dealId, timeDiff },
+      state: deal.dealId,
     });
   };
 
@@ -60,12 +60,17 @@ export default function index({ getmy, deal }: IProps) {
   // 시간
   const startTime = new Date(deal.startTime);
   // startTime.setHours(startTime.getHours() - 9); // 9 hours is the time difference between UTC and KST
-  const timeDiff = Math.floor(
+  const openTimeDiff = Math.floor(
     (startTime.getTime() - new Date().getTime()) / (1000 * 60)
   );
 
   const endTime = new Date(deal.endTime);
   // endTime.setHours(endTime.getHours() - 9); // 9 hours is the time difference between UTC and KST
+  const closeTimeDiff = Math.floor(
+    (endTime.getTime() - new Date().getTime()) / (1000 * 60)
+  );
+  console.log("으아아아아아앙ㄱ");
+  console.log(closeTimeDiff);
 
   const startHour = String(startTime.getHours()).padStart(2, "0");
   const startMinute = String(startTime.getMinutes()).padStart(2, "0");
@@ -99,6 +104,15 @@ export default function index({ getmy, deal }: IProps) {
     default:
       break;
   }
+  let statusText;
+
+  if (openTimeDiff > 0) {
+    statusText = `오픈 ${openTimeDiff}분 전`;
+  } else if (openTimeDiff <= 0 && closeTimeDiff > 0) {
+    statusText = "진행중";
+  } else {
+    statusText = "종료";
+  }
 
   return (
     <div>
@@ -127,11 +141,12 @@ export default function index({ getmy, deal }: IProps) {
 
             <div className="user-deal-card-wrapper">
               <BellIcon />
-              {timeDiff <= 0 ? (
+              {/* {openTimeDiff <= 0 ? (
                 <p className="user-deal-card-container-p">종료</p>
               ) : (
-                <p className="user-deal-card-container-p">{`오픈 ${timeDiff}분 전`}</p>
-              )}
+                <p className="user-deal-card-container-p">{`오픈 ${openTimeDiff}분 전`}</p>
+              )} */}
+              <p className="user-deal-card-container-p">{statusText}</p>
             </div>
             <div className="user-deal-card-wrapper">
               <CalendarIcon />

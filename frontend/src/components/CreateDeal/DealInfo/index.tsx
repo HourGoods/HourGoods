@@ -164,7 +164,23 @@ export default function index() {
         ) : null}
 
         <label htmlFor="concert-date-input">
-          <p>오픈 일시</p>
+          {activeDealType.Sharing ? (
+            <>
+              <p className="helper-text-top-p">신청 시작 시간</p>
+              <p className="helper-text-p">
+                ※ 나눔 신청 시간에 선착순 신청이 오픈됩니다. 실제 나눔 진행
+                시간이 상이할 경우 공지사항에 작성해 주세요.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="helper-text-top-p">오픈 일시</p>
+              <p className="helper-text-p">
+                ※ 해당 시간부터 거래장이 활성화 됩니다.
+              </p>
+            </>
+          )}
+
           <input
             type="datetime-local"
             name="startTime"

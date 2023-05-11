@@ -2,15 +2,23 @@ import { AxiosResponse } from "axios";
 import request from "./agents";
 
 const mypageAPI = {
-  pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
-    request.authGet("mypage/point", { params: { lastPointHistoryId } }),
-  getMyDeal: (lastDealId: number): Promise<AxiosResponse> =>
-    request.authGet("mypage/create", { params: { lastDealId } }),
-  favoriteDeal: (lastDealId: number): Promise<AxiosResponse> =>
-    request.authGet("mypage/bookmark", { params: { lastDealId } }),
-  participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
-    request.authGet("mypage/attend", { params: { lastDealId } }),
+  // pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
+  //   request.authGet("mypage/point", { params: { lastPointHistoryId } }),
+  // getMyDeal: (lastDealId: number): Promise<AxiosResponse> =>
+  //   request.authGet("mypage/create", { params: { lastDealId } }),
+  // favoriteDeal: (lastDealId: number): Promise<AxiosResponse> =>
+  //   request.authGet("mypage/bookmark", { params: { lastDealId } }),
+  // participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
+  //   request.authGet("mypage/attend", { params: { lastDealId } }),
+  pointHistory: (): Promise<AxiosResponse> => request.authGet("mypage/point"),
+  getMyDeal: (): Promise<AxiosResponse> => request.authGet("mypage/create"),
+  favoriteDeal: (): Promise<AxiosResponse> =>
+    request.authGet("mypage/bookmark"),
+  participateDeal: (): Promise<AxiosResponse> =>
+    request.authGet("mypage/attend"),
   userinfo: (): Promise<AxiosResponse> => request.authGet("mypage"),
+  charge: (cashPoint: number): Promise<AxiosResponse> =>
+    request.authPost("mypage/point", { cashPoint }),
 };
 
 const memberAPI = {
@@ -95,6 +103,10 @@ const dealAPI = {
   // Deal 삭제
   getDealDelete: (dealId: number): Promise<AxiosResponse> =>
     request.authDelete(`deal/${dealId}`),
+
+  // 나눔 참여
+  postSharingApply: (dealId: number): Promise<AxiosResponse> =>
+    request.authPost("deal/sharing/apply", { dealId }),
 };
 
 // 채팅관련 api
@@ -117,6 +129,8 @@ const AuctionAPI = {
   // 가능한 경매인지 조회
   getableAuction: (dealId: number): Promise<AxiosResponse> =>
     request.authGet("/auction/available", { params: { dealId } }),
+  getAuctionResult: (dealId: number): Promise<AxiosResponse> =>
+    request.authGet("/auction/result", { params: { dealId } }),
 };
 
 export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI, AuctionAPI };

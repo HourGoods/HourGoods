@@ -20,7 +20,9 @@ export default function index() {
             <p className="ticket-tag">티켓</p>
           </div>
           <div className="cash-box">
-            <p className="cash">{`${userInfo.cash ? userInfo.cash : 0}원`}</p>
+            <p className="cash">{`${
+              userInfo.cash ? userInfo.cash.toLocaleString() : 0
+            }원`}</p>
             <ChevronRightIcon className="chevron-right-icon" />
           </div>
         </button>

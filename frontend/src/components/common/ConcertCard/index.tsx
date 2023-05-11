@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import { searchResultConcertState } from "@recoils/concert/Atoms";
-import { MapPinIcon, CalendarIcon } from "@heroicons/react/24/solid";
+import { MapPinIcon, CalendarIcon, ClockIcon } from "@heroicons/react/24/solid";
 import { ConcertInterface } from "@pages/Search";
 import { concertAPI } from "@api/apis";
 import "./index.scss";
@@ -73,7 +73,10 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
         <div className="card-icon-text-div">
           <CalendarIcon />
           {concertInfo.startTime ? (
-            <p>{concertInfo.startTime}</p>
+            <p>
+              {concertInfo.startTime.slice(0, 10)} ||{" "}
+              {concertInfo.startTime.slice(11, -3)}
+            </p>
           ) : (
             <p>{concertInfo.startDate}</p>
           )}
