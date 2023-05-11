@@ -48,7 +48,7 @@ public class AuctionController {
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "경매 결과 조회 성공"),
         @ApiResponse(responseCode = "400", description = "1. M300 사용자를 찾을 수 없습니다."),
-        @ApiResponse(responseCode = "404", description = "1. D200 사용자를 찾을 수 없습니다. \t\n2. B100 입찰 기록이 없습니다."),
+        @ApiResponse(responseCode = "404", description = "1. D200 거래를 찾을 수 없습니다. \t\n2. B100 입찰 기록이 없습니다."),
 
     })
     public BaseResponse<AuctionResultResponse> getAuctionResult(@AuthenticationPrincipal MemberDetails memberDetails, @RequestParam Long dealId) {
