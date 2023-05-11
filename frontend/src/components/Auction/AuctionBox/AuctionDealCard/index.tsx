@@ -59,8 +59,6 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
             <ClockIcon />
             <p>{dealInfo.startTime.substr(11, 5)}</p>
           </div>
-        </div>
-        <div>
           <div className="a-dealcard-icon">
             <MapPinIcon />
             <p>{dealInfo.meetingLocation}</p>

@@ -39,7 +39,7 @@ export default function index() {
   const [bidValue, setBidValue] = useState("");
 
   // Socket 통신으로 받은 list 결과값 저장
-  const [socketList, setsocketList] = useState<string[]>([]);
+  const [socketList, setsocketList] = useState<string[]>([]); // 소켓에서 한 번에 받는 메세지 저장
   const [msgList, setMsgList] = useState<ChatMessage[]>([]); // 채팅목록 저장
   const [bidList, setBidList] = useState<BidMessage[]>([]); // 응찰가격 저장
   const [inoutMsgList, setInoutMsgList] = useState<InoutMessage[]>([]); // JOIN, EXIT res값 저장
