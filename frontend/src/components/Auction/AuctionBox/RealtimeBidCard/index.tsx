@@ -24,10 +24,8 @@ export default function Index({
   const bidListRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    console.log("nowCount", nowCount);
     setCurrentBid(nowBid);
-    // setParticipantCount(nowCount);
-  }, [currentBid, participantCount]);
+  }, [nowBid]);
 
   useEffect(() => {
     bidList.map((bid: BidMessage, index: number) => {
@@ -39,7 +37,6 @@ export default function Index({
         costBoxElement?.classList.remove("animate");
       }, 10000);
     });
-    console.log(inoutMsgList);
     inoutMsgList.map((inout: InoutMessage) => {
       setParticipantCount(inout.participantCount);
     });
