@@ -20,11 +20,19 @@
     flex-direction: column;
     width: 100%;
 
+    // 임시 안내 메세지
+    .check-alert-3-p {
+      max-width: 260px;
+    }
+
     h2 {
       text-align: start;
       margin: 0;
     }
     .updateprofile-contents-container-desktop {
+      h2 {
+        text-align: center;
+      }
       @include desktop {
         display: flex;
         justify-content: space-between;
@@ -60,9 +68,16 @@
         }
       }
     }
+    .update-button-wrapper {
+      margin-top: 50px;
+      button {
+        margin: auto;
+      }
+    }
 
     .updateprofile-contents-container-form {
       margin-bottom: 30px;
+      align-self: center;
       @include desktop {
         margin-top: 60px;
       }
