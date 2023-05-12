@@ -123,43 +123,66 @@ export default function index() {
   const [cookies, setCookie] = useCookies(["refreshToken"]);
   const singupprofile = async () => {
     const params = new URLSearchParams(window.location.search);
-    // 로딩 추가하기
-    try {
-      // 이미지 업로드하여 이미지 주소 받아오기
-      const imageUrl = await uploadDealImage(
-        inputImage.file,
-        inputImage.filename
-      );
-      if (imageUrl) {
-        console.log("받아온 이미지 주소", imageUrl);
-        console.log(inputImage.file);
-        console.log(inputImage.filename);
-        // POST API 요청
-        const result = memberAPI.signup({ ...userInfo, imageUrl });
-        result
-          .then((res) => {
-            const accessToken = params.get("access") || "";
-            const refreshToken = params.get("refresh") || "";
-            setAuthState({ isLogin: true, token: accessToken });
-            sessionStorage.setItem("accessToken", accessToken);
-            setCookie("refreshToken", refreshToken);
-            navigate("/mypage");
-            toast.success(`${userInfo.nickname}님 환영합니다!`);
-            setUserInfo((prevUserInfo: any) => ({
-              ...prevUserInfo,
-              imageUrl,
-            }));
-          })
-          .catch((err) => {
-            const errCode = err.response.data.status;
-            if (errCode === 400) {
-              toast.error("닉네임을 입력해주세요.");
-            }
-          });
+
+    if (uploadedImage) {
+      // 로딩 추가하기
+      try {
+        // 이미지 업로드하여 이미지 주소 받아오기
+        const imageUrl = await uploadDealImage(
+          inputImage.file,
+          inputImage.filename
+        );
+        if (imageUrl) {
+          console.log("받아온 이미지 주소", imageUrl);
+          console.log(inputImage.file);
+          console.log(inputImage.filename);
+          // POST API 요청
+          const result = memberAPI.signup({ ...userInfo, imageUrl });
+          result
+            .then((res) => {
+              const accessToken = params.get("access") || "";
+              const refreshToken = params.get("refresh") || "";
+              setAuthState({ isLogin: true, token: accessToken });
+              sessionStorage.setItem("accessToken", accessToken);
+              setCookie("refreshToken", refreshToken);
+              navigate("/mypage");
+              toast.success(`${userInfo.nickname}님 환영합니다!`);
+              setUserInfo((prevUserInfo: any) => ({
+                ...prevUserInfo,
+                imageUrl,
+              }));
+            })
+            .catch((err) => {
+              const errCode = err.response.data.status;
+              if (errCode === 400) {
+                toast.error("닉네임을 입력해주세요.");
+              }
+            });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } // 업로드 이미지가 없을 때
+    const result = memberAPI.signup({ ...userInfo });
+    result
+      .then((res) => {
+        const accessToken = params.get("access") || "";
+        const refreshToken = params.get("refresh") || "";
+        setAuthState({ isLogin: true, token: accessToken });
+        sessionStorage.setItem("accessToken", accessToken);
+        setCookie("refreshToken", refreshToken);
+        navigate("/mypage");
+        toast.success(`${userInfo.nickname}님 환영합니다!`);
+        setUserInfo((prevUserInfo: any) => ({
+          ...prevUserInfo,
+        }));
+      })
+      .catch((err) => {
+        const errCode = err.response.data.status;
+        if (errCode === 400) {
+          toast.error("닉네임을 입력해주세요.");
+        }
+      });
   };
 
   // 회원 수정
