@@ -19,6 +19,7 @@ import EditProfile from "@pages/EditProfile";
 import Ticket from "@pages/Ticket";
 import UpdateProfile from "@pages/UpdateProfile";
 import Auction from "@pages/Auction";
+import ErrorPage from "@pages/ErrorPage";
 import PrivateRoute from "./PrivateRoute"; // 가장 마지막으로 import 위치 유지해주세요
 
 export default function Routers() {
@@ -54,6 +55,7 @@ export default function Routers() {
       <Route path="/edit" element={<EditProfile />} />
 
       <Route path="/update/profile" element={<UpdateProfile />} />
+      <Route path="/*" element={<ErrorPage />} />
     </Routes>
   );
 }
