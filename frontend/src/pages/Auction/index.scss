@@ -41,6 +41,8 @@
     }
     .input-message-container {
       width: 92%;
+      animation: inputSlideLeftRight 0.8s;
+      -webkit-animation: inputSlideLeftRight 0.8s;
     }
     .bid {
       // position: relative;
@@ -284,5 +286,14 @@
   }
   .box-bottom-wrapper {
     width: 100%;
+  }
+}
+
+@keyframes inputSlideLeftRight {
+  0% {
+    width: 8%;
+  }
+  100% {
+    width: 92%;
   }
 }

@@ -26,7 +26,7 @@ export default function Index({
   useEffect(() => {
     setCurrentBid(nowBid);
     setParticipantCount(nowCount);
-  }, []);
+  }, [nowBid, nowCount]);
 
   useEffect(() => {
     bidList.map((bid: BidMessage, index: number) => {
