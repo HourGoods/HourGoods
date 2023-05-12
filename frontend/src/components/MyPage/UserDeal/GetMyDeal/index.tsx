@@ -40,7 +40,7 @@ export default function index() {
     >
       {dealList.map((deal, index) => (
         <div key={index}>
-          <UserDealCard deal={deal} />
+          <UserDealCard getmy={getmy} deal={deal} />
         </div>
       ))}
     </div>
