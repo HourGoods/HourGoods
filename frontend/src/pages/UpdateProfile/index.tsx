@@ -170,7 +170,11 @@ export default function index() {
         const refreshToken = params.get("refresh") || "";
         setAuthState({ isLogin: true, token: accessToken });
         localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("isLogin", "true");
         setCookie("refreshToken", refreshToken);
+
+        // 바로 로그인
+
         navigate("/mypage");
         toast.success(`${userInfo.nickname}님 환영합니다!`);
         setUserInfo((prevUserInfo: any) => ({
@@ -213,7 +217,6 @@ export default function index() {
         // POST API 요청
         const result = memberAPI.editUser({ ...userInfo, imageUrl });
         result.then((res) => {
-          // 성공시 detail페이지로 이동
           console.log(res);
           // const { dealId } = res.data.result;
           navigate(`/mypage`);
@@ -245,7 +248,7 @@ export default function index() {
           <div className="updateprofile-contents-container">
             <div className="updateprofile-contents-container-desktop">
               <label htmlFor="uploadImg">
-                <h2>{fromMy ? "회원정보 수정" : "회원가입"}</h2>
+                <h2>{fromMy ? "회원정보 수정💝" : "회원가입🎉"}</h2>
                 <div className="updateprofile-contents-container-wrapper">
                   {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
 
@@ -279,7 +282,7 @@ export default function index() {
                     onKeyPress={nicknameChecker}
                   />
                   <button type="button" onClick={nicknameChecker}>
-                    변경
+                    {fromMy ? "변경" : "중복 확인"}
                   </button>
                 </div>
                 {checkAlert === 0 ? <p /> : null}
@@ -290,17 +293,13 @@ export default function index() {
                   <p>중복된 닉네임입니다! 다시 입력해주세요.</p>
                 ) : null}
                 {checkAlert === 3 ? (
-                  <p>한글로만 특수문자와 공백 없이 2~10자로 입력해주세요.</p>
+                  <p className="check-alert-3-p">
+                    한글로만 특수문자와 공백 없이 2~10자로 입력해주세요.
+                  </p>
                 ) : null}
               </form>
             </div>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
+            <div className="update-button-wrapper">
               {fromMy ? (
                 <Button onClick={editprofile}>회원정보 수정하기</Button>
               ) : (

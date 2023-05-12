@@ -28,7 +28,7 @@ export default function Nav() {
   const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
   // 로그인 여부 확인
-  const sessionLogin = localStorage.getItem("isLogin");
+  const localLogin = localStorage.getItem("isLogin");
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -72,7 +72,7 @@ export default function Nav() {
             </Link>
           </div>
           <div className="web-navbar-profile">
-            {sessionLogin ? (
+            {localLogin ? (
               <img
                 src={userInfo.imageUrl}
                 alt="프로필이미지"
@@ -81,7 +81,7 @@ export default function Nav() {
             ) : (
               <UserCircleIcon onClick={handleDropDownClick} />
             )}
-            {sessionLogin && isDropDownOpen && (
+            {localLogin && isDropDownOpen && (
               <DropDown
                 menus={[
                   { label: "마이페이지", value: "mypage" },
@@ -90,7 +90,7 @@ export default function Nav() {
                 ]}
               />
             )}
-            {!sessionLogin && isDropDownOpen && (
+            {!localLogin && isDropDownOpen && (
               <DropDown
                 menus={[
                   {
