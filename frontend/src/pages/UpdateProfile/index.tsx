@@ -290,7 +290,7 @@ export default function index() {
                   <p>중복된 닉네임입니다! 다시 입력해주세요.</p>
                 ) : null}
                 {checkAlert === 3 ? (
-                  <p>특수문자와 공백 없이 2~10자로 입력해주세요.</p>
+                  <p>한글로만 특수문자와 공백 없이 2~10자로 입력해주세요.</p>
                 ) : null}
               </form>
             </div>
