@@ -13,6 +13,8 @@ import DropDown from "@components/common/DropDown";
 import { AuthStateAtom, UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Nav() {
   // 사이드바 열림여부
@@ -26,7 +28,7 @@ export default function Nav() {
   const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
   // 로그인 여부 확인
-  const sessionLogin = sessionStorage.getItem("isLogin")
+  const sessionLogin = sessionStorage.getItem("isLogin");
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -43,7 +45,7 @@ export default function Nav() {
     sessionStorage.setItem("isLogin", "");
     toggleMenu();
     navigate("/");
-    alert("안녕히가세요!");
+    toast.success("안녕히가세요!");
   };
 
   useModalRef(menuRef, () => setIsOpen(false));
@@ -54,102 +56,105 @@ export default function Nav() {
   //   return null;
   // }
   return (
-    <nav className="navbar">
-      <div className="web-navbar-wrapper">
-        <div className="web-navbar-logo-menu">
+    <>
+      <ToastContainer />
+      <nav className="navbar">
+        <div className="web-navbar-wrapper">
+          <div className="web-navbar-logo-menu">
+            <Link to="/">
+              <img src={logo} alt="로고" />
+            </Link>
+            <Link to="realtime">
+              <p>실시간</p>
+            </Link>
+            <Link to="search">
+              <p>탐색하기</p>
+            </Link>
+          </div>
+          <div className="web-navbar-profile">
+            {sessionLogin ? (
+              <img
+                src={userInfo.imageUrl}
+                alt="프로필이미지"
+                onClick={handleDropDownClick}
+              />
+            ) : (
+              <UserCircleIcon onClick={handleDropDownClick} />
+            )}
+            {sessionLogin && isDropDownOpen && (
+              <DropDown
+                menus={[
+                  { label: "마이페이지", value: "mypage" },
+                  { label: "나의 채팅", value: "mychatroom" },
+                  { label: "로그아웃", onClick: logoutHandler },
+                ]}
+              />
+            )}
+            {!sessionLogin && isDropDownOpen && (
+              <DropDown
+                menus={[
+                  {
+                    label: "카카오 로그인",
+                    onClick: () => {
+                      window.location.href = loginUrl;
+                    },
+                  },
+                  { label: "마이페이지", value: "mypage" },
+                ]}
+              />
+            )}
+          </div>
+        </div>
+        <div className="mobile-navbar-wrapper">
           <Link to="/">
             <img src={logo} alt="로고" />
           </Link>
-          <Link to="realtime">
-            <p>실시간</p>
-          </Link>
-          <Link to="search">
-            <p>탐색하기</p>
-          </Link>
+          {isOpen ? "" : <Bars3Icon onClick={toggleMenu} />}
+          {isOpen && !loginState.isLogin && (
+            <div className="mobile-sidebar-wrapper" ref={menuRef}>
+              <div className="mobile-nav-close-btn">
+                <XMarkIcon onClick={toggleMenu} />
+              </div>
+              <div className="mobile-sidebar-menu">
+                <Link to="realtime" onClick={toggleMenu}>
+                  <p>실시간</p>
+                </Link>
+                <Link to="search" onClick={toggleMenu}>
+                  <p>탐색하기</p>
+                </Link>
+                <Link to="mypage" onClick={toggleMenu}>
+                  <p>마이페이지</p>
+                </Link>
+                <a href={loginUrl}>
+                  <p>카카오 로그인</p>
+                </a>
+              </div>
+            </div>
+          )}
+          {isOpen && loginState.isLogin && (
+            <div className="mobile-sidebar-wrapper" ref={menuRef}>
+              <div className="mobile-nav-close-btn">
+                <XMarkIcon onClick={toggleMenu} />
+              </div>
+              <div className="mobile-sidebar-menu">
+                <Link to="realtime" onClick={toggleMenu}>
+                  <p>실시간</p>
+                </Link>
+                <Link to="search" onClick={toggleMenu}>
+                  <p>탐색하기</p>
+                </Link>
+                <Link to="mypage" onClick={toggleMenu}>
+                  <p>마이페이지</p>
+                </Link>
+                <Link to="mychatroom" onClick={toggleMenu}>
+                  <p>나의 채팅</p>
+                </Link>
+                <p onClick={logoutHandler}>로그아웃</p>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="web-navbar-profile">
-          {sessionLogin ? (
-            <img
-              src={userInfo.imageUrl}
-              alt="프로필이미지"
-              onClick={handleDropDownClick}
-            />
-          ) : (
-            <UserCircleIcon onClick={handleDropDownClick} />
-          )}
-          {sessionLogin && isDropDownOpen && (
-            <DropDown
-              menus={[
-                { label: "마이페이지", value: "mypage" },
-                { label: "나의 채팅", value: "mychatroom" },
-                { label: "로그아웃", onClick: logoutHandler },
-              ]}
-            />
-          )}
-          {!sessionLogin && isDropDownOpen && (
-            <DropDown
-              menus={[
-                {
-                  label: "카카오 로그인",
-                  onClick: () => {
-                    window.location.href = loginUrl;
-                  },
-                },
-                { label: "마이페이지", value: "mypage" },
-              ]}
-            />
-          )}
-        </div>
-      </div>
-      <div className="mobile-navbar-wrapper">
-        <Link to="/">
-          <img src={logo} alt="로고" />
-        </Link>
-        {isOpen ? "" : <Bars3Icon onClick={toggleMenu} />}
-        {isOpen && !loginState.isLogin  && (
-          <div className="mobile-sidebar-wrapper" ref={menuRef}>
-            <div className="mobile-nav-close-btn">
-              <XMarkIcon onClick={toggleMenu} />
-            </div>
-            <div className="mobile-sidebar-menu">
-              <Link to="realtime" onClick={toggleMenu}>
-                <p>실시간</p>
-              </Link>
-              <Link to="search" onClick={toggleMenu}>
-                <p>탐색하기</p>
-              </Link>
-              <Link to="mypage" onClick={toggleMenu}>
-                <p>마이페이지</p>
-              </Link>
-              <a href={loginUrl}>
-                <p>카카오 로그인</p>
-              </a>
-            </div>
-          </div>
-        )}
-        {isOpen && loginState.isLogin && (
-          <div className="mobile-sidebar-wrapper" ref={menuRef}>
-            <div className="mobile-nav-close-btn">
-              <XMarkIcon onClick={toggleMenu} />
-            </div>
-            <div className="mobile-sidebar-menu">
-              <Link to="realtime" onClick={toggleMenu}>
-                <p>실시간</p>
-              </Link>
-              <Link to="search" onClick={toggleMenu}>
-                <p>탐색하기</p>
-              </Link>
-              <Link to="mypage" onClick={toggleMenu}>
-                <p>마이페이지</p>
-              </Link>
-              <Link to="mychatroom" onClick={toggleMenu}>
-                <p>나의 채팅</p>
-              </Link>
-              <p onClick={logoutHandler}>로그아웃</p>
-            </div>
-          </div>
-        )}
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 }
