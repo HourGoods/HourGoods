@@ -4,12 +4,11 @@ import simpleLogo from "@assets/simpleLogo.svg";
 import { UserIcon, UsersIcon } from "@heroicons/react/24/solid";
 import "./index.scss";
 
-useEffect(() => {
-  // 최초 렌더링 시 최상단으로 이동
-  window.scrollTo(0, 0);
-}, []);
-
 export default function Main() {
+  useEffect(() => {
+    // 최초 렌더링 시 최상단으로 이동
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="main-page-container">
       <div className="title-texts-container">
