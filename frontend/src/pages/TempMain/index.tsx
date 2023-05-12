@@ -14,7 +14,7 @@ export default function index() {
   const submitHandler = (e: any) => {
     e.preventDefault();
     if (inputValue === "허예지" || inputValue === "8204") {
-      navigate("/main");
+      navigate("/");
       alert("환영합니다!");
     } else {
       alert("입력 코드가 틀렸습니다.");
