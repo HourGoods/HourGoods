@@ -37,6 +37,8 @@ export default function index() {
   const userName = userInfo.nickname;
   const [msgValue, setMsgValue] = useState("");
   const [bidValue, setBidValue] = useState("");
+  const [showBidBox, setShowBidBox] = useState(false);
+  const [showMsgBox, setShowMsgBox] = useState(false);
 
   // Socket 통신으로 받은 list 결과값 저장
   const [socketList, setsocketList] = useState<string[]>([]); // 소켓에서 한 번에 받는 메세지 저장
@@ -119,7 +121,6 @@ export default function index() {
   // Socket 연결 끊기
   const disconnect = () => {
     console.log("소켓 연결이 끊어졌습니당");
-    sendExitMessage(userName);
     clientRef.current?.deactivate(); // client측 비활성화
   };
 
@@ -164,54 +165,59 @@ export default function index() {
     clientRef.current?.publish({ destination, body });
   };
 
-  const sendExitMessage = (nickname: string) => {
-    const message = {
-      nickname: nickname,
-      messageType: "EXIT",
-    };
-    const destination = `/app/send/${dealId}`;
-    const body = JSON.stringify(message);
-
-    clientRef.current?.publish({ destination, body });
+  const handleMsgBox = () => {
+    setShowMsgBox(true);
+    setShowBidBox(false);
+  };
+  const handleBidBox = () => {
+    setShowBidBox(true);
+    setShowMsgBox(false);
   };
 
   return (
     <div className="auction-page-all-container">
       <AuctionBox bidList={bidList} inoutMsgList={inoutMsgList} />
       <ChattingBox msgList={msgList} inoutMsgList={inoutMsgList} />
+
       <div className="a-page-inputbox-container">
-        <div className="input-message-container">
-          <div className="icon-message-wrapper">
-            <TicketIcon />
-            <input
-              placeholder="경매가를 입력해주세요."
-              value={bidValue}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setBidValue(e.target.value)
-              }
-              onKeyPress={handleOnKeyPress(sendBid)}
-            />
-          </div>
-          <button type="button" onClick={sendBid}>
-            확인
-          </button>
-        </div>
-        <div className="input-message-container">
-          <div className="icon-message-wrapper">
-            <ChatBubbleOvalLeftIcon />
-            <input
-              placeholder="메세지를 입력해주세요."
-              value={msgValue}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setMsgValue(e.target.value)
-              }
-              onKeyPress={handleOnKeyPress(sendMessage)}
-            />
-          </div>
-          <button type="button" onClick={sendMessage}>
-            확인
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={handleBidBox}
+          className={`a-page-inputbox-button bid ${showBidBox ? "active" : ""}`}
+        >
+          <TicketIcon />
+        </button>
+        <button
+          type="button"
+          onClick={handleMsgBox}
+          className={`a-page-inputbox-button msg ${showMsgBox ? "active" : ""}`}
+        >
+          <ChatBubbleOvalLeftIcon />
+        </button>
+        {showBidBox && (
+          <InputMsgBox
+            type="bid"
+            placeholder="경매가를 입력해주세요."
+            value={bidValue}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setBidValue(e.target.value)
+            }
+            onConfirm={sendBid}
+            onKeyPress={handleOnKeyPress(sendBid)}
+          />
+        )}
+        {showMsgBox && (
+          <InputMsgBox
+            type="message"
+            placeholder="메세지를 입력해주세요."
+            value={msgValue}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setMsgValue(e.target.value)
+            }
+            onConfirm={sendMessage}
+            onKeyPress={handleOnKeyPress(sendMessage)}
+          />
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 // InputMsgBox.tsx
+/* eslint-disable */
 import React from "react";
 import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
 import "./index.scss";
@@ -7,20 +8,28 @@ interface IInputProps {
   placeholder?: string;
   value: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  type?: string;
+  type?: "bid" | "message";
   onConfirm?: () => void;
+  onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export default function index({
+export default function InputMsgBox({
   placeholder,
   value,
   onChange,
   type,
   onConfirm,
+  onKeyPress,
 }: IInputProps) {
   const handleConfirm = () => {
     if (onConfirm) {
       onConfirm();
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (onKeyPress) {
+      onKeyPress(e);
     }
   };
 
@@ -33,6 +42,7 @@ export default function index({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onKeyPress={handleKeyPress}
         />
       </div>
       <button type="button" onClick={handleConfirm}>

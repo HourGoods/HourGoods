@@ -1,6 +1,11 @@
 @import "@styles/Colors";
 
 .input-message-container {
+  button {
+    background-color: transparent;
+    width: 40px;
+    color: $indigo-1;
+  }
   height: 50px;
   border-radius: 30px;
   background-color: $white-op;
@@ -25,10 +30,5 @@
       outline: none;
       font-size: 14px;
     }
-  }
-  button {
-    background-color: transparent;
-    width: 40px;
-    color: $indigo-1;
   }
 }
