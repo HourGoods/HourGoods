@@ -23,7 +23,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
     <div className="chattingbox-all-container">
       <div ref={chatMsgListRef} className="private-chatroom-content-container">
         {msgList.map((message: ChatMessage, index: number) => {
-          const isMe = message.nickname === userName;
+          const isMe = message.nickname !== userName;
           const messageClassName = isMe ? "its-me-chat" : "not-me-chat";
           const join = message.messageType === "JOIN";
 
@@ -38,9 +38,15 @@ export default function index({ msgList, inoutMsgList }: Props) {
                   {message.imageUrl && (
                     <div className={messageClassName}>
                       <div className="not-me-chat-message">
-                        <img src={message.imageUrl} alt="프로필사진" />
-                        <p className="not-me-chat-name">{message.nickname}</p>
-                        <p className="not-me-chat-message">{message.content}</p>
+                        <div>
+                          <img src={message.imageUrl} alt="프로필사진" />
+                          <p className="not-me-chat-name">{message.nickname}</p>
+                        </div>
+                        <div>
+                          <p className="not-me-chat-message">
+                            {message.content}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   )}

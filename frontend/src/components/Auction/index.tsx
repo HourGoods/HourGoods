@@ -173,8 +173,8 @@ export default function index() {
     clientRef.current?.publish({ destination, body });
   };
 
-  const [showBidBox, setShowBidBox] = useState(true);
-  const [showMsgBox, setShowMsgBox] = useState(false);
+  const [showBidBox, setShowBidBox] = useState(false);
+  const [showMsgBox, setShowMsgBox] = useState(true);
 
   const handleMsgBox = () => {
     setShowMsgBox(true);

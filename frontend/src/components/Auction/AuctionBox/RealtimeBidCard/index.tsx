@@ -29,6 +29,7 @@ export default function Index({
   }, [nowBid, nowCount]);
 
   useEffect(() => {
+
     bidList.map((bid: BidMessage, index: number) => {
       setCurrentBid(bid.currentBid);
       setInterval(bid.interval);
