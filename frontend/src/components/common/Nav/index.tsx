@@ -25,6 +25,9 @@ export default function Nav() {
   const baseUrl = "https://hourgoods.co.kr";
   const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
+  // 로그인 여부 확인
+  const sessionLogin = sessionStorage.getItem("isLogin")
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -36,8 +39,10 @@ export default function Nav() {
   const logoutHandler = () => {
     setUserInfo({ email: "", nickname: "", imageUrl: "" });
     setLoginState({ isLogin: false, token: null });
+    sessionStorage.setItem("accessToken", "");
+    sessionStorage.setItem("isLogin", "");
     toggleMenu();
-    navigate("/main");
+    navigate("/");
     alert("안녕히가세요!");
   };
 
@@ -63,7 +68,7 @@ export default function Nav() {
           </Link>
         </div>
         <div className="web-navbar-profile">
-          {loginState.isLogin ? (
+          {sessionLogin ? (
             <img
               src={userInfo.imageUrl}
               alt="프로필이미지"
@@ -72,7 +77,7 @@ export default function Nav() {
           ) : (
             <UserCircleIcon onClick={handleDropDownClick} />
           )}
-          {loginState.isLogin && isDropDownOpen && (
+          {sessionLogin && isDropDownOpen && (
             <DropDown
               menus={[
                 { label: "마이페이지", value: "mypage" },
@@ -81,7 +86,7 @@ export default function Nav() {
               ]}
             />
           )}
-          {!loginState.isLogin && isDropDownOpen && (
+          {!sessionLogin && isDropDownOpen && (
             <DropDown
               menus={[
                 {
@@ -101,7 +106,7 @@ export default function Nav() {
           <img src={logo} alt="로고" />
         </Link>
         {isOpen ? "" : <Bars3Icon onClick={toggleMenu} />}
-        {isOpen && !loginState.isLogin && (
+        {isOpen && !loginState.isLogin  && (
           <div className="mobile-sidebar-wrapper" ref={menuRef}>
             <div className="mobile-nav-close-btn">
               <XMarkIcon onClick={toggleMenu} />
