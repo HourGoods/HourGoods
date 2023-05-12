@@ -23,7 +23,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
     <div className="chattingbox-all-container">
       <div ref={chatMsgListRef} className="private-chatroom-content-container">
         {msgList.map((message: ChatMessage, index: number) => {
-          const isMe = message.nickname !== userName;
+          const isMe = message.nickname === userName;
           const messageClassName = isMe ? "its-me-chat" : "not-me-chat";
           const join = message.messageType === "JOIN";
 
