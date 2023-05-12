@@ -26,10 +26,34 @@
     bottom: 30px;
     width: 100%;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    .a-page-inputbox-button {
+      background-color: $white-op;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      padding: 0;
+      svg {
+        width: 24px;
+        color: $indigo-1;
+      }
+    }
     .input-message-container {
-      // 추후수정합니다
-      width: 50%;
+      width: 92%;
+      animation: inputSlideLeftRight 0.8s;
+      -webkit-animation: inputSlideLeftRight 0.8s;
+    }
+    .bid {
+      // position: relative;
+      // margin-left: auto;
+    }
+    .msg {
+      // position: relative;
+      // margin-right: auto;
+    }
+    .a-page-inputbox-button.active {
+      display: none;
     }
   }
 }
@@ -157,7 +181,7 @@
     .bid-box-container {
       padding: 15px;
       width: 100%;
-      @include scrollbar-css;
+      // @include scrollbar-css;
       @include desktop {
         height: 300px;
       }
@@ -168,7 +192,11 @@
         height: 100px;
       }
 
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
       .cost-box-wrapper {
+        position: relative;
         background-color: $white-op;
         width: 150px;
         height: 40px;
@@ -179,6 +207,24 @@
         box-shadow: $shadow-purple;
         color: $indigo-1;
         margin: 10px;
+        animation: fadeOut 3s forwards;
+        opacity: 1;
+      }
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          display: none;
+        }
+      }
+      .left {
+        margin-right: auto;
+      }
+
+      .right {
+        margin-left: auto;
       }
     }
   }
@@ -243,36 +289,11 @@
   }
 }
 
-// inputMsgBox 이거는 곧 분리하면 같이 삭제해주세요.
-.input-message-container {
-  height: 50px;
-  border-radius: 30px;
-  background-color: $white-op;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 10px;
-  margin: 10px 0px;
-  .icon-message-wrapper {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    svg {
-      width: 24px;
-      color: $indigo-1;
-    }
-    input {
-      background-color: transparent;
-      width: 90%;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
+@keyframes inputSlideLeftRight {
+  0% {
+    width: 8%;
   }
-  button {
-    background-color: transparent;
-    width: 40px;
-    color: $indigo-1;
+  100% {
+    width: 92%;
   }
 }

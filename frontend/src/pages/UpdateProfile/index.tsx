@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 import uploadDealImage from "@utils/uploadDealImage";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
@@ -141,8 +143,8 @@ export default function index() {
             setAuthState({ isLogin: true, token: accessToken });
             sessionStorage.setItem("accessToken", accessToken);
             setCookie("refreshToken", refreshToken);
-            navigate("/main");
-            alert(`${userInfo.nickname}님 환영합니다!`);
+            navigate("/mypage");
+            toast.success(`${userInfo.nickname}님 환영합니다!`);
             setUserInfo((prevUserInfo: any) => ({
               ...prevUserInfo,
               imageUrl,
@@ -151,7 +153,7 @@ export default function index() {
           .catch((err) => {
             const errCode = err.response.data.status;
             if (errCode === 400) {
-              alert("닉네임을 입력해주세요.");
+              toast.error("닉네임을 입력해주세요.");
             }
           });
       }
@@ -213,75 +215,78 @@ export default function index() {
   console.log(userInfo);
 
   return (
-    <div className="upper">
-      <div className="updateprofile-container">
-        <div className="updateprofile-contents-container">
-          <div className="updateprofile-contents-container-desktop">
-            <label htmlFor="uploadImg">
-              <h2>{fromMy ? "회원정보 수정" : "회원가입"}</h2>
-              <div className="updateprofile-contents-container-wrapper">
-                {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
+    <>
+      <ToastContainer />
+      <div className="upper">
+        <div className="updateprofile-container">
+          <div className="updateprofile-contents-container">
+            <div className="updateprofile-contents-container-desktop">
+              <label htmlFor="uploadImg">
+                <h2>{fromMy ? "회원정보 수정" : "회원가입"}</h2>
+                <div className="updateprofile-contents-container-wrapper">
+                  {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
 
-                {!uploadedImage ? (
-                  <img src={userInfo.imageUrl} alt="프로필 사진" />
-                ) : (
-                  <img src={uploadedImage} alt="프로필 사진" />
-                )}
-                <input
-                  id="uploadImg"
-                  type="file"
-                  accept=".jpg, .jpeg, .png "
-                  onChange={uploadHandler}
-                  ref={uploadImageRef}
-                  style={{ display: "none" }}
-                />
-                <button type="button" onClick={handleButtonClick}>
-                  사진 등록하기
-                  <ChevronRightIcon />
-                </button>
-              </div>
-            </label>
-            <form className="updateprofile-contents-container-form">
-              <h3>닉네임</h3>
-              <div className="updateprofile-contents-container-form-wrapper">
-                <input
-                  type="text"
-                  id="nickname"
-                  placeholder={userInfo.nickname}
-                  onChange={nicknameHandler}
-                  onKeyPress={nicknameChecker}
-                />
-                <button type="button" onClick={nicknameChecker}>
-                  변경
-                </button>
-              </div>
-              {checkAlert === 0 ? <p /> : null}
-              {checkAlert === 1 ? (
-                <p style={{ color: "#4F46E5" }}>사용 가능한 닉네임입니다. </p>
-              ) : null}
-              {checkAlert === 2 ? (
-                <p>중복된 닉네임입니다! 다시 입력해주세요.</p>
-              ) : null}
-              {checkAlert === 3 ? (
-                <p>특수문자와 공백 없이 2~10자로 입력해주세요.</p>
-              ) : null}
-            </form>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {fromMy ? (
-              <Button onClick={editprofile}>회원정보 수정하기</Button>
-            ) : (
-              <Button onClick={singupprofile}>회원가입</Button>
-            )}
+                  {!uploadedImage ? (
+                    <img src={userInfo.imageUrl} alt="프로필 사진" />
+                  ) : (
+                    <img src={uploadedImage} alt="프로필 사진" />
+                  )}
+                  <input
+                    id="uploadImg"
+                    type="file"
+                    accept=".jpg, .jpeg, .png "
+                    onChange={uploadHandler}
+                    ref={uploadImageRef}
+                    style={{ display: "none" }}
+                  />
+                  <button type="button" onClick={handleButtonClick}>
+                    사진 등록하기
+                    <ChevronRightIcon />
+                  </button>
+                </div>
+              </label>
+              <form className="updateprofile-contents-container-form">
+                <h3>닉네임</h3>
+                <div className="updateprofile-contents-container-form-wrapper">
+                  <input
+                    type="text"
+                    id="nickname"
+                    placeholder={userInfo.nickname}
+                    onChange={nicknameHandler}
+                    onKeyPress={nicknameChecker}
+                  />
+                  <button type="button" onClick={nicknameChecker}>
+                    변경
+                  </button>
+                </div>
+                {checkAlert === 0 ? <p /> : null}
+                {checkAlert === 1 ? (
+                  <p style={{ color: "#4F46E5" }}>사용 가능한 닉네임입니다. </p>
+                ) : null}
+                {checkAlert === 2 ? (
+                  <p>중복된 닉네임입니다! 다시 입력해주세요.</p>
+                ) : null}
+                {checkAlert === 3 ? (
+                  <p>특수문자와 공백 없이 2~10자로 입력해주세요.</p>
+                ) : null}
+              </form>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {fromMy ? (
+                <Button onClick={editprofile}>회원정보 수정하기</Button>
+              ) : (
+                <Button onClick={singupprofile}>회원가입</Button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

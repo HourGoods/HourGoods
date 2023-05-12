@@ -11,6 +11,7 @@ export default function Main() {
         <h3>콘서트장에서 만나는 내 손 안의 거래장</h3>
         <h2>HourGoods</h2>
         <img src={simpleLogo} alt="" />
+        <p>HourGoods에 오신 것을 환영합니다 😊</p>
       </div>
       <div className="about-texts-container">
         <h3>ABOUT HOURGOODS</h3>
@@ -28,13 +29,15 @@ export default function Main() {
         </div>
       </div>
       <div className="footer-texts-container">
-        <p>HourGoods는 콘서트장에서의 다양한 거래들을 위해 탄생했습니다.</p>
-      </div>
-      <div className="footer-texts-container">
-        <p>HourGoods, 이렇게 이용해보세요!</p>
-      </div>
-      <div className="how-to-use-div-box">
-        <p>How to use HourGoods!</p>
+        <p>
+          콘서트장에서 거래를 진행한 적, <br /> 혹시 그 중에서도 불편함을 겪었던
+          적이 있나요?
+        </p>
+        <p>
+          <span>HourGoods</span>는 콘서트장에서의 다양한 거래들을 위해
+          탄생했어요.
+        </p>
+        <p>원하는 거래만 편하게 진행해 보세요!</p>
       </div>
       <footer>
         <p>

@@ -158,7 +158,7 @@ export default function index() {
               <p className="point-tag">포인트</p>
             </div>
             <p className="point-cash">{`${
-              userInfo.cash ? userInfo.cash : 0
+              userInfo.cash ? userInfo.cash.toLocaleString() : 0
             }원`}</p>
           </div>
         </div>

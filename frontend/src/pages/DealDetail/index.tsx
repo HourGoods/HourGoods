@@ -9,8 +9,10 @@ import AuctionResult from "@components/DealDetail/AuctionResult";
 import { concertAPI, dealAPI } from "@api/apis";
 import getCurrentLocation from "@utils/getCurrentLocation";
 import { haversineDistance } from "@utils/isUserInConcertArea";
-import "./index.scss";
+import { toast, ToastContainer } from "react-toastify";
 import Modal from "@components/common/Modal";
+import "./index.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function DealDetail() {
   const [dealInfo, setDealInfo] = useState({
@@ -54,8 +56,8 @@ export default function DealDetail() {
   useEffect(() => {
     // login한 유저만 볼 수 있습니다
     if (!userAuthInfo.token) {
-      alert("로그인해주세요");
-      navigate("/main");
+      toast.info("로그인해주세요");
+      navigate("/");
     }
     if (stringDealId) {
       const dealId = parseInt(stringDealId, 10); // 문자열을 숫자로 변환
@@ -93,8 +95,11 @@ export default function DealDetail() {
           const distance = haversineDistance(
             concertInfo.latitude,
             concertInfo.longitude,
-            res.latitude,
-            res.longitude
+            // 임시 현재 위치
+            37.501,
+            127.04
+            // res.latitude,
+            // res.longitude
           );
 
           setDistance(distance);
@@ -110,6 +115,7 @@ export default function DealDetail() {
           <AuctionResult isFinished={isFinished} dealId={dealId} />
         </Modal>
       )}
+      <ToastContainer />
       <div className="deal-detail-page-container">
         <DealBanner dealInfo={dealInfo} />
         <hr />

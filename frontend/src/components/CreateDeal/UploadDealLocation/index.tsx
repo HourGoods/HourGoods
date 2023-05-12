@@ -4,6 +4,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { dealState } from "@recoils/deal/Atoms";
 import { concertDetailState } from "@recoils/concert/Atoms";
 import { haversineDistance } from "@utils/realTime";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 declare global {
   interface Window {
@@ -102,14 +104,14 @@ export default function index() {
             longitude: position.getLng(),
           }));
         } else {
-          alert("콘서트 범위 내에서만 생성할 수 있습니다.");
+          toast.error("콘서트 범위 내에서만 생성할 수 있습니다.");
           marker.setPosition(
             concertDetailInfo.latitude,
             concertDetailInfo.longitude
           );
         }
       } else {
-        alert("콘서트를 먼저 선택해 주세요!");
+        toast.error("콘서트를 먼저 선택해 주세요!");
       }
     }
 
@@ -147,19 +149,22 @@ export default function index() {
   }, [dealInfo.concertId, concertDetailInfo]);
 
   return (
-    <div className="create-deal-location-component-container">
-      <p>거래 장소</p>
-      <input
-        type="address"
-        placeholder="예시) 8번 게이트 앞"
-        value={dealInfo.meetingLocation}
-        onChange={locationHandler}
-      />
-      <p className="deal-loc-help-text-p">
-        ※ 지도에서 핀을 옮겨 거래 장소를 지정할 수 있습니다.
-        <br /> ※ 콘서트 범위 내에서만 거래를 생성할 수 있습니다.
-      </p>
-      <div id="map" />
-    </div>
+    <>
+      <ToastContainer />
+      <div className="create-deal-location-component-container">
+        <p>거래 장소</p>
+        <input
+          type="address"
+          placeholder="예시) 8번 게이트 앞"
+          value={dealInfo.meetingLocation}
+          onChange={locationHandler}
+        />
+        <p className="deal-loc-help-text-p">
+          ※ 지도에서 핀을 옮겨 거래 장소를 지정할 수 있습니다.
+          <br /> ※ 콘서트 범위 내에서만 거래를 생성할 수 있습니다.
+        </p>
+        <div id="map" />
+      </div>
+    </>
   );
 }

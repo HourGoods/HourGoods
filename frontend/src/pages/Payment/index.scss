@@ -78,6 +78,16 @@
           font-weight: 700;
           margin-right: 9px;
           border: 1px solid $indigo-2;
+          text-align: right;
+        }
+        .charge-cash:focus {
+          outline: none;
+          box-shadow: none;
+        }
+        .charge-cash::-webkit-inner-spin-button,
+        .charge-cash::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
         }
       }
     }
