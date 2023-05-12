@@ -33,6 +33,7 @@ export default function Oauth() {
       const refreshToken = params.get("refresh") || "";
       setAuthState({ isLogin: true, token: accessToken });
       sessionStorage.setItem("accessToken", accessToken);
+      sessionStorage.setItem("isLogin", "true");
       setCookie("refreshToken", refreshToken);
       navigate("/mypage");
       alert(`${nickname}님 환영합니다!`);
