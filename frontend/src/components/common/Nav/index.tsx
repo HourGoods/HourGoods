@@ -94,7 +94,7 @@ export default function Nav() {
               <DropDown
                 menus={[
                   {
-                    label: "카카오 로그인",
+                    label: "로그인",
                     onClick: () => {
                       window.location.href = loginUrl;
                     },

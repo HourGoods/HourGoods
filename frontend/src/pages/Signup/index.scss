@@ -1,0 +1,72 @@
+@import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
+
+.signup-page-main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .signup-desktop-flex-div {
+    @include desktop {
+      display: flex;
+      min-width: 500px;
+      max-width: 600px;
+      justify-content: space-around;
+    }
+    label {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
+      .add-profile-img-button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 120px;
+        font-size: 14px;
+        font-weight: 700;
+        margin-top: 10px;
+        background-color: $white;
+        border-radius: 10px;
+        padding: 5px 10px;
+        svg {
+          width: 16px;
+          height: 16px;
+          color: $indigo-2;
+        }
+      }
+    }
+  }
+
+  // nickname
+  .nickname-input-wrapper {
+    width: 252px;
+    height: 45px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+
+    input {
+      margin-left: 10px;
+      width: 68%;
+      height: 90%;
+      border: none;
+    }
+    button {
+      width: 30%;
+      background: none;
+      color: $indigo-2;
+    }
+  }
+}
