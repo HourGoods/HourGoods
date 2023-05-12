@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { AuctionAPI } from "@api/apis";
 import AuctionDealCard from "./AuctionDealCard";
 import RealtimeBidCard from "./RealtimeBidCard";
 import { BidMessage, InoutMessage } from "..";
@@ -33,8 +34,19 @@ export default function index({ bidList, inoutMsgList }: Props) {
   // DealEnterButton 에서 state로 넘겨받은 정보
   const location = useLocation();
   const dealInfo = location.state.dealinfo; // DealCard에 들어갈 Deal 정보
-  const nowBid = location.state.bidMoney; // 경매 시작가 혹은 입장하는 시점의 경매가
+  let nowBid = location.state.bidMoney; // 경매 시작가 혹은 입장하는 시점의 경매가
   const nowCount = location.state.pplCnt; // 입장시점의 경매참여자 수
+  const dealId = location.state.dealid;
+
+  useEffect(() => {
+    const req = AuctionAPI.getableAuction(dealId);
+    req.then((res) => {
+      console.log(res.data.result);
+      // currentBid를 받아옴
+      // nowBid값을 currentBid로 갱신할 것
+      nowBid = res.data.result.currentBid;
+    });
+  }, []);
 
   return (
     <div className="auctionbox-all-conatiner">
