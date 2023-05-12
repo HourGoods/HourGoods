@@ -90,7 +90,7 @@ export default function Nav() {
             <DropDown
               menus={[
                 {
-                  label: "로그인",
+                  label: "카카오 로그인",
                   onClick: () => {
                     window.location.href = loginUrl;
                   },
@@ -122,7 +122,7 @@ export default function Nav() {
                 <p>마이페이지</p>
               </Link>
               <a href={loginUrl}>
-                <p>로그인</p>
+                <p>카카오 로그인</p>
               </a>
             </div>
           </div>
