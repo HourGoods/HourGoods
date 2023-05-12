@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
-import { searchResultConcertState } from "@recoils/concert/Atoms";
+import { concertDetailState } from "@recoils/concert/Atoms";
 import { MapPinIcon, CalendarIcon, ClockIcon } from "@heroicons/react/24/solid";
 import { ConcertInterface } from "@pages/Search";
 import { concertAPI } from "@api/apis";
@@ -21,8 +21,8 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
 
   // Update할 Deal 정보
   const [dealInfo, setDealInfo] = useRecoilState(dealState);
-  const [searchResultConcertInfo, setSearchResultConcertInfo] = useRecoilState(
-    searchResultConcertState
+  const [concertDetailInfo, setConcertDetailInfo] = useRecoilState(
+    concertDetailState
   );
 
   const clickHanlder = () => {
@@ -45,7 +45,7 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
           concertAPI.getConcertDetail(concertId).then((res) => {
             console.log(res);
             const startDate = res.data.result.startTime;
-            setSearchResultConcertInfo({ ...res.data.result, startDate });
+            setConcertDetailInfo({ ...res.data.result, startDate });
           });
         } else {
           navigate(`/concert/${concertId}`, {
