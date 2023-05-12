@@ -11,7 +11,7 @@ export default function uploadProfileDealImage(file: any, filename: any) {
   AWS.config.update({
     region,
     accessKeyId: process.env.REACT_APP_S3_ACCESS_KEY,
-    secretAccessKey: process.env.REACT_APP_S3_ACCESS_KEY,
+    secretAccessKey: process.env.REACT_APP_S3_SECRET_ACCESS_KEY,
   });
 
   // S3 SDK에 내장된 업로드 함수
@@ -23,10 +23,15 @@ export default function uploadProfileDealImage(file: any, filename: any) {
     },
   });
 
-  const promise = upload.promise();
-
-  promise.then((res) => {
-    const imageUrl = res.Location;
-    return imageUrl;
-  });
+  return upload
+    .promise()
+    .then((res) => {
+      const imageUrl = res.Location;
+      return imageUrl;
+    })
+    .catch((err) => {
+      console.log(err);
+      const imageUrl = null;
+      return imageUrl;
+    });
 }
