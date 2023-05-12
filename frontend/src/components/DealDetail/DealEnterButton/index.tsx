@@ -64,8 +64,8 @@ export default function index(props: any) {
           const participantCnt = result.result.participantCount;
           const userName = result.result.userNickname;
 
-          console.log(currBid);
-          console.log(participantCnt);
+          // console.log(currBid);
+          // console.log(participantCnt);
           navigate(`/auction/${dealId}`, {
             state: {
               dealinfo: dealInfo,
