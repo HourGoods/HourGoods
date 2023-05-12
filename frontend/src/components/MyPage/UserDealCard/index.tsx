@@ -69,8 +69,6 @@ export default function index({ getmy, deal }: IProps) {
   const closeTimeDiff = Math.floor(
     (endTime.getTime() - new Date().getTime()) / (1000 * 60)
   );
-  console.log("으아아아아아앙ㄱ");
-  console.log(closeTimeDiff);
 
   const startHour = String(startTime.getHours()).padStart(2, "0");
   const startMinute = String(startTime.getMinutes()).padStart(2, "0");
