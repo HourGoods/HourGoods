@@ -14,5 +14,5 @@ export default function PrivateRoute() {
   alert("로그인이 필요한 서비스입니다.");
   // 미로그인 유저는 로그인으로 이동
   window.location.href = "https://hourgoods.co.kr/oauth2/authorization/kakao";
-  return null
+  return null;
 }

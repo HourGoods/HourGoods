@@ -3,6 +3,8 @@ import Button from "@components/common/Button";
 import { AuctionAPI, chattingAPI, dealAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import Modal from "@components/common/Modal";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function index(props: any) {
   const { dealInfo, dealId } = props;
@@ -78,9 +80,9 @@ export default function index(props: any) {
         .catch((err) => {
           const errCode = err.response.data.errorCode;
           if (errCode === "D400") {
-            alert("아직 거래가 시작되지 않았어요!");
+            toast.error("아직 거래가 시작되지 않았어요!");
           } else if (errCode === "D500") {
-            alert("이미 종료된 거래입니다!");
+            toast.error("이미 종료된 거래입니다!");
           }
         });
     } else if (type === "Sharing") {
@@ -119,6 +121,7 @@ export default function index(props: any) {
           )}
         </Modal>
       )}
+      <ToastContainer />
       <div className="deal-enter-button-component-container">
         {typeInfo && (
           <Button color={typeInfo.color} onClick={dealClickHandler}>

@@ -5,6 +5,8 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Oauth() {
   const navigate = useNavigate();
@@ -36,9 +38,14 @@ export default function Oauth() {
       sessionStorage.setItem("isLogin", "true");
       setCookie("refreshToken", refreshToken);
       navigate("/mypage");
-      alert(`${nickname}님 환영합니다!`);
+      toast.success(`${nickname}님 환영합니다!`);
     }
   }, []);
   1;
-  return <Loading />;
+  return (
+    <>
+      <ToastContainer />
+      <Loading />
+    </>
+  );
 }

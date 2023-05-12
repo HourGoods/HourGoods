@@ -23,6 +23,7 @@
     "react-ga4": "^2.1.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.2",
     "recoil": "^0.7.7",
     "recoil-persist": "^4.2.0",
     "sockjs-client": "^1.6.1",
