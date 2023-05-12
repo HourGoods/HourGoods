@@ -20,8 +20,8 @@ export default function ChatroomList() {
       .catch((err) => {
         const errStatus = err.response.data.status;
         if (errStatus === 401) {
-          toast.error("로그인이 필요한 서비스입니다.");
           navigate("/");
+          toast.error("로그인이 필요한 서비스입니다.");
         }
       });
   }, [navigate]);

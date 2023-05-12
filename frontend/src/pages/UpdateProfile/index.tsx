@@ -143,7 +143,7 @@ export default function index() {
               const accessToken = params.get("access") || "";
               const refreshToken = params.get("refresh") || "";
               setAuthState({ isLogin: true, token: accessToken });
-              sessionStorage.setItem("accessToken", accessToken);
+              localStorage.setItem("accessToken", accessToken);
               setCookie("refreshToken", refreshToken);
               navigate("/mypage");
               toast.success(`${userInfo.nickname}님 환영합니다!`);
@@ -169,7 +169,7 @@ export default function index() {
         const accessToken = params.get("access") || "";
         const refreshToken = params.get("refresh") || "";
         setAuthState({ isLogin: true, token: accessToken });
-        sessionStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("accessToken", accessToken);
         setCookie("refreshToken", refreshToken);
         navigate("/mypage");
         toast.success(`${userInfo.nickname}님 환영합니다!`);

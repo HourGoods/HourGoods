@@ -34,8 +34,8 @@ export default function Oauth() {
       const accessToken = params.get("access") || "";
       const refreshToken = params.get("refresh") || "";
       setAuthState({ isLogin: true, token: accessToken });
-      sessionStorage.setItem("accessToken", accessToken);
-      sessionStorage.setItem("isLogin", "true");
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("isLogin", "true");
       setCookie("refreshToken", refreshToken);
       navigate("/mypage");
       toast.success(`${nickname}님 환영합니다!`);
