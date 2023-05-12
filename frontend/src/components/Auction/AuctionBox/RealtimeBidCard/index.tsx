@@ -29,9 +29,18 @@ export default function Index({
   }, []);
 
   useEffect(() => {
-    bidList.map((bid: BidMessage) => {
+    bidList.map((bid: BidMessage, index: number) => {
       setCurrentBid(bid.currentBid);
       setInterval(bid.interval);
+
+      // 애니메이션 클래스 추가
+      const costBoxElement = bidListRef.current?.children[index];
+      costBoxElement?.classList.add("animate");
+
+      // 3초 후 애니메이션 클래스 제거
+      setTimeout(() => {
+        costBoxElement?.classList.remove("animate");
+      }, 10000);
     });
     inoutMsgList.map((inout: InoutMessage) => {
       setParticipantCount(inout.participantCount);
@@ -39,13 +48,6 @@ export default function Index({
     scrollToBottom(bidListRef.current);
   }, [bidList, inoutMsgList]);
 
-  // 23.05.09 12:36
-  // 해야할 것
-  // 1. 최초입장시 현재 입찰가와 참여자수 받아서 렌더링할 것
-  // 2. atom에 사용자 포인트 넣어서 사용자포인트보다 큰 금액 응찰 못하게 막을 것
-  // 3. 현재입찰가보다 낮은 금액은 응찰하지 못하도록 막을 것
-  // 4. 웹소켓이 자꾸 튕김.. -> 소켓 입장할 때 토큰 확인하고 로그인 시키기
-  // 5. 로그인 보완해서 refreshToken 넣어주는 로직짜기
   return (
     <>
       <div className="realtime-bid-card-container">
@@ -71,11 +73,19 @@ export default function Index({
       </div>
       <div className="bid-box-container-upper">
         <div className="bid-box-container">
-          {bidList.map((bid: BidMessage, index: number) => (
-            <div ref={bidListRef} className="cost-box-wrapper" key={index}>
-              <p>{bid.currentBid}</p>
-            </div>
-          ))}
+          {bidList.map((bid: BidMessage, index: number) =>
+            bid.currentBid ? (
+              <div
+                ref={bidListRef}
+                className={`cost-box-wrapper ${
+                  index % 2 === 0 ? "left" : "right"
+                }`}
+                key={index}
+              >
+                <p>{bid.currentBid}</p>
+              </div>
+            ) : null
+          )}
         </div>
       </div>
     </>

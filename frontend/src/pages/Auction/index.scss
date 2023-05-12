@@ -157,7 +157,7 @@
     .bid-box-container {
       padding: 15px;
       width: 100%;
-      @include scrollbar-css;
+      // @include scrollbar-css;
       @include desktop {
         height: 300px;
       }
@@ -168,7 +168,11 @@
         height: 100px;
       }
 
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
       .cost-box-wrapper {
+        position: relative;
         background-color: $white-op;
         width: 150px;
         height: 40px;
@@ -179,6 +183,24 @@
         box-shadow: $shadow-purple;
         color: $indigo-1;
         margin: 10px;
+        animation: fadeOut 3s forwards;
+        opacity: 1;
+      }
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          display: none;
+        }
+      }
+      .left {
+        margin-right: auto;
+      }
+
+      .right {
+        margin-left: auto;
       }
     }
   }

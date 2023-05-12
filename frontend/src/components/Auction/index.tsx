@@ -67,6 +67,7 @@ export default function index() {
   // 클라이언트 측 영역
   const clientRef = useRef<Client>();
 
+  // 새로고침방지
   useEffect(() => {
     const preventClose = (e: BeforeUnloadEvent) => {
       e.preventDefault();
