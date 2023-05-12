@@ -28,7 +28,7 @@ export default function Nav() {
   const loginUrl = `${baseUrl}/oauth2/authorization/kakao`;
 
   // 로그인 여부 확인
-  const sessionLogin = sessionStorage.getItem("isLogin");
+  const sessionLogin = localStorage.getItem("isLogin");
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -41,8 +41,8 @@ export default function Nav() {
   const logoutHandler = () => {
     setUserInfo({ email: "", nickname: "", imageUrl: "" });
     setLoginState({ isLogin: false, token: null });
-    sessionStorage.setItem("accessToken", "");
-    sessionStorage.setItem("isLogin", "");
+    localStorage.setItem("accessToken", "");
+    localStorage.setItem("isLogin", "");
     toggleMenu();
     navigate("/");
     toast.success("안녕히가세요!");
