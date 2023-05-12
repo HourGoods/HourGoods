@@ -57,7 +57,7 @@ export default function DealDetail() {
     // login한 유저만 볼 수 있습니다
     if (!userAuthInfo.token) {
       toast.info("로그인해주세요");
-      navigate("/main");
+      navigate("/");
     }
     if (stringDealId) {
       const dealId = parseInt(stringDealId, 10); // 문자열을 숫자로 변환
