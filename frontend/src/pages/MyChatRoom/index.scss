@@ -1,9 +1,12 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
 
-.chatroom-container {
+.chatroom-container-upper {
   display: flex;
   justify-content: center;
+  .chatroom-container {
+    width: 80%;
+  }
 }
 
 // PrivateChat (일대일 채팅방)
@@ -12,8 +15,10 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
-  min-width: 380px;
+  min-width: 280px;
   width: 100%;
+  // height: 100%;
+  // max-height: 500px;
   h1 {
     text-align: left;
     color: white;
@@ -21,37 +26,34 @@
     margin: 0;
   }
   .private-chatroom-box-container {
-    border-radius: 0 10px 10px 0;
-    padding: 10px 20px;
-    height: 620px;
+    border-radius: 10px;
+    padding: 10px;
+    max-height: 600px;
+    min-height: 300px;
+
     background-color: $white-op;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: space-between;
     // width: 100%;
     .box-upper-wrapper {
       @include scrollbar-css;
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       height: 100%;
       width: 100%;
       justify-content: space-between;
-      .chatroom-dealcard {
-        // display: flex;
-        // flex-wrap: wrap;
-        // justify-content: space-between;
-
+    }
+    .chatroom-dealcard {
+      .deal-card-component-container {
         width: 100%;
-        .deal-card-component-container {
-          width: 100%;
-        }
-        .deal-card-bottom-container {
-          @include desktop {
-            display: flex;
-            p {
-              margin: 0;
-            }
+      }
+      .deal-card-bottom-container {
+        @include desktop {
+          display: flex;
+          p {
+            margin: 0;
           }
         }
       }
@@ -98,22 +100,29 @@
   }
 }
 
+.meeting-deal-button-wrapper {
+  .commonButton {
+    margin: 10px;
+  }
+}
+
 // ChatRoomCadrList (채팅방 목록리스트)
 .chatroom-card-list-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
+  width: 100%;
   h1 {
     color: white;
     font-weight: 900;
     margin: 0;
   }
   .chatroom-card-list-wrapper {
-    padding: 10px;
-    width: 300px;
+    padding: 10px 10px 10px 20px;
+    width: 100%;
     height: 620px;
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px;
     background-color: $white-op;
     display: flex;
     flex-direction: column;
@@ -130,7 +139,7 @@
   background-color: $white-op;
   border-radius: 5px;
   padding: 12px;
-  max-width: 255px;
+  width: 100%;
   height: 70px;
   .chatroom-left-section {
     img {

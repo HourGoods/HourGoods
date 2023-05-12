@@ -116,7 +116,7 @@ export default function index() {
 
   useEffect(() => {
     // console.log("소켓리스트", socketList);
-    // console.log("채팅리스트", chatMsgList);
+    console.log("채팅리스트", chatMsgList);
   }, [socketList, chatMsgList]);
 
   // Socket 연결
@@ -171,14 +171,14 @@ export default function index() {
   };
 
   return (
-    <div>
+    <>
       <div className="private-chatroom-all-container">
         <div className="private-chatroom-box-container">
+          <div className="chatroom-dealcard">
+            <DealCard dealInfo={dealInfo} />
+          </div>
           <div className="box-upper-wrapper">
-            <div className="chatroom-dealcard">
-              <DealCard dealInfo={dealInfo} />
-            </div>
-            <ChatContent chatMsgList={chatMsgList} />
+            <ChatContent chatMsgList={chatMsgList} userName={userName} />
           </div>
           <div className="box-bottom-wrapper">
             <div className="input-message-container">
@@ -202,9 +202,12 @@ export default function index() {
       </div>
 
       {/* 만나서 거래하기  */}
-      <Button color="pink" onClick={meetModalHandler}>
-        만나서 거래하기
-      </Button>
+      {/* DealDetail 거래 혹은 경매 성공시 만나서 거래하기 버튼 활성화하기 -> location 써서 코드 고칠 것 */}
+      <div className="meeting-deal-button-wrapper">
+        <Button color="pink" onClick={meetModalHandler}>
+          만나서 거래하기
+        </Button>
+      </div>
       {isModalOpen && (
         <Modal setModalOpen={setIsModalOpen}>
           <p>만나서 거래를 하시겠습니까?</p>
@@ -226,6 +229,6 @@ export default function index() {
           </Button>
         </Modal>
       )}
-    </div>
+    </>
   );
 }
