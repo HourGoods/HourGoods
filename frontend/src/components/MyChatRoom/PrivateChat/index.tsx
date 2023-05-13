@@ -166,7 +166,6 @@ export default function index() {
 
   // 1:1 만남
   const goMeetingDeal = () => {
-    console.log(dealId);
     navigate(`/meetingdeal/${dealId}`);
   };
 
@@ -208,27 +207,31 @@ export default function index() {
           만나서 거래하기
         </Button>
       </div>
-      {isModalOpen && (
-        <Modal setModalOpen={setIsModalOpen}>
-          <p>만나서 거래를 하시겠습니까?</p>
-          <p>현재 위치가 상대방에게 공유됩니다.</p>
-          <Button
-            size="small"
-            color="indigo"
-            // dealInfo.dealId 값으로 navigate 시킬 것
-            onClick={goMeetingDeal}
-          >
-            예
-          </Button>
-          <Button
-            size="small"
-            color="white"
-            onClick={() => setIsModalOpen(false)}
-          >
-            아니오
-          </Button>
-        </Modal>
-      )}
+      <div className="meeting-deal-modal-container">
+        {isModalOpen && (
+          <Modal setModalOpen={setIsModalOpen}>
+            <p>만나서 거래를 하시겠습니까?</p>
+            <p>현재 위치가 상대방에게 공유됩니다.</p>
+            <div className="meeting-modal-buttons">
+              <Button
+                size="small"
+                color="indigo"
+                // dealInfo.dealId 값으로 navigate 시킬 것
+                onClick={goMeetingDeal}
+              >
+                예
+              </Button>
+              <Button
+                size="small"
+                color="white"
+                onClick={() => setIsModalOpen(false)}
+              >
+                아니오
+              </Button>
+            </div>
+          </Modal>
+        )}
+      </div>
     </>
   );
 }
