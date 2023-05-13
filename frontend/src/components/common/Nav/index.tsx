@@ -39,6 +39,7 @@ export default function Nav() {
   };
 
   const logoutHandler = () => {
+    // 다솜 memo : 카카오 로그아웃 api도 적용하면 이제 한 계정의 굴레에서 벗어날 수 있습니다.
     setUserInfo({ email: "", nickname: "", imageUrl: "" });
     setLoginState({ isLogin: false, token: null });
     localStorage.setItem("accessToken", "");

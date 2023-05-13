@@ -7,6 +7,11 @@
   justify-content: center;
   align-items: center;
 
+  h2 {
+    margin-top: 30px;
+    margin-bottom: 60px;
+  }
+
   .signup-desktop-flex-div {
     @include desktop {
       display: flex;
@@ -46,27 +51,86 @@
     }
   }
 
-  // nickname
-  .nickname-input-wrapper {
-    width: 252px;
-    height: 45px;
+  // 우측 박스
+  .signup-desktop-right-box {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
 
-    input {
-      margin-left: 10px;
-      width: 68%;
-      height: 90%;
-      border: none;
+    @include desktop {
+      min-width: 400px;
+      text-align: left;
+      p {
+        margin-bottom: 5px;
+      }
     }
-    button {
-      width: 30%;
-      background: none;
+
+    .text-input-wrapper {
+      width: 253px;
+      margin: auto;
+      @include desktop {
+        margin-left: 60px;
+      }
+      p {
+        text-align: left;
+        padding-left: 10px;
+        font-weight: 700;
+      }
+
+      // nickname
+      .email-nickname-input-wrapper {
+        width: 252px;
+        height: 45px;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+
+        input {
+          width: 68%;
+          height: 90%;
+          border: none;
+          background: none;
+          padding-left: 10px;
+        }
+        button {
+          width: 30%;
+          background: none;
+          color: $indigo-2;
+          display: flex;
+          justify-content: flex-end;
+          margin-right: 5px;
+        }
+        svg {
+          width: 25px;
+          justify-self: flex-end;
+        }
+      }
+    }
+  }
+  // 하단 알림
+  .nickname-alert-msg-wrapper {
+    height: 50px;
+    font-size: 12px;
+    color: $pink-1;
+
+    @include desktop {
+      margin-left: 65px;
+    }
+    .success-p {
       color: $indigo-2;
+    }
+  }
+
+  // 최하단 가입 버튼
+  .signup-button-wrapper {
+    button {
+      margin-top: 30px;
+      @include desktop {
+        margin-top: 70px;
+      }
     }
   }
 }

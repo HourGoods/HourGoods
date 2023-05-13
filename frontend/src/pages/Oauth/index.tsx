@@ -21,7 +21,9 @@ export default function Oauth() {
     const imageUrl = params.get("imageUrl") || "";
 
     if (nickname === "") {
+      console.log("원래 있는 유저인포", userInfo);
       const newUserInfo = { ...userInfo };
+      console.log("복사한 유저인포", newUserInfo);
       newUserInfo.email = email;
       setUserInfo(newUserInfo);
       navigate("/signup");
