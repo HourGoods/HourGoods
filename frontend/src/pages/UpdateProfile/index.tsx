@@ -4,12 +4,11 @@ import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useLocation } from "react-router";
 import "./index.scss";
 import { useRecoilState } from "recoil";
-import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
+import { UserStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
-import uploadDealImage from "@utils/uploadDealImage";
+import uploadProfileImage from "@utils/uploadProfileImage";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -93,102 +92,6 @@ export default function index() {
     }
   };
 
-  // 회원 가입
-  // const [authState, setAuthState] = useRecoilState(AuthStateAtom);
-  // const [cookies, setCookie] = useCookies(["refreshToken"]);
-  // const singHandleClick = useCallback(() => {
-  //   const params = new URLSearchParams(window.location.search);
-  //   memberAPI
-  //     .signup(userInfo)
-  //     .then(() => {
-  //       // 회원가입완료
-  //       console.log(userInfo);
-  //       const accessToken = params.get("access") || "";
-  //       const refreshToken = params.get("refresh") || "";
-  //       setAuthState({ isLogin: true, token: accessToken });
-  //       sessionStorage.setItem("accessToken", accessToken);
-  //       setCookie("refreshToken", refreshToken);
-  //       navigate("/main");
-  //       alert(`${userInfo.nickname}님 환영합니다!`);
-  //     })
-  //     .catch((err) => {
-  //       const errCode = err.response.data.status;
-  //       if (errCode === 400) {
-  //         alert("닉네임을 입력해주세요.");
-  //       }
-  //     });
-  // }, [setUserInfo, userInfo]);
-
-  const [authState, setAuthState] = useRecoilState(AuthStateAtom);
-  const [cookies, setCookie] = useCookies(["refreshToken"]);
-  const singupprofile = async () => {
-    const params = new URLSearchParams(window.location.search);
-
-    if (uploadedImage) {
-      // 로딩 추가하기
-      try {
-        // 이미지 업로드하여 이미지 주소 받아오기
-        const imageUrl = await uploadDealImage(
-          inputImage.file,
-          inputImage.filename
-        );
-        if (imageUrl) {
-          console.log("받아온 이미지 주소", imageUrl);
-          console.log(inputImage.file);
-          console.log(inputImage.filename);
-          // POST API 요청
-          const result = memberAPI.signup({ ...userInfo, imageUrl });
-          result
-            .then((res) => {
-              const accessToken = params.get("access") || "";
-              const refreshToken = params.get("refresh") || "";
-              setAuthState({ isLogin: true, token: accessToken });
-              localStorage.setItem("accessToken", accessToken);
-              setCookie("refreshToken", refreshToken);
-              navigate("/mypage");
-              toast.success(`${userInfo.nickname}님 환영합니다!`);
-              setUserInfo((prevUserInfo: any) => ({
-                ...prevUserInfo,
-                imageUrl,
-              }));
-            })
-            .catch((err) => {
-              const errCode = err.response.data.status;
-              if (errCode === 400) {
-                toast.error("닉네임을 입력해주세요.");
-              }
-            });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } // 업로드 이미지가 없을 때
-    const result = memberAPI.signup({ ...userInfo });
-    result
-      .then((res) => {
-        const accessToken = params.get("access") || "";
-        const refreshToken = params.get("refresh") || "";
-        setAuthState({ isLogin: true, token: accessToken });
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("isLogin", "true");
-        setCookie("refreshToken", refreshToken);
-
-        // 바로 로그인
-
-        navigate("/mypage");
-        toast.success(`${userInfo.nickname}님 환영합니다!`);
-        setUserInfo((prevUserInfo: any) => ({
-          ...prevUserInfo,
-        }));
-      })
-      .catch((err) => {
-        const errCode = err.response.data.status;
-        if (errCode === 400) {
-          toast.error("닉네임을 입력해주세요.");
-        }
-      });
-  };
-
   // 회원 수정
 
   const editHandleClick = useCallback(() => {
@@ -206,7 +109,7 @@ export default function index() {
     // 로딩 추가하기
     try {
       // 이미지 업로드하여 이미지 주소 받아오기
-      const imageUrl = await uploadDealImage(
+      const imageUrl = await uploadProfileImage(
         inputImage.file,
         inputImage.filename
       );
@@ -219,6 +122,7 @@ export default function index() {
         result.then((res) => {
           console.log(res);
           // const { dealId } = res.data.result;
+          toast.success("정보가 변경되었습니다!", { autoClose: 1000 });
           navigate(`/mypage`);
           setUserInfo((prevUserInfo: any) => ({
             ...prevUserInfo,
@@ -248,10 +152,9 @@ export default function index() {
           <div className="updateprofile-contents-container">
             <div className="updateprofile-contents-container-desktop">
               <label htmlFor="uploadImg">
-                <h2>{fromMy ? "회원정보 수정💝" : "회원가입🎉"}</h2>
+                <h2>회원정보 수정💝</h2>
                 <div className="updateprofile-contents-container-wrapper">
                   {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
-
                   {!uploadedImage ? (
                     <img src={userInfo.imageUrl} alt="프로필 사진" />
                   ) : (
@@ -300,11 +203,7 @@ export default function index() {
               </form>
             </div>
             <div className="update-button-wrapper">
-              {fromMy ? (
-                <Button onClick={editprofile}>회원정보 수정하기</Button>
-              ) : (
-                <Button onClick={singupprofile}>회원가입</Button>
-              )}
+              <Button onClick={editprofile}>회원정보 수정하기</Button>
             </div>
           </div>
         </div>
