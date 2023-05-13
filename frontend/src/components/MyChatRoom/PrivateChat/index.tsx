@@ -32,9 +32,6 @@ interface DealInfoInterface {
   title: string;
 }
 
-// 23.05.10 10:42
-// chattingRoomId 값에 포함된 dealId 값으로 api 요청 새로보내는 로직 짜서 DealCard 수정할 것
-
 export default function index() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,13 +56,14 @@ export default function index() {
   };
 
   useEffect(() => {
-    console.log("chattingRoomId", chattingRoomId);
+    console.log("개인채팅 state값", location.state);
     const chatReq = chattingAPI.getmychatMsg(chattingRoomId);
     chatReq
       .then((res) => {
         // 채팅내용 가져오기
         setChatMsgList(res.data.result);
         console.log("채팅내용가져오기", res.data.result);
+        setNotMeName(res.data.result.nickname);
       })
       .catch((err) => {
         console.error(err);
@@ -101,6 +99,7 @@ export default function index() {
   const [msgValue, setMsgValue] = useState("");
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
+  const [notMeName, setNotMeName] = useState("");
 
   const handleMessage = (message: string) => {
     setsocketList((prevSocketList) => [...prevSocketList, message]);
@@ -166,7 +165,9 @@ export default function index() {
 
   // 1:1 만남
   const goMeetingDeal = () => {
-    navigate(`/meetingdeal/${dealId}`);
+    navigate(`/meetingdeal/${dealId}`, {
+      state: { dealid: dealId, otherUsername: location.state.otherUsername },
+    });
   };
 
   return (
