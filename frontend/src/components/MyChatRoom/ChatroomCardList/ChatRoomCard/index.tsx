@@ -17,7 +17,11 @@ export default function ChatroomCard({ chatroom }: ChatroomProps) {
 
   const navigateChatroomHandler = () => {
     navigate(`/mychatroom/${chatroom.chattingRoomId}`, {
-      state: { dealid: chatroom.dealId, chatId: chatroom.chattingRoomId },
+      state: {
+        dealid: chatroom.dealId,
+        chatId: chatroom.chattingRoomId,
+        otherUsername: chatroom.otherNickname,
+      },
     });
   };
 

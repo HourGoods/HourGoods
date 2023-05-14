@@ -29,7 +29,7 @@
     border-radius: 10px;
     padding: 10px;
     max-height: 600px;
-    min-height: 300px;
+    min-height: 450px;
 
     background-color: $white-op;
     display: flex;
@@ -65,6 +65,15 @@
         margin: 0;
         text-align: left;
         font-size: 14px;
+      }
+      .private-no-chat-yet {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        p {
+          color: $gray-3;
+        }
       }
       .not-me-chat {
         display: flex;
@@ -103,6 +112,19 @@
 .meeting-deal-button-wrapper {
   .commonButton {
     margin: 10px;
+  }
+}
+
+.meeting-deal-modal-container {
+  .common-modal-box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .meeting-modal-buttons {
+        display: flex;
+        align-items: center;
+        gap: 50px;
+      }
   }
 }
 

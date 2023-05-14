@@ -133,4 +133,22 @@ const AuctionAPI = {
     request.authGet("/auction/result", { params: { dealId } }),
 };
 
-export { memberAPI, concertAPI, dealAPI, mypageAPI, chattingAPI, AuctionAPI };
+// 만나서 거래하기 api
+const meetingDealAPI = {
+  postlocationInfo: (
+    dealId: number,
+    sellerNickname: string,
+    purchaserNickname: string
+  ): Promise<AxiosResponse> =>
+    request.authPost("/deal/trade", { dealId, sellerNickname, purchaserNickname }),
+};
+
+export {
+  memberAPI,
+  concertAPI,
+  dealAPI,
+  mypageAPI,
+  chattingAPI,
+  AuctionAPI,
+  meetingDealAPI,
+};

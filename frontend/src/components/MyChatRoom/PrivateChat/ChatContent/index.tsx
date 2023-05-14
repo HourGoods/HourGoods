@@ -18,10 +18,10 @@ export default function index({ chatMsgList, userName }: Props) {
   return (
     <div ref={chatMsgListRef} className="private-chatroom-content-container">
       {chatMsgList.length === 0 ? (
-        <>
+        <div className="private-no-chat-yet">
           <p>아직 채팅이 없어요</p>
-          <p>먼저 채팅을 시작해보세요</p>
-        </>
+          <p>먼저 채팅을 시작해보세요!</p>
+        </div>
       ) : (
         chatMsgList.map((message: PrivatChatMessage, index: number) => {
           // const isMe = message.isUser;
