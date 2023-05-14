@@ -130,6 +130,7 @@
     min-height: 140px;
     min-width: 266px;
     max-width: 400px;
+    aspect-ratio: 5 / 3;
     margin: 10px auto;
     .upload-img-wrapper {
       width: 100%;
@@ -225,3 +226,4 @@
     }
   }
 }
+
