@@ -152,7 +152,8 @@ export default function index() {
         // 이미지 업로드하여 이미지 주소 받아오기
         const imageUrl = await uploadProfileImage(
           inputImage.file,
-          inputImage.filename
+          inputImage.filename,
+          inputNickname
         );
         if (imageUrl) {
           // 회원가입 API 요청
