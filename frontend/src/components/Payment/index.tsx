@@ -39,75 +39,6 @@ export default function index() {
     }));
   };
 
-  const [payUrl, setPayUrl] = useState("");
-
-  // useEffect(() => {
-  //   const { params } = state;
-  //   axios({
-  //     // 프록시에 카카오 도메인을 설정했으므로 결제 준비 url만 주자
-  //     url: "https://kapi.kakao.com/v1/payment/ready",
-  //     // 결제 준비 API는 POST 메소드라고 한다.
-  //     method: "POST",
-  //     headers: {
-  //       // 카카오 developers에 등록한 admin키를 헤더에 줘야 한다.
-  //       Authorization: "KakaoAK e74d46458f51e4d2bec823b97eb4255e",
-  //       "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-  //     },
-  //     // 설정한 매개변수들
-  //     params,
-  //   }).then((response) => {
-  //     console.log(response, "응답");
-  //     setPayUrl(response.data.next_redirect_pc_url);
-  //     // 응답에서 필요한 data만 뽑는다.
-  //     // const {
-  //     //   data: { next_redirect_pc_url, tid },
-  //     // } = response;
-
-  //     // console.log(next_redirect_pc_url);
-  //     // console.log(tid);
-  //     // 응답 data로 state 갱신
-  //     // setState({ next_redirect_pc_url, tid });
-  //   });
-  // });
-
-  // const charge = () => {
-  //   const { params } = state;
-  //   axios({
-  //     // 프록시에 카카오 도메인을 설정했으므로 결제 준비 url만 주자
-  //     url: "https://kapi.kakao.com/v1/payment/ready",
-  //     // 결제 준비 API는 POST 메소드라고 한다.
-  //     method: "POST",
-  //     headers: {
-  //       // 카카오 developers에 등록한 admin키를 헤더에 줘야 한다.
-  //       Authorization: "KakaoAK e74d46458f51e4d2bec823b97eb4255e",
-  //       "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-  //     },
-  //     // 설정한 매개변수들
-  //     params,
-  //   })
-  //     .then((response) => {
-  //       console.log(response, "응답");
-  //       const {
-  //         data: { tid },
-  //       } = response;
-  //       // setPayUrl(response.data.next_redirect_pc_url);
-  //       window.localStorage.setItem("tid", tid);
-  //       window.location.href = response.data.next_redirect_pc_url;
-  //     })
-  //     // 응답에서 필요한 data만 뽑는다.
-  //     // const {
-  //     //   data: { next_redirect_pc_url, tid },
-  //     // } = response;
-
-  //     // console.log(next_redirect_pc_url);
-  //     // console.log(tid);
-  //     // 응답 data로 state 갱신
-  //     // setState({ next_redirect_pc_url, tid });
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const charge = () => {
     const { params } = state;
     axios({
@@ -134,15 +65,7 @@ export default function index() {
         setTid(tid);
         window.location.href = response.data.next_redirect_pc_url;
       })
-      // 응답에서 필요한 data만 뽑는다.
-      // const {
-      //   data: { next_redirect_pc_url, tid },
-      // } = response;
 
-      // console.log(next_redirect_pc_url);
-      // console.log(tid);
-      // 응답 data로 state 갱신
-      // setState({ next_redirect_pc_url, tid });
       .catch((err) => {
         console.log(err);
       });
@@ -175,6 +98,7 @@ export default function index() {
               type="number"
               min="0"
               max="1000000"
+              placeholder="충전 금액을 입력해주세요."
               onChange={handleCashChange}
             />
           </div>

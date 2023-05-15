@@ -48,7 +48,7 @@ export default function index(props: any) {
 
   const searchHandler = () => {
     if (inConcertList[0]) {
-      const {concertId} = inConcertList[0];
+      const { concertId } = inConcertList[0];
       // api
       const result = concertAPI.getConcertDealList(
         concertId,
@@ -87,13 +87,15 @@ export default function index(props: any) {
             setSearchInput={setSearchInput}
             onSubmit={searchHandler}
           />
-          {concertDealList.map((dealInfo: any) => {
-            return (
-              <div key={dealInfo.dealId}>
-                <DealCard dealInfo={dealInfo} />
-              </div>
-            );
-          })}
+          <div className="cards-list-container">
+            {concertDealList.map((dealInfo: any) => {
+              return (
+                <div key={dealInfo.dealId}>
+                  <DealCard dealInfo={dealInfo} />
+                </div>
+              );
+            })}
+          </div>
         </>
       )}
     </div>
