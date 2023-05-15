@@ -70,7 +70,7 @@ export default function index(props: any) {
         <ClockIcon />
         <p className="realtime-page-component-title-p">실시간 Time Deal</p>
       </div>
-      {inConcertList.length < 1 ? (
+      {inConcertList.length < 1 || !inConcertList ? (
         <>
           <p className="realtime-page-helper-p">
             콘서트 범위 안에서만 Deal을 확인할 수 있어요.
