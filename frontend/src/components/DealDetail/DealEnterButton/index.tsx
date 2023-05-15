@@ -22,7 +22,7 @@ export default function index(props: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (type === "Auction" || type === "HourAuction") {
+    if (type === "Auction") {
       setTypeInfo({
         color: "purple",
         content: "경매장 입장하기",

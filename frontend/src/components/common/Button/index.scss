@@ -113,9 +113,6 @@
   &.All {
     @include deal-btn-color($pink-1);
   }
-  &.HourAuction {
-    @include deal-btn-color($violet-2);
-  }
   &.Auction {
     @include deal-btn-color($indogo-4);
   }
