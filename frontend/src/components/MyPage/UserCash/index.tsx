@@ -17,7 +17,7 @@ export default function index() {
         <button type="button" className="usercash-wrapper">
           <div className="ticket">
             <TicketIcon className="ticket-icon" />
-            <p className="ticket-tag">티켓</p>
+            <p className="ticket-tag">포인트</p>
           </div>
           <div className="cash-box">
             <p className="cash">{`${

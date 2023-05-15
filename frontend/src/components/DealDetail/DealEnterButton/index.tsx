@@ -4,14 +4,21 @@ import { AuctionAPI, chattingAPI, dealAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import Modal from "@components/common/Modal";
 import { toast, ToastContainer } from "react-toastify";
+import { useRecoilState } from "recoil";
+import { UserStateAtom } from "@recoils/user/Atom";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function index(props: any) {
   const { dealInfo, dealId } = props;
+  const navigate = useNavigate();
   const type = dealInfo.dealType;
   const receiver = dealInfo.userNickname;
   const dealid = dealId;
-  const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+  const { cash } = userInfo.cash;
+  const { minPrice } = dealInfo.minPrice;
+  const [affordable, setAffordable] = useState(false);
+  const [isChargeModalOpen, setIsChargeModalOpen] = useState(false);
 
   const [typeInfo, setTypeInfo] = useState({
     color: "",
@@ -40,13 +47,26 @@ export default function index(props: any) {
     }
   }, [type]);
 
+  useEffect(() => {
+    if (cash >= minPrice) {
+      setAffordable(true);
+    } else {
+      setAffordable(false);
+    }
+  }, [cash, minPrice]);
+
   const dealClickHandler = () => {
+    if (!affordable) {
+      setIsChargeModalOpen(true);
+      return;
+    }
+
     // 1:1 채팅하기
     if (type === "Trade") {
       const req = chattingAPI.postchatDirect(receiver, dealid);
       req
         .then((res) => {
-          console.log(res.data.result);
+          console.log("채팅하기 res", res.data.result);
           const chattingRoomId = res.data.result.directChattingRoomId;
           navigate(`/mychatroom/${chattingRoomId}`, {
             state: { dealid: dealId, chatId: chattingRoomId },
@@ -59,13 +79,12 @@ export default function index(props: any) {
       const req = AuctionAPI.getableAuction(dealId);
       req
         .then((res) => {
+          console.log("경매하기 res", res.data.result);
           const result = res.data;
           const currBid = result.result.currentBid;
           const participantCnt = result.result.participantCount;
           const userName = result.result.userNickname;
 
-          // console.log(currBid);
-          // console.log(participantCnt);
           navigate(`/auction/${dealId}`, {
             state: {
               dealinfo: dealInfo,
@@ -119,6 +138,14 @@ export default function index(props: any) {
               {/* <p>{sharingNum}</p> */}
             </>
           )}
+        </Modal>
+      )}
+      {isChargeModalOpen && (
+        <Modal setModalOpen={setIsChargeModalOpen}>
+          <h1>😢 충전해주세요! 😢</h1>
+          <p>보유금액이 부족해요..</p>
+          <p>충전 후 다시 이용해주세요!</p>
+          <Button color={typeInfo.color} onClick={()=>{navigate("/payment");}}>충전하러 가기</Button>
         </Modal>
       )}
       <ToastContainer />
