@@ -19,8 +19,10 @@ export default function index() {
     console.log("만나서 거래하기 state값", location.state);
     const fetchData = async () => {
       try {
+        console.log("내가 아닌 닉네임", notMeName);
         const res = await dealAPI.getDealDeatail(dealId);
         setSellerName(res.data.result.userNickname);
+        console.log(res, "받은 응답");
         // 내가 판매자가 아니면 내가 구매자
         if (userName !== sellerName) {
           setPurchaserName(userName);
@@ -32,6 +34,7 @@ export default function index() {
         console.error("Error:", error);
       }
     };
+
     fetchData();
   }, []);
 
