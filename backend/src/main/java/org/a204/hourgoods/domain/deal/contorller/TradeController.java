@@ -12,7 +12,6 @@ import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,7 +52,6 @@ public class TradeController {
 	}
 
 	@MessageMapping("/meet/{dealId}")
-	@SendTo("/topic/meet/{dealId}/{nickname}")
 	public BaseResponse<Void> updateTradeLocation(@DestinationVariable Long dealId,
 		@Payload TradeMessageRequest request) {
 		TradeMessageResponse response = tradeService.updateTradeLocation(request);
