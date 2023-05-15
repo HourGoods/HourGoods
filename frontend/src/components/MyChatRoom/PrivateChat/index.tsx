@@ -166,7 +166,7 @@ export default function index() {
   // 1:1 만남
   const goMeetingDeal = () => {
     navigate(`/meetingdeal/${dealId}`, {
-      state: { chatRoomId: chattingRoomId },
+      state: { dealid: dealId, chatRoomId: chattingRoomId },
     });
   };
 

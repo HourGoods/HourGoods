@@ -61,12 +61,14 @@ export default function index({ tradeLocId }: Props) {
       onConnect: () => {
         console.log("소켓에 연결되었습니당");
         // 해당 소켓주소에 구독
-        clientRef.current?.subscribe(
-          `/topic/meet/${dealId}/${userName}`,
-          (message: Message) => {
-            handleMessage(message.body);
-          }
-        );
+        if (dealId !== null) {
+          clientRef.current?.subscribe(
+            `/topic/meet/${dealId}/${userName}`,
+            (message: Message) => {
+              handleMessage(message.body);
+            }
+          );
+        }
       },
     });
     clientRef.current?.activate(); // client측 활성화
