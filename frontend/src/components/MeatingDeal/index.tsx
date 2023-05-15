@@ -45,12 +45,13 @@ export default function index() {
             sellerName,
             purchaserName
           );
-          console.log(res.data.result); // 반환받은 tradeLocationId
-          setTradeLocationId(res.data.result);
+          console.log(res.data.result.tradeLocationId); // 반환받은 tradeLocationId
+          setTradeLocationId(res.data.result.tradeLocationId);
         }
       } catch (error) {
         console.error("Error:", error);
       }
+
     };
     postData();
   }, [sellerName, purchaserName, dealId]);
