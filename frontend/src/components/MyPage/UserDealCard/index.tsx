@@ -63,6 +63,10 @@ export default function index({ getmy, deal }: IProps) {
   const openTimeDiff = Math.floor(
     (startTime.getTime() - new Date().getTime()) / (1000 * 60)
   );
+  // 일, 시, 분
+  const openDay = Math.floor(openTimeDiff / (24 * 60));
+  const hour = Math.floor(openTimeDiff / 60);
+  const minute = openTimeDiff % 60;
 
   const endTime = new Date(deal.endTime);
   // endTime.setHours(endTime.getHours() - 9); // 9 hours is the time difference between UTC and KST
@@ -102,10 +106,14 @@ export default function index({ getmy, deal }: IProps) {
     default:
       break;
   }
-  let statusText;
 
-  if (openTimeDiff > 0) {
+  let statusText;
+  if (openTimeDiff > 0 && openTimeDiff <= 59) {
     statusText = `오픈 ${openTimeDiff}분 전`;
+  } else if (openTimeDiff >= 60 && openTimeDiff <= 1439) {
+    statusText = `오픈 ${hour}시 ${minute}분 전`;
+  } else if (openTimeDiff >= 1440) {
+    statusText = `오픈 ${openDay}일 전`;
   } else if (openTimeDiff <= 0 && closeTimeDiff > 0) {
     statusText = "진행중";
   } else {
