@@ -61,6 +61,9 @@
         margin-top: 10px;
         height: 292px;
         width: 100%;
+        @include desktop {
+          height: 345px;
+        }
       }
       button {
         position: absolute;
@@ -72,7 +75,7 @@
     }
 
     @include desktop {
-      width: 644px;
+      width: 600px;
     }
   }
 
@@ -84,12 +87,29 @@
     width: 100%;
     max-width: 644px;
 
+    .cards-list-container {
+      @include desktop {
+        height: 400px;
+        overflow-y: scroll;
+        padding-right: 5px;
+        &::-webkit-scrollbar {
+          width: 10px;
+          &-thumb {
+            background-color: rgba($color: $pink-1, $alpha: 0.3);
+            border-radius: 10px;
+          }
+          &-track {
+            background-color: transparent;
+          }
+        }
+      }
+    }
     .deal-card-component-container {
       margin: 10px auto;
     }
 
     @include desktop {
-      width: 350px;
+      width: 400px;
     }
   }
 }
