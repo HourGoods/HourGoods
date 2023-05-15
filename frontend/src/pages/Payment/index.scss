@@ -74,10 +74,12 @@
         }
 
         .charge-cash {
+          width: 80%;
           font-size: 18px;
           font-weight: 700;
           margin-right: 9px;
-          border: 1px solid $indigo-2;
+          border: none;
+          // border: 1px solid $indigo-2;
           text-align: right;
         }
         .charge-cash:focus {
