@@ -6,7 +6,6 @@ import { chattingAPI, dealAPI } from "@api/apis";
 import DealCard from "@components/common/DealCard";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
-import { ChatBubbleOvalLeftIcon } from "@heroicons/react/24/solid";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
@@ -167,7 +166,7 @@ export default function index() {
   // 1:1 만남
   const goMeetingDeal = () => {
     navigate(`/meetingdeal/${dealId}`, {
-      state: { dealid: dealId, otherUsername: location.state.otherUsername },
+      state: { chatRoomId: chattingRoomId },
     });
   };
 
