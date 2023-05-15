@@ -25,6 +25,7 @@ import org.a204.hourgoods.domain.deal.repository.TradeLocationRepository;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
 import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
+import org.a204.hourgoods.domain.deal.response.LocationInfoResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.global.common.BaseResponse;
@@ -241,9 +242,11 @@ class TradeControllerTest {
 		private WebSocketStompClient stompClient;
 		private StompSession stompSession;
 		private String tradeLocationId;
+		private TestStompFrameHandler testStompFrameHandler;
+		private ListenableFuture<StompSession> sessionFuture;
 
 		@BeforeEach
-		void setUp() {
+		void setUp() throws Exception {
 			stompClient = new WebSocketStompClient(
 				new SockJsClient(List.of(new WebSocketTransport(new StandardWebSocketClient()))));
 			tradeLocation = TradeLocation.builder()
@@ -257,11 +260,27 @@ class TradeControllerTest {
 				.distance(null)
 				.build();
 			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
+
 		}
 
 		@Test
 		@DisplayName("발행 및 구독 성공")
 		void updateTradeLocationSuccess() throws Exception {
+			// 세션 핸들러를 생성합니다.
+			testStompFrameHandler = new TestStompFrameHandler();
+
+			// 세션 핸들러를 등록합니다.
+			sessionFuture = stompClient.connect(wsUrl, new StompSessionHandlerAdapter() {
+			});
+
+			// 세션을 가져옵니다.
+			stompSession = sessionFuture.get();
+
+			// 특정 URL을 구독합니다.
+			final String subscribeUrl = "/topic/meet/" + trade.getId() + "/";
+			stompSession.subscribe(subscribeUrl + seller.getNickname(), testStompFrameHandler);
+			stompSession.subscribe(subscribeUrl + purchaser.getNickname(), testStompFrameHandler);
+
 			// request
 			TradeMessageRequest request = new TradeMessageRequest().builder()
 				.tradeLocationId(tradeLocationId)
@@ -271,49 +290,64 @@ class TradeControllerTest {
 				.build();
 
 			// response
-			TradeMessageResponse response = TradeMessageResponse.builder()
-				.tradeLocationId(tradeLocationId)
-				.dealId(Long.parseLong(tradeLocation.getDealId()))
-				.sellerNickname(request.getNickname())
-				.sellerLongitude(request.getLongitude())
-				.sellerLatitude(request.getLatitude())
-				.purchaserNickname(purchaser.getNickname())
-				.purchaserLongitude(tradeLocation.getPurchaserLongitude() == null ? null :
+			LocationInfoResponse sellerLocationInfo = LocationInfoResponse.builder()
+				.otherNickname(request.getNickname())
+				.otherLongitude(request.getLongitude())
+				.otherLatitude(request.getLatitude())
+				.distance(tradeLocation.getDistance() == null ? null : Double.parseDouble(tradeLocation.getDistance()))
+				.build();
+
+			LocationInfoResponse purchaseLocationInfo = LocationInfoResponse.builder()
+				.otherNickname(purchaser.getNickname())
+				.otherLongitude(tradeLocation.getPurchaserLongitude() == null ? null :
 					Double.parseDouble(tradeLocation.getPurchaserLongitude()))
-				.purchaserLatitude(tradeLocation.getPurchaserLatitude() == null ? null :
+				.otherLatitude(tradeLocation.getPurchaserLatitude() == null ? null :
 					Double.parseDouble(tradeLocation.getPurchaserLatitude()))
 				.distance(tradeLocation.getDistance() == null ? null : Double.parseDouble(tradeLocation.getDistance()))
 				.build();
 
-			// 세션 핸들러를 생성합니다.
-			TestStompFrameHandler testStompFrameHandler = new TestStompFrameHandler();
-
-			// 세션 핸들러를 등록합니다.
-			ListenableFuture<StompSession> sessionFuture = stompClient.connect(
-				wsUrl, new StompSessionHandlerAdapter() {
-				});
-
-			// 세션을 가져옵니다.
-			stompSession = sessionFuture.get();
-
-			// 특정 URL을 구독합니다.
-			stompSession.subscribe("/topic/meet/" + trade.getId(), testStompFrameHandler);
+			TradeMessageResponse response = TradeMessageResponse.builder()
+				.tradeLocationId(tradeLocationId)
+				.dealId(Long.parseLong(tradeLocation.getDealId()))
+				.sellerNickname(request.getNickname())
+				.purchaserNickname(purchaser.getNickname())
+				.sellerLocationInfo(sellerLocationInfo)
+				.purchaserLocationInfo(purchaseLocationInfo)
+				.build();
 
 			// 메시지를 전송합니다.
 			// stompSession.send("/pub/meet/" + request.getDealId(),
 			// 	objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
-			stompSession.send("/topic/meet/" + response.getDealId(),
-				objectMapper.writeValueAsString(response).getBytes(StandardCharsets.UTF_8));
+			stompSession.send(subscribeUrl + seller.getNickname(),
+				objectMapper.writeValueAsString(response.getSellerLocationInfo()).getBytes(StandardCharsets.UTF_8));
 
 			// 메시지를 받을 때까지 대기합니다.
 			String receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
 
 			// 받은 메시지가 예상한 메시지와 일치하는지 확인합니다.
-			TradeMessageResponse actual = objectMapper.readValue(receivedMessage, TradeMessageResponse.class);
-			assertEquals(request.getTradeLocationId(), actual.getTradeLocationId());
-			assertEquals(request.getNickname(), actual.getSellerNickname());
-			assertEquals(request.getLongitude(), actual.getSellerLongitude());
-			assertEquals(request.getLatitude(), actual.getSellerLatitude());
+			LocationInfoResponse actual = objectMapper.readValue(receivedMessage, LocationInfoResponse.class);
+			assertEquals(request.getNickname(), actual.getOtherNickname());
+			assertEquals(request.getLongitude(), actual.getOtherLongitude());
+			assertEquals(request.getLatitude(), actual.getOtherLatitude());
+			assertNull(actual.getDistance());
+
+			// 메시지를 전송합니다.
+			// stompSession.send("/pub/meet/" + request.getDealId(),
+			// 	objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
+			stompSession.send(subscribeUrl + purchaser.getNickname(),
+				objectMapper.writeValueAsString(response.getPurchaserLocationInfo()).getBytes(StandardCharsets.UTF_8));
+
+			// 메시지를 받을 때까지 대기합니다.
+			receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
+
+			// 받은 메시지가 예상한 메시지와 일치하는지 확인합니다.
+			actual = objectMapper.readValue(receivedMessage, LocationInfoResponse.class);
+			assertEquals(purchaser.getNickname(), actual.getOtherNickname());
+			assertEquals(tradeLocation.getPurchaserLongitude() == null ? null :
+				Double.parseDouble(tradeLocation.getPurchaserLongitude()), actual.getOtherLongitude());
+			assertEquals(tradeLocation.getPurchaserLatitude() == null ? null :
+				Double.parseDouble(tradeLocation.getPurchaserLatitude()), actual.getOtherLatitude());
+			assertNull(actual.getDistance());
 		}
 
 		@AfterEach

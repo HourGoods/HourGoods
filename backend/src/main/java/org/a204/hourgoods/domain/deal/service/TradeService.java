@@ -12,6 +12,7 @@ import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
 import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
+import org.a204.hourgoods.domain.deal.response.LocationInfoResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
@@ -107,16 +108,27 @@ public class TradeService {
 			tradeLocation.updateDistance(distance.toString());
 		}
 
+		LocationInfoResponse sellerLocationInfo = LocationInfoResponse.builder()
+			.otherNickname(seller.getNickname())
+			.otherLongitude(sellerLongitude)
+			.otherLatitude(sellerLatitude)
+			.distance(distance)
+			.build();
+
+		LocationInfoResponse purchaserLocationInfo = LocationInfoResponse.builder()
+			.otherNickname(purchaser.getNickname())
+			.otherLongitude(purchaserLongitude)
+			.otherLatitude(purchaserLatitude)
+			.distance(distance)
+			.build();
+
 		return TradeMessageResponse.builder()
 			.tradeLocationId(tradeLocation.getId())
 			.dealId(deal.getId())
 			.sellerNickname(seller.getNickname())
-			.sellerLongitude(sellerLongitude)
-			.sellerLatitude(sellerLatitude)
 			.purchaserNickname(purchaser.getNickname())
-			.purchaserLongitude(purchaserLongitude)
-			.purchaserLatitude(purchaserLatitude)
-			.distance(distance)
+			.sellerLocationInfo(sellerLocationInfo)
+			.purchaserLocationInfo(purchaserLocationInfo)
 			.build();
 	}
 

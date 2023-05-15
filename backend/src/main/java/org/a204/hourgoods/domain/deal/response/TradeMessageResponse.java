@@ -21,21 +21,12 @@ public class TradeMessageResponse {
 	@Schema(description = "판매자 닉네임")
 	private String sellerNickname;
 
-	@Schema(description = "판매자 경도")
-	private Double sellerLongitude;
-
-	@Schema(description = "판매자 위도")
-	private Double sellerLatitude;
-
 	@Schema(description = "구매자 닉네임")
 	private String purchaserNickname;
 
-	@Schema(description = "구매자 경도")
-	private Double purchaserLongitude;
+	@Schema(description = "판매자의 위치 정보")
+	private LocationInfoResponse sellerLocationInfo;
 
-	@Schema(description = "구매자 위도")
-	private Double purchaserLatitude;
-
-	@Schema(description = "거래자와의 거리")
-	private Double distance;
+	@Schema(description = "구매자의 위치 정보")
+	private LocationInfoResponse purchaserLocationInfo;
 }

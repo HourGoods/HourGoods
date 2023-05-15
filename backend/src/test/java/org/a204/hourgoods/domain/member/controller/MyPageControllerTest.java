@@ -67,7 +67,6 @@ class MyPageControllerTest {
 		member = Member.builder()
 			.email("yeji@hourgoods.com")
 			.nickname("yezi")
-			.cashPoint(0)
 			.build();
 		em.persist(member);
 		MEMBER_ID = member.getId();
@@ -78,7 +77,6 @@ class MyPageControllerTest {
 		otherMember = Member.builder()
 			.email("dong@hourgoods.com")
 			.nickname("dong")
-			.cashPoint(0)
 			.build();
 		em.persist(otherMember);
 		otherToken = jwtTokenUtils.BEARER_PREFIX + jwtTokenUtils.createTokens(otherMember,
