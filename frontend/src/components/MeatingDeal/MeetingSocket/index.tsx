@@ -4,17 +4,31 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
+import Map from "./Map";
+import Loading from "./Loading";
+
+export interface IMapProps {
+  tradeLocationId: string;
+  dealId?: number;
+  sellerNickname: string;
+  sellerLongitude: number;
+  sellerLatitude: number;
+  purchaserNickname: string;
+  purchaserLongitude: number;
+  purchaserLatitude: number;
+  distance: number;
+}
 
 // 소켓통신으로 수신받은 결과값을 저장한 인스턴스
 export interface MeetingDealInfo {
-  tradeLocationId: string;  // 상대방과나의 거래에 관한 객체 id값
+  tradeLocationId: string; // 상대방과나의 거래에 관한 객체 id값
   dealId: number; // 거래 id값
   sellerNickname: string; // 판매자이름
-  sellerLongitude: number;  // 판매자경도
+  sellerLongitude: number; // 판매자경도
   sellerLatitude: number; // 판매자위도
-  purchaserNickname: string;  // 구매자이름
+  purchaserNickname: string; // 구매자이름
   purchaserLongitude: number; // 구매자경도
-  purchaserLatitude: number;  // 구매자위도
+  purchaserLatitude: number; // 구매자위도
   distance: number; // 판매자와 구매자의 거리
 }
 
@@ -27,6 +41,19 @@ export default function index({ tradeLocId }: Props) {
   const dealId = location.state.dealid;
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname; // 내이름
+
+  // 다솜: Map을 위한 props 입니다
+  const [mapPropsState, setMapPropsState] = useState<IMapProps>({
+    tradeLocationId: "",
+    dealId: 0,
+    sellerNickname: "",
+    sellerLatitude: 37.476710536806,
+    sellerLongitude: 126.96372209072,
+    purchaserNickname: "",
+    purchaserLatitude: 37.4731805,
+    purchaserLongitude: 126.9613388,
+    distance: 0,
+  });
 
   // --------------------- 소켓 통신하기 -------------------------
   const clientRef = useRef<Client>();
@@ -71,25 +98,14 @@ export default function index({ tradeLocId }: Props) {
     setMeetingInfo(parsedMessage);
   };
 
-  // 상대방에게 내 위도경도이름 보냅니다
-  const sendLocation = () => {
-    const message = {
-      tradeLocationId: tradeLocId,
-      nickname: userName,
-      longitude: "채워주세용",
-      latitude: "채워주세용",
-    };
-    const destination = `/pub/meet/${dealId}`;
-    const body = JSON.stringify(message);
-    // 해당 소켓주소로 메세지를 발행
-    clientRef.current?.publish({ destination, body });
-  };
-
   return (
     <div>
-      <button onClick={sendLocation} type="button">
+      {/* <button onClick={sendLocation} type="button">
         내 위치를 보냅니당
-      </button>
+      </button> */}
+      {/* 상대방과 나 모두 위치 정보가 왔을 때만 Map을 보여줍니다! */}
+      <Loading />
+      <Map mapPropsState={mapPropsState} userName={userName}/>
     </div>
   );
 }
