@@ -8,9 +8,12 @@ import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
 import org.a204.hourgoods.domain.deal.service.TradeService;
 import org.a204.hourgoods.global.common.BaseResponse;
+import org.a204.hourgoods.global.error.GlobalErrorCode;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TradeController {
 	private final TradeService tradeService;
+	private final SimpMessageSendingOperations simpMessageSendingOperations;
 
-	@Operation(summary = "거래자 실시간 위치 확인 API", description = "거래자의 위치정보 확인을 위해 소켓 연결 성공")
+	@Operation(summary = "실시간 위치 정보 id 조회 API", description = "Redis에 저장된 거래자들의 위치 정보 id를 조회한다.")
 	@ApiResponses({
 		@ApiResponse(responseCode = "200", description = "위치 정보 전송 성공", content = @Content(schema = @Schema(implementation = CreateTradeLocationResponse.class))),
 		@ApiResponse(responseCode = "400", description = "1. D200 해당 id에 해당하는 거래가 없습니다.\n"
@@ -49,9 +53,14 @@ public class TradeController {
 	}
 
 	@MessageMapping("/meet/{dealId}")
-	@SendTo("/topic/meet/${dealId}")
-	public TradeMessageResponse updateTradeLocation(@Payload TradeMessageRequest request) {
+	@SendTo("/topic/meet/{dealId}/{nickname}")
+	public BaseResponse<Void> updateTradeLocation(@DestinationVariable Long dealId,
+		@Payload TradeMessageRequest request) {
 		TradeMessageResponse response = tradeService.updateTradeLocation(request);
-		return response;
+		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + response.getSellerNickname(),
+			response.getPurchaserLocationInfo());
+		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + response.getPurchaserNickname(),
+			response.getSellerLocationInfo());
+		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 }
