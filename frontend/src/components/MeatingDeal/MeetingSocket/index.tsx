@@ -8,27 +8,17 @@ import Map from "./Map";
 import Loading from "./Loading";
 
 export interface IMapProps {
-  tradeLocationId: string;
-  dealId?: number;
-  sellerNickname: string;
-  sellerLongitude: number;
-  sellerLatitude: number;
-  purchaserNickname: string;
-  purchaserLongitude: number;
-  purchaserLatitude: number;
-  distance: number;
+  otherNickname: string; // 판매자이름
+  otherLongitude: number; // 판매자경도
+  otherLatitude: number; // 판매자위도
+  distance: number; // 판매자와 구매자의 거리
 }
 
 // 소켓통신으로 수신받은 결과값을 저장한 인스턴스
 export interface MeetingDealInfo {
-  tradeLocationId: string; // 상대방과나의 거래에 관한 객체 id값
-  dealId: number; // 거래 id값
-  sellerNickname: string; // 판매자이름
-  sellerLongitude: number; // 판매자경도
-  sellerLatitude: number; // 판매자위도
-  purchaserNickname: string; // 구매자이름
-  purchaserLongitude: number; // 구매자경도
-  purchaserLatitude: number; // 구매자위도
+  otherNickname: string; // 판매자이름
+  otherLongitude: number; // 판매자경도
+  otherLatitude: number; // 판매자위도
   distance: number; // 판매자와 구매자의 거리
 }
 
@@ -44,15 +34,10 @@ export default function index({ tradeLocId }: Props) {
 
   // 다솜: Map을 위한 props 입니다
   const [mapPropsState, setMapPropsState] = useState<IMapProps>({
-    tradeLocationId: "",
-    dealId: 0,
-    sellerNickname: "",
-    sellerLatitude: 37.476710536806,
-    sellerLongitude: 126.96372209072,
-    purchaserNickname: "",
-    purchaserLatitude: 37.4731805,
-    purchaserLongitude: 126.9613388,
-    distance: 0,
+    otherNickname: "", // 판매자이름
+    otherLongitude: 0, // 판매자경도
+    otherLatitude: 0, // 판매자위도
+    distance: 0, // 판매자와 구매자의 거리
   });
 
   // --------------------- 소켓 통신하기 -------------------------
@@ -77,7 +62,7 @@ export default function index({ tradeLocId }: Props) {
         console.log("소켓에 연결되었습니당");
         // 해당 소켓주소에 구독
         clientRef.current?.subscribe(
-          `/topic/meet/${dealId}`,
+          `/topic/meet/${dealId}/${userName}`,
           (message: Message) => {
             handleMessage(message.body);
           }
@@ -94,18 +79,20 @@ export default function index({ tradeLocId }: Props) {
 
   // 소켓으로부터 받아오는 MeetingDealInfo 결과값
   const handleMessage = (message: string) => {
+    console.log("받아옵니다.")
     const parsedMessage = JSON.parse(message) as MeetingDealInfo;
     setMeetingInfo(parsedMessage);
   };
 
   return (
     <div>
-      {/* <button onClick={sendLocation} type="button">
-        내 위치를 보냅니당
-      </button> */}
-      {/* 상대방과 나 모두 위치 정보가 왔을 때만 Map을 보여줍니다! */}
       <Loading />
-      <Map mapPropsState={mapPropsState} userName={userName}/>
+      <Map
+        mapPropsState={mapPropsState}
+        userName={userName}
+        clientRef={clientRef}
+        tradeLocId={tradeLocId}
+      />
     </div>
   );
 }

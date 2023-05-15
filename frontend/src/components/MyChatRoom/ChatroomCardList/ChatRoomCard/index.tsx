@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-useless-fragment */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -51,23 +52,27 @@ export default function ChatroomCard({ chatroom }: ChatroomProps) {
   const formattedLastLogTime = formatLastLogTime(chatroom.lastLogTime);
 
   return (
-    <button
-      className="chatromm-card-container"
-      type="button"
-      onClick={navigateChatroomHandler}
-    >
-      <div className="chatroom-left-section">
-        <img src={chatroom.otherImageUrl} alt="프로필이미지" />
-      </div>
-      <div className="chatroom-right-section">
-        <div className="chatroom-name-datetime-container">
-          <p className="chatroom-profile-name">{chatroom.otherNickname}</p>
-          <p className="chatroom-recent-datetime">{formattedLastLogTime}</p>
-        </div>
-        <div className="chatroom-recent-msg-wrapper">
-          <p className="recent-msg">{chatroom.lastLogContent}</p>
-        </div>
-      </div>
-    </button>
+    <>
+      {chatroom.lastLogContent && (
+        <button
+          className="chatromm-card-container"
+          type="button"
+          onClick={navigateChatroomHandler}
+        >
+          <div className="chatroom-left-section">
+            <img src={chatroom.otherImageUrl} alt="프로필이미지" />
+          </div>
+          <div className="chatroom-right-section">
+            <div className="chatroom-name-datetime-container">
+              <p className="chatroom-profile-name">{chatroom.otherNickname}</p>
+              <p className="chatroom-recent-datetime">{formattedLastLogTime}</p>
+            </div>
+            <div className="chatroom-recent-msg-wrapper">
+              <p className="recent-msg">{chatroom.lastLogContent}</p>
+            </div>
+          </div>
+        </button>
+      )}
+    </>
   );
 }

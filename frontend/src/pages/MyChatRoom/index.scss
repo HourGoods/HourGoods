@@ -69,6 +69,7 @@
         flex-direction: column;
         align-items: center;
         gap: 5px;
+        margin-top: 100px;
         p {
           color: $gray-3;
         }
@@ -162,6 +163,8 @@
   width: 100%;
   height: 70px;
   .chatroom-left-section {
+    display: flex;
+    justify-content: center;
     img {
       border-radius: 45px;
       width: 60px;
