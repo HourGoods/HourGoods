@@ -154,7 +154,8 @@ export default function index() {
         // 이미지 업로드하여 이미지 주소 받아오기
         const imageUrl = await uploadProfileImage(
           inputImage.file,
-          inputImage.filename
+          inputImage.filename,
+          nicknameInput
         );
         if (imageUrl) {
           // POST API 요청

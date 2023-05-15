@@ -1,12 +1,16 @@
 import React from "react";
 import AWS from "aws-sdk";
 
-export default function uploadProfileDealImage(file: any, filename: any) {
+export default function uploadProfileImage(
+  file: any,
+  filename: any,
+  nickname: string
+) {
   const region = "ap-northeast-2";
   const bucket = "a204-hourgoods-bucket";
 
-  const today = new Date().getMilliseconds();
-  const filenameShort = filename.substr(0, 5);
+  const today = Date.now();
+  const fileType = filename.slice(-5, filename.length);
 
   AWS.config.update({
     region,
@@ -18,7 +22,7 @@ export default function uploadProfileDealImage(file: any, filename: any) {
   const upload = new AWS.S3.ManagedUpload({
     params: {
       Bucket: bucket, // 업로드할 대상 버킷명
-      Key: `image/member-profile/${today}+${filenameShort}`, // 업로드 위치와 업로드할 파일명, 유저 프로필은 경로를 image/member-profile/로 넣어주세요
+      Key: `image/member-profile/${today}${nickname}${fileType}`, // 업로드 위치와 업로드할 파일명, 유저 프로필은 경로를 image/member-profile/로 넣어주세요
       Body: file, // 업로드할 파일 객체
     },
   });

@@ -62,34 +62,36 @@ export default function index(props: mapProps) {
     // 오늘의 콘서트와 현재의 거리 받아오기
     // 오늘 콘서트 리스트 확인
     console.log(todayConcertList);
-    todayConcertList.map((concert: any) => {
-      const distance = haversineDistance(
-        concert.latitude,
-        concert.longitude,
-        // location.latitude,
-        // location.longitude
-        // 임시 현재 위치
-        37.501,
-        127.04
-      );
-      // 만약 500m안에 있는 게 있으면
-      if (distance <= 500) {
-        // 포함 여부 저장
-        const newList = inConcertList.concat({
-          ...concert,
-          startDate: concert.startTime,
-        });
-        setInConcertList(newList);
-      }
-      // 콘서트장 그리기
-      return drawCircles(
-        distance,
-        concert.latitude,
-        concert.longitude,
-        map,
-        concert.concertId
-      );
-    });
+    if (todayConcertList) {
+      todayConcertList.map((concert: any) => {
+        const distance = haversineDistance(
+          concert.latitude,
+          concert.longitude,
+          // location.latitude,
+          // location.longitude
+          // 임시 현재 위치
+          37.501,
+          127.04
+        );
+        // 만약 500m안에 있는 게 있으면
+        if (distance <= 1000) {
+          // 포함 여부 저장
+          const newList = inConcertList.concat({
+            ...concert,
+            startDate: concert.startTime,
+          });
+          setInConcertList(newList);
+        }
+        // 콘서트장 그리기
+        return drawCircles(
+          distance,
+          concert.latitude,
+          concert.longitude,
+          map,
+          concert.concertId
+        );
+      });
+    }
     // 콘서트장 위치 그렸으면 중심 이동
     setTimeout(() => setIsMapLoading(false), 3000);
     map.setCenter(

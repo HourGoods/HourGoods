@@ -38,11 +38,23 @@ export default function index() {
         marginTop: "30px",
       }}
     >
-      {dealList.map((deal, index) => (
+      {/* {dealList.map((deal, index) => (
         <div key={index}>
           <UserDealCard getmy={getmy} deal={deal} />
         </div>
-      ))}
+      ))} */}
+      {dealList.length === 0 ? (
+        <div style={{ width: "100%", marginTop: "50px", lineHeight: "1.5" }}>
+          생성된 Deal이 없어요 <br />
+          Deal를 생성하러 가보세요!
+        </div>
+      ) : (
+        dealList.map((deal, index) => (
+          <div key={index}>
+            <UserDealCard getmy={getmy} deal={deal} />
+          </div>
+        ))
+      )}
     </div>
   );
 }
