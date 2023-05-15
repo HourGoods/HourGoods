@@ -126,7 +126,7 @@ export default function DealDetail() {
           concertInfo={concertInfo}
           distance={distance}
         />
-        {distance <= 500 ? (
+        {distance <= 1000 ? (
           <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
         ) : (
           <div className="no-enter-button">

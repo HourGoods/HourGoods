@@ -74,7 +74,7 @@ export default function index(props: mapProps) {
           127.04
         );
         // 만약 500m안에 있는 게 있으면
-        if (distance <= 500) {
+        if (distance <= 1000) {
           // 포함 여부 저장
           const newList = inConcertList.concat({
             ...concert,
