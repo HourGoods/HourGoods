@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import javax.persistence.EntityManager;
 
 import org.a204.hourgoods.CustomSpringBootTest;
+import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.Trade;
@@ -77,6 +78,7 @@ class TradeControllerTest {
 	private Concert concert;
 	private Trade trade;
 	private TradeLocation tradeLocation;
+	private DirectChattingRoom directChattingRoom;
 
 	@BeforeEach
 	void setUp() {
@@ -120,6 +122,13 @@ class TradeControllerTest {
 			.price(Integer.valueOf(30000))
 			.build();
 		em.persist(trade);
+
+		directChattingRoom = DirectChattingRoom.builder()
+			.deal(trade)
+			.receiver(seller)
+			.sender(purchaser)
+			.build();
+		em.persist(directChattingRoom);
 	}
 
 	private static class TestStompFrameHandler implements StompFrameHandler {
@@ -150,9 +159,7 @@ class TradeControllerTest {
 		@DisplayName("실시간 위치 정보 생성 및 정보 id 조회 성공")
 		void createAndGetTradeLocationSuccess() throws Exception {
 			CreateTradeLocationRequest request = CreateTradeLocationRequest.builder()
-				.dealId(trade.getId())
-				.sellerNickname(seller.getNickname())
-				.purchaserNickname(purchaser.getNickname())
+				.chattingRoomId(directChattingRoom.getId())
 				.build();
 			String content = objectMapper.writeValueAsString(request);
 
@@ -202,9 +209,7 @@ class TradeControllerTest {
 			String tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
 
 			CreateTradeLocationRequest request = CreateTradeLocationRequest.builder()
-				.dealId(trade.getId())
-				.sellerNickname(seller.getNickname())
-				.purchaserNickname(purchaser.getNickname())
+				.chattingRoomId(directChattingRoom.getId())
 				.build();
 			String content = objectMapper.writeValueAsString(request);
 
