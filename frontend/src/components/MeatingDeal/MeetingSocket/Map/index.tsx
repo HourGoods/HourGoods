@@ -49,18 +49,16 @@ export default function Map(props: IMapPropsType) {
     const map = new window.kakao.maps.Map(container, options);
     setMap(map);
     getCurrentLocation()
-      .then((response) => {
-        if (typeof response === "string") {
-          // 얘는 타입이 잘못된 애입니다
-          console.error(response, "타입 오류");
-          setMyLocation(response);
-        } else {
-          setMyLocation(response);
+      .then((res) => {
+        if (typeof res === "object" && res !== null) {
+          setMyLocation(res);
+          console.log("찍어보자", res);
           const sendMyLocation = () => {
+            console.log("보냄");
             const message = {
               nickname: userName,
-              longtitude: response.longitude,
-              latitude: response.latitude,
+              longitude: res.longitude,
+              latitude: res.latitude,
               tradeLocationId: tradeLocId,
             };
             const destination = `/pub/meet/${dealId}`;
