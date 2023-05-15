@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import getCurrentLocation from "@utils/getCurrentLocation";
+import watchCurrentLocation from "@utils/watchCurrentLocation";
 import meMarker from "@assets/userLocPoint.svg";
 import youMarker from "@assets/otherUserLocPoint.svg";
 import { useLocation } from "react-router-dom";
-import { IMapProps } from "..";
+import { IMapProps } from "../index";
 
 interface IMapPropsType {
   mapPropsState: IMapProps;
@@ -23,59 +24,71 @@ export default function Map(props: IMapPropsType) {
   const location = useLocation();
   const dealId = location.state.dealid;
   const [map, setMap] = useState<any>(null);
-  const [sellerMarker, setSellerMarker] = useState<any>(null);
-  const [purchaserMarker, setPurchaserMarker] = useState<any>(null);
-  const [sellerMarkerPosition, setSellerMarkerPosition] = useState<any>(null);
-  const [purchaserMarkerPosition, setPurchaserMarkerPosition] =
-    useState<any>(null);
 
   const [myLocation, setMyLocation] = useState({});
+  const [myMarker, setMyMarker] = useState();
 
-  // 최초 map이 그려졌음을 표시하는 flag
-  const [flag, setFlag] = useState(false);
+  // 최초 map이 그려졌음을 표시하는 flag... 0: map만, 1: 최초지도, 2: 갱신상태
+  const [flag, setFlag] = useState(0);
+
+  // 내 위치 전송
+  const sendMyLocation = (long: number, lat: number) => {
+    const message = {
+      nickname: userName,
+      longitude: long,
+      latitude: lat,
+      tradeLocationId: tradeLocId,
+    };
+    const destination = `/pub/meet/${dealId}`;
+    const body = JSON.stringify(message);
+
+    clientRef.current?.publish({ destination, body });
+  };
 
   // 최초의 지도 그리기
   useEffect(() => {
-    console.log("최초 지도 생성! 이후에는 생성되면 안 됨");
-    const container = document.getElementById("map");
+    console.log("tradeLocId", tradeLocId);
     // 임시 map 위치
+    const container = document.getElementById("map");
     const options = {
-      center: new window.kakao.maps.LatLng(37.501, 127.04), // 기본 위치
-      level: 5,
+      center: new window.kakao.maps.LatLng(37.5665, 126.978), // 기본 위치
+      level: 4,
     };
-    // 판매자, 구매자 여부에 따라 Map 중심 이동
-    console.log("일단 유저 네임이 있냐?", userName);
-
     const map = new window.kakao.maps.Map(container, options);
     setMap(map);
-    getCurrentLocation()
-      .then((res) => {
+    // 마운팅이 된 상태라는 뜻
+    setFlag(1);
+  }, []);
+
+  // 최초의 위치
+  useEffect(() => {
+    if (map && flag === 1) {
+      console.log("여기는 맵은 있다");
+      getCurrentLocation().then((res) => {
         if (typeof res === "object" && res !== null) {
           setMyLocation(res);
-          console.log("찍어보자", res);
-          const sendMyLocation = () => {
-            console.log("보냄");
-            const message = {
-              nickname: userName,
-              longitude: res.longitude,
-              latitude: res.latitude,
-              tradeLocationId: tradeLocId,
-            };
-            const destination = `/pub/meet/${dealId}`;
-            const body = JSON.stringify(message);
-
-            clientRef.current?.publish({ destination, body });
-          };
-          sendMyLocation();
+          map.setCenter(
+            new window.kakao.maps.LatLng(res.latitude, res.longitude)
+          );
+          setFlag(2);
+          sendMyLocation(res.latitude, res.longitude);
         }
-      })
-      .catch((err) => {
-        console.log(err);
       });
+    }
+  }, [map, flag]);
 
-    // 최초 로딩이 완료되었음
-    setFlag(true);
-  }, []);
+  useEffect(() => {
+    let watcher: number | undefined;
+    if (map && flag === 2 && navigator.geolocation) {
+      console.log("갱신 준비 완");
+
+      watcher = watchCurrentLocation(map, (result: any) => {
+        if (typeof result === "object" && result !== null) {
+          sendMyLocation(result.latitude, result.longitude);
+        }
+      });
+    }
+  }, [map, flag, myLocation]);
 
   // map이 생성되었는지 여부를 확인하고, 갱신될때마다 위치 변경 시작!
   // 상대방
