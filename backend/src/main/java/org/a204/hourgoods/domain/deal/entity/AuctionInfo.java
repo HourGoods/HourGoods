@@ -18,7 +18,7 @@ public class AuctionInfo implements Serializable {
     @Builder
     public AuctionInfo(Integer minPrice) {
         this.currentBid = minPrice;
-        this.participantCount = 1;
+        this.participantCount = 0;
         this.bidder = null;
         this.bidHistory = new HashMap<>();
     }
