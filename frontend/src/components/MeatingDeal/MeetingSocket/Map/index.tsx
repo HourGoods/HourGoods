@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
+import getCurrentLocation from "@utils/getCurrentLocation";
 import meMarker from "@assets/userLocPoint.svg";
 import youMarker from "@assets/otherUserLocPoint.svg";
+import { useLocation } from "react-router-dom";
 import { IMapProps } from "..";
 
 interface IMapPropsType {
   mapPropsState: IMapProps;
   userName: string;
+  clientRef: any;
+  tradeLocId: string;
 }
 
 declare global {
@@ -15,13 +19,18 @@ declare global {
 }
 
 export default function Map(props: IMapPropsType) {
-  const { mapPropsState, userName } = props;
+  const { mapPropsState, userName, clientRef, tradeLocId } = props;
+  const location = useLocation();
+  const dealId = location.state.dealid;
   const [map, setMap] = useState<any>(null);
   const [sellerMarker, setSellerMarker] = useState<any>(null);
   const [purchaserMarker, setPurchaserMarker] = useState<any>(null);
   const [sellerMarkerPosition, setSellerMarkerPosition] = useState<any>(null);
   const [purchaserMarkerPosition, setPurchaserMarkerPosition] =
     useState<any>(null);
+
+  const [myLocation, setMyLocation] = useState({});
+
   // 최초 map이 그려졌음을 표시하는 flag
   const [flag, setFlag] = useState(false);
 
@@ -36,116 +45,50 @@ export default function Map(props: IMapPropsType) {
     };
     // 판매자, 구매자 여부에 따라 Map 중심 이동
     console.log("일단 유저 네임이 있냐?", userName);
-    let sellerMarkerImage;
-    let purchaserMarkerImage;
-    if (userName === mapPropsState.sellerNickname) {
-      console.log("판매자 중심!");
-      options.center = new window.kakao.maps.LatLng(
-        mapPropsState.sellerLatitude,
-        mapPropsState.sellerLongitude
-      );
-      // 판매자에 내 이미지
-      // marker images
-      sellerMarkerImage = new window.kakao.maps.MarkerImage(
-        meMarker, // 마커 이미지 URL
-        new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
-        {
-          offset: new window.kakao.maps.Point(55, 55),
-          alt: "내 위치",
-        }
-      );
-      purchaserMarkerImage = new window.kakao.maps.MarkerImage(
-        youMarker, // 마커 이미지 URL
-        new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
-        {
-          offset: new window.kakao.maps.Point(55, 55),
-          alt: "상대방 위치",
-        }
-      );
-    } else {
-      console.log("구매자 중심");
-      options.center = new window.kakao.maps.LatLng(
-        mapPropsState.purchaserLatitude,
-        mapPropsState.purchaserLongitude
-      );
-      // 판매자에 내 이미지
-      // marker images
-      sellerMarkerImage = new window.kakao.maps.MarkerImage(
-        youMarker, // 마커 이미지 URL
-        new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
-        {
-          offset: new window.kakao.maps.Point(55, 55),
-          alt: "내 위치",
-        }
-      );
-      purchaserMarkerImage = new window.kakao.maps.MarkerImage(
-        meMarker, // 마커 이미지 URL
-        new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
-        {
-          offset: new window.kakao.maps.Point(55, 55),
-          alt: "상대방 위치",
-        }
-      );
-    }
+
     const map = new window.kakao.maps.Map(container, options);
     setMap(map);
+    getCurrentLocation()
+      .then((response) => {
+        if (typeof response === "string") {
+          // 얘는 타입이 잘못된 애입니다
+          console.error(response, "타입 오류");
+          setMyLocation(response);
+        } else {
+          setMyLocation(response);
+          const sendMyLocation = () => {
+            const message = {
+              nickname: userName,
+              longtitude: response.longitude,
+              latitude: response.latitude,
+              tradeLocationId: tradeLocId,
+            };
+            const destination = `/pub/meet/${dealId}`;
+            const body = JSON.stringify(message);
 
-    // 두 개의 marker 생성
-    const tempSellerMarker = new window.kakao.maps.Marker({
-      map,
-      position: new window.kakao.maps.LatLng(
-        mapPropsState.sellerLatitude,
-        mapPropsState.sellerLongitude
-      ),
-      title: mapPropsState.sellerNickname,
-      image: sellerMarkerImage,
-    });
-
-    const tempPurchaserMarker = new window.kakao.maps.Marker({
-      map,
-      position: new window.kakao.maps.LatLng(
-        mapPropsState.purchaserLatitude,
-        mapPropsState.purchaserLongitude
-      ),
-      title: mapPropsState.purchaserNickname,
-      image: purchaserMarkerImage,
-    });
-
-    // 두 marker 정보 state에 저장
-    setSellerMarker(tempSellerMarker);
-    setPurchaserMarker(tempPurchaserMarker);
-
-    // 마커 위치
-    setSellerMarkerPosition({
-      latitude: mapPropsState.sellerLatitude,
-      longitude: mapPropsState.sellerLongitude,
-    });
-    setPurchaserMarkerPosition({
-      latitude: mapPropsState.purchaserLatitude,
-      longitude: mapPropsState.purchaserLongitude,
-    });
+            clientRef.current?.publish({ destination, body });
+          };
+          sendMyLocation();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     // 최초 로딩이 완료되었음
     setFlag(true);
-  }, [mapPropsState.tradeLocationId, userName]);
+  }, []);
 
   // map이 생성되었는지 여부를 확인하고, 갱신될때마다 위치 변경 시작!
-  useEffect(() => {
-    if (map && flag) {
-      console.log("판매자 이동");
-      if (sellerMarker) {
-        sellerMarker.setMap(null);
-      }
-    }
-  }, [mapPropsState.sellerLatitude, mapPropsState.sellerLongitude]);
-  useEffect(() => {
-    if (map && flag) {
-      console.log("구매자 이동");
-      if (purchaserMarker) {
-        purchaserMarker.setMap(null);
-      }
-    }
-  }, [mapPropsState.purchaserLatitude, mapPropsState.purchaserLongitude]);
+  // 상대방
+  // useEffect(() => {
+  //   if (map && flag) {
+  //     console.log("판매자 이동");
+  //     if (sellerMarker) {
+  //       sellerMarker.setMap(null);
+  //     }
+  //   }
+  // }, [mapPropsState.sellerLatitude, mapPropsState.sellerLongitude]);
 
   return (
     <div>

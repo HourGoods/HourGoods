@@ -11,6 +11,7 @@ import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
+import InputMsgBox from "@components/common/InputMsgBox";
 import ChatContent from "./ChatContent";
 
 export interface PrivatChatMessage {
@@ -181,22 +182,16 @@ export default function index() {
             <ChatContent chatMsgList={chatMsgList} userName={userName} />
           </div>
           <div className="box-bottom-wrapper">
-            <div className="input-message-container">
-              <div className="icon-message-wrapper">
-                <ChatBubbleOvalLeftIcon />
-                <input
-                  placeholder="메세지를 입력해주세요."
-                  value={msgValue}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMsgValue(e.target.value)
-                  }
-                  onKeyPress={handleOnKeyPress(sendMessage)}
-                />
-              </div>
-              <button type="button" onClick={sendMessage}>
-                확인
-              </button>
-            </div>
+            <InputMsgBox
+              type="message"
+              placeholder="메세지를 입력해주세요."
+              value={msgValue}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setMsgValue(e.target.value)
+              }
+              onKeyPress={handleOnKeyPress(sendMessage)}
+              onConfirm={sendMessage}
+            />
           </div>
         </div>
       </div>
