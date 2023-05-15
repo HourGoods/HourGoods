@@ -5,6 +5,7 @@ import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import Cropper, { ReactCropperElement } from "react-cropper";
 import uploadProfileImage from "@utils/uploadProfileImage";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { toast, ToastContainer } from "react-toastify";
@@ -13,6 +14,7 @@ import "./index.scss";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function index() {
+  // 올릴 이미지
   const [inputImage, setInputImage] = useState({
     file: null,
     filename: "",
@@ -24,6 +26,12 @@ export default function index() {
   // 이미지 업로드 미리보기 값
   const [uploadedImage, setUploadedIamge] = useState<string>("");
   const uploadImageRef = useRef<HTMLInputElement>(null);
+  const [originalFileName, setOriginalFileName] = useState("");
+  // 이미지 자르기 팝업
+  const [isEditor, setIsEditor] = useState(false);
+  // 잘린 이미지
+  const [croppedImage, setCroppedImage] = useState("");
+  const croppedImageRef = useRef<ReactCropperElement>(null);
 
   // recoil
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
@@ -52,18 +60,53 @@ export default function index() {
 
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
+      // 자를 이미지
       setUploadedIamge(fileURL);
-      const file = files[0];
-      const filename = file.name;
-      setInputImage((prev: any) => ({
-        ...prev,
-        file,
-        filename,
-      }));
+      // editor 켜기
+      setIsEditor(true);
+      // 원래 이름 저장
+      setOriginalFileName(files[0].name);
     }
   };
   const handleButtonClick = () => {
     uploadImageRef.current?.click();
+  };
+
+  const cropperHandler = () => {
+    if (typeof croppedImageRef.current?.cropper !== "undefined") {
+      const tempCroppedCanvas =
+        croppedImageRef.current?.cropper.getCroppedCanvas({
+          maxHeight: 150,
+          maxWidth: 150,
+        });
+
+      // canvas를 Blob으로 변환
+      tempCroppedCanvas.toBlob((blob) => {
+        if (blob) {
+          // blob 값이 null인 경우 처리
+          // Blob을 File 객체로 변환
+          const file = new File([blob], originalFileName, {
+            type: "image/webp",
+          });
+
+          setInputImage((prev: any) => ({
+            ...prev,
+            file,
+            filename: originalFileName,
+          }));
+        }
+      }, "image/webp");
+
+      const tempCroppedImage = tempCroppedCanvas.toDataURL();
+      setCroppedImage(tempCroppedImage);
+    }
+  };
+
+  const editorHandler = () => {
+    setIsEditor(false);
+    if (uploadImageRef.current) {
+      uploadImageRef.current.value = "";
+    }
   };
 
   // 닉네임 유효성 검사
@@ -120,19 +163,21 @@ export default function index() {
             // 로그인 여부도 저장
             localStorage.setItem("isLogin", "true");
             // token저장
-            const accessToken = params.get("access") || "";
-            const refreshToken = params.get("refresh") || "";
+            console.log("이게 받아온 데이터", res);
+            const accessToken = res.data.result.accessToken || "";
+            const refreshToken = res.data.result.refreshToken || "";
             localStorage.setItem("accessToken", accessToken);
             setCookie("refreshToken", refreshToken);
             // recoil update
             setUserInfo((prevUserInfo: any) => ({
               ...prevUserInfo,
+              nickname,
               imageUrl,
             }));
             // 이동
             navigate("/mypage");
             // 알림
-            toast.success(`${userInfo.nickname}님 환영합니다!`);
+            toast.success(`${nickname}님 환영합니다!`);
           });
         }
       } catch (err) {
@@ -148,10 +193,16 @@ export default function index() {
       result.then((res) => {
         localStorage.setItem("isLogin", "true");
         // token저장
-        const accessToken = params.get("access") || "";
-        const refreshToken = params.get("refresh") || "";
+        console.log("이게 받아온 데이터", res);
+        const accessToken = res.data.result.accessToken || "";
+        const refreshToken = res.data.result.refreshToken || "";
         localStorage.setItem("accessToken", accessToken);
         setCookie("refreshToken", refreshToken);
+        // recoil update
+        setUserInfo((prevUserInfo: any) => ({
+          ...prevUserInfo,
+          nickname,
+        }));
         // 이동
         navigate("/mypage");
         // 알림
@@ -163,13 +214,53 @@ export default function index() {
   return (
     <>
       <ToastContainer />
+      {isEditor && (
+        <div className="image-editior-wrapper">
+          <div
+            className="image-editor-overlay"
+            onClick={editorHandler}
+            onKeyDown={editorHandler}
+            role="presentation"
+          />
+
+          <div className="image-editor-content">
+            <div className="image-editor-image">
+              <Cropper
+                src={uploadedImage}
+                style={{
+                  maxHeight: "60vh",
+                  maxWidth: "90vw",
+                  // overflow: "auto",
+                }}
+                minCropBoxHeight={90}
+                minCropBoxWidth={90}
+                viewMode={0}
+                aspectRatio={1}
+                background={false}
+                ref={croppedImageRef}
+              />
+            </div>
+            <div className="image-editor-buttons">
+              <button
+                type="button"
+                onClick={() => {
+                  cropperHandler();
+                  editorHandler();
+                }}
+              >
+                제출하기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="signup-page-main-container">
         <h2>회원 가입 🎉</h2>
         <div className="signup-desktop-flex-div">
           {/* 좌측 */}
           <label htmlFor="uploadImg">
             {uploadedImage ? (
-              <img src={uploadedImage} alt="프로필 사진" />
+              <img src={croppedImage} alt="프로필 사진" />
             ) : (
               <img src={userInfo.imageUrl} alt="프로필 사진" />
             )}
