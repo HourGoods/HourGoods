@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import React, { useEffect, useState } from "react";
 import Button from "@components/common/Button";
 import { AuctionAPI, chattingAPI, dealAPI } from "@api/apis";
@@ -15,8 +16,8 @@ export default function index(props: any) {
   const receiver = dealInfo.userNickname;
   const dealid = dealId;
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
-  const { cash } = userInfo.cash;
-  const { minPrice } = dealInfo.minPrice;
+  const cash = userInfo.cash;
+  const price = dealInfo.price || dealInfo.minPrice;
   const [affordable, setAffordable] = useState(false);
   const [isChargeModalOpen, setIsChargeModalOpen] = useState(false);
 
@@ -48,12 +49,12 @@ export default function index(props: any) {
   }, [type]);
 
   useEffect(() => {
-    if (cash >= minPrice) {
+    if (cash >= price) {
       setAffordable(true);
     } else {
       setAffordable(false);
     }
-  }, [cash, minPrice]);
+  }, [cash]);
 
   const dealClickHandler = () => {
     if (!affordable) {
@@ -145,7 +146,14 @@ export default function index(props: any) {
           <h1>😢 충전해주세요! 😢</h1>
           <p>보유금액이 부족해요..</p>
           <p>충전 후 다시 이용해주세요!</p>
-          <Button color={typeInfo.color} onClick={()=>{navigate("/payment");}}>충전하러 가기</Button>
+          <Button
+            color={typeInfo.color}
+            onClick={() => {
+              navigate("/payment");
+            }}
+          >
+            충전하러 가기
+          </Button>
         </Modal>
       )}
       <ToastContainer />
