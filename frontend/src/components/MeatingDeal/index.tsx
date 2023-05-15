@@ -93,7 +93,6 @@ export default function index() {
                 "longitude": 128.1,
                 "latitude": 37.1
               }
-             
            */
         }
       } catch (error) {

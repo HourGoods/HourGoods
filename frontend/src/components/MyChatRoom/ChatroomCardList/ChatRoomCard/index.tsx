@@ -25,6 +25,31 @@ export default function ChatroomCard({ chatroom }: ChatroomProps) {
     });
   };
 
+  const formatLastLogTime = (timestamp: string) => {
+    const now = new Date();
+    const logTime = new Date(timestamp);
+    const diffInMinutes = Math.round(
+      (now.getTime() - logTime.getTime()) / 60000
+    );
+    const diffInSeconds = Math.round(
+      (now.getTime() - logTime.getTime()) / 1000
+    );
+    const diffInHours = Math.round(diffInMinutes / 60);
+    const diffInDays = Math.round(diffInHours / 24);
+    if (diffInSeconds < 60) {
+      return `${diffInSeconds}초 전`;
+    }
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}분 전`;
+    }
+    if (diffInHours < 24) {
+      return `${diffInHours}시간 전`;
+    }
+    return `${diffInDays}일 전`;
+  };
+
+  const formattedLastLogTime = formatLastLogTime(chatroom.lastLogTime);
+
   return (
     <button
       className="chatromm-card-container"
@@ -37,7 +62,7 @@ export default function ChatroomCard({ chatroom }: ChatroomProps) {
       <div className="chatroom-right-section">
         <div className="chatroom-name-datetime-container">
           <p className="chatroom-profile-name">{chatroom.otherNickname}</p>
-          <p className="chatroom-recent-datetime">{chatroom.lastLogTime}</p>
+          <p className="chatroom-recent-datetime">{formattedLastLogTime}</p>
         </div>
         <div className="chatroom-recent-msg-wrapper">
           <p className="recent-msg">{chatroom.lastLogContent}</p>
