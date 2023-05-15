@@ -47,7 +47,7 @@ export async function drawCircles(
   map: any,
   concertId?: number
 ): Promise<any> {
-  const isWithin500m = distance <= 500;
+  const isWithin500m = distance <= 1000;
   let fillColor;
 
   if (isWithin500m) {
@@ -60,7 +60,7 @@ export async function drawCircles(
   const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
   circle.setPosition(circlePosition);
   circle.setOptions({
-    radius: 505,
+    radius: 1000,
     strokeWeight: 5,
     strokeColor: "#75B8F",
     strokeOpacity: 0,
