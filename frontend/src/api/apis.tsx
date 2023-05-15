@@ -135,12 +135,10 @@ const AuctionAPI = {
 
 // 만나서 거래하기 api
 const meetingDealAPI = {
-  postlocationInfo: (
-    dealId: number,
-    sellerNickname: string,
-    purchaserNickname: string
-  ): Promise<AxiosResponse> =>
-    request.authPost("/deal/trade", { dealId, sellerNickname, purchaserNickname }),
+  postlocationInfo: (chattingRoomId: number): Promise<AxiosResponse> =>
+    request.authPost("/deal/trade", {
+      chattingRoomId,
+    }),
 };
 
 export {
