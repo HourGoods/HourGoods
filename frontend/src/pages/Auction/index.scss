@@ -15,12 +15,24 @@
   }
 }
 
+.auction-page-upper-container {
+  display: flex;
+  justify-content: center;
+}
 .auction-page-all-container {
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: space-between;
+  @include desktop {
+    width: 100%;
+    justify-content: space-between;
+  }
+  @include tablet {
+    width: 90%;
+  }
+  @include mobile {
+    width: 90%;
+  }
 
   .a-page-inputbox-container {
     bottom: 30px;
@@ -44,14 +56,6 @@
       animation: inputSlideLeftRight 0.8s;
       -webkit-animation: inputSlideLeftRight 0.8s;
     }
-    .bid {
-      // position: relative;
-      // margin-left: auto;
-    }
-    .msg {
-      // position: relative;
-      // margin-right: auto;
-    }
     .a-page-inputbox-button.active {
       display: none;
     }
@@ -67,7 +71,7 @@
   flex-direction: column;
   gap: 20px;
   @include desktop {
-    max-height: 600px;
+    max-height: 530px;
     width: 60%;
   }
   @include tablet {
@@ -183,7 +187,7 @@
       width: 100%;
       // @include scrollbar-css;
       @include desktop {
-        height: 300px;
+        height: 250px;
       }
       @include tablet {
         height: 150px;
@@ -238,7 +242,7 @@
   @include scrollbar-css;
   @include desktop {
     width: 30%;
-    height: 600px;
+    height: 530px;
   }
   @include tablet {
     width: 100%;
@@ -255,34 +259,39 @@
       margin: 0;
       text-align: left;
       font-size: 14px;
+      word-wrap: break-word;
     }
     .not-me-chat {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 5px;
-      margin: 10px 0;
-      img {
-        width: 40px;
-        color: $gray-3;
-        border-radius: 40px;
+      .not-me-chat-message {
         display: flex;
+        gap: 5px;
+        margin: 10px 0;
+        align-items: center;
+        max-width: 60%;
+        min-width: 40px;
+        img {
+          width: 40px;
+          color: $gray-3;
+          border-radius: 40px;
+          display: flex;
+        }
+        p {
+          margin: 0;
+        }
+        .not-me-chat-name {
+          font-weight: 900;
+        }
       }
-      .not-me-chat-name {
-        font-weight: 900;
-      }
-      // .not-me-chat-message {
-      // }
     }
     .its-me-chat {
       margin: 10px 0;
       display: flex;
       justify-content: flex-end;
       .its-me-chat-box {
-        max-width: 60%;
         background-color: $violet-2;
         border-radius: 10px 10px 0px 10px;
         padding: 5px;
+        max-width: 60%;
         min-width: 40px;
       }
     }

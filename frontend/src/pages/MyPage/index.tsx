@@ -20,6 +20,8 @@ export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
 
   console.log(userInfo);
+  const localLogin = localStorage.getItem("isLogin");
+  // const { isLogin } = useRecoilValue(AuthStateAtom)
 
   // 삭제
   const handleDelete = (dealId: number) => {
@@ -37,20 +39,22 @@ export default function index() {
   };
 
   useEffect(() => {
-    mypageAPI
-      .userinfo()
-      .then((res) => {
-        setUserInfo((prevUserInfo: any) => ({
-          ...prevUserInfo,
-          nickname: res.data.result.nickname,
-          imageUrl: res.data.result.imageUrl,
-          cash: res.data.result.cashPoint,
-        }));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (localLogin) {
+      mypageAPI
+        .userinfo()
+        .then((res) => {
+          setUserInfo((prevUserInfo: any) => ({
+            ...prevUserInfo,
+            nickname: res.data.result.nickname,
+            imageUrl: res.data.result.imageUrl,
+            cash: res.data.result.cashPoint,
+          }));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [localLogin]);
   console.log(userInfo);
 
   return (

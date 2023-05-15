@@ -25,20 +25,14 @@ export default function Index({
 
   useEffect(() => {
     setCurrentBid(nowBid);
-    setParticipantCount(nowCount);
-  }, [nowBid, nowCount]);
+  }, [nowBid]);
 
   useEffect(() => {
-
     bidList.map((bid: BidMessage, index: number) => {
       setCurrentBid(bid.currentBid);
       setInterval(bid.interval);
-
-      // 애니메이션 클래스 추가
       const costBoxElement = bidListRef.current?.children[index];
       costBoxElement?.classList.add("animate");
-
-      // 3초 후 애니메이션 클래스 제거
       setTimeout(() => {
         costBoxElement?.classList.remove("animate");
       }, 10000);
@@ -49,6 +43,10 @@ export default function Index({
     scrollToBottom(bidListRef.current);
   }, [bidList, inoutMsgList]);
 
+  const formatCurrency = (value: number): string => {
+    return `${value.toLocaleString("ko-KR")} 원`;
+  };
+
   return (
     <>
       <div className="realtime-bid-card-container">
@@ -58,7 +56,7 @@ export default function Index({
         <div className="realtime-bid-right">
           <div className="r-bid-card-icon fire">
             <FireIcon />
-            <p>{currentBid}</p>
+            <p>{formatCurrency(currentBid)}</p>
           </div>
           <div className="r-const-ppl-wrapper">
             <div className="r-bid-card-icon up">

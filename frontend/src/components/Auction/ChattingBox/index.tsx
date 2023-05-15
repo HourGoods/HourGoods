@@ -40,19 +40,16 @@ export default function index({ msgList, inoutMsgList }: Props) {
                       <div className="not-me-chat-message">
                         <div>
                           <img src={message.imageUrl} alt="프로필사진" />
-                          <p className="not-me-chat-name">{message.nickname}</p>
                         </div>
                         <div>
-                          <p className="not-me-chat-message">
-                            {message.content}
-                          </p>
+                          <p className="not-me-chat-name">{message.nickname}</p>
+                          <p>{message.content}</p>
                         </div>
                       </div>
                     </div>
                   )}
                 </div>
               )}
-
               {join && (
                 <div className="in-out-message">
                   <p>{message.nickname}님이 참여하였습니다.</p>

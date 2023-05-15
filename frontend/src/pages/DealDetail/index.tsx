@@ -51,11 +51,11 @@ export default function DealDetail() {
   const [distance, setDistance] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
-  const userAuthInfo = useRecoilValue(AuthStateAtom);
+  const isLogin = localStorage.getItem("isLogin");
 
   useEffect(() => {
     // login한 유저만 볼 수 있습니다
-    if (!userAuthInfo.token) {
+    if (!isLogin) {
       toast.info("로그인해주세요");
       navigate("/");
     }
@@ -126,7 +126,7 @@ export default function DealDetail() {
           concertInfo={concertInfo}
           distance={distance}
         />
-        {distance <= 500 ? (
+        {distance <= 1000 ? (
           <DealEnterButton dealInfo={dealInfo} dealId={dealId} />
         ) : (
           <div className="no-enter-button">

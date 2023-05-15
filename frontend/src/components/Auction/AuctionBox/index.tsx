@@ -47,7 +47,7 @@ export default function index({ bidList, inoutMsgList }: Props) {
         const currentBid = response.data.result.currentBid;
         const partCnt = response.data.result.participantCount;
         setNowBid(currentBid);
-        setNowCount(partCnt);
+        // setNowCount(partCnt);
       } catch (error) {
         console.error("Error fetching current bid:", error);
       }

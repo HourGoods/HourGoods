@@ -54,7 +54,7 @@ export default function index() {
         );
         circle.setPosition(circlePosition);
         circle.setOptions({
-          radius: 500,
+          radius: 1000,
           strokeWeight: 5,
           strokeColor: "#75B8F",
           strokeOpacity: 0,
@@ -97,7 +97,7 @@ export default function index() {
           position.getLat(),
           position.getLng()
         );
-        if (distance <= 500) {
+        if (distance <= 1000) {
           setDealInfo((prev) => ({
             ...prev,
             latitude: position.getLat(),

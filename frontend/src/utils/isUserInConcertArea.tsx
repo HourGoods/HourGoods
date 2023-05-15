@@ -45,7 +45,7 @@ export async function isWithin500mFromLocation(
   map: any
 ): Promise<any> {
   const distance = haversineDistance(concertLat, concertLng, myLat, myLng);
-  const isWithin500m = distance <= 500;
+  const isWithin500m = distance <= 1000;
   let fillColor;
 
   if (isWithin500m) {
@@ -56,7 +56,7 @@ export async function isWithin500mFromLocation(
 
   const circle = new window.kakao.maps.Circle({
     center: new window.kakao.maps.LatLng(concertLat, concertLng),
-    radius: 500,
+    radius: 1000,
     strokeWeight: 5,
     strokeColor: "#75B8F",
     strokeOpacity: 0,

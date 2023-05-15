@@ -9,7 +9,7 @@
   padding-bottom: 60px;
 
   button {
-    margin: auto;
+    margin: 40px auto;
   }
 
   // desktop 기준 레이아웃 변경
@@ -130,6 +130,7 @@
     min-height: 140px;
     min-width: 266px;
     max-width: 400px;
+    aspect-ratio: 5 / 3;
     margin: 10px auto;
     .upload-img-wrapper {
       width: 100%;
@@ -209,14 +210,14 @@
 
   // 검색 영역
   .common-modal-box {
-    height: 80%;
+    height: 73%;
     .common-modal-content {
       .search-modal-content-component-container {
         height: 100%;
-        overflow-y: scroll;
+        // overflow-y: scroll;
         padding: none;
         width: 100%;
-        // @include scrollbar-css;
+        @include scrollbar-css;
 
         .concert-card-component-container {
           margin-top: 10px;
@@ -225,3 +226,4 @@
     }
   }
 }
+

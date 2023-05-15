@@ -2,8 +2,11 @@ import React, { useEffect } from "react";
 import { mypageAPI } from "@api/apis";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import { UserStateAtom } from "@recoils/user/Atom";
 
 const index: React.FC = () => {
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
   const navigate = useNavigate();
   useEffect(() => {
     const params = {
@@ -35,6 +38,10 @@ const index: React.FC = () => {
           .charge(pay)
           .then((res) => {
             console.log(res);
+            setUserInfo((prev: any) => ({
+              ...prev,
+              cash: pay,
+            }));
             navigate("/ticket"); // 전체 검색인 경우 클릭시 디테일 페이지로 이동
           })
           .catch((err) => {

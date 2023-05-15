@@ -51,14 +51,13 @@ export default function index() {
     setsocketList((prevsocketList) => [...prevsocketList, message]);
     const parsedMessage = JSON.parse(message);
     if (
-      parsedMessage.messageType === "CHAT" ||
-      parsedMessage.messageType === "JOIN" ||
-      parsedMessage.messageType === "EXIT"
+      parsedMessage.messageType === "CHAT"
+      || parsedMessage.messageType === "JOIN"
     ) {
       setMsgList((prevSocketList) => [...prevSocketList, parsedMessage]);
-    } else if (parsedMessage.messageType === "BID") {
+    } if (parsedMessage.messageType === "BID") {
       setBidList((prevSocketList) => [...prevSocketList, parsedMessage]);
-    } else if (
+    } if (
       parsedMessage.messageType === "JOIN" ||
       parsedMessage.messageType === "EXIT"
     ) {
@@ -71,6 +70,7 @@ export default function index() {
 
   // 새로고침방지
   useEffect(() => {
+    console.log("inoutMsgList", inoutMsgList);
     const preventClose = (e: BeforeUnloadEvent) => {
       e.preventDefault();
       e.returnValue = "";
@@ -186,7 +186,7 @@ export default function index() {
   };
 
   return (
-    <>
+    <div className="auction-page-upper-container">
       <ToastContainer />
       <div className="auction-page-all-container">
         <AuctionBox bidList={bidList} inoutMsgList={inoutMsgList} />
@@ -238,6 +238,6 @@ export default function index() {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -11,6 +11,7 @@ import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
+import InputMsgBox from "@components/common/InputMsgBox";
 import ChatContent from "./ChatContent";
 
 export interface PrivatChatMessage {
@@ -31,9 +32,6 @@ interface DealInfoInterface {
   startTime: string;
   title: string;
 }
-
-// 23.05.10 10:42
-// chattingRoomId 값에 포함된 dealId 값으로 api 요청 새로보내는 로직 짜서 DealCard 수정할 것
 
 export default function index() {
   const navigate = useNavigate();
@@ -59,13 +57,14 @@ export default function index() {
   };
 
   useEffect(() => {
-    console.log("chattingRoomId", chattingRoomId);
+    console.log("개인채팅 state값", location.state);
     const chatReq = chattingAPI.getmychatMsg(chattingRoomId);
     chatReq
       .then((res) => {
         // 채팅내용 가져오기
         setChatMsgList(res.data.result);
         console.log("채팅내용가져오기", res.data.result);
+        setNotMeName(res.data.result.nickname);
       })
       .catch((err) => {
         console.error(err);
@@ -101,6 +100,7 @@ export default function index() {
   const [msgValue, setMsgValue] = useState("");
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
+  const [notMeName, setNotMeName] = useState("");
 
   const handleMessage = (message: string) => {
     setsocketList((prevSocketList) => [...prevSocketList, message]);
@@ -166,8 +166,9 @@ export default function index() {
 
   // 1:1 만남
   const goMeetingDeal = () => {
-    console.log(dealId);
-    navigate(`/meetingdeal/${dealId}`);
+    navigate(`/meetingdeal/${dealId}`, {
+      state: { dealid: dealId, otherUsername: location.state.otherUsername },
+    });
   };
 
   return (
@@ -181,22 +182,16 @@ export default function index() {
             <ChatContent chatMsgList={chatMsgList} userName={userName} />
           </div>
           <div className="box-bottom-wrapper">
-            <div className="input-message-container">
-              <div className="icon-message-wrapper">
-                <ChatBubbleOvalLeftIcon />
-                <input
-                  placeholder="메세지를 입력해주세요."
-                  value={msgValue}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setMsgValue(e.target.value)
-                  }
-                  onKeyPress={handleOnKeyPress(sendMessage)}
-                />
-              </div>
-              <button type="button" onClick={sendMessage}>
-                확인
-              </button>
-            </div>
+            <InputMsgBox
+              type="message"
+              placeholder="메세지를 입력해주세요."
+              value={msgValue}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setMsgValue(e.target.value)
+              }
+              onKeyPress={handleOnKeyPress(sendMessage)}
+              onConfirm={sendMessage}
+            />
           </div>
         </div>
       </div>
@@ -208,27 +203,31 @@ export default function index() {
           만나서 거래하기
         </Button>
       </div>
-      {isModalOpen && (
-        <Modal setModalOpen={setIsModalOpen}>
-          <p>만나서 거래를 하시겠습니까?</p>
-          <p>현재 위치가 상대방에게 공유됩니다.</p>
-          <Button
-            size="small"
-            color="indigo"
-            // dealInfo.dealId 값으로 navigate 시킬 것
-            onClick={goMeetingDeal}
-          >
-            예
-          </Button>
-          <Button
-            size="small"
-            color="white"
-            onClick={() => setIsModalOpen(false)}
-          >
-            아니오
-          </Button>
-        </Modal>
-      )}
+      <div className="meeting-deal-modal-container">
+        {isModalOpen && (
+          <Modal setModalOpen={setIsModalOpen}>
+            <p>만나서 거래를 하시겠습니까?</p>
+            <p>현재 위치가 상대방에게 공유됩니다.</p>
+            <div className="meeting-modal-buttons">
+              <Button
+                size="small"
+                color="indigo"
+                // dealInfo.dealId 값으로 navigate 시킬 것
+                onClick={goMeetingDeal}
+              >
+                예
+              </Button>
+              <Button
+                size="small"
+                color="white"
+                onClick={() => setIsModalOpen(false)}
+              >
+                아니오
+              </Button>
+            </div>
+          </Modal>
+        )}
+      </div>
     </>
   );
 }

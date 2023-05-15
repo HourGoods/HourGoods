@@ -12,7 +12,6 @@ export default function index(props: any) {
     Trade: false,
     Sharing: false,
     Auction: false,
-    HourAuction: false,
   });
   const [searchInput, setSearchInput] = useState("");
   const userInfo = useRecoilValue(UserStateAtom);
@@ -24,7 +23,6 @@ export default function index(props: any) {
       Trade: type === "Trade",
       Sharing: type === "Sharing",
       Auction: type === "Auction",
-      HourAuction: type === "HourAuction",
     }));
 
     // api
@@ -86,12 +84,6 @@ export default function index(props: any) {
           onClick={() => activationHandler("Auction")}
         />
 
-        <Button
-          color="HourAuction"
-          size="deal"
-          isActive={activeDealType.HourAuction}
-          onClick={() => activationHandler("HourAuction")}
-        />
       </div>
 
       <SearchBar

@@ -1,49 +1,90 @@
 import React, { useRef, useState, useCallback, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import Cropper, { ReactCropperElement } from "react-cropper";
+import { toast, ToastContainer } from "react-toastify";
+import { useRecoilState } from "recoil";
+import { UserStateAtom } from "@recoils/user/Atom";
+import { memberAPI } from "@api/apis";
 import Button from "@components/common/Button";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import { useLocation } from "react-router";
+import uploadProfileImage from "@utils/uploadProfileImage";
 import "./index.scss";
-import { useRecoilState } from "recoil";
-import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
-import { memberAPI } from "@api/apis";
-import { useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import { handleOnKeyPress } from "@utils/handleOnKeyPress";
-import uploadDealImage from "@utils/uploadDealImage";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "@styles/Cropper.scss";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
   const navigate = useNavigate();
 
+  // 올릴 이미지
   const [inputImage, setInputImage] = useState({
     file: null,
     filename: "",
   });
-
   // 이미지 업로드
   const [uploadedImage, setUploadedIamge] = useState<string>("");
   const uploadImageRef = useRef<HTMLInputElement>(null);
+  const [originalFileName, setOriginalFileName] = useState("");
+
+  // 이미지 자르기 팝업
+  const [isEditor, setIsEditor] = useState(false);
+
+  // 잘린 이미지
+  const [croppedImage, setCroppedImage] = useState("");
+  const croppedImageRef = useRef<ReactCropperElement>(null);
 
   const uploadHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = uploadImageRef.current?.files;
-
     if (files && files.length) {
       const fileURL = URL.createObjectURL(files[0]);
+      // 자를 이미지
       setUploadedIamge(fileURL);
-      const file = files[0];
-      const filename = file.name;
-      setInputImage((prev: any) => ({
-        ...prev,
-        file,
-        filename,
-      }));
+      // editor 켜기
+      setIsEditor(true);
+      // 원래 이름 저장
+      setOriginalFileName(files[0].name);
     }
   };
 
   const handleButtonClick = () => {
     uploadImageRef.current?.click();
+  };
+
+  const cropperHandler = () => {
+    if (typeof croppedImageRef.current?.cropper !== "undefined") {
+      const tempCroppedCanvas =
+        croppedImageRef.current?.cropper.getCroppedCanvas({
+          maxHeight: 150,
+          maxWidth: 150,
+        });
+
+      // canvas를 Blob으로 변환
+      tempCroppedCanvas.toBlob((blob) => {
+        if (blob) {
+          // blob 값이 null인 경우 처리
+          // Blob을 File 객체로 변환
+          const file = new File([blob], originalFileName, {
+            type: "image/webp",
+          });
+
+          setInputImage((prev: any) => ({
+            ...prev,
+            file,
+            filename: originalFileName,
+          }));
+        }
+      }, "image/webp");
+
+      const tempCroppedImage = tempCroppedCanvas.toDataURL();
+      setCroppedImage(tempCroppedImage);
+    }
+  };
+
+  const editorHandler = () => {
+    setIsEditor(false);
+    if (uploadImageRef.current) {
+      uploadImageRef.current.value = "";
+    }
   };
 
   // 닉네임 변경
@@ -93,102 +134,6 @@ export default function index() {
     }
   };
 
-  // 회원 가입
-  // const [authState, setAuthState] = useRecoilState(AuthStateAtom);
-  // const [cookies, setCookie] = useCookies(["refreshToken"]);
-  // const singHandleClick = useCallback(() => {
-  //   const params = new URLSearchParams(window.location.search);
-  //   memberAPI
-  //     .signup(userInfo)
-  //     .then(() => {
-  //       // 회원가입완료
-  //       console.log(userInfo);
-  //       const accessToken = params.get("access") || "";
-  //       const refreshToken = params.get("refresh") || "";
-  //       setAuthState({ isLogin: true, token: accessToken });
-  //       sessionStorage.setItem("accessToken", accessToken);
-  //       setCookie("refreshToken", refreshToken);
-  //       navigate("/main");
-  //       alert(`${userInfo.nickname}님 환영합니다!`);
-  //     })
-  //     .catch((err) => {
-  //       const errCode = err.response.data.status;
-  //       if (errCode === 400) {
-  //         alert("닉네임을 입력해주세요.");
-  //       }
-  //     });
-  // }, [setUserInfo, userInfo]);
-
-  const [authState, setAuthState] = useRecoilState(AuthStateAtom);
-  const [cookies, setCookie] = useCookies(["refreshToken"]);
-  const singupprofile = async () => {
-    const params = new URLSearchParams(window.location.search);
-
-    if (uploadedImage) {
-      // 로딩 추가하기
-      try {
-        // 이미지 업로드하여 이미지 주소 받아오기
-        const imageUrl = await uploadDealImage(
-          inputImage.file,
-          inputImage.filename
-        );
-        if (imageUrl) {
-          console.log("받아온 이미지 주소", imageUrl);
-          console.log(inputImage.file);
-          console.log(inputImage.filename);
-          // POST API 요청
-          const result = memberAPI.signup({ ...userInfo, imageUrl });
-          result
-            .then((res) => {
-              const accessToken = params.get("access") || "";
-              const refreshToken = params.get("refresh") || "";
-              setAuthState({ isLogin: true, token: accessToken });
-              localStorage.setItem("accessToken", accessToken);
-              setCookie("refreshToken", refreshToken);
-              navigate("/mypage");
-              toast.success(`${userInfo.nickname}님 환영합니다!`);
-              setUserInfo((prevUserInfo: any) => ({
-                ...prevUserInfo,
-                imageUrl,
-              }));
-            })
-            .catch((err) => {
-              const errCode = err.response.data.status;
-              if (errCode === 400) {
-                toast.error("닉네임을 입력해주세요.");
-              }
-            });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    } // 업로드 이미지가 없을 때
-    const result = memberAPI.signup({ ...userInfo });
-    result
-      .then((res) => {
-        const accessToken = params.get("access") || "";
-        const refreshToken = params.get("refresh") || "";
-        setAuthState({ isLogin: true, token: accessToken });
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("isLogin", "true");
-        setCookie("refreshToken", refreshToken);
-
-        // 바로 로그인
-
-        navigate("/mypage");
-        toast.success(`${userInfo.nickname}님 환영합니다!`);
-        setUserInfo((prevUserInfo: any) => ({
-          ...prevUserInfo,
-        }));
-      })
-      .catch((err) => {
-        const errCode = err.response.data.status;
-        if (errCode === 400) {
-          toast.error("닉네임을 입력해주세요.");
-        }
-      });
-  };
-
   // 회원 수정
 
   const editHandleClick = useCallback(() => {
@@ -204,30 +149,56 @@ export default function index() {
 
   const editprofile = async () => {
     // 로딩 추가하기
-    try {
-      // 이미지 업로드하여 이미지 주소 받아오기
-      const imageUrl = await uploadDealImage(
-        inputImage.file,
-        inputImage.filename
-      );
-      if (imageUrl) {
-        console.log("받아온 이미지 주소", imageUrl);
-        console.log(inputImage.file);
-        console.log(inputImage.filename);
-        // POST API 요청
-        const result = memberAPI.editUser({ ...userInfo, imageUrl });
-        result.then((res) => {
-          console.log(res);
-          // const { dealId } = res.data.result;
-          navigate(`/mypage`);
-          setUserInfo((prevUserInfo: any) => ({
-            ...prevUserInfo,
-            imageUrl: uploadedImage,
-          }));
-        });
+    if (inputImage.file) {
+      try {
+        // 이미지 업로드하여 이미지 주소 받아오기
+        const imageUrl = await uploadProfileImage(
+          inputImage.file,
+          inputImage.filename,
+          nicknameInput
+        );
+        if (imageUrl) {
+          // POST API 요청
+          let { nickname } = userInfo;
+          if (nicknameInput) {
+            nickname = nicknameInput;
+          }
+          const result = memberAPI.editUser({
+            ...userInfo,
+            nickname,
+            imageUrl,
+          });
+          result.then((res) => {
+            console.log(res);
+            // const { dealId } = res.data.result;
+            toast.success("정보가 변경되었습니다!", { autoClose: 1000 });
+            navigate(`/mypage`);
+            setUserInfo((prevUserInfo: any) => ({
+              ...prevUserInfo,
+              imageUrl: uploadedImage,
+            }));
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+    }
+    if (!inputImage.file) {
+      let { nickname } = userInfo;
+      if (nicknameInput) {
+        nickname = nicknameInput;
+      }
+      const result = memberAPI.editUser({ ...userInfo, nickname });
+      result.then((res) => {
+        console.log(res);
+        // const { dealId } = res.data.result;
+        toast.success("정보가 변경되었습니다!", { autoClose: 1000 });
+        navigate(`/mypage`);
+        setUserInfo((prevUserInfo: any) => ({
+          ...prevUserInfo,
+          imageUrl: uploadedImage,
+        }));
+      });
     }
   };
 
@@ -243,19 +214,58 @@ export default function index() {
   return (
     <>
       <ToastContainer />
+      {isEditor && (
+        <div className="image-editior-wrapper">
+          <div
+            className="image-editor-overlay"
+            onClick={editorHandler}
+            onKeyDown={editorHandler}
+            role="presentation"
+          />
+
+          <div className="image-editor-content">
+            <div className="image-editor-image">
+              <Cropper
+                src={uploadedImage}
+                style={{
+                  maxHeight: "60vh",
+                  maxWidth: "90vw",
+                  // overflow: "auto",
+                }}
+                minCropBoxHeight={90}
+                minCropBoxWidth={90}
+                viewMode={0}
+                aspectRatio={1}
+                background={false}
+                ref={croppedImageRef}
+              />
+            </div>
+            <div className="image-editor-buttons">
+              <button
+                type="button"
+                onClick={() => {
+                  cropperHandler();
+                  editorHandler();
+                }}
+              >
+                제출하기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="upper">
         <div className="updateprofile-container">
           <div className="updateprofile-contents-container">
             <div className="updateprofile-contents-container-desktop">
               <label htmlFor="uploadImg">
-                <h2>{fromMy ? "회원정보 수정💝" : "회원가입🎉"}</h2>
+                <h2>회원정보 수정💝</h2>
                 <div className="updateprofile-contents-container-wrapper">
                   {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
-
                   {!uploadedImage ? (
                     <img src={userInfo.imageUrl} alt="프로필 사진" />
                   ) : (
-                    <img src={uploadedImage} alt="프로필 사진" />
+                    <img src={croppedImage} alt="프로필 사진" />
                   )}
                   <input
                     id="uploadImg"
@@ -279,10 +289,11 @@ export default function index() {
                     id="nickname"
                     placeholder={userInfo.nickname}
                     onChange={nicknameHandler}
-                    onKeyPress={nicknameChecker}
+                    onKeyPress={handleOnKeyPress}
                   />
                   <button type="button" onClick={nicknameChecker}>
-                    {fromMy ? "변경" : "중복 확인"}
+                    중복 확인
+                    {/* {fromMy ? "변경" : "중복 확인"} */}
                   </button>
                 </div>
                 {checkAlert === 0 ? <p /> : null}
@@ -300,11 +311,7 @@ export default function index() {
               </form>
             </div>
             <div className="update-button-wrapper">
-              {fromMy ? (
-                <Button onClick={editprofile}>회원정보 수정하기</Button>
-              ) : (
-                <Button onClick={singupprofile}>회원가입</Button>
-              )}
+              <Button onClick={editprofile}>회원정보 수정하기</Button>
             </div>
           </div>
         </div>
