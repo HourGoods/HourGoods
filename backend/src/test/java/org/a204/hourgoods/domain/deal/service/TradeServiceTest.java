@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
 
 import org.a204.hourgoods.CustomSpringBootTest;
+import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
+import org.a204.hourgoods.domain.chatting.exception.DirectChattingRoomNotFoundException;
 import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.Trade;
@@ -41,6 +43,7 @@ class TradeServiceTest {
 	private Member purchaser;
 	private Concert concert;
 	private Trade trade;
+	private DirectChattingRoom directChattingRoom;
 
 	@BeforeEach
 	void setUp() {
@@ -81,6 +84,13 @@ class TradeServiceTest {
 			.price(Integer.valueOf(30000))
 			.build();
 		em.persist(trade);
+
+		directChattingRoom = DirectChattingRoom.builder()
+			.deal(trade)
+			.receiver(seller)
+			.sender(purchaser)
+			.build();
+		em.persist(directChattingRoom);
 	}
 
 	@Nested
@@ -94,9 +104,7 @@ class TradeServiceTest {
 		void createTradeLocationSuccess() {
 			// Input
 			request = CreateTradeLocationRequest.builder()
-				.dealId(trade.getId())
-				.sellerNickname(seller.getNickname())
-				.purchaserNickname(purchaser.getNickname())
+				.chattingRoomId(directChattingRoom.getId())
 				.build();
 
 			// Output
@@ -105,7 +113,7 @@ class TradeServiceTest {
 				.orElseThrow();
 
 			// Validation
-			assertEquals(request.getDealId().toString(), tradeLocationResponse.getDealId());
+			assertEquals(directChattingRoom.getDeal().getId().toString(), tradeLocationResponse.getDealId());
 			assertEquals(seller.getId().toString(), tradeLocationResponse.getSellerId());
 			assertEquals(purchaser.getId().toString(), tradeLocationResponse.getPurchaserId());
 		}
@@ -128,9 +136,7 @@ class TradeServiceTest {
 
 			// Input
 			request = CreateTradeLocationRequest.builder()
-				.dealId(trade.getId())
-				.sellerNickname(seller.getNickname())
-				.purchaserNickname(purchaser.getNickname())
+				.chattingRoomId(directChattingRoom.getId())
 				.build();
 
 			// Output
@@ -140,65 +146,21 @@ class TradeServiceTest {
 
 			// Validation
 			assertEquals(tradeLocationId, tradeLocationResponse.getId());
-			assertEquals(request.getDealId().toString(), tradeLocationResponse.getDealId());
+			assertEquals(directChattingRoom.getDeal().getId().toString(), tradeLocationResponse.getDealId());
 			assertEquals(seller.getId().toString(), tradeLocationResponse.getSellerId());
 			assertEquals(purchaser.getId().toString(), tradeLocationResponse.getPurchaserId());
 		}
 
 		@Test
-		@DisplayName("존재하지 않는 거래 id로 인한 실패")
+		@DisplayName("존재하지 않는 c id로 인한 실패")
 		void dealNotFoundFail() {
 			// Input
 			request = CreateTradeLocationRequest.builder()
-				.dealId(Long.valueOf(-1))
-				.sellerNickname(seller.getNickname())
-				.purchaserNickname(purchaser.getNickname())
+				.chattingRoomId(Long.valueOf(-1))
 				.build();
 
 			// Validation
-			assertThrows(TradeNotFoundException.class, () -> tradeService.createTradeLocation(request));
-		}
-
-		@Test
-		@DisplayName("판매자 닉네임과 일치하는 사용자가 없어 실패")
-		void notValidSellerNicknameFail() {
-			// Input
-			request = CreateTradeLocationRequest.builder()
-				.dealId(trade.getId())
-				.sellerNickname("누가닉네임을이렇게지어놓겠어요")
-				.purchaserNickname(purchaser.getNickname())
-				.build();
-
-			// Validation
-			assertThrows(SellerNotFoundException.class, () -> tradeService.createTradeLocation(request));
-		}
-
-		@Test
-		@DisplayName("구매자 닉네임과 일치하는 사용자가 없어 실패")
-		void notValidPurchaserFail() {
-			// Input
-			request = CreateTradeLocationRequest.builder()
-				.dealId(trade.getId())
-				.sellerNickname(seller.getNickname())
-				.purchaserNickname("누가닉네임을이렇게지어놓겠어요")
-				.build();
-
-			// Validation
-			assertThrows(PurchaserNotFoundException.class, () -> tradeService.createTradeLocation(request));
-		}
-
-		@Test
-		@DisplayName("거래 등록자와 판매자 정보 불일치로 인한 실패")
-		void notValidSellerFail() {
-			// Input
-			request = CreateTradeLocationRequest.builder()
-				.dealId(trade.getId())
-				.sellerNickname(purchaser.getNickname())
-				.purchaserNickname(purchaser.getNickname())
-				.build();
-
-			// Validation
-			assertThrows(SellerNotValidException.class, () -> tradeService.createTradeLocation(request));
+			assertThrows(DirectChattingRoomNotFoundException.class, () -> tradeService.createTradeLocation(request));
 		}
 	}
 
@@ -210,6 +172,12 @@ class TradeServiceTest {
 
 		@BeforeEach
 		void setUp() {
+
+		}
+
+		@Test
+		@DisplayName("실시간 위치 정보 갱신 성공, 상대방 위치 정보 없음으로 인한 거리 null 반환")
+		void updateTradeLocationSuccessWithNullInfo() {
 			tradeLocation = TradeLocation.builder()
 				.dealId(trade.getId().toString())
 				.sellerId(seller.getId().toString())
@@ -221,11 +189,7 @@ class TradeServiceTest {
 				.distance(null)
 				.build();
 			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
-		}
 
-		@Test
-		@DisplayName("실시간 위치 정보 갱신 성공")
-		void updateTradeLocationSuccess() {
 			TradeMessageRequest request = new TradeMessageRequest().builder()
 				.tradeLocationId(tradeLocationId)
 				.nickname(seller.getNickname())
@@ -245,16 +209,50 @@ class TradeServiceTest {
 			assertEquals(purchaser.getNickname(), response.getPurchaserLocationInfo().getOtherNickname());
 			assertEquals(tradeLocation.getPurchaserLongitude(),
 				response.getPurchaserLocationInfo().getOtherLongitude());
-			assertEquals(tradeLocation.getPurchaserLatitude(), response.getPurchaserLocationInfo().getOtherLatitude());
-			if (tradeLocation.getPurchaserLongitude() == null || tradeLocation.getPurchaserLatitude() == null) {
-				assertNull(response.getSellerLocationInfo().getDistance());
-				assertNull(response.getPurchaserLocationInfo().getDistance());
-			} else {
-				assertNull(response.getSellerLocationInfo().getDistance());
-				assertNull(response.getPurchaserLocationInfo().getDistance());
-				assertEquals(response.getSellerLocationInfo().getDistance(),
-					response.getPurchaserLocationInfo().getDistance());
-			}
+			assertEquals(tradeLocation.getPurchaserLatitude(),
+				response.getPurchaserLocationInfo().getOtherLatitude());
+			assertNull(response.getSellerLocationInfo().getDistance());
+			assertNull(response.getPurchaserLocationInfo().getDistance());
+		}
+
+		@Test
+		@DisplayName("실시간 위치 정보 갱신 성공, 상대방 위치 정보와 거리 계산")
+		void updateTradeLocationSuccessWithoutNullInfo() {
+			tradeLocation = TradeLocation.builder()
+				.dealId(trade.getId().toString())
+				.sellerId(seller.getId().toString())
+				.sellerLongitude("127.1")
+				.sellerLatitude("38.1")
+				.purchaserId(purchaser.getId().toString())
+				.purchaserLongitude(null)
+				.purchaserLatitude(null)
+				.distance(null)
+				.build();
+			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
+
+			TradeMessageRequest request = new TradeMessageRequest().builder()
+				.tradeLocationId(tradeLocationId)
+				.nickname(purchaser.getNickname())
+				.longitude(127.1001)
+				.latitude(38.1001)
+				.build();
+
+			TradeMessageResponse response = tradeService.updateTradeLocation(request);
+
+			assertEquals(tradeLocationId, response.getTradeLocationId());
+			assertEquals(trade.getId(), response.getDealId());
+			assertEquals(seller.getNickname(), response.getSellerNickname());
+			assertEquals(request.getNickname(), response.getPurchaserNickname());
+			assertEquals(seller.getNickname(), response.getSellerLocationInfo().getOtherNickname());
+			assertEquals(tradeLocation.getSellerLongitude(), response.getSellerLocationInfo().getOtherLongitude().toString());
+			assertEquals(tradeLocation.getSellerLatitude(), response.getSellerLocationInfo().getOtherLatitude().toString());
+			assertEquals(request.getNickname(), response.getPurchaserLocationInfo().getOtherNickname());
+			assertEquals(request.getLongitude(), response.getPurchaserLocationInfo().getOtherLongitude());
+			assertEquals(request.getLatitude(), response.getPurchaserLocationInfo().getOtherLatitude());
+			assertNotNull(response.getSellerLocationInfo().getDistance());
+			assertNotNull(response.getPurchaserLocationInfo().getDistance());
+			assertEquals(response.getSellerLocationInfo().getDistance(),
+				response.getPurchaserLocationInfo().getDistance());
 		}
 
 	}
