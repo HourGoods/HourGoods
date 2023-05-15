@@ -16,14 +16,6 @@ import lombok.NoArgsConstructor;
 @Schema(description = "실시간 위치 확인 요청")
 public class CreateTradeLocationRequest {
 	@NotNull
-	@Schema(description = "관련 거래 id")
-	private Long dealId;
-
-	@NotEmpty
-	@Schema(description = "판매자 닉네임")
-	private String sellerNickname;
-
-	@NotEmpty
-	@Schema(description = "구매자 닉네임")
-	private String purchaserNickname;
+	@Schema(description = "관련 채팅방 id")
+	private Long chattingRoomId;
 }

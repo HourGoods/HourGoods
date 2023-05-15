@@ -1,5 +1,8 @@
 package org.a204.hourgoods.domain.deal.service;
 
+import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
+import org.a204.hourgoods.domain.chatting.exception.DirectChattingRoomNotFoundException;
+import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepository;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.entity.TradeLocation;
@@ -30,28 +33,29 @@ public class TradeService {
 	private final MemberRepository memberRepository;
 	private final TradeRepository tradeRepository;
 	private final TradeLocationRepository tradeLocationRepository;
+	private final DirectChattingRoomRepository directChattingRoomRepository;
 
 	public CreateTradeLocationResponse createTradeLocation(CreateTradeLocationRequest request) {
 		// 유효성 검사
-		Trade trade = tradeRepository.findById(request.getDealId()).orElseThrow(TradeNotFoundException::new);
-		Member seller = memberRepository.findByNickname(request.getSellerNickname())
-			.orElseThrow(SellerNotFoundException::new);
-		Member purchaser = memberRepository.findByNickname(request.getPurchaserNickname())
-			.orElseThrow(PurchaserNotFoundException::new);
+		DirectChattingRoom directChattingRoom = directChattingRoomRepository.findById(request.getChattingRoomId()).orElseThrow(
+			DirectChattingRoomNotFoundException::new);
+		Trade trade = tradeRepository.findById(directChattingRoom.getDeal().getId()).orElseThrow(TradeNotFoundException::new);
+		Member seller = directChattingRoom.getReceiver();
+		Member purchaser = directChattingRoom.getSender();
 		isEqualDealHostAndSeller(trade, seller);
 
 		// 없으면 생성
 		String tradeLocationId = "";
-		if (!checkAlreadyExistedTradeLocation(request.getDealId(), seller.getId(), purchaser.getId())) {
+		if (!checkAlreadyExistedTradeLocation(trade.getId(), seller.getId(), purchaser.getId())) {
 			TradeLocation tradeLocation = TradeLocation.builder()
-				.dealId(request.getDealId().toString())
+				.dealId(trade.getId().toString())
 				.sellerId(seller.getId().toString())
 				.purchaserId(purchaser.getId().toString())
 				.build();
 			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
 		} else {
 			TradeLocation tradeLocation = tradeLocationRepository.findByDealIdAndSellerIdAndPurchaserId(
-				request.getDealId().toString(), seller.getId().toString(), purchaser.getId().toString()).orElseThrow();
+				trade.getId().toString(), seller.getId().toString(), purchaser.getId().toString()).orElseThrow();
 			tradeLocationId = tradeLocation.getId();
 		}
 
