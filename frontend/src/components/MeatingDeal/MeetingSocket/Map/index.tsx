@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import meMarker from "@assets/userLocPoint.svg";
 import youMarker from "@assets/otherUserLocPoint.svg";
-import { IMapProps } from "../index";
+import { IMapProps } from "..";
 
 interface IMapPropsType {
   mapPropsState: IMapProps;
@@ -35,7 +35,7 @@ export default function Map(props: IMapPropsType) {
       level: 5,
     };
     // 판매자, 구매자 여부에 따라 Map 중심 이동
-    console.log("일단 유저 네임이 있냐?>", userName);
+    console.log("일단 유저 네임이 있냐?", userName);
     let sellerMarkerImage;
     let purchaserMarkerImage;
     if (userName === mapPropsState.sellerNickname) {
@@ -136,7 +136,6 @@ export default function Map(props: IMapPropsType) {
       if (sellerMarker) {
         sellerMarker.setMap(null);
       }
-			
     }
   }, [mapPropsState.sellerLatitude, mapPropsState.sellerLongitude]);
   useEffect(() => {
