@@ -105,11 +105,11 @@ public class MemberService {
 	   @PostConstruct
 	   public void initTestUser() {
 	       Member member = Member.builder()
-	               .email("temp@hourgoods.com")
-	               .nickname("임시닉네임")
+			   .id(1L)
+			   .email("temp@hourgoods.com")
+			   .nickname("임시닉네임")
 			   .imageUrl("https://shorturl.at/akuBF")
-	               .build();
-
+			   .build();
 	       Member save = memberRepository.save(member);
 	       memberId = save.getId();
 	   }
