@@ -15,12 +15,24 @@
   }
 }
 
+.auction-page-upper-container {
+  display: flex;
+  justify-content: center;
+}
 .auction-page-all-container {
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
   gap: 10px;
-  justify-content: space-between;
+  @include desktop {
+    width: 100%;
+    justify-content: space-between;
+  }
+  @include tablet {
+    width: 90%;
+  }
+  @include mobile {
+    width: 90%;
+  }
 
   .a-page-inputbox-container {
     bottom: 30px;
@@ -59,7 +71,7 @@
   flex-direction: column;
   gap: 20px;
   @include desktop {
-    max-height: 600px;
+    max-height: 530px;
     width: 60%;
   }
   @include tablet {
@@ -175,7 +187,7 @@
       width: 100%;
       // @include scrollbar-css;
       @include desktop {
-        height: 300px;
+        height: 250px;
       }
       @include tablet {
         height: 150px;
@@ -230,7 +242,7 @@
   @include scrollbar-css;
   @include desktop {
     width: 30%;
-    height: 600px;
+    height: 530px;
   }
   @include tablet {
     width: 100%;
