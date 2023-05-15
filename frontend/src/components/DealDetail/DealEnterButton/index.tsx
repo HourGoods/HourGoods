@@ -78,7 +78,7 @@ export default function index(props: any) {
         })
         // 참여할 수 없는 경매
         .catch((err) => {
-          const errCode = err.response.data.errorCode;
+          const errCode = err.response.data.code;
           if (errCode === "D400") {
             toast.error("아직 거래가 시작되지 않았어요!");
           } else if (errCode === "D500") {
