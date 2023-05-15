@@ -238,15 +238,22 @@ class TradeServiceTest {
 			assertEquals(tradeLocationId, response.getTradeLocationId());
 			assertEquals(trade.getId(), response.getDealId());
 			assertEquals(request.getNickname(), response.getSellerNickname());
-			assertEquals(request.getLongitude(), response.getSellerLongitude());
-			assertEquals(request.getLatitude(), response.getSellerLatitude());
 			assertEquals(purchaser.getNickname(), response.getPurchaserNickname());
-			assertEquals(tradeLocation.getPurchaserLongitude(), response.getPurchaserLongitude());
-			assertEquals(tradeLocation.getPurchaserLatitude(), response.getPurchaserLatitude());
+			assertEquals(request.getNickname(), response.getSellerLocationInfo().getOtherNickname());
+			assertEquals(request.getLongitude(), response.getSellerLocationInfo().getOtherLongitude());
+			assertEquals(request.getLatitude(), response.getSellerLocationInfo().getOtherLatitude());
+			assertEquals(purchaser.getNickname(), response.getPurchaserLocationInfo().getOtherNickname());
+			assertEquals(tradeLocation.getPurchaserLongitude(),
+				response.getPurchaserLocationInfo().getOtherLongitude());
+			assertEquals(tradeLocation.getPurchaserLatitude(), response.getPurchaserLocationInfo().getOtherLatitude());
 			if (tradeLocation.getPurchaserLongitude() == null || tradeLocation.getPurchaserLatitude() == null) {
-				assertNull(response.getDistance());
+				assertNull(response.getSellerLocationInfo().getDistance());
+				assertNull(response.getPurchaserLocationInfo().getDistance());
 			} else {
-				assertNotNull(response.getDistance());
+				assertNull(response.getSellerLocationInfo().getDistance());
+				assertNull(response.getPurchaserLocationInfo().getDistance());
+				assertEquals(response.getSellerLocationInfo().getDistance(),
+					response.getPurchaserLocationInfo().getDistance());
 			}
 		}
 
