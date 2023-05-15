@@ -13,7 +13,7 @@ const dealState = atom({
     latitude: 0,
     meetingLocation: "",
     concertId: 0,
-    // dealtypes: Auction, HourAuction, Sharing, Trade
+    // dealtypes: Auction, Sharing, Trade
     dealType: "Trade",
     // 경매
     minimumPrice: 0,

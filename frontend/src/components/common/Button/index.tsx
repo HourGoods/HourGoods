@@ -38,7 +38,6 @@ export default function index({
       {imgSrc && <img src={imgSrc} alt="로고" />}
       {color === "All" && <p>전체보기</p>}
       {color === "Auction" && <p>경매</p>}
-      {color === "HourAuction" && <p>Hour경매</p>}
       {color === "Trade" && <p>거래</p>}
       {color === "Sharing" && <p>나눔</p>}
       {children && <p>{children}</p>}

@@ -11,6 +11,7 @@ import uploadDealImage from "@utils/uploadDealImage";
 import { toast, ToastContainer } from "react-toastify";
 import "./index.scss";
 import "react-toastify/dist/ReactToastify.css";
+import { UserStateAtom } from "@recoils/user/Atom";
 
 export default function index() {
   const navigate = useNavigate();
@@ -19,6 +20,8 @@ export default function index() {
     file: null,
     filename: "",
   });
+  // 닉네임
+  const { nickname } = useRecoilValue(UserStateAtom);
   const dealInfo = useRecoilValue(dealState);
   const resetDealInfo = useResetRecoilState(dealState);
 
@@ -33,7 +36,8 @@ export default function index() {
       // 이미지 업로드하여 이미지 주소 받아오기
       const imageUrl = await uploadDealImage(
         inputImage.file,
-        inputImage.filename
+        inputImage.filename,
+        nickname
       );
 
       if (imageUrl) {

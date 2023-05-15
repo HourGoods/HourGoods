@@ -42,10 +42,7 @@ export default function index(props: any) {
     setStartTime(dealInfo.startTime.substring(11, 16));
 
     // Auction일 경우 경매지속시간 계산
-    if (
-      dealInfo.dealType === "Auction" ||
-      dealInfo.dealType === "HourAuction"
-    ) {
+    if (dealInfo.dealType === "Auction") {
       const start = new Date(dealInfo.startTime);
       const end = new Date(dealInfo.endTime);
       console.log(start, end);
@@ -151,15 +148,6 @@ export default function index(props: any) {
               </div>
               <div className="deal-icon-info-div">
                 {dealInfo.dealType === "Auction" && (
-                  <>
-                    <div className="icon-text-div">
-                      <BoltIcon />
-                      <h5>경매 진행 시간</h5>
-                    </div>
-                    <p>{auctionDuration}분</p>
-                  </>
-                )}
-                {dealInfo.dealType === "HourAuction" && (
                   <>
                     <div className="icon-text-div">
                       <BoltIcon />

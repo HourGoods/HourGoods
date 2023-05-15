@@ -63,7 +63,6 @@ export default function index() {
     Trade: true,
     Sharing: false,
     Auction: false,
-    HourAuction: false,
   });
 
   // State Update
@@ -91,7 +90,6 @@ export default function index() {
       Trade: type === "Trade",
       Sharing: type === "Sharing",
       Auction: type === "Auction",
-      HourAuction: type === "HourAuction",
     }));
     setDealInfo((prev) => ({
       ...prev,
@@ -126,13 +124,6 @@ export default function index() {
             size="deal"
             isActive={activeDealType.Auction}
             onClick={() => activationHandler("Auction")}
-          />
-
-          <Button
-            color="HourAuction"
-            size="deal"
-            isActive={activeDealType.HourAuction}
-            onClick={() => activationHandler("HourAuction")}
           />
         </div>
         {/* ---------------------- 버튼 구분선 ---------------------- */}
@@ -221,7 +212,7 @@ export default function index() {
             />
           </label>
         )}
-        {activeDealType.Auction || activeDealType.HourAuction ? (
+        {activeDealType.Auction ? (
           <>
             <label htmlFor="AuctionTimeInput">
               <p>종료 일시</p>

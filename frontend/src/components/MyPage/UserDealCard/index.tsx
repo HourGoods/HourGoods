@@ -91,10 +91,6 @@ export default function index({ getmy, deal }: IProps) {
       dealType = "경매";
       backgroundcolor = "#c7d2fe";
       break;
-    case "HourAuction":
-      dealType = "Hour 경매";
-      backgroundcolor = "#ede9fe";
-      break;
     case "Trade":
       dealType = "거래";
       backgroundcolor = "#fbcfe8";
@@ -154,8 +150,7 @@ export default function index({ getmy, deal }: IProps) {
             </div>
             <div className="user-deal-card-wrapper">
               <ClockIcon />
-              {deal.dealTypeName !== "Auction" &&
-              deal.dealTypeName !== "HourAuction" ? (
+              {deal.dealTypeName !== "Auction" ? (
                 <p className="user-deal-card-container-p">{`${startHour}:${startMinute}`}</p>
               ) : (
                 <p className="user-deal-card-container-p">{`${startHour}:${startMinute} ~ ${endHour}:${endMinute}`}</p>
