@@ -65,6 +65,7 @@
       justify-content: space-between;
       align-items: center;
       svg {
+        cursor: pointer;
         width: 35px;
         color: $gray-1;
       }
@@ -96,6 +97,7 @@
         gap: 30px;
         p {
           font-size: 16px;
+          cursor: pointer;
         }
       }
     }

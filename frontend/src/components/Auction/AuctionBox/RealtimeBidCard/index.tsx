@@ -43,6 +43,10 @@ export default function Index({
     scrollToBottom(bidListRef.current);
   }, [bidList, inoutMsgList]);
 
+  const formatCurrency = (value: number): string => {
+    return `${value.toLocaleString("ko-KR")} 원`;
+  };
+
   return (
     <>
       <div className="realtime-bid-card-container">
@@ -52,7 +56,7 @@ export default function Index({
         <div className="realtime-bid-right">
           <div className="r-bid-card-icon fire">
             <FireIcon />
-            <p>{currentBid}</p>
+            <p>{formatCurrency(currentBid)}</p>
           </div>
           <div className="r-const-ppl-wrapper">
             <div className="r-bid-card-icon up">

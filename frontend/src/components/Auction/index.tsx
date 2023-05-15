@@ -186,7 +186,7 @@ export default function index() {
   };
 
   return (
-    <>
+    <div className="auction-page-upper-container">
       <ToastContainer />
       <div className="auction-page-all-container">
         <AuctionBox bidList={bidList} inoutMsgList={inoutMsgList} />
@@ -238,6 +238,6 @@ export default function index() {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 }

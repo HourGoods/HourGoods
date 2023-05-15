@@ -24,6 +24,7 @@ const UserStateAtom = atom({
     nickname: "",
     imageUrl:
       "https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg",
+    cash: 0,
   },
   effects_UNSTABLE: [persistAtom],
 });

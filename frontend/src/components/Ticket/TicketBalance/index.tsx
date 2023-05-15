@@ -12,7 +12,7 @@ export default function index() {
         <div className="ticket-wrapper">
           <div className="ticket">
             <TicketIcon className="ticket-icon" />
-            <p className="ticket-tag">티켓</p>
+            <p className="ticket-tag">포인트</p>
           </div>
           <p className="cash">{`${
             userInfo.cash.toLocaleString() ? userInfo.cash.toLocaleString() : 0
