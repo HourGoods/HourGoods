@@ -93,7 +93,7 @@ public class MyPageService {
 
 	// 사용자가 참여한 거래 목록 조회
 	public DealListResponse getAttendedDealList(MemberDetails memberDetails) {
-		final Long lastDealId = Long.valueOf(-1);
+		final Long lastDealId = -1L;
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {
@@ -101,7 +101,7 @@ public class MyPageService {
 		}
 
 		// 거래 정보 조회
-		Slice<Deal> deals = dealQueryDslRepository.searchDealByHost(member, lastDealId, pageable);
+		Slice<Deal> deals = dealQueryDslRepository.searchAttendedDealByMember(member, lastDealId, pageable);
 
 		// 정보가 없을 경우 빈 정보 반환
 		if (deals.isEmpty()) {

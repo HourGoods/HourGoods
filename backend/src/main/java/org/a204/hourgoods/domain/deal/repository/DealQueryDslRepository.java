@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.a204.hourgoods.domain.bidding.entity.QBidding;
 import org.a204.hourgoods.domain.concert.entity.QConcert;
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.QDeal;
@@ -37,6 +38,7 @@ public class DealQueryDslRepository {
 	QDealBookmark dealBookmark = QDealBookmark.dealBookmark;
 	QTransaction transaction = QTransaction.transaction;
 	QParticipant participant = QParticipant.participant;
+	QBidding bidding = QBidding.bidding;
 
 	public Slice<Deal> searchDealByCond(ConcertDealListRequest request, Pageable pageable) {
 		List<Deal> results = query.selectFrom(deal)
@@ -84,18 +86,18 @@ public class DealQueryDslRepository {
 
 	// 사용자가 참여한 거래 목록 조회
 	public Slice<Deal> searchAttendedDealByMember(Member member, Long lastDealId, Pageable pageable) {
-		List<Deal> results = query.selectFrom(deal)
-			.innerJoin(transaction.deal, deal)
-			.leftJoin(participant.deal, deal)
-			.fetchJoin()
-			.where(
-				transaction.purchaser.id.eq(member.getId()),
-				checkLastDealId(lastDealId)
-			)
-			.orderBy(deal.startTime.desc())
-			.limit(pageable.getPageSize() + 1L)
+		Long memberId = member.getId();
+		List<Deal> deals = query.select(deal)
+			.from(deal)
+			.leftJoin(deal.transactions, transaction)
+			.leftJoin(deal.bidHistory, bidding)
+			.leftJoin(deal.participants, participant)
+			.where(transaction.purchaser.id.eq(memberId)
+				.or(bidding.bidder.id.eq(memberId))
+				.or(participant.member.id.eq(memberId)))
+			.distinct()
 			.fetch();
-		return checkLastPage(pageable, results);
+		return checkLastPage(pageable, deals);
 	}
 
 	// 거래 종류 필터하는 메소드
