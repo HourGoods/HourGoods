@@ -13,10 +13,6 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.entity.TradeLocation;
-import org.a204.hourgoods.domain.deal.exception.PurchaserNotFoundException;
-import org.a204.hourgoods.domain.deal.exception.SellerNotFoundException;
-import org.a204.hourgoods.domain.deal.exception.SellerNotValidException;
-import org.a204.hourgoods.domain.deal.exception.TradeNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.TradeLocationRepository;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
@@ -172,12 +168,6 @@ class TradeServiceTest {
 
 		@BeforeEach
 		void setUp() {
-
-		}
-
-		@Test
-		@DisplayName("실시간 위치 정보 갱신 성공, 상대방 위치 정보 없음으로 인한 거리 null 반환")
-		void updateTradeLocationSuccessWithNullInfo() {
 			tradeLocation = TradeLocation.builder()
 				.dealId(trade.getId().toString())
 				.sellerId(seller.getId().toString())
@@ -189,7 +179,11 @@ class TradeServiceTest {
 				.distance(null)
 				.build();
 			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
+		}
 
+		@Test
+		@DisplayName("실시간 위치 정보 갱신 성공, 상대방 위치 정보 없음으로 인한 거리 null 반환")
+		void updateTradeLocationSuccessWithNullInfo() {
 			TradeMessageRequest request = new TradeMessageRequest().builder()
 				.tradeLocationId(tradeLocationId)
 				.nickname(seller.getNickname())
@@ -216,19 +210,18 @@ class TradeServiceTest {
 		}
 
 		@Test
+		@Transactional
 		@DisplayName("실시간 위치 정보 갱신 성공, 상대방 위치 정보와 거리 계산")
 		void updateTradeLocationSuccessWithoutNullInfo() {
-			tradeLocation = TradeLocation.builder()
-				.dealId(trade.getId().toString())
-				.sellerId(seller.getId().toString())
-				.sellerLongitude("127.1")
-				.sellerLatitude("38.1")
-				.purchaserId(purchaser.getId().toString())
-				.purchaserLongitude(null)
-				.purchaserLatitude(null)
-				.distance(null)
+			System.out.println(tradeLocation.toString());
+
+			TradeMessageRequest preRequest = new TradeMessageRequest().builder()
+				.tradeLocationId(tradeLocationId)
+				.nickname(seller.getNickname())
+				.longitude(127.1)
+				.latitude(38.1)
 				.build();
-			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
+			TradeMessageResponse preResponse = tradeService.updateTradeLocation(preRequest);
 
 			TradeMessageRequest request = new TradeMessageRequest().builder()
 				.tradeLocationId(tradeLocationId)
@@ -236,23 +229,29 @@ class TradeServiceTest {
 				.longitude(127.1001)
 				.latitude(38.1001)
 				.build();
-
 			TradeMessageResponse response = tradeService.updateTradeLocation(request);
+			System.out.println(response.toString());
+
+			assertNotNull(response.getSellerLocationInfo().getOtherLongitude());
 
 			assertEquals(tradeLocationId, response.getTradeLocationId());
 			assertEquals(trade.getId(), response.getDealId());
 			assertEquals(seller.getNickname(), response.getSellerNickname());
-			assertEquals(request.getNickname(), response.getPurchaserNickname());
-			assertEquals(seller.getNickname(), response.getSellerLocationInfo().getOtherNickname());
-			assertEquals(tradeLocation.getSellerLongitude(), response.getSellerLocationInfo().getOtherLongitude().toString());
-			assertEquals(tradeLocation.getSellerLatitude(), response.getSellerLocationInfo().getOtherLatitude().toString());
+			assertEquals(purchaser.getNickname(), response.getPurchaserNickname());
+			assertEquals(preRequest.getNickname(), response.getSellerLocationInfo().getOtherNickname());
+			assertEquals(preRequest.getLongitude().toString(),
+				response.getSellerLocationInfo().getOtherLongitude().toString());
+			assertEquals(preRequest.getLatitude().toString(),
+				response.getSellerLocationInfo().getOtherLatitude().toString());
 			assertEquals(request.getNickname(), response.getPurchaserLocationInfo().getOtherNickname());
-			assertEquals(request.getLongitude(), response.getPurchaserLocationInfo().getOtherLongitude());
-			assertEquals(request.getLatitude(), response.getPurchaserLocationInfo().getOtherLatitude());
+			assertEquals(request.getLongitude().toString(),
+				response.getPurchaserLocationInfo().getOtherLongitude().toString());
+			assertEquals(request.getLatitude().toString(),
+				response.getPurchaserLocationInfo().getOtherLatitude().toString());
 			assertNotNull(response.getSellerLocationInfo().getDistance());
 			assertNotNull(response.getPurchaserLocationInfo().getDistance());
-			assertEquals(response.getSellerLocationInfo().getDistance(),
-				response.getPurchaserLocationInfo().getDistance());
+			assertEquals(response.getSellerLocationInfo().getDistance().toString(),
+				response.getPurchaserLocationInfo().getDistance().toString());
 		}
 
 	}
