@@ -1,7 +1,9 @@
 package org.a204.hourgoods.domain.concert.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,9 +55,16 @@ public class ConcertService {
 				.lastConcertId(Long.valueOf(-1))
 				.build();
 		}
-		final List<ConcertInfoResponse> concertInfoResponseList = concertList.stream()
-			.map(ConcertInfoResponse::new)
-			.collect(Collectors.toList());
+		List<ConcertInfoResponse> concertInfoResponseList = new ArrayList<>();
+		for(Concert concert : concertList) {
+			if(concert.getStartTime() == null) {
+				continue;
+			}
+			if(concert.getStartTime().toLocalDate().equals(LocalDate.now())){
+				concertInfoResponseList.add(new ConcertInfoResponse(concert));
+			}
+		}
+
 		final TodayConcertListResponse todayConcertListResponse = TodayConcertListResponse.builder()
 			.hasNextPage(false)
 			.lastConcertId(concertInfoResponseList.get(concertInfoResponseList.size() - 1).getConcertId())
