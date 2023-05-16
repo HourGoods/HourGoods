@@ -34,6 +34,43 @@
     width: 90%;
   }
 
+  .track {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    border-radius: 10px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    .dealContent {
+      white-space: nowrap;
+      will-change: transform;
+      animation: marquee 10s linear infinite;
+      -webkit-animation: marquee 10s linear infinite;
+      .dealContnet-text {
+        color: #fff;
+        text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #ff008049,
+          0 0 4px #ff008049, 0 0 5px #ff008049, 0 0 6px #ff008049,
+          0 0 7px #ff008049;
+      }
+    }
+    @keyframes marquee {
+      from {
+        transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        -moz-transform: translateX(100%);
+        -ms-transform: translateX(100%);
+        -o-transform: translateX(100%);
+      }
+      to {
+        transform: translateX(-200%);
+        -webkit-transform: translateX(-200%);
+        -moz-transform: translateX(-200%);
+        -ms-transform: translateX(-200%);
+        -o-transform: translateX(-200%);
+      }
+    }
+  }
+
   .a-page-inputbox-container {
     bottom: 30px;
     width: 100%;
@@ -122,7 +159,7 @@
     }
     .common-modal-box {
       .commonButton {
-        margin-top:  20px;
+        margin-top: 20px;
       }
     }
   }
