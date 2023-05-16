@@ -21,7 +21,7 @@ export default function index() {
   }, []);
 
   return (
-    <div>
+    <div className="meeting-deal-component-container">
       <MeetingSocket tradeLocId={tradeLocationId} />
     </div>
   );

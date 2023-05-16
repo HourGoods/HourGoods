@@ -1,9 +1,11 @@
 import React from "react";
+import LoadingImg from "@assets/walkLoad.gif";
 
 export default function index() {
   return (
-    <div>
-      <p>Loading..</p>
+    <div className="loading-container">
+      <p>상대방 위치 불러오는 중...</p>
+      <img src={LoadingImg} alt="로딩" />
     </div>
   );
 }

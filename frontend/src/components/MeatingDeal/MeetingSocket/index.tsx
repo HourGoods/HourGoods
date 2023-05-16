@@ -80,19 +80,17 @@ export default function index({ tradeLocId }: Props) {
   };
 
   return (
-    <div>
-      <Loading />
-      {isConnected && (
-        <>
-          <p>하이?</p>
-          <Map
-            meetingInfo={meetingInfo}
-            userName={userName}
-            clientRef={clientRef}
-            tradeLocId={tradeLocId}
-            dealId={dealId}
-          />
-        </>
+    <div className="meeting-socket-component-container">
+      {isConnected && meetingInfo.otherLatitude ? (
+        <Map
+          meetingInfo={meetingInfo}
+          userName={userName}
+          clientRef={clientRef}
+          tradeLocId={tradeLocId}
+          dealId={dealId}
+        />
+      ) : (
+        <Loading />
       )}
     </div>
   );

@@ -84,7 +84,7 @@ export default function Map(props: IMapPropsType) {
     const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(37.5665, 126.978), // 기본 위치
-      level: 4,
+      level: 3,
     };
     const map = new window.kakao.maps.Map(container, options);
     setMap(map);
@@ -105,7 +105,7 @@ export default function Map(props: IMapPropsType) {
         new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
         {
           offset: new window.kakao.maps.Point(20, 40),
-          alt: "현재 위치",
+          alt: "내 위치",
         }
       );
       // 마커 이미지
@@ -114,7 +114,7 @@ export default function Map(props: IMapPropsType) {
         new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
         {
           offset: new window.kakao.maps.Point(20, 40),
-          alt: "현재 위치",
+          alt: "상대 위치",
         }
       );
 
@@ -161,17 +161,34 @@ export default function Map(props: IMapPropsType) {
         const updatedMarkers = [...newMarkers];
         return updatedMarkers;
       });
+
+      // 맵 중심을 내 위치로 이동
+      const { latitude, longitude } = myLocation;
+      map.setCenter(new window.kakao.maps.LatLng(latitude, longitude));
     }
   }, [myLocation, meetingInfo, flag, map]);
 
   return (
-    <div>
-      <p>{meetingInfo.distance}m 떨어져있습니다</p>
+    <div className="map-main-container">
+      <div className="map-top-container">
+        <h3>📍 실시간 위치</h3>
+        <p>상대와 약 {Math.ceil(meetingInfo.distance)}m 떨어져있습니다</p>
+      </div>
       {/* 크기는 원하는대로 변경 가능! */}
-      <div
-        id="map"
-        style={{ width: "500px", height: "500px", margin: "auto" }}
-      />
+      <div className="map-bottom-container">
+        <div id="map" />
+        <div className="loc-info-box">
+          <span>
+            <img src={meMarker} alt="나" />
+          </span>
+          내 위치 &nbsp; &nbsp;
+          {" "}
+          <span>
+            <img src={youMarker} alt="나" />
+          </span>{" "}
+          상대 위치
+        </div>
+      </div>
     </div>
   );
 }
