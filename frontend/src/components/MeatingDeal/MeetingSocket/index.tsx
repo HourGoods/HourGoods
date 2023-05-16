@@ -81,7 +81,7 @@ export default function index({ tradeLocId }: Props) {
 
   return (
     <div className="meeting-socket-component-container">
-      {isConnected && meetingInfo.otherLatitude ? (
+      {isConnected ? (
         <Map
           meetingInfo={meetingInfo}
           userName={userName}
