@@ -39,7 +39,7 @@ export default function index() {
   const chattingRoomId = location.state.chatId;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dealInfo, setDealInfo] = useState<DealInfoInterface>({
-    dealId: 0,
+    dealId: location.state.dealid,
     dealTypeName: "",
     endTime: "",
     imageUrl: "",
@@ -73,8 +73,8 @@ export default function index() {
       .then((res) => {
         console.log(res.data.result);
         const getInfo = res.data.result;
-        setDealInfo({
-          dealId: getInfo.dealId,
+        setDealInfo((prev) => ({
+          ...prev,
           dealTypeName: getInfo.dealType,
           endTime: getInfo.endTime,
           imageUrl: getInfo.dealImageUrl,
@@ -84,7 +84,7 @@ export default function index() {
           price: getInfo.price,
           startTime: getInfo.startTime,
           title: getInfo.dealTitle,
-        });
+        }));
       })
       .catch((err) => {
         console.error(err);
