@@ -10,10 +10,10 @@ interface IDealInfoProps {
 }
 
 export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
+  const navigate = useNavigate();
   const [remainingTime, setRemainingTime] = useState("");
   const [progressBarWidth, setProgressBarWidth] = useState("0%");
   const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
 
   const updateRemainingTime = () => {
     const now = new Date();
