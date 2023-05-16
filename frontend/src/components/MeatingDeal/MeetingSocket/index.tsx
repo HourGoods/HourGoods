@@ -7,13 +7,6 @@ import SockJS from "sockjs-client";
 import Map from "./Map";
 import Loading from "./Loading";
 
-export interface IMapProps {
-  otherNickname: string; // 판매자이름
-  otherLongitude: number; // 판매자경도
-  otherLatitude: number; // 판매자위도
-  distance: number; // 판매자와 구매자의 거리
-}
-
 // 소켓통신으로 수신받은 결과값을 저장한 인스턴스
 export interface MeetingDealInfo {
   otherNickname: string; // 판매자이름
@@ -32,17 +25,14 @@ export default function index({ tradeLocId }: Props) {
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname; // 내이름
 
-  // 다솜: Map을 위한 props 입니다
-  const [mapPropsState, setMapPropsState] = useState<IMapProps>({
+  // --------------------- 소켓 통신하기 -------------------------
+  const clientRef = useRef<Client>();
+  const [meetingInfo, setMeetingInfo] = useState<MeetingDealInfo>({
     otherNickname: "", // 판매자이름
     otherLongitude: 0, // 판매자경도
     otherLatitude: 0, // 판매자위도
     distance: 0, // 판매자와 구매자의 거리
   });
-
-  // --------------------- 소켓 통신하기 -------------------------
-  const clientRef = useRef<Client>();
-  const [meetingInfo, setMeetingInfo] = useState<MeetingDealInfo>();
 
   useEffect(() => {
     if (!clientRef.current) connect();
@@ -91,10 +81,11 @@ export default function index({ tradeLocId }: Props) {
       <Loading />
       {tradeLocId && (
         <Map
-          mapPropsState={mapPropsState}
+          meetingInfo={meetingInfo}
           userName={userName}
           clientRef={clientRef}
           tradeLocId={tradeLocId}
+          dealId={dealId}
         />
       )}
     </div>
