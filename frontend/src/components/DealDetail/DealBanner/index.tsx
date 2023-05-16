@@ -43,7 +43,10 @@ export default function index(props: any) {
           ) : null}
         </div>
         <div className="product-img-wrapper">
-          <img src={dealInfo.dealImageUrl} alt="" />
+          <img
+            src={`https://d15nekhnxhc8rz.cloudfront.net/${dealInfo.dealImageUrl}`}
+            alt=""
+          />
         </div>
       </div>
     </>
