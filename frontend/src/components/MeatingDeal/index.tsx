@@ -51,6 +51,7 @@ export default function index() {
       } catch (error) {
         console.error("Error:", error);
       }
+
     };
     postData();
   }, [sellerName, purchaserName, dealId]);

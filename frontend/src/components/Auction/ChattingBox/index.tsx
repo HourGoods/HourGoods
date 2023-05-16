@@ -1,5 +1,7 @@
+/* eslint-disable react/self-closing-comp */
+/* eslint-disable consistent-return */
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
 import { scrollToBottom } from "@utils/scrollToBottom";
@@ -12,21 +14,55 @@ interface Props {
 
 export default function index({ msgList, inoutMsgList }: Props) {
   const chatMsgListRef = useRef<HTMLDivElement | null>(null);
+  const chatBottomRef = useRef<HTMLDivElement | null>(null);
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
+  const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(true);
+  const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
 
   useEffect(() => {
-    scrollToBottom(chatMsgListRef.current);
-  }, [inoutMsgList, msgList]);
+    if (chatMsgListRef.current) {
+      chatMsgListRef.current.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      if (chatMsgListRef.current) {
+        chatMsgListRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [chatMsgListRef.current]);
+
+  useEffect(() => {
+    console.log("isScrollAtBottom", isScrollAtBottom);
+    if (isScrollAtBottom) {
+      scrollToBottom(chatBottomRef.current);
+    }
+    // else {
+    //   setIsNewMessage(true);
+    // }
+  }, [msgList, inoutMsgList, isScrollAtBottom]);
+
+  const handleScroll = () => {
+    const element = chatMsgListRef?.current;
+    if (element) {
+      const { scrollTop, scrollHeight, clientHeight } = element;
+      const isScrolledToBottom =
+        Math.abs(scrollTop + clientHeight - scrollHeight) <= 50;
+      setIsScrollAtBottom(isScrolledToBottom);
+    }
+  };
+
+  // const handleButtonClick = () => {
+  //   setIsNewMessage(false);
+  //   scrollToBottom(chatBottomRef.current);
+  // };
 
   return (
-    <div className="chattingbox-all-container">
-      <div ref={chatMsgListRef} className="private-chatroom-content-container">
+    <div ref={chatMsgListRef} className="chattingbox-all-container">
+      <div className="private-chatroom-content-container">
         {msgList.map((message: ChatMessage, index: number) => {
           const isMe = message.nickname === userName;
           const messageClassName = isMe ? "its-me-chat" : "not-me-chat";
           const join = message.messageType === "JOIN";
-
           return (
             <React.Fragment key={index}>
               {message.content && isMe ? (
@@ -58,6 +94,16 @@ export default function index({ msgList, inoutMsgList }: Props) {
             </React.Fragment>
           );
         })}
+        {/* {isNewMessage && (
+          <button
+            type="button"
+            className="new-message-button"
+            onClick={handleButtonClick}
+          >
+            새로운 메시지가 도착했습니다. 최하단으로 이동
+          </button>
+        )} */}
+        <div ref={chatBottomRef}></div>
       </div>
     </div>
   );

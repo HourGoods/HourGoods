@@ -120,6 +120,11 @@
         margin: 5px 0;
       }
     }
+    .common-modal-box {
+      .commonButton {
+        margin-top:  20px;
+      }
+    }
   }
 
   // RealtimeBidCard.tsx (현재입찰가)
@@ -236,10 +241,22 @@
 
 // ChattingBox.tsx (하위 채팅창)
 .chattingbox-all-container {
+  // z-index: 100;
   background-color: $white-op;
   border-radius: 10px;
   padding: 20px;
-  @include scrollbar-css;
+  // @include scrollbar-css;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 10px;
+    &-thumb {
+      background-color: white;
+      border-radius: 10px;
+    }
+    &-track {
+      background-color: transparent;
+    }
+  }
   @include desktop {
     width: 30%;
     height: 530px;
@@ -252,50 +269,51 @@
     width: 100%;
     height: 200px;
   }
-  .private-chatroom-content-container {
-    display: flex;
-    flex-direction: column;
-    p {
-      margin: 0;
-      text-align: left;
-      font-size: 14px;
-      word-wrap: break-word;
-    }
-    .not-me-chat {
-      .not-me-chat-message {
-        display: flex;
-        gap: 5px;
-        margin: 10px 0;
-        align-items: center;
-        max-width: 60%;
-        min-width: 40px;
-        img {
-          width: 40px;
-          color: $gray-3;
-          border-radius: 40px;
-          display: flex;
-        }
-        p {
-          margin: 0;
-        }
-        .not-me-chat-name {
-          font-weight: 900;
-        }
-      }
-    }
-    .its-me-chat {
-      margin: 10px 0;
+  // .private-chatroom-content-container {
+
+  display: flex;
+  flex-direction: column;
+  p {
+    margin: 0;
+    text-align: left;
+    font-size: 14px;
+    word-wrap: break-word;
+  }
+  .not-me-chat {
+    .not-me-chat-message {
       display: flex;
-      justify-content: flex-end;
-      .its-me-chat-box {
-        background-color: $violet-2;
-        border-radius: 10px 10px 0px 10px;
-        padding: 5px;
-        max-width: 60%;
-        min-width: 40px;
+      gap: 5px;
+      margin: 10px 0;
+      align-items: center;
+      max-width: 60%;
+      min-width: 40px;
+      img {
+        width: 40px;
+        color: $gray-3;
+        border-radius: 40px;
+        display: flex;
+      }
+      p {
+        margin: 0;
+      }
+      .not-me-chat-name {
+        font-weight: 900;
       }
     }
   }
+  .its-me-chat {
+    margin: 10px 0;
+    display: flex;
+    justify-content: flex-end;
+    .its-me-chat-box {
+      background-color: $violet-2;
+      border-radius: 10px 10px 0px 10px;
+      padding: 5px;
+      max-width: 60%;
+      min-width: 40px;
+    }
+  }
+  // }
   .box-bottom-wrapper {
     width: 100%;
   }
