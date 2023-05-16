@@ -7,11 +7,16 @@ import over, { Client, Message } from "@stomp/stompjs";
 import AuctionBox from "./AuctionBox";
 import ChattingBox from "./ChattingBox";
 import { UserStateAtom } from "@recoils/user/Atom";
-import { useRecoilValue } from "recoil";
-import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  ChatBubbleOvalLeftIcon,
+  CurrencyDollarIcon,
+  TicketIcon,
+} from "@heroicons/react/24/solid";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AuctionCurrentBidAtom } from "@recoils/auction/Atoms";
 
 export interface ChatMessage {
   messageType: string;
@@ -37,6 +42,7 @@ export default function index() {
   const dealId = location.state.dealid; // 해당 delaId값
   const dealInfo = location.state.dealinfo; // DealCard에 들어갈 Deal 정보
   const userInfo = useRecoilValue(UserStateAtom);
+  const [currentBid, setCurrentBid] = useRecoilState(AuctionCurrentBidAtom);
   const userName = userInfo.nickname;
   const [msgValue, setMsgValue] = useState("");
   const [bidValue, setBidValue] = useState("");
@@ -143,7 +149,6 @@ export default function index() {
     setMsgValue(""); // Input 초기화
   };
 
-  const currentBid = location.state.bidMoney;
   // Socket을 통해 응찰하기
   const sendBid = () => {
     if (!bidValue) return; // 빈값 return
@@ -151,16 +156,12 @@ export default function index() {
       toast.error("현재 입찰가보다 높은 금액을 제시해주세요.");
       return;
     }
+    if (parseInt(bidValue) === currentBid) {
+      toast.error("현재 입찰가와 같은 금액을 응찰할 수 없어요.");
+      return;
+    }
     if (parseInt(bidValue) > 2147483647) {
       toast.info("int범위 내로 입력해주세요😢");
-      return;
-    }
-    if (parseInt(bidValue) > currentBid + 10000) {
-      toast.info("현재 응찰은 기준가의 만원 이내로 부탁드려요😅🙏");
-      return;
-    }
-    if (parseInt(bidValue) === currentBid) {
-      toast.error("현재 입찰가와 같은 가격은 응찰할 수 없어요😢");
       return;
     }
     const bidMoney = {
@@ -218,7 +219,7 @@ export default function index() {
               showBidBox ? "active" : ""
             }`}
           >
-            <TicketIcon />
+            <CurrencyDollarIcon />
           </button>
 
           {showBidBox && (
