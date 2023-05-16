@@ -54,8 +54,8 @@ export default function index() {
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedCanvas =
         croppedImageRef.current?.cropper.getCroppedCanvas({
-          maxHeight: 150,
-          maxWidth: 150,
+          maxHeight: 200,
+          maxWidth: 200,
         });
 
       // canvas를 Blob으로 변환
@@ -158,6 +158,11 @@ export default function index() {
           nicknameInput
         );
         if (imageUrl) {
+          // img CDN
+          const baseUrl =
+            "https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/";
+          const trimmedUrl = imageUrl.substring(baseUrl.length);
+
           // POST API 요청
           let { nickname } = userInfo;
           if (nicknameInput) {
@@ -166,17 +171,17 @@ export default function index() {
           const result = memberAPI.editUser({
             ...userInfo,
             nickname,
-            imageUrl,
+            imageUrl: trimmedUrl,
           });
           result.then((res) => {
             console.log(res);
             // const { dealId } = res.data.result;
             toast.success("정보가 변경되었습니다!", { autoClose: 1000 });
-            navigate(`/mypage`);
             setUserInfo((prevUserInfo: any) => ({
               ...prevUserInfo,
-              imageUrl: uploadedImage,
+              imageUrl: trimmedUrl,
             }));
+            navigate(`/mypage`);
           });
         }
       } catch (error) {
@@ -232,8 +237,8 @@ export default function index() {
                   maxWidth: "90vw",
                   // overflow: "auto",
                 }}
-                minCropBoxHeight={90}
-                minCropBoxWidth={90}
+                minCropBoxHeight={100}
+                minCropBoxWidth={100}
                 viewMode={0}
                 aspectRatio={1}
                 background={false}
@@ -263,7 +268,7 @@ export default function index() {
                 <div className="updateprofile-contents-container-wrapper">
                   {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
                   {!uploadedImage ? (
-                    <img src={userInfo.imageUrl} alt="프로필 사진" />
+                    <img src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} alt="프로필 사진" />
                   ) : (
                     <img src={croppedImage} alt="프로필 사진" />
                   )}

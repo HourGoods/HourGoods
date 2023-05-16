@@ -50,7 +50,10 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
   return (
     <div className="auction-dealcard-container">
       <div className="a-dealcard-img">
-        <img src={dealInfo.dealImageUrl} alt="" />
+        <img
+          src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.dealImageUrl}`}
+          alt=""
+        />
       </div>
       <div className="a-dealcard-right">
         <div className="a-dealcard-title">

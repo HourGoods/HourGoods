@@ -76,8 +76,8 @@ export default function index() {
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedCanvas =
         croppedImageRef.current?.cropper.getCroppedCanvas({
-          maxHeight: 150,
-          maxWidth: 150,
+          maxHeight: 200,
+          maxWidth: 200,
         });
 
       // canvas를 Blob으로 변환
@@ -156,10 +156,18 @@ export default function index() {
           inputNickname
         );
         if (imageUrl) {
+          // img CDN
+          const baseUrl =
+            "https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/";
+          const trimmedUrl = imageUrl.substring(baseUrl.length);
           // 회원가입 API 요청
           // 기존처럼 닉네임이 변할 때마다 recoilValue를 업데이트 하면 중간에 나갔을 때 문제가 생깁니다.
           const nickname = inputNickname;
-          const result = memberAPI.signup({ ...userInfo, nickname, imageUrl });
+          const result = memberAPI.signup({
+            ...userInfo,
+            nickname,
+            imageUrl: trimmedUrl,
+          });
           result.then((res) => {
             // 로그인 여부도 저장
             localStorage.setItem("isLogin", "true");
@@ -233,8 +241,8 @@ export default function index() {
                   maxWidth: "90vw",
                   // overflow: "auto",
                 }}
-                minCropBoxHeight={90}
-                minCropBoxWidth={90}
+                minCropBoxHeight={100}
+                minCropBoxWidth={100}
                 viewMode={0}
                 aspectRatio={1}
                 background={false}
@@ -263,7 +271,7 @@ export default function index() {
             {uploadedImage ? (
               <img src={croppedImage} alt="프로필 사진" />
             ) : (
-              <img src={userInfo.imageUrl} alt="프로필 사진" />
+              <img src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} alt="프로필 사진" />
             )}
             <input
               id="uploadImg"
