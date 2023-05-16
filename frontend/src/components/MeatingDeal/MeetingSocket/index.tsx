@@ -61,12 +61,14 @@ export default function index({ tradeLocId }: Props) {
       onConnect: () => {
         console.log("소켓에 연결되었습니당");
         // 해당 소켓주소에 구독
-        clientRef.current?.subscribe(
-          `/topic/meet/${dealId}/${userName}`,
-          (message: Message) => {
-            handleMessage(message.body);
-          }
-        );
+        if (dealId !== null) {
+          clientRef.current?.subscribe(
+            `/topic/meet/${dealId}/${userName}`,
+            (message: Message) => {
+              handleMessage(message.body);
+            }
+          );
+        }
       },
     });
     clientRef.current?.activate(); // client측 활성화
@@ -79,7 +81,7 @@ export default function index({ tradeLocId }: Props) {
 
   // 소켓으로부터 받아오는 MeetingDealInfo 결과값
   const handleMessage = (message: string) => {
-    console.log("받아옵니다.")
+    console.log("받아옵니다.");
     const parsedMessage = JSON.parse(message) as MeetingDealInfo;
     setMeetingInfo(parsedMessage);
   };
@@ -87,12 +89,14 @@ export default function index({ tradeLocId }: Props) {
   return (
     <div>
       <Loading />
-      <Map
-        mapPropsState={mapPropsState}
-        userName={userName}
-        clientRef={clientRef}
-        tradeLocId={tradeLocId}
-      />
+      {tradeLocId && (
+        <Map
+          mapPropsState={mapPropsState}
+          userName={userName}
+          clientRef={clientRef}
+          tradeLocId={tradeLocId}
+        />
+      )}
     </div>
   );
 }

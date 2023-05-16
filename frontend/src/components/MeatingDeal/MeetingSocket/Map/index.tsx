@@ -26,7 +26,7 @@ export default function Map(props: IMapPropsType) {
   const [map, setMap] = useState<any>(null);
 
   const [myLocation, setMyLocation] = useState({});
-  const [myMarker, setMyMarker] = useState();
+  const [yourMarker, setYourMarker] = useState();
 
   // 최초 map이 그려졌음을 표시하는 flag... 0: map만, 1: 최초지도, 2: 갱신상태
   const [flag, setFlag] = useState(0);
@@ -64,14 +64,39 @@ export default function Map(props: IMapPropsType) {
   useEffect(() => {
     if (map && flag === 1) {
       console.log("여기는 맵은 있다");
+      // 내 위치
       getCurrentLocation().then((res) => {
         if (typeof res === "object" && res !== null) {
           setMyLocation(res);
           map.setCenter(
             new window.kakao.maps.LatLng(res.latitude, res.longitude)
           );
-          setFlag(2);
           sendMyLocation(res.latitude, res.longitude);
+
+          // 상대 위치 그리기
+          // marker 생성
+          const markerImage = new window.kakao.maps.MarkerImage(
+            youMarker, // 마커 이미지 URL
+            new window.kakao.maps.Size(40, 40), // 마커 이미지 크기
+            {
+              offset: new window.kakao.maps.Point(55, 55),
+              alt: "현재 위치",
+            }
+          );
+          const newMarker = new window.kakao.maps.Marker({
+            position: new window.kakao.maps.LatLng(
+              mapPropsState.otherLatitude,
+              mapPropsState.otherLongitude
+            ),
+            image: markerImage,
+          });
+
+          newMarker.setMap(map);
+          setYourMarker(newMarker);
+
+          // flag 2로 변경(너랑 내 최초 위치는 그려진 상태)
+          setFlag(2);
+          console.log("플래그 변경ㅋ");
         }
       });
     }
@@ -82,9 +107,9 @@ export default function Map(props: IMapPropsType) {
     if (map && flag === 2 && navigator.geolocation) {
       console.log("갱신 준비 완");
 
-      watcher = watchCurrentLocation(map, (result: any) => {
-        if (typeof result === "object" && result !== null) {
-          sendMyLocation(result.latitude, result.longitude);
+      watcher = watchCurrentLocation(map, (res: any) => {
+        if (typeof res === "object" && res !== null) {
+          sendMyLocation(res.latitude, res.longitude);
         }
       });
     }
@@ -92,14 +117,20 @@ export default function Map(props: IMapPropsType) {
 
   // map이 생성되었는지 여부를 확인하고, 갱신될때마다 위치 변경 시작!
   // 상대방
-  // useEffect(() => {
-  //   if (map && flag) {
-  //     console.log("판매자 이동");
-  //     if (sellerMarker) {
-  //       sellerMarker.setMap(null);
-  //     }
-  //   }
-  // }, [mapPropsState.sellerLatitude, mapPropsState.sellerLongitude]);
+  useEffect(() => {
+    if (map && flag) {
+      console.log("판매자 이동");
+      if (yourMarker) {
+        console.log(
+          mapPropsState.otherLatitude,
+          mapPropsState.otherLongitude,
+          "있다 야"
+        );
+
+        // yourMarker.setMap(null);
+      }
+    }
+  }, [mapPropsState.otherLatitude, mapPropsState.otherLongitude]);
 
   return (
     <div>
