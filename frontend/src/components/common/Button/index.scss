@@ -5,7 +5,7 @@
   box-shadow: $shadow-gray;
   &:hover,
   &:active {
-    background: $white-op;
+    background: white;
     box-shadow: 0px 0px 30px $color1 / 0.7;
     p {
       background-clip: text;
