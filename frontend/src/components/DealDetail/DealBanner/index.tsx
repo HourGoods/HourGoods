@@ -26,7 +26,10 @@ export default function index(props: any) {
         <div className="seller-profile-infos-container">
           <p>{dealInfo.userNickname}</p>
           <button type="button" onClick={creatorProfileHandler}>
-            <img src={dealInfo.userImageUrl} alt="" />
+            <img
+              src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.userImageUrl}`}
+              alt=""
+            />
           </button>
           {dropdownOpen ? (
             <DropDown
