@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { IDealInfo } from "@components/Auction/AuctionBox";
 import Modal from "@components/common/Modal";
+import Button from "@components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 interface IDealInfoProps {
   dealInfo: IDealInfo;
 }
 
 export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
+  const navigate = useNavigate();
   const [remainingTime, setRemainingTime] = useState("");
   const [progressBarWidth, setProgressBarWidth] = useState("0%");
   const [modalOpen, setModalOpen] = useState(false);
@@ -47,7 +50,10 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
   return (
     <div className="auction-dealcard-container">
       <div className="a-dealcard-img">
-        <img src={dealInfo.dealImageUrl} alt="" />
+        <img
+          src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.dealImageUrl}`}
+          alt=""
+        />
       </div>
       <div className="a-dealcard-right">
         <div className="a-dealcard-title">
@@ -76,6 +82,13 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
         <Modal setModalOpen={setModalOpen}>
           <h1>경매 종료</h1>
           <p>경매가 종료되었습니다.</p>
+          <Button
+            onClick={() => {
+              navigate("/mypage");
+            }}
+          >
+            마이페이지로 돌아가기
+          </Button>
         </Modal>
       )}
     </div>

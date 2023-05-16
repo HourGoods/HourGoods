@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Bars3Icon,
   UserCircleIcon,
@@ -14,6 +14,7 @@ import { AuthStateAtom, UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
+import hamburger from "@assets/hamburger.svg";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Nav() {
@@ -56,6 +57,11 @@ export default function Nav() {
   // if (location.pathname === "/") {
   //   return null;
   // }
+
+  useEffect(() => {
+    console.log(userInfo, "유저인포바뀜;; 네브");
+  }, [userInfo]);
+
   return (
     <>
       <ToastContainer />
@@ -75,7 +81,11 @@ export default function Nav() {
           <div className="web-navbar-profile">
             {localLogin ? (
               <img
-                src={userInfo.imageUrl}
+                src={
+                  location.pathname === "/mypage"
+                    ? `${ hamburger }`
+                    : `https://d2uxndkqa5kutx.cloudfront.net/${userInfo.imageUrl}`
+                }
                 alt="프로필이미지"
                 onClick={handleDropDownClick}
               />

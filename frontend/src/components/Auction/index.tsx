@@ -35,6 +35,7 @@ export interface InoutMessage {
 export default function index() {
   const location = useLocation();
   const dealId = location.state.dealid; // 해당 delaId값
+  const dealInfo = location.state.dealinfo; // DealCard에 들어갈 Deal 정보
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
   const [msgValue, setMsgValue] = useState("");
@@ -51,13 +52,15 @@ export default function index() {
     setsocketList((prevsocketList) => [...prevsocketList, message]);
     const parsedMessage = JSON.parse(message);
     if (
-      parsedMessage.messageType === "CHAT"
-      || parsedMessage.messageType === "JOIN"
+      parsedMessage.messageType === "CHAT" ||
+      parsedMessage.messageType === "JOIN"
     ) {
       setMsgList((prevSocketList) => [...prevSocketList, parsedMessage]);
-    } if (parsedMessage.messageType === "BID") {
+    }
+    if (parsedMessage.messageType === "BID") {
       setBidList((prevSocketList) => [...prevSocketList, parsedMessage]);
-    } if (
+    }
+    if (
       parsedMessage.messageType === "JOIN" ||
       parsedMessage.messageType === "EXIT"
     ) {
@@ -84,6 +87,7 @@ export default function index() {
   // 최초렌더링시 Socket 통신이 되었는지 확인
   // clientRef가 없다면 socket에 연결
   useEffect(() => {
+    console.log(dealInfo);
     if (!clientRef.current) connect();
     return () => disconnect();
   }, []);
@@ -189,6 +193,13 @@ export default function index() {
     <div className="auction-page-upper-container">
       <ToastContainer />
       <div className="auction-page-all-container">
+        <div className="track">
+          <div className="dealContent">
+            <p className="dealContnet-text">
+              {dealInfo.dealContent}
+            </p>
+          </div>
+        </div>
         <AuctionBox bidList={bidList} inoutMsgList={inoutMsgList} />
         <ChattingBox msgList={msgList} inoutMsgList={inoutMsgList} />
 

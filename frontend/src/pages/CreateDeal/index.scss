@@ -8,9 +8,9 @@
   min-width: 230px;
   padding-bottom: 60px;
 
-  button {
-    margin: 40px auto;
-  }
+  // button {
+  //   margin: 40px auto;
+  // }
 
   // desktop 기준 레이아웃 변경
   @include desktop {
@@ -111,7 +111,6 @@
         }
       }
     }
-    
 
     // 도움말 상단 (여백 제거를 위함)
     .helper-text-top-p {
@@ -215,9 +214,24 @@
       .search-modal-content-component-container {
         height: 100%;
         // overflow-y: scroll;
+        margin-left: 15px;
+        padding-right: 5px;
         padding: none;
         width: 100%;
         @include scrollbar-css;
+
+        .search-bar-container {
+          // height: 40px;
+          // width: 100%;
+          button {
+            background: inherit;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+        // button {
+        //   margin: auto;
+        // }
 
         .concert-card-component-container {
           margin-top: 10px;
@@ -225,5 +239,11 @@
       }
     }
   }
-}
 
+  // 버튼
+  .create-deal-button-wrapper {
+    button {
+      margin: 40px auto 0px;
+    }
+  }
+}

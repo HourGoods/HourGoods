@@ -54,7 +54,13 @@ export default function index() {
           toast.error("내용을 모두 입력해 주세요");
         } else {
           // POST API 요청
-          const result = dealAPI.postDeal({ ...dealInfo, imageUrl });
+          const baseUrl =
+            "https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/";
+          const trimmedUrl = imageUrl.substring(baseUrl.length);
+          const result = dealAPI.postDeal({
+            ...dealInfo,
+            imageUrl: trimmedUrl,
+          });
           result.then((res) => {
             toast.success("거래가 생성되었습니다!");
             // 성공시 detail페이지로 이동
@@ -82,9 +88,11 @@ export default function index() {
           <UploadImage inputImage={inputImage} setInputImage={setInputImage} />
           <UploadDealLocation />
         </div>
-        <Button color="yellow" onClick={createDeal}>
-          생성하기
-        </Button>
+        <div className="create-deal-button-wrapper">
+          <Button color="yellow" onClick={createDeal}>
+            생성하기
+          </Button>
+        </div>
       </div>
     </>
   );

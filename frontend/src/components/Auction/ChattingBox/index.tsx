@@ -18,7 +18,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
   const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(true);
-  const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
+  // const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
 
   useEffect(() => {
     if (chatMsgListRef.current) {
@@ -46,7 +46,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
     if (element) {
       const { scrollTop, scrollHeight, clientHeight } = element;
       const isScrolledToBottom =
-        Math.abs(scrollTop + clientHeight - scrollHeight) <= 50;
+        Math.abs(scrollTop + clientHeight - scrollHeight) <= 60;
       setIsScrollAtBottom(isScrolledToBottom);
     }
   };
@@ -75,7 +75,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
                     <div className={messageClassName}>
                       <div className="not-me-chat-message">
                         <div>
-                          <img src={message.imageUrl} alt="프로필사진" />
+                          <img src={`https://d2uxndkqa5kutx.cloudfront.net/${message.imageUrl}`} alt="프로필사진" />
                         </div>
                         <div>
                           <p className="not-me-chat-name">{message.nickname}</p>

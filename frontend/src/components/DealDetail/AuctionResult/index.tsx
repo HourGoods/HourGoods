@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuctionAPI } from "@api/apis";
+import { AuctionAPI, chattingAPI } from "@api/apis";
 import { useRecoilValue } from "recoil";
 import {
   TrophyIcon,
@@ -11,7 +11,7 @@ import { UserStateAtom } from "@recoils/user/Atom";
 import Button from "@components/common/Button";
 
 export default function index(props: any) {
-  const { isFinished, dealId } = props;
+  const { isFinished, dealId, creator } = props;
   const [resultInfo, setResultInfo] = useState({
     bidAmount: 0,
     bidderCount: 0,
@@ -38,6 +38,22 @@ export default function index(props: any) {
 
   const goHome = () => {
     navigate("/");
+  };
+
+  const personalChatting = () => {
+    const receiver = creator;
+    const req = chattingAPI.postchatDirect(receiver, dealId);
+    req
+      .then((res) => {
+        console.log("채팅하기 res", res.data.result);
+        const chattingRoomId = res.data.result.directChattingRoomId;
+        navigate(`/mychatroom/${chattingRoomId}`, {
+          state: { dealid: dealId, chatId: chattingRoomId },
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   // 주최자일 때
@@ -77,7 +93,6 @@ export default function index(props: any) {
           </div>
           <p>{resultInfo.winnerNickname}</p>
         </div>
-        <Button color="pink">1:1 대화하기</Button>
       </div>
     );
   }
@@ -106,7 +121,9 @@ export default function index(props: any) {
           <p className="result-heper-text-p">
             1:1 대화방에서 <br /> 경매 주최자와 거래를 이어갈 수 있습니다!
           </p>
-          <Button color="pink">1:1 대화하기</Button>
+          <Button color="pink" onClick={personalChatting}>
+            1:1 대화하기
+          </Button>
         </>
       )}
     </div>
