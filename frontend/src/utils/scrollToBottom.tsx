@@ -9,3 +9,4 @@ export const scrollToBottom = (element: HTMLDivElement | null) => {
     });
   }
 };
+
