@@ -112,7 +112,11 @@ export default function DealDetail() {
     <>
       {isFinished && (
         <Modal setModalOpen={setIsFinished}>
-          <AuctionResult isFinished={isFinished} dealId={dealId} />
+          <AuctionResult
+            isFinished={isFinished}
+            dealId={dealId}
+            creator={dealInfo.userNickname}
+          />
         </Modal>
       )}
       <ToastContainer />
