@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Builder
 @Getter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "거래자의 위치 정보")
