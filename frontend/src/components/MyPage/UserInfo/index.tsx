@@ -31,7 +31,7 @@ export default function index() {
       </div>
       {/* <UserCircleIcon /> */}
       {/* <img alt="프로필 사진" className="profile" src={newUserInfo.imageUrl} /> */}
-      <img alt="프로필 사진" className="profile" src={userInfo.imageUrl} />
+      <img alt="프로필 사진" className="profile" src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} />
     </div>
   );
 }

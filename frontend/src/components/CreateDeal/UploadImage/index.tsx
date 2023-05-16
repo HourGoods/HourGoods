@@ -35,8 +35,8 @@ export default function index(props: any) {
     if (typeof croppedImageRef.current?.cropper !== "undefined") {
       const tempCroppedCanvas =
         croppedImageRef.current?.cropper.getCroppedCanvas({
-          maxHeight: 380,
-          maxWidth: 630,
+          maxHeight: 420,
+          maxWidth: 800,
         });
 
       // canvas를 Blob으로 변환
@@ -90,8 +90,8 @@ export default function index(props: any) {
                   maxWidth: "90vw",
                   // overflow: "auto",
                 }}
-                minCropBoxHeight={180}
-                minCropBoxWidth={300}
+                minCropBoxHeight={210}
+                minCropBoxWidth={400}
                 viewMode={0}
                 aspectRatio={5 / 3}
                 background={false}
