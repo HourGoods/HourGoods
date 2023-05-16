@@ -60,7 +60,7 @@ class ConcertControllerTest {
 		concert = Concert.builder()
 			.title("아이유 콘서트")
 			.imageUrl("url")
-			.startTime(LocalDateTime.now().plusHours(8))
+			.startTime(LocalDateTime.now())
 			.kopisConcertId("TestIdFromDB")
 			.bookmarkCount(0)
 			.latitude(Double.valueOf(38))
