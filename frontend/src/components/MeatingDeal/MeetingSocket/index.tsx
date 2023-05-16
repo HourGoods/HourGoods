@@ -24,6 +24,7 @@ export default function index({ tradeLocId }: Props) {
   const dealId = location.state.dealid;
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname; // 내이름
+  const [isConnected, setIsConnected] = useState(false);
 
   // --------------------- 소켓 통신하기 -------------------------
   const clientRef = useRef<Client>();
@@ -50,6 +51,8 @@ export default function index({ tradeLocId }: Props) {
       },
       onConnect: () => {
         console.log("소켓에 연결되었습니당");
+        setIsConnected(true); // 연결 상태 업데이트
+
         // 해당 소켓주소에 구독
         if (dealId !== null) {
           clientRef.current?.subscribe(
@@ -79,14 +82,17 @@ export default function index({ tradeLocId }: Props) {
   return (
     <div>
       <Loading />
-      {tradeLocId && (
-        <Map
-          meetingInfo={meetingInfo}
-          userName={userName}
-          clientRef={clientRef}
-          tradeLocId={tradeLocId}
-          dealId={dealId}
-        />
+      {isConnected && (
+        <>
+          <p>하이?</p>
+          <Map
+            meetingInfo={meetingInfo}
+            userName={userName}
+            clientRef={clientRef}
+            tradeLocId={tradeLocId}
+            dealId={dealId}
+          />
+        </>
       )}
     </div>
   );
