@@ -41,7 +41,22 @@
   }
 
   .image-editor-buttons {
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    button {
+      background: none;
+      background-color: $indigo-1;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: #fff;
+    }
+    button:hover {
+      background: none;
+      background-color: $indigo-2;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: #fff;
+    }
   }
 }
 

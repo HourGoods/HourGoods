@@ -88,9 +88,11 @@ export default function index() {
           <UploadImage inputImage={inputImage} setInputImage={setInputImage} />
           <UploadDealLocation />
         </div>
-        <Button color="yellow" onClick={createDeal}>
-          생성하기
-        </Button>
+        <div className="create-deal-button-wrapper">
+          <Button color="yellow" onClick={createDeal}>
+            생성하기
+          </Button>
+        </div>
       </div>
     </>
   );
