@@ -1,7 +1,7 @@
 // InputMsgBox.tsx
 /* eslint-disable */
 import React from "react";
-import { ChatBubbleOvalLeftIcon, TicketIcon } from "@heroicons/react/24/solid";
+import { ChatBubbleOvalLeftIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
 import "./index.scss";
 
 interface IInputProps {
@@ -36,7 +36,7 @@ export default function InputMsgBox({
   return (
     <div className="input-message-container">
       <div className="icon-message-wrapper">
-        {type === "bid" ? <TicketIcon /> : <ChatBubbleOvalLeftIcon />}
+        {type === "bid" ? <CurrencyDollarIcon /> : <ChatBubbleOvalLeftIcon />}
         <input
           type={type === "bid" ? "number" : "text"}
           placeholder={placeholder}
