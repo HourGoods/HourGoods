@@ -71,6 +71,7 @@ export default function Map(props: IMapPropsType) {
           map.setCenter(
             new window.kakao.maps.LatLng(res.latitude, res.longitude)
           );
+          console.log("내 위도경도", res.latitude, res.longitude);
           sendMyLocation(res.latitude, res.longitude);
 
           // 상대 위치 그리기

@@ -84,6 +84,7 @@ export default function index({ tradeLocId }: Props) {
     console.log("받아옵니다.");
     const parsedMessage = JSON.parse(message) as MeetingDealInfo;
     setMeetingInfo(parsedMessage);
+    console.log("소켓으로부터 받은 메세지", parsedMessage);
   };
 
   return (
