@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { IDealInfo } from "@components/Auction/AuctionBox";
 import Modal from "@components/common/Modal";
+import Button from "@components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 interface IDealInfoProps {
   dealInfo: IDealInfo;
@@ -11,6 +13,7 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
   const [remainingTime, setRemainingTime] = useState("");
   const [progressBarWidth, setProgressBarWidth] = useState("0%");
   const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const updateRemainingTime = () => {
     const now = new Date();
@@ -76,6 +79,13 @@ export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
         <Modal setModalOpen={setModalOpen}>
           <h1>경매 종료</h1>
           <p>경매가 종료되었습니다.</p>
+          <Button
+            onClick={() => {
+              navigate("/mypage");
+            }}
+          >
+            마이페이지로 돌아가기
+          </Button>
         </Modal>
       )}
     </div>
