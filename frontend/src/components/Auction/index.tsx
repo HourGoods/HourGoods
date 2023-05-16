@@ -147,12 +147,21 @@ export default function index() {
   // Socket을 통해 응찰하기
   const sendBid = () => {
     if (!bidValue) return; // 빈값 return
-    if (parseInt(bidValue) <= currentBid) {
+    if (parseInt(bidValue) < currentBid) {
       toast.error("현재 입찰가보다 높은 금액을 제시해주세요.");
       return;
     }
     if (parseInt(bidValue) > 2147483647) {
       toast.info("int범위 내로 입력해주세요😢");
+      return;
+    }
+    if (parseInt(bidValue) > currentBid + 10000) {
+      toast.info("현재 응찰은 기준가의 만원 이내로 부탁드려요😅🙏");
+      return;
+    }
+    if (parseInt(bidValue) === currentBid) {
+      toast.error("현재 입찰가와 같은 가격은 응찰할 수 없어요😢");
+      return;
     }
     const bidMoney = {
       nickname: userName,
@@ -195,9 +204,7 @@ export default function index() {
       <div className="auction-page-all-container">
         <div className="track">
           <div className="dealContent">
-            <p className="dealContnet-text">
-              {dealInfo.dealContent}
-            </p>
+            <p className="dealContnet-text">{dealInfo.dealContent}</p>
           </div>
         </div>
         <AuctionBox bidList={bidList} inoutMsgList={inoutMsgList} />
