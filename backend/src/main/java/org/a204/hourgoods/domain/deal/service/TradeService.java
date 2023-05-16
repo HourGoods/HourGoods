@@ -18,9 +18,8 @@ import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
 import org.a204.hourgoods.domain.deal.response.LocationInfoResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
-import org.a204.hourgoods.global.error.GlobalBaseException;
-import org.a204.hourgoods.global.error.GlobalErrorCode;
 import org.a204.hourgoods.global.util.CheckDistanceUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,9 +36,11 @@ public class TradeService {
 
 	public CreateTradeLocationResponse createTradeLocation(CreateTradeLocationRequest request) {
 		// 유효성 검사
-		DirectChattingRoom directChattingRoom = directChattingRoomRepository.findById(request.getChattingRoomId()).orElseThrow(
-			DirectChattingRoomNotFoundException::new);
-		Trade trade = tradeRepository.findById(directChattingRoom.getDeal().getId()).orElseThrow(TradeNotFoundException::new);
+		DirectChattingRoom directChattingRoom = directChattingRoomRepository.findById(request.getChattingRoomId())
+			.orElseThrow(
+				DirectChattingRoomNotFoundException::new);
+		Trade trade = tradeRepository.findById(directChattingRoom.getDeal().getId())
+			.orElseThrow(TradeNotFoundException::new);
 		Member seller = directChattingRoom.getReceiver();
 		Member purchaser = directChattingRoom.getSender();
 		isEqualDealHostAndSeller(trade, seller);
@@ -66,16 +67,17 @@ public class TradeService {
 
 	@Transactional
 	public TradeMessageResponse updateTradeLocation(TradeMessageRequest request) {
-		TradeLocation tradeLocation = tradeLocationRepository.findById(request.getTradeLocationId().toString())
+		TradeLocation tradeLocation = tradeLocationRepository.findById(request.getTradeLocationId())
 			.orElseThrow();
 		Deal deal = tradeRepository.findById(Long.parseLong(tradeLocation.getDealId()))
-			.orElseThrow(() -> new GlobalBaseException(GlobalErrorCode.DEAL_NOT_FOUND));
+			.orElseThrow(TradeNotFoundException::new);
 		Member requestMember = memberRepository.findByNickname(request.getNickname())
-			.orElseThrow(() -> new GlobalBaseException(GlobalErrorCode.USER_NOT_FOUND));
+			.orElseThrow(MemberNotFoundException::new);
 		Member seller = memberRepository.findById(Long.parseLong(tradeLocation.getSellerId()))
-			.orElseThrow(() -> new GlobalBaseException(GlobalErrorCode.USER_NOT_FOUND));
+			.orElseThrow(SellerNotFoundException::new);
 		Member purchaser = memberRepository.findById(Long.parseLong(tradeLocation.getPurchaserId()))
-			.orElseThrow(() -> new GlobalBaseException(GlobalErrorCode.USER_NOT_FOUND));
+			.orElseThrow(PurchaserNotFoundException::new);
+
 		Double sellerLongitude;
 		Double sellerLatitude;
 		Double purchaserLongitude;
@@ -111,6 +113,11 @@ public class TradeService {
 				purchaserLongitude);
 			tradeLocation.updateDistance(distance.toString());
 		}
+
+		// Redis에 정보 업데이트
+		// redisTemplate.opsForHash().delete("tradeRedis", tradeLocation.getId());
+		// redisTemplate.opsForHash().put("tradeRedis", tradeLocation.getId(), tradeLocation);
+		tradeLocationRepository.save(tradeLocation);
 
 		LocationInfoResponse sellerLocationInfo = LocationInfoResponse.builder()
 			.otherNickname(seller.getNickname())
