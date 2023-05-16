@@ -34,6 +34,7 @@
     width: 90%;
   }
 
+  // 경매장 상단 공지사항
   .track {
     display: flex;
     justify-content: flex-end;
@@ -44,8 +45,8 @@
     .dealContent {
       white-space: nowrap;
       will-change: transform;
-      animation: marquee 20s linear infinite;
-      -webkit-animation: marquee 20s linear infinite;
+      animation: marquee 25s linear infinite;
+      -webkit-animation: marquee 25s linear infinite;
       .dealContnet-text {
         margin: 0;
         color: #fff;
@@ -87,6 +88,11 @@
       svg {
         width: 24px;
         color: $indigo-1;
+      }
+      p {
+        font-size: 8px;
+        margin: 0;
+        color: $gray-2;
       }
     }
     .input-message-container {
@@ -131,6 +137,7 @@
       align-items: center;
       display: flex;
       img {
+        object-fit: cover;
         max-width: 80px;
         max-height: 200px;
       }
@@ -176,7 +183,6 @@
     padding: 10px;
 
     .realtime-bid-left {
-      margin-right: 50px;
       p {
         font-weight: 900;
         color: $indigo-1;
@@ -188,6 +194,7 @@
       }
       width: 80%;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       .fire {
         @include icon-wrapper($pink-1);
