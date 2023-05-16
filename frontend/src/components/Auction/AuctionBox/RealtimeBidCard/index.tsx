@@ -2,8 +2,10 @@
 /* eslint-disable react/no-array-index-key */
 import { BidMessage, InoutMessage } from "@components/Auction";
 import { FireIcon, PlayIcon, UserGroupIcon } from "@heroicons/react/24/solid";
+import { AuctionCurrentBidAtom } from "@recoils/auction/Atoms";
 import { scrollToBottom } from "@utils/scrollToBottom";
 import React, { useEffect, useState, useRef } from "react";
+import { useRecoilState } from "recoil";
 
 interface BidInfoProps {
   bidList: BidMessage[];
@@ -18,7 +20,7 @@ export default function Index({
   nowCount,
   inoutMsgList,
 }: BidInfoProps) {
-  const [currentBid, setCurrentBid] = useState<number>(0);
+  const [currentBid, setCurrentBid] = useRecoilState(AuctionCurrentBidAtom);
   const [interval, setInterval] = useState<number>(0);
   const [participantCount, setParticipantCount] = useState<number>(0);
   const bidListRef = useRef<HTMLDivElement | null>(null);
