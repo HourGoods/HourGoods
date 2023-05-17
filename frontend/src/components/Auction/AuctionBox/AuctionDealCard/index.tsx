@@ -18,11 +18,13 @@ export default function AuctionDealCard({
   const [remainingTime, setRemainingTime] = useState("");
   const [progressBarWidth, setProgressBarWidth] = useState("0%");
   const [modalOpen, setModalOpen] = useState(false);
+  const [timeDifference, setTimeDifference] = useState(0);
 
   const updateRemainingTime = () => {
-    const now = new Date(serverTime);
+    const now = new Date();
+    const clientTime = new Date(now.getTime() + timeDifference);
     const endTime = new Date(dealInfo.endTime);
-    const durationInMs = endTime.getTime() - now.getTime();
+    const durationInMs = endTime.getTime() - clientTime.getTime();
     if (durationInMs < 0) {
       setRemainingTime("경매 종료");
       setModalOpen(true);
@@ -40,17 +42,22 @@ export default function AuctionDealCard({
 
     const startTime = new Date(dealInfo.startTime);
     const totalDuration = endTime.getTime() - startTime.getTime();
-    const leftTime = endTime.getTime() - now.getTime();
+    const leftTime = endTime.getTime() - clientTime.getTime();
     const progress = (leftTime / totalDuration) * 100;
     setProgressBarWidth(`${progress}%`);
   };
 
   useEffect(() => {
+    const serverTimeDiff =
+      new Date(serverTime).getTime() - new Date().getTime();
+    setTimeDifference(serverTimeDiff);
+  }, [serverTime]);
+
+  useEffect(() => {
     updateRemainingTime();
     const intervalId = setInterval(updateRemainingTime, 1000);
     return () => clearInterval(intervalId);
-  }, []);
-
+  }, [timeDifference]);
   return (
     <div className="auction-dealcard-container">
       <div className="a-dealcard-img">
