@@ -189,7 +189,7 @@
       }
     }
     .a-dealcard-right {
-      width: calc(100% - 100px);
+      // width: calc(100% - 80px);
       .a-dealcard-icon {
         @include icon-wrapper($indigo-1);
       }
@@ -300,7 +300,7 @@
         height: 150px;
       }
       @include mobile {
-        height: 100px;
+        height: 80px;
       }
 
       display: flex;
