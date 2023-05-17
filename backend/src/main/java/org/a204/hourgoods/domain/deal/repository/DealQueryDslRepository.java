@@ -148,4 +148,13 @@ public class DealQueryDslRepository {
 			throw new DealNotFoundException();
 		return result.get(0);
 	}
+
+	public Deal searchDealByIdWithMember(Long dealId) {
+		Deal result = query.select(deal)
+			.from(deal)
+			.join(deal.dealHost, member).fetchJoin()
+			.where(deal.id.eq(dealId))
+			.fetchOne();
+		return result;
+	}
 }

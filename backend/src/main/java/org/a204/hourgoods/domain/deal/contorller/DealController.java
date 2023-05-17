@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.a204.hourgoods.domain.deal.exception.MemberMissMatchException;
 import org.a204.hourgoods.domain.deal.request.BookmarkRequest;
 import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
@@ -19,6 +18,7 @@ import org.a204.hourgoods.domain.deal.response.BookmarkResponse;
 import org.a204.hourgoods.domain.deal.response.DealCreateResponse;
 import org.a204.hourgoods.domain.deal.response.DealDeletionResponse;
 import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
+import org.a204.hourgoods.domain.deal.response.DealHostResponse;
 import org.a204.hourgoods.domain.deal.response.DealListResponse;
 import org.a204.hourgoods.domain.deal.service.BookmarkService;
 import org.a204.hourgoods.domain.deal.service.DealService;
@@ -154,6 +154,15 @@ public class DealController {
 		Member member = memberDetails.getMember();
 		BookmarkCheckResponse response = BookmarkCheckResponse.builder()
 			.isBookmarked(bookmarkService.checkBookmark(member, dealId)).build();
+		return new BaseResponse<>(response);
+	}
+
+	@Operation(summary = "거래 host 확인 API", description = "dealId를 통해, 거래 생성한 사용자의 정보를 반환")
+	@ApiResponse(responseCode = "200", description = "거래 host 반환 완료", content = @Content(schema = @Schema(implementation = DealHostResponse.class)))
+	@ApiResponse(responseCode = "404", description = "1. D200 해당 거래ID 조회 실패")
+	@GetMapping("/host")
+	public BaseResponse<DealHostResponse> getDealHost(@RequestParam Long dealId) {
+		DealHostResponse response = dealService.getDealHost(dealId);
 		return new BaseResponse<>(response);
 	}
 }
