@@ -24,7 +24,7 @@ public enum GlobalErrorCode {
 	DEAL_NOT_FOUND(404, "D200", "해당 id에 해당하는 거래가 없습니다."),
 	BOOKMARK_NOT_FOUND(404, "D300", "해당 사용자는 해당 거래를 북마크하지 않았습니다."),
 	DEAL_YET_START(400, "D400", "아직 거래가 시작되지 않았습니다."),
-	DEAL_CLOSED(400, "D500", "이미 종료된 거래입니다."),
+	DEAL_CLOSED(400, "D600", "이미 종료된 거래입니다."),
 	DEAL_TYPE_MISS_MATCH(400, "D500", "거래 타입이 올바르지 않습니다."),
 	CONCERT_NOT_FOUND(404, "C100", "해당하는 공연을 찾을 수 없습니다."),
 	CONCERT_ALREADY_EXISTS(400, "C200", "이미 등록된 공연 정보입니다."),
@@ -36,9 +36,11 @@ public enum GlobalErrorCode {
 	SELLER_NOT_FOUND(400, "M500", "판매자 닉네임과 일치하는 사용자가 없습니다."),
 	SELLER_NOT_VALID(400, "M501", "판매자와 거래 등록자의 id가 일치하지 않습니다."),
 	PURCHASER_NOT_FOUND(400, "M600", "구매자 닉네임과 일치하는 사용자가 없습니다."),
+	NOT_ENOUGH_CASH_POINT(400, "M700", "사용자의 캐시포인트가 부족합니다."),
 	RECEIVER_NOT_FOUND(404, "CH100", "채팅 요청을 할 수 없는 사용자입니다."),
 	DIRECT_CHATTING_ROOM_NOT_FOUND(404, "CH200", "1:1 채팅방을 찾을 수 없습니다."),
 	BIDDING_NOT_FOUND(404, "B100", "입찰 기록이 없습니다."),
+	TRADE_LOCATION_NOT_FOUND(400, "TL100", "실시간 위치 정보가 없습니다."),
 	;
 
 	private final String code;
