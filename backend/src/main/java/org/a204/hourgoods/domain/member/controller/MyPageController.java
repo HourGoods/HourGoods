@@ -9,6 +9,7 @@ import org.a204.hourgoods.domain.member.response.MyPageMemberInfoResponse;
 import org.a204.hourgoods.domain.member.response.PointHistoryListResponse;
 import org.a204.hourgoods.domain.member.service.MyPageService;
 import org.a204.hourgoods.global.common.BaseResponse;
+import org.a204.hourgoods.global.security.annotation.PreAuthorizeMember;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +52,7 @@ public class MyPageController {
 	// 사용자가 참여한 거래 목록 조회
 	@Operation(description = "요청을 보낸 사용자가 참여한 거래 목록 리스트를 조회한다.", summary = "사용자가 참여한 거래 목록 조회 API")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = DealListResponse.class)))
+	@PreAuthorizeMember
 	@GetMapping("/attend")
 	public BaseResponse<DealListResponse> getAttendedDealList(@AuthenticationPrincipal MemberDetails memberDetails) {
 		DealListResponse response = myPageService.getAttendedDealList(memberDetails);

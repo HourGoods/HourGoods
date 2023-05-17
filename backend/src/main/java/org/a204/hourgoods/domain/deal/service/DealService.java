@@ -29,6 +29,7 @@ import org.a204.hourgoods.domain.deal.request.ConcertDealListRequest;
 import org.a204.hourgoods.domain.deal.request.DealCreateRequest;
 import org.a204.hourgoods.domain.deal.response.DealCreateResponse;
 import org.a204.hourgoods.domain.deal.response.DealDetailResponse;
+import org.a204.hourgoods.domain.deal.response.DealHostResponse;
 import org.a204.hourgoods.domain.deal.response.DealInfoResponse;
 import org.a204.hourgoods.domain.deal.response.DealListResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
@@ -263,6 +264,14 @@ public class DealService {
 			throw new MemberMissMatchException();
 		dealRepository.deleteById(dealId);
 		return true;
+	}
+
+	public DealHostResponse getDealHost(Long dealId) {
+		Deal deal = dealQueryDslRepository.searchDealByIdWithMember(dealId);
+		if (deal == null) throw new DealNotFoundException();
+		return DealHostResponse.builder()
+			.memberId(deal.getDealHost().getId())
+			.nickname(deal.getDealHost().getNickname()).build();
 	}
 
 	// concert id validation check
