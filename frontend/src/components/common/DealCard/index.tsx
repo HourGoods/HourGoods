@@ -69,9 +69,7 @@ export default function index({ dealInfo }: DealCardProps) {
       toast.info("로그인 시 이용할 수 있습니다!", {
         autoClose: 2000,
       });
-    }
-    // Bookmark가 없다면 -> 등록 api
-    if (!isBookmarked) {
+    } else if (!isBookmarked && isLogin) {
       const result = dealAPI.postBookmark(dealInfo.dealId);
       result.then((res) => {
         setIsBookmarked(true);
@@ -81,7 +79,7 @@ export default function index({ dealInfo }: DealCardProps) {
       });
     }
     // 아니면 제거 api
-    else {
+    else if (isBookmarked && isLogin) {
       const result = dealAPI.deleteBookmark(dealInfo.dealId);
       result.then((res) => {
         setIsBookmarked(false);
