@@ -33,22 +33,22 @@ export default function index({ msgList, inoutMsgList }: Props) {
   }, [chatMsgListRef.current]);
 
   useEffect(() => {
-    // console.log("isScrollAtBottom", isScrollAtBottom);
-    // if (isScrollAtBottom) {
-    scrollToBottom(chatBottomRef.current);
-    // } else {
-    // // setIsNewMessage(true);
-    // const lastMessage = msgList[msgList.length - 1];
-    // setLatestMessage(lastMessage);
-    // }
-  }, [msgList, inoutMsgList]);
+    console.log("isScrollAtBottom", isScrollAtBottom);
+    if (isScrollAtBottom) {
+      scrollToBottom(chatBottomRef.current);
+    } else {
+      // setIsNewMessage(true);
+      const lastMessage = msgList[msgList.length - 1];
+      setLatestMessage(lastMessage);
+    }
+  }, [msgList, inoutMsgList, isScrollAtBottom]);
 
   const handleScroll = () => {
     const element = chatMsgListRef?.current;
     if (element) {
       const { scrollTop, scrollHeight, clientHeight } = element;
       const isScrolledToBottom =
-        Math.abs(scrollTop + clientHeight - scrollHeight) <= 60;
+        Math.abs(scrollTop + clientHeight - scrollHeight) <= 100;
       console.log("isScrolledToBottom", isScrolledToBottom);
       setIsScrollAtBottom(isScrolledToBottom);
     }
@@ -87,7 +87,9 @@ export default function index({ msgList, inoutMsgList }: Props) {
                         </div>
                         <div>
                           <p className="not-me-chat-name">{message.nickname}</p>
-                          <p className="not-me-chat-content">{message.content}</p>
+                          <p className="not-me-chat-content">
+                            {message.content}
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -99,8 +101,9 @@ export default function index({ msgList, inoutMsgList }: Props) {
                   <p>{message.nickname}님이 참여하였습니다.</p>
                 </div>
               )}
-              {/* {isLatestMessage && (
+              {!isScrollAtBottom && isLatestMessage && (
                 // 새메시지 하단 이동 버튼
+                // 스크롤이 하단에 있지 않고 최신메세지가 있다면
                 <button
                   type="button"
                   className="new-message-button"
@@ -112,7 +115,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
                   />
                   {message.nickname}: {message.content}
                 </button>
-              )} */}
+              )}
             </React.Fragment>
           );
         })}

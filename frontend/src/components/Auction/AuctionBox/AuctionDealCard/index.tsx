@@ -7,40 +7,43 @@ import { useNavigate } from "react-router-dom";
 
 interface IDealInfoProps {
   dealInfo: IDealInfo;
+  serverTime: string;
 }
 
-export default function AuctionDealCard({ dealInfo }: IDealInfoProps) {
+export default function AuctionDealCard({
+  dealInfo,
+  serverTime,
+}: IDealInfoProps) {
   const navigate = useNavigate();
   const [remainingTime, setRemainingTime] = useState("");
   const [progressBarWidth, setProgressBarWidth] = useState("0%");
   const [modalOpen, setModalOpen] = useState(false);
 
-const updateRemainingTime = () => {
-  const now = new Date();
-  const endTime = new Date(dealInfo.endTime);
-  const durationInMs = endTime.getTime() - now.getTime();
-  if (durationInMs < 0) {
-    setRemainingTime("경매 종료");
-    setModalOpen(true);
-    setProgressBarWidth("100%");
-    return;
-  }
-  const days = Math.floor(durationInMs / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((durationInMs / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((durationInMs / (1000 * 60)) % 60);
-  const seconds = Math.floor((durationInMs / 1000) % 60);
-  const timeString = `${days}일 ${hours.toString().padStart(2, "0")}:${minutes
-    .toString()
-    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  setRemainingTime(timeString);
+  const updateRemainingTime = () => {
+    const now = new Date(serverTime);
+    const endTime = new Date(dealInfo.endTime);
+    const durationInMs = endTime.getTime() - now.getTime();
+    if (durationInMs < 0) {
+      setRemainingTime("경매 종료");
+      setModalOpen(true);
+      setProgressBarWidth("100%");
+      return;
+    }
+    const days = Math.floor(durationInMs / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((durationInMs / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((durationInMs / (1000 * 60)) % 60);
+    const seconds = Math.floor((durationInMs / 1000) % 60);
+    const timeString = `${days}일 ${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+    setRemainingTime(timeString);
 
-  const startTime = new Date(dealInfo.startTime);
-  const totalDuration = endTime.getTime() - startTime.getTime();
-  const leftTime = endTime.getTime() - now.getTime();
-  const progress = (leftTime / totalDuration) * 100;
-  setProgressBarWidth(`${progress}%`);
-};
-
+    const startTime = new Date(dealInfo.startTime);
+    const totalDuration = endTime.getTime() - startTime.getTime();
+    const leftTime = endTime.getTime() - now.getTime();
+    const progress = (leftTime / totalDuration) * 100;
+    setProgressBarWidth(`${progress}%`);
+  };
 
   useEffect(() => {
     updateRemainingTime();
