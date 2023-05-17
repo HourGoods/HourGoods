@@ -30,7 +30,6 @@ export default function index({ dealInfo }: DealCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const navigate = useNavigate();
   const goDetail = () => {
-    console.log("ㄱㄱ");
     navigate(`/deal/detail/${dealInfo.dealId}`);
   };
 

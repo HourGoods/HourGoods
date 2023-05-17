@@ -54,16 +54,6 @@ export default function Nav() {
 
   useModalRef(menuRef, () => setIsOpen(false));
 
-  // 임시 메인페이지에서 nav 가립니다
-  // const location = useLocation();
-  // if (location.pathname === "/") {
-  //   return null;
-  // }
-
-  useEffect(() => {
-    console.log(userInfo, "유저인포바뀜;; 네브");
-  }, [userInfo]);
-
   return (
     <>
       <ToastContainer />

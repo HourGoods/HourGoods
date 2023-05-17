@@ -34,7 +34,6 @@ export default function index(props: any) {
       userInfo.nickname
     );
     result.then((res) => {
-      console.log("콘서트별 딜 정보", res);
       setConcertDealList(res.data.result.dealInfoList);
     });
   };
@@ -49,7 +48,6 @@ export default function index(props: any) {
       userInfo.nickname
     );
     result.then((res) => {
-      console.log("콘서트별 딜 정보", res);
       setConcertDealList(res.data.result.dealInfoList);
     });
   };
