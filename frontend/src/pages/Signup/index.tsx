@@ -186,7 +186,9 @@ export default function index() {
             // 이동
             navigate("/mypage");
             // 알림
-            toast.success(`${nickname}님 환영합니다!`);
+            toast.success(`${nickname}님 환영합니다!`, {
+              autoClose: 2000,
+            });
           });
         }
       } catch (err) {
@@ -215,7 +217,9 @@ export default function index() {
         // 이동
         navigate("/mypage");
         // 알림
-        toast.success(`${nickname}님 환영합니다!`);
+        toast.success(`${nickname}님 환영합니다!`, {
+          autoClose: 2000,
+        });
       });
     }
   };
@@ -271,7 +275,10 @@ export default function index() {
             {uploadedImage ? (
               <img src={croppedImage} alt="프로필 사진" />
             ) : (
-              <img src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} alt="프로필 사진" />
+              <img
+                src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`}
+                alt="프로필 사진"
+              />
             )}
             <input
               id="uploadImg"

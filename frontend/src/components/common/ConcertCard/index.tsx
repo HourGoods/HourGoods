@@ -32,7 +32,6 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
     const result = concertAPI.postConcertId(kopisConcertId);
     result
       .then((res) => {
-        console.log(res, "DB에서 받아온 ID값");
         const { concertId } = res.data.result;
 
         if (flag === "fromCreate") {
@@ -43,7 +42,6 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
             concertId,
           }));
           concertAPI.getConcertDetail(concertId).then((res) => {
-            console.log(res);
             const startDate = res.data.result.startTime;
             setConcertDetailInfo({ ...res.data.result, startDate });
           });

@@ -86,6 +86,10 @@
           outline: none;
           box-shadow: none;
         }
+        .charge-cash::placeholder {
+          font-size: 16px;
+          font-weight: 700;
+        }
         .charge-cash::-webkit-inner-spin-button,
         .charge-cash::-webkit-outer-spin-button {
           -webkit-appearance: none;

@@ -12,6 +12,9 @@ import {
 } from "@heroicons/react/24/solid";
 import BellAlertLineIcon from "@heroicons/react/24/outline/BellAlertIcon";
 import Button from "@components/common/Button";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import "./index.scss";
 
 interface DealCardProps {
@@ -27,7 +30,6 @@ export default function index({ dealInfo }: DealCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const navigate = useNavigate();
   const goDetail = () => {
-    console.log("ㄱㄱ");
     navigate(`/deal/detail/${dealInfo.dealId}`);
   };
 
@@ -60,68 +62,81 @@ export default function index({ dealInfo }: DealCardProps) {
 
   // bookmark API
   const bookmarkHanlder = () => {
-    // Bookmark가 없다면 -> 등록 api
-    if (!isBookmarked) {
+    // 우선 로그인한 회원인지 판별
+    const isLogin = localStorage.getItem("isLogin");
+
+    if (!isLogin) {
+      toast.info("로그인 시 이용할 수 있습니다!", {
+        autoClose: 2000,
+      });
+    } else if (!isBookmarked && isLogin) {
       const result = dealAPI.postBookmark(dealInfo.dealId);
       result.then((res) => {
-        console.log(res, "북마크 성공 ㅋㅋ");
         setIsBookmarked(true);
+        toast.success("북마크 성공 👌", {
+          autoClose: 2000,
+        });
       });
     }
     // 아니면 제거 api
-    else {
+    else if (isBookmarked && isLogin) {
       const result = dealAPI.deleteBookmark(dealInfo.dealId);
       result.then((res) => {
-        console.log(res, "북마크 해제 ㅋㅋ");
         setIsBookmarked(false);
+        toast.success("북마크 해제 👌", {
+          autoClose: 2000,
+        });
       });
     }
   };
 
   return (
-    <div className="deal-card-component-container">
-      <button
-        className="deal-card-left-contents-container"
-        type="button"
-        onClick={goDetail}
-      >
-        <div className="deal-card-left-img-wrapper">
-          <img
-            src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.imageUrl}`}
-            alt="물품사진"
-          />
-        </div>
-        <div className="deal-card-right-contents-container">
-          <div className="deal-card-top-container">
-            <p className="deal-title-p">{dealInfo.title}</p>
-          </div>
-          <div className="deal-card-bottom-container">
-            <div className="card-icon-text-div">
-              <CalendarIcon />
-              <p>{dealCardTimeInfo.startDate}</p>
-            </div>
-            <div className="card-icon-text-div">
-              <ClockIcon />
-              <p>{dealCardTimeInfo.timeInfo}</p>
-            </div>
-            <div className="card-icon-text-div">
-              <MapPinIcon />
-              <p>{dealInfo.meetingLocation}</p>
-            </div>
-          </div>
-        </div>
-      </button>
-
-      <div className="deal-card-alert-wrapper">
-        <Button color={dealInfo.dealTypeName} size="deal" isActive />
+    <>
+      <ToastContainer />
+      <div className="deal-card-component-container">
         <button
+          className="deal-card-left-contents-container"
           type="button"
-          onClick={bookmarkHanlder}
-          className="bookmark-button"
+          onClick={goDetail}
         >
-          {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
+          <div className="deal-card-left-img-wrapper">
+            <img
+              src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.imageUrl}`}
+              alt="물품사진"
+            />
+          </div>
+          <div className="deal-card-right-contents-container">
+            <div className="deal-card-top-container">
+              <p className="deal-title-p">{dealInfo.title}</p>
+            </div>
+            <div className="deal-card-bottom-container">
+              <div className="card-icon-text-div">
+                <CalendarIcon />
+                <p>{dealCardTimeInfo.startDate}</p>
+              </div>
+              <div className="card-icon-text-div">
+                <ClockIcon />
+                <p>{dealCardTimeInfo.timeInfo}</p>
+              </div>
+              <div className="card-icon-text-div">
+                <MapPinIcon />
+                <p>{dealInfo.meetingLocation}</p>
+              </div>
+            </div>
+          </div>
         </button>
+
+        <div className="deal-card-alert-wrapper">
+          <Button color={dealInfo.dealTypeName} size="deal" isActive />
+          <button
+            type="button"
+            onClick={bookmarkHanlder}
+            className="bookmark-button"
+          >
+            {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
