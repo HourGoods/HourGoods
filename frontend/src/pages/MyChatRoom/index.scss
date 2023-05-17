@@ -1,16 +1,7 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
 
-.chatroom-container-upper {
-  display: flex;
-  justify-content: center;
-  .chatroom-container {
-    width: 80%;
-  }
-}
-
 // PrivateChat (일대일 채팅방)
-
 .private-chat-main-container {
   width: 100%;
   height: 100%;
@@ -192,28 +183,44 @@
 }
 
 // ChatRoomCadrList (채팅방 목록리스트)
-.chatroom-card-list-container {
+.chatroom-container {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 20px;
+  justify-content: center;
   width: 100%;
-  h1 {
-    color: white;
-    font-weight: 900;
-    margin: 0;
-  }
-  .chatroom-card-list-wrapper {
-    padding: 10px 10px 10px 20px;
-    width: 100%;
-    height: 550px;
-    border-radius: 10px;
-    background-color: $white-op;
+  height: 80vh;
+
+  .chatroom-card-list-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    @include scrollbar-css;
+    align-items: flex-start;
+    gap: 20px;
+    width: 80%;
+    height: 100%;
+    h1 {
+      color: white;
+      font-weight: 900;
+      margin: 0;
+    }
+    .chatroom-card-list-wrapper {
+      // padding: auto;
+      width: 100%;
+      min-width: 220px;
+      height: 100%;
+      border-radius: 10px;
+      background-color: $white-op;
+      // @include scrollbar-css;
+      .chatroom-card-list-bottom {
+        margin: 10px auto;
+        justify-content: center;
+        // padding: 10px 10px 10px 20px;
+        width: 96%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+    }
   }
 }
 
@@ -221,10 +228,12 @@
 .chatromm-card-container {
   display: flex;
   align-items: center;
+  // flex-wrap: wrap;
   background-color: $white-op;
   border-radius: 5px;
   padding: 12px;
   width: 100%;
+  min-width: 200px;
   height: 70px;
   .chatroom-left-section {
     display: flex;
@@ -241,24 +250,23 @@
       margin: 0;
     }
     display: flex;
-    flex-direction: column;
+    width: 100%;
+    justify-content: space-between;
     gap: 5px;
     margin: 0px 10px;
     .chatroom-name-datetime-container {
       display: flex;
-      align-items: center;
-      justify-content: space-between;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
       .chatroom-profile-name {
         font-weight: 900;
+        font-size: 16px;
+        color: $indigo-1;
       }
-      .chatroom-recent-datetime {
-        font-size: 12px;
-      }
-    }
-    .chatroom-recent-msg-wrapper {
       .recent-msg {
         font-size: 14px;
-        width: 180px;
+        max-width: 180px;
         text-align: left;
         overflow: hidden;
         white-space: normal;
@@ -267,6 +275,12 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         word-break: keep-all;
+      }
+    }
+    .chatroom-lastlongtime-section {
+      .chatroom-recent-datetime {
+        font-size: 12px;
+        color: $pink-1;
       }
     }
   }

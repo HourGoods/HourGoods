@@ -32,13 +32,15 @@ export default function ChatroomList() {
       <div className="chatroom-card-list-container">
         <h1>나의 채팅목록</h1>
         <div className="chatroom-card-list-wrapper">
-          {chatrooms.length === 0 ? (
-            <p>진행중인 채팅이 없어요</p>
-          ) : (
-            chatrooms.map((chatroom, index) => (
-              <ChatroomCard key={index} chatroom={chatroom} />
-            ))
-          )}
+          <div className="chatroom-card-list-bottom">
+            {chatrooms.length === 0 ? (
+              <p>진행중인 채팅이 없어요</p>
+            ) : (
+              chatrooms.map((chatroom, index) => (
+                <ChatroomCard key={index} chatroom={chatroom} />
+              ))
+            )}
+          </div>
         </div>
       </div>
     </>
