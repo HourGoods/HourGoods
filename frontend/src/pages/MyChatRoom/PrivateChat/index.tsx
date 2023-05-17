@@ -22,10 +22,12 @@ export default function index() {
   }, [location]);
 
   return (
-    <div>
-      <Modal>
-        <PrivateChat />
-      </Modal>
+    <div className="private-chat-main-container">
+      <div className="private-chat-modal-overay">
+        <div className="private-caht-modal-box">
+          <PrivateChat />
+        </div>
+      </div>
     </div>
   );
 }

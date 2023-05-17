@@ -1,9 +1,10 @@
 import { UserStateAtom } from "@recoils/user/Atom";
 import { Client, Message } from "@stomp/stompjs";
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
+import { ChevronDoubleLeftIcon } from "@heroicons/react/24/solid";
 import Map from "./Map";
 import Loading from "./Loading";
 
@@ -25,6 +26,8 @@ export default function index({ tradeLocId }: Props) {
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname; // 내이름
   const [isConnected, setIsConnected] = useState(false);
+
+  const navigate = useNavigate();
 
   // --------------------- 소켓 통신하기 -------------------------
   const clientRef = useRef<Client>();
@@ -81,6 +84,14 @@ export default function index({ tradeLocId }: Props) {
 
   return (
     <div className="meeting-socket-component-container">
+      <button
+        type="button"
+        className="go-back-icon-text-container"
+        onClick={() => navigate(-1)}
+      >
+        <ChevronDoubleLeftIcon />
+        <p>채팅으로 돌아가기</p>
+      </button>
       {isConnected ? (
         <Map
           meetingInfo={meetingInfo}
