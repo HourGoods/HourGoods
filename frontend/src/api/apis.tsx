@@ -107,6 +107,10 @@ const dealAPI = {
   // 나눔 참여
   postSharingApply: (dealId: number): Promise<AxiosResponse> =>
     request.authPost("deal/sharing/apply", { dealId }),
+
+  // Deal 생성자 조회
+  getDealCreator: (dealId: number): Promise<AxiosResponse> =>
+    request.authGet("deal/host", { params: { dealId } }),
 };
 
 // 채팅관련 api
