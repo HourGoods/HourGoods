@@ -1,5 +1,6 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
+@import "@styles/Animation";
 
 @mixin icon-wrapper($color) {
   display: flex;
@@ -30,6 +31,7 @@
   }
   @include tablet {
     width: 90%;
+    height: 80vh;
   }
   @include mobile {
     width: 90%;
@@ -77,14 +79,14 @@
   .a-page-inputbox-container {
     @include tablet {
       position: fixed;
-      bottom: 0px;
+      bottom: 15px;
       left: 10;
       width: 90%;
     }
     @include mobile {
       width: 90%;
       position: fixed;
-      bottom: 0px;
+      bottom: 15px;
       left: 10;
     }
     width: 100%;
@@ -134,9 +136,25 @@
   }
   @include tablet {
     width: 100%;
+    height: 60%;
   }
   @include mobile {
+    height: 60%;
     width: 100%;
+  }
+
+  .dealCard-toggle-button {
+    background-color: $white-op;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    @include fadeInUp;
+  }
+  .dealCard-toggle-button-active {
+    background-color: transparent;
+    @include fadeInDown;
   }
 
   //AuctionDealCard.tsx(경매되는거래정보카드)
@@ -325,12 +343,14 @@
   }
   @include tablet {
     width: 100%;
+    // height: 40%;
     height: 200px;
     // margin-bottom: 80px;
   }
   @include mobile {
     width: 100%;
-    height: 200px;
+    // height: 40%;
+    height: 150px;
   }
   .private-chatroom-content-container {
     // padding-bottom: 80px;
@@ -403,9 +423,17 @@
         border-radius: 24px;
         margin-right: 5px;
       }
+      @include desktop {
+        position: fixed;
+        bottom: 130px;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+      }
     }
   }
-  position: relative;
   .box-bottom-wrapper {
     width: 100%;
   }
@@ -420,11 +448,12 @@
   }
 }
 
-.chat-bottom-ref {
-  @include tablet {
-    margin: 70px;
-  }
-  @include mobile {
-    margin: 70px;
-  }
-}
+// 새로운 채팅이 왔을 때 돌아오는 ref 요소
+// .chat-bottom-ref {
+//   @include tablet {
+//     margin: 70px;
+//   }
+//   @include mobile {
+//     margin: 70px;
+//   }
+// }
