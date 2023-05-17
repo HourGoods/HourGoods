@@ -125,7 +125,6 @@
 .auctionbox-all-conatiner {
   background-color: $white-op;
   border-radius: 10px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -133,19 +132,23 @@
     // max-height: 530px;
     height: 80%;
     width: 60%;
+    padding: 20px;
   }
   @include tablet {
     width: 100%;
     height: 60%;
+    padding: 20px;
   }
   @include mobile {
     height: 60%;
     width: 100%;
+    padding: 20px 10px 10px 10px;
   }
 
   .dealCard-toggle-button {
     background-color: $white-op;
     border-radius: 10px;
+    padding: 0;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     -ms-border-radius: 10px;
@@ -154,6 +157,7 @@
   }
   .dealCard-toggle-button-active {
     background-color: transparent;
+    padding: 0;
     @include fadeInDown;
   }
 
@@ -164,7 +168,17 @@
     padding: 10px;
     border-radius: 10px;
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    @include desktop {
+      gap: 10px;
+    }
+    @include tablet {
+      gap: 10px;
+    }
+    @include mobile {
+      gap: 5px;
+    }
     .a-dealcard-img {
       align-items: center;
       display: flex;
@@ -175,22 +189,37 @@
       }
     }
     .a-dealcard-right {
+      width: calc(100% - 100px);
       .a-dealcard-icon {
         @include icon-wrapper($indigo-1);
       }
-      width: 100%;
       .a-dealcard-title {
         p {
           margin: 5px 0;
           text-align: left;
           color: $indigo-1;
           font-weight: 900;
+          font-size: 16px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
       .a-dealcard-date-time {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         display: flex;
-        gap: 20px;
         flex-wrap: wrap;
+        @include desktop {
+          gap: 20px;
+        }
+        @include tablet {
+          gap: 10px;
+        }
+        @include mobile {
+          gap: 3px;
+        }
       }
       .a-dealcard-progressbar {
         @include timer-progressbar;
@@ -215,46 +244,42 @@
     padding: 10px;
 
     .realtime-bid-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
       p {
+        font-weight: 900;
+        color: $indigo-1;
+        margin: 0;
+      }
+      .r-bid-card-icon-fire {
+        @include icon-wrapper($pink-1);
         font-weight: 900;
         color: $indigo-1;
       }
     }
     .realtime-bid-right {
-      @include mobile {
-        width: 100%;
-      }
-      width: 80%;
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      .fire {
-        @include icon-wrapper($pink-1);
-        font-weight: 900;
-        color: $indigo-1;
-      }
-      .r-const-ppl-wrapper {
+      justify-content: flex-end;
+      gap: 40px;
+      .up {
         display: flex;
-        gap: 40px;
-        .up {
-          display: flex;
-          gap: 5px;
-          align-items: center;
-          margin: 5px 0;
-          svg {
-            width: 20px;
-            color: $pink-1;
-            rotate: -90deg;
-          }
-          p {
-            margin: 0;
-          }
+        gap: 5px;
+        align-items: center;
+        margin: 5px 0;
+        svg {
+          width: 20px;
+          color: $pink-1;
+          rotate: -90deg;
         }
-        .user {
-          @include icon-wrapper($indigo-1);
-          svg {
-            width: 20px;
-          }
+        p {
+          margin: 0;
+        }
+      }
+      .user {
+        @include icon-wrapper($indigo-1);
+        svg {
+          width: 20px;
         }
       }
     }
