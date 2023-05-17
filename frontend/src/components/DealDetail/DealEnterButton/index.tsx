@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable prefer-destructuring */
 import React, { useEffect, useState } from "react";
 import Button from "@components/common/Button";
@@ -158,7 +159,21 @@ export default function index(props: any) {
       )}
       <ToastContainer />
       <div className="deal-enter-button-component-container">
-        {typeInfo && (
+        {/* {typeInfo && (
+          <Button color={typeInfo.color} onClick={dealClickHandler}>
+            {typeInfo.content}
+          </Button>
+        )} */}
+        {receiver === userInfo.nickname && dealInfo.dealType === "Trade" ? (
+          <div className="no-enter-button">
+            <p>나의 채팅 목록에서 구매자와 거래를 이어갈 수 있어요 ☺</p>
+          </div>
+        ) : receiver === userInfo.nickname &&
+          dealInfo.dealType === "Sharing" ? (
+          <div className="no-enter-button">
+            <p>오픈 시간이 되면 신청자에게 선착순으로 번호표가 배부됩니다 💌</p>
+          </div>
+        ) : (
           <Button color={typeInfo.color} onClick={dealClickHandler}>
             {typeInfo.content}
           </Button>
