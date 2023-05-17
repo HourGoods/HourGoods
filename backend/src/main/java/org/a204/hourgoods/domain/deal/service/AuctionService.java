@@ -1,6 +1,7 @@
 package org.a204.hourgoods.domain.deal.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import org.a204.hourgoods.domain.bidding.entity.Bidding;
 import org.a204.hourgoods.domain.bidding.repository.BiddingRepository;
@@ -21,13 +22,16 @@ import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.quartz.*;
+import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Set;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuctionService {
@@ -43,6 +47,27 @@ public class AuctionService {
         Auction auction = auctionRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
         if (!auction.getIsAvailable()) throw new DealClosedException();
         if (LocalDateTime.now().isBefore(auction.getStartTime())) throw new DealYetStartException();
+        // 경매 결과 등록 스케줄러가 존재하는 지 확인하고 등록
+        try {
+            JobKey jobKey = new JobKey("auctionEndJob_" + dealId, "auctionEnd");
+            if (!scheduler.checkExists(jobKey)) {
+                // If not, schedule the job
+                scheduleAuctionEnding(auction.getEndTime(), dealId);
+                // Get all jobs in the group
+                Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.jobGroupEquals("auctionEnd"));
+                // Loop through all jobs
+                for (JobKey registered : jobKeys) {
+                    // Get job details
+                    JobDetail jobDetail = scheduler.getJobDetail(registered);
+                    // Print job details to log
+                    log.info("Job: " + registered.getName() + " Group: " + registered.getGroup() +
+                        " Description: " + jobDetail.getDescription());
+                }
+            }
+        } catch (SchedulerException e) {
+            // handle exception
+            log.error(e.getMessage(), e);
+        }
         // 해당 dealId로 redis 기록이 있는지 확인
         // 있으면 추가
         if (auctionRedisRepository.isExist(dealId)) {
@@ -50,11 +75,6 @@ public class AuctionService {
         }
         // 없으면 경매 시작 금액으로 생성
         else {
-            try {
-                scheduleAuctionEnding(auction.getEndTime(), dealId);
-            } catch (SchedulerException e) {
-
-            }
             return auctionRedisRepository.initAuction(auction).toEntryResponse();
         }
     }
