@@ -10,107 +10,171 @@
 }
 
 // PrivateChat (일대일 채팅방)
-.private-chatroom-all-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-  min-width: 280px;
+
+.private-chat-main-container {
   width: 100%;
-  // height: 100%;
-  // max-height: 500px;
-  h1 {
-    text-align: left;
-    color: white;
-    font-weight: 900;
-    margin: 0;
-  }
-  .private-chatroom-box-container {
-    border-radius: 10px;
-    padding: 10px;
-    height: 450px;
-    background-color: $white-op;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    // width: 100%;
-    .box-upper-wrapper {
-      @include scrollbar-css;
-      margin-top: 10px;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 98;
+  background: rgba(49, 49, 49, 0.8);
+  background-image: url("../../assets/BGstars.svg");
+  .private-chat-modal-overay {
+    padding: 0px;
+    .private-caht-modal-box {
+      width: 70%;
+      max-width: 500px;
+      min-width: 240px;
+      // height: 50%;
+      min-height: 400px;
+      // height: 80%;
+      height: 80%;
+      //   max-height: 70%;
+      z-index: 99;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: $white-op;
+      border-radius: 10px;
+      padding: 0px;
       display: flex;
       flex-direction: column;
-      height: 100%;
-      width: 100%;
-      justify-content: space-between;
-    }
-    .chatroom-dealcard {
-      .deal-card-component-container {
-        width: 100%;
-      }
-      .deal-card-bottom-container {
-        @include desktop {
-          display: flex;
-          p {
-            margin: 0;
-          }
-        }
-      }
-    }
-    .private-chatroom-content-container {
-      display: flex;
-      flex-direction: column;
-      p {
-        margin: 0;
-        text-align: left;
-        font-size: 14px;
-      }
-      .private-no-chat-yet {
+      align-items: center;
+      justify-content: center;
+
+      // 채팅
+
+      .private-chatroom-all-container {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        margin-top: 100px;
-        p {
-          color: $gray-3;
+        justify-content: space-between;
+        gap: 20px;
+        min-width: 220px;
+        max-width: 500px;
+        margin: auto;
+        width: 100%;
+        height: 100%;
+        h1 {
+          text-align: left;
+          color: white;
+          font-weight: 900;
+          margin: 0;
         }
-      }
-      .not-me-chat {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        margin: 10px 0;
-        svg {
-          width: 40px;
-          color: $gray-3;
-        }
-        .not-me-chat-message {
-          .not-me-name {
-            font-weight: 900;
+        .private-chatroom-box-container {
+          display: flex;
+          position: relative;
+          flex-direction: column;
+          justify-content: space-around;
+          height: 100%;
+          .box-upper-wrapper {
+            margin: 0;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            margin-right: 10px;
+            min-width: 230px;
+            justify-content: space-between;
+
+            // 채팅 내용 올라가는 곳
+            .private-chatroom-content-container {
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              height: 220px;
+              padding-bottom: 5px;
+              margin-top: 5px;
+              margin: auto 10px;
+              width: calc(100% -20px);
+              overflow-y: scroll;
+              @include scrollbar-css;
+
+              p {
+                margin: 0;
+                text-align: left;
+                font-size: 14px;
+              }
+              .private-no-chat-yet {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+                margin-top: 100px;
+                p {
+                  color: $gray-3;
+                }
+              }
+              .not-me-chat {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                margin: 10px 0;
+                svg {
+                  width: 40px;
+                  color: $gray-3;
+                }
+                .not-me-chat-message {
+                  .not-me-name {
+                    font-weight: 900;
+                  }
+                }
+              }
+              .its-me-chat {
+                margin: 10px 0;
+                display: flex;
+                justify-content: flex-end;
+                .its-me-chatbox {
+                  max-width: 60%;
+                  background-color: $violet-2;
+                  border-radius: 10px 10px 0px 10px;
+                  padding: 5px;
+                  min-width: 40px;
+                  margin-right: 10px;
+                }
+              }
+            }
+
+            // 만나서 거래하기
+            .meeting-deal-button-wrapper {
+              margin: 0 auto;
+              width: 100%;
+              margin: auto;
+              .commonButton {
+                width: 220px;
+                height: 55px;
+                font-size: 16px;
+                margin: auto;
+              }
+            }
+          }
+          .chatroom-dealcard {
+            margin: 10px;
+            width: calc(100%-20px);
+            .small-deal-card-component-container {
+              width: 100%;
+            }
+            .deal-card-bottom-container {
+              @include desktop {
+                display: flex;
+                p {
+                  margin: 0;
+                }
+              }
+            }
+          }
+
+          .box-bottom-wrapper {
+            width: 90%;
+            margin: auto;
           }
         }
       }
-      .its-me-chat {
-        margin: 10px 0;
-        display: flex;
-        justify-content: flex-end;
-        .its-me-chatbox {
-          max-width: 60%;
-          background-color: $violet-2;
-          border-radius: 10px 10px 0px 10px;
-          padding: 5px;
-          min-width: 40px;
-        }
-      }
     }
-    .box-bottom-wrapper {
-      width: 100%;
-    }
-  }
-}
-
-.meeting-deal-button-wrapper {
-  .commonButton {
-    margin: 10px;
   }
 }
 
