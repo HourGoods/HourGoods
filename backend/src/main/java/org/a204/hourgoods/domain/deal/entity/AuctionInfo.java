@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.a204.hourgoods.domain.deal.response.AuctionEntryResponse;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 @Getter
@@ -35,6 +36,7 @@ public class AuctionInfo implements Serializable {
     public AuctionEntryResponse toEntryResponse() {
         return AuctionEntryResponse.builder()
                 .currentBid(this.currentBid)
-                .participantCount(this.participantCount).build();
+                .participantCount(this.participantCount)
+                .currentTime(LocalDateTime.now()).build();
     }
 }
