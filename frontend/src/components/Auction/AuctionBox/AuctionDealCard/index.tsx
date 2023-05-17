@@ -44,12 +44,6 @@ export default function AuctionDealCard({
     const progress = (leftTime / totalDuration) * 100;
     setProgressBarWidth(`${progress}%`);
   };
-    const startTime = new Date(dealInfo.startTime);
-    const totalDuration = endTime.getTime() - startTime.getTime();
-    const leftTime = endTime.getTime() - now.getTime();
-    const progress = (leftTime / totalDuration) * 100;
-    setProgressBarWidth(`${progress}%`);
-  };
 
   useEffect(() => {
     updateRemainingTime();
