@@ -2,8 +2,6 @@ package org.a204.hourgoods.domain.concert.response;
 
 import java.util.List;
 
-import org.a204.hourgoods.domain.concert.model.KopisConcertList;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +21,5 @@ public class ConcertListResponse {
 	private Long lastConcertId;
 
 	@Schema(description = "공연 정보 리스트")
-	private List<KopisConcertList.ConcertInfo> concertInfoList;
+	private List<ConcertInfoResponse> concertInfoList;
 }
