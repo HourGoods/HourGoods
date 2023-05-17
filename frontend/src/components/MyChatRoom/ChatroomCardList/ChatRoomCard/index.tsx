@@ -60,10 +60,12 @@ export default function ChatroomCard({ chatroom }: ChatroomProps) {
           onClick={navigateChatroomHandler}
         >
           <div className="chatroom-left-section">
-            <img
-              src={`https://d15nekhnxhc8rz.cloudfront.net/${chatroom.otherImageUrl}`}
-              alt="프로필이미지"
-            />
+            {chatroom.otherImageUrl && chatroom.otherImageUrl !== "" ? (
+              <img
+                src={`https://d15nekhnxhc8rz.cloudfront.net/${chatroom.otherImageUrl}`}
+                alt="프로필이미지"
+              />
+            ) : null}
           </div>
           <div className="chatroom-right-section">
             <div className="chatroom-name-datetime-container">

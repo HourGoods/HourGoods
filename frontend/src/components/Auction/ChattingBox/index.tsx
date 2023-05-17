@@ -75,7 +75,12 @@ export default function index({ msgList, inoutMsgList }: Props) {
                     <div className={messageClassName}>
                       <div className="not-me-chat-message">
                         <div>
-                          <img src={`https://d2uxndkqa5kutx.cloudfront.net/${message.imageUrl}`} alt="프로필사진" />
+                          {message.imageUrl && message.imageUrl !== "" ? (
+                            <img
+                              src={`https://d2uxndkqa5kutx.cloudfront.net/${message.imageUrl}`}
+                              alt="프로필사진"
+                            />
+                          ) : null}
                         </div>
                         <div>
                           <p className="not-me-chat-name">{message.nickname}</p>

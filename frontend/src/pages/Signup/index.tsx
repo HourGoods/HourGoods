@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 import { useRecoilState } from "recoil";
@@ -274,12 +275,12 @@ export default function index() {
           <label htmlFor="uploadImg">
             {uploadedImage ? (
               <img src={croppedImage} alt="프로필 사진" />
-            ) : (
+            ) : userInfo.imageUrl !== "" ? (
               <img
                 src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`}
                 alt="프로필 사진"
               />
-            )}
+            ) : null}
             <input
               id="uploadImg"
               type="file"
