@@ -12,7 +12,7 @@ plugins {
     //querydsl 추가
     id 'com.ewerk.gradle.plugins.querydsl' version '1.0.10'
     // sonarqube 추가
-//    id "org.sonarqube" version "3.5.0.2730"
+    id "org.sonarqube" version "3.5.0.2730"
 //    id 'jacoco'
 }
 
@@ -123,4 +123,18 @@ configurations {
         extendsFrom annotationProcessor
     }
     querydsl.extendsFrom compileClasspath
+}
+
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://3.38.107.246:8080'
+        property 'sonar.login', 'squ_462eee9acae9f357c8ced8de7a45f30f4c56dc2b'
+        property 'sonar.sources', 'src'
+        property 'sonar.language', 'java'
+        property 'sonar.sourceEncoding', 'UTF-8'
+//        property 'sonar.coverage.jacoco.xmlReportPaths', '${buildDir}/reports/jacoco/test/jacocoTestReport.xml'
+        property 'sonar.java.binaries', '${buildDir}/classes'
+        property 'sonar.test.inclusions', '**/*Test.java'
+        property 'sonar.exclusions', '**/test/**, **/Q*.java, **/*Doc*.java, **/resources/**'
+    }
 }
