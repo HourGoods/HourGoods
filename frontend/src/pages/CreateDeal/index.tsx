@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UploadImage from "@components/CreateDeal/UploadImage";
@@ -89,7 +90,16 @@ export default function index() {
           <UploadDealLocation />
         </div>
         <div className="create-deal-button-wrapper">
-          <Button color="yellow" onClick={createDeal}>
+          <Button
+            color={
+              dealInfo.dealType === "Sharing"
+                ? "yellow"
+                : dealInfo.dealType === "Trade"
+                ? "pink"
+                : "indigo"
+            }
+            onClick={createDeal}
+          >
             생성하기
           </Button>
         </div>
