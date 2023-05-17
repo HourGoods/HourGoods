@@ -56,7 +56,9 @@ export default function DealDetail() {
   useEffect(() => {
     // login한 유저만 볼 수 있습니다
     if (!isLogin) {
-      toast.info("로그인해주세요");
+      toast.info("로그인 해주세요", {
+        autoClose: 2000,
+      });
       navigate("/");
     }
     if (stringDealId) {

@@ -154,19 +154,27 @@ export default function index() {
   const sendBid = () => {
     if (!bidValue) return; // 빈값 return
     if (parseInt(bidValue) < currentBid) {
-      toast.error("현재 입찰가보다 높은 금액을 제시해주세요🙏");
+      toast.error("현재 입찰가보다 높은 금액을 제시해주세요🙏", {
+        autoClose: 2000,
+      });
       return;
     }
     if (parseInt(bidValue) === currentBid) {
-      toast.error("현재 입찰가와 같은 금액을 응찰할 수 없🙅‍♂️어🙅요🙅‍♀️");
+      toast.error("현재 입찰가와 같은 금액을 응찰할 수 없🙅‍♂️어🙅요🙅‍♀️", {
+        autoClose: 2000,
+      });
       return;
     }
     if (parseInt(bidValue) > userBudget) {
-      toast.error("금액💵이 부족해요🥲 충전🤑 후 다시 이용해주세요🙏");
+      toast.error("금액💵이 부족해요🥲 충전🤑 후 다시 이용해주세요🙏", {
+        autoClose: 2000,
+      });
       return;
     }
     if (parseInt(bidValue) > 2147483647) {
-      toast.info("int범위 내로 입력해주세요😢");
+      toast.info("int범위 내로 입력해주세요😢", {
+        autoClose: 2000,
+      });
       return;
     }
     const bidMoney = {

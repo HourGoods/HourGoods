@@ -47,20 +47,12 @@ export default function Nav() {
     localStorage.setItem("isLogin", "");
     toggleMenu();
     navigate("/");
-    toast.success("안녕히가세요!");
+    toast.success("안녕히가세요!", {
+      autoClose: 2000,
+    });
   };
 
   useModalRef(menuRef, () => setIsOpen(false));
-
-  // 임시 메인페이지에서 nav 가립니다
-  // const location = useLocation();
-  // if (location.pathname === "/") {
-  //   return null;
-  // }
-
-  useEffect(() => {
-    console.log(userInfo, "유저인포바뀜;; 네브");
-  }, [userInfo]);
 
   return (
     <>

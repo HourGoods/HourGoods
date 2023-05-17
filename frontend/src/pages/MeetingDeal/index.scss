@@ -67,9 +67,26 @@
               align-items: flex-start;
               margin-top: 30px;
               padding: 0 30px;
-              h3 {
-                justify-self: flex-start;
-                align-self: flex-start;
+              height: 40%;
+              .deal-location-information-container {
+                height: 50%;
+                h3 {
+                  text-align: left;
+                  justify-self: flex-start;
+                  align-self: flex-start;
+                  margin-bottom: 0;
+                }
+              }
+              // 상황별 표시 내용
+              .deal-situational-contents-container {
+                height: 50%;
+                button {
+                  width: 130px;
+                  height: 30px;
+                  border-radius: 10px;
+                  padding: 3px 5px;
+                  background-color: #fff;
+                }
               }
             }
             .map-bottom-container {
@@ -82,7 +99,7 @@
                 flex-direction: row;
                 width: 180px;
                 padding: 2px 1px;
-                bottom: 15px;
+                bottom: 10px;
                 right: 0px;
                 margin-right: 5px;
                 z-index: 99;
@@ -92,6 +109,21 @@
                 justify-content: center;
 
                 font-size: 12px;
+              }
+              .buy-button-box {
+                position: absolute;
+                display: flex;
+                flex-direction: row;
+                padding: 2px 1px;
+                bottom: 55px;
+                width: 100%;
+                // right: calc(50% - 240px);
+                margin-right: 5px;
+                z-index: 99;
+                .commonButton {
+                  scale: 0.8;
+                  margin: auto;
+                }
               }
               #map {
                 min-width: 240px;

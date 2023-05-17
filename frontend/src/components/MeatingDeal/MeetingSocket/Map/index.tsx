@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import meMarker from "@assets/userLocPoint.svg";
 import youMarker from "@assets/otherUserLocPoint.svg";
 import { useLocation } from "react-router-dom";
+import { dealAPI } from "@api/apis";
+import Button from "@components/common/Button";
 import { MeetingDealInfo } from "../index";
 
 interface IMapPropsType {
@@ -29,6 +31,9 @@ export default function Map(props: IMapPropsType) {
 
   // 최초 map이 그려졌음을 표시하는 flag... 0: map만, 1: 최초지도, 2: 갱신상태
   const [flag, setFlag] = useState(0);
+
+  // 딜 생성자 정보
+  const [dealCreator, setDealCreator] = useState("");
 
   // 내 위치 전송
   const sendMyLocation = (long: number, lat: number) => {
@@ -89,6 +94,12 @@ export default function Map(props: IMapPropsType) {
     const map = new window.kakao.maps.Map(container, options);
     setMap(map);
     setFlag(1); // map이 그려진 상태라는 뜻
+
+    // 생성자 정보 받아오는 api
+    const result = dealAPI.getDealCreator(dealId);
+    result.then((res) => {
+      setDealCreator(res.data.result.nickname);
+    });
   }, []);
 
   useEffect(() => {
@@ -171,8 +182,22 @@ export default function Map(props: IMapPropsType) {
   return (
     <div className="map-main-container">
       <div className="map-top-container">
-        <h3>📍 실시간 위치</h3>
-        <p>상대와 약 {Math.ceil(meetingInfo.distance)}m 떨어져있습니다</p>
+        <div className="deal-location-information-container">
+          <h3>📍 실시간 위치</h3>
+          <p>상대와의 거리: 약 {Math.ceil(meetingInfo.distance)}m</p>
+        </div>
+        {/* 상황별 표시 문구 */}
+        <div className="deal-situational-contents-container">
+          {meetingInfo.distance > 1550 && (
+            <p>※ 50m 이내에서 포인트 거래가 활성화 됩니다.</p>
+          )}
+          {dealCreator === userName && meetingInfo.distance <= 50 && (
+            <p>※ 구매자가 물품 구매 수락 시 포인트 거래가 성사됩니다.</p>
+          )}
+          {dealCreator !== userName && meetingInfo.distance <= 1550 && (
+            <p>※ 물품을 구매하셨나요? 버튼을 누르면 포인트가 차감됩니다.</p>
+          )}
+        </div>
       </div>
       {/* 크기는 원하는대로 변경 가능! */}
       <div className="map-bottom-container">
@@ -181,13 +206,17 @@ export default function Map(props: IMapPropsType) {
           <span>
             <img src={meMarker} alt="나" />
           </span>
-          내 위치 &nbsp; &nbsp;
-          {" "}
+          내 위치 &nbsp; &nbsp;{" "}
           <span>
             <img src={youMarker} alt="나" />
           </span>{" "}
           상대 위치
         </div>
+        {dealCreator !== userName && meetingInfo.distance <= 1550 && (
+          <div className="buy-button-box">
+            <Button color="pink">물품을 구매했어요</Button>
+          </div>
+        )}
       </div>
     </div>
   );

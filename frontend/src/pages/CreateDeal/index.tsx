@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UploadImage from "@components/CreateDeal/UploadImage";
@@ -51,7 +52,9 @@ export default function index() {
           !dealInfo.dealType ||
           !dealInfo.meetingLocation
         ) {
-          toast.error("내용을 모두 입력해 주세요");
+          toast.error("내용을 모두 입력해 주세요", {
+            autoClose: 2000,
+          });
         } else {
           // POST API 요청
           const baseUrl =
@@ -62,7 +65,9 @@ export default function index() {
             imageUrl: trimmedUrl,
           });
           result.then((res) => {
-            toast.success("거래가 생성되었습니다!");
+            toast.success("거래가 생성되었습니다!", {
+              autoClose: 2000,
+            });
             // 성공시 detail페이지로 이동
             console.log(res, "생성된 거래 정보");
             // recoil 비우기
@@ -89,7 +94,16 @@ export default function index() {
           <UploadDealLocation />
         </div>
         <div className="create-deal-button-wrapper">
-          <Button color="yellow" onClick={createDeal}>
+          <Button
+            color={
+              dealInfo.dealType === "Sharing"
+                ? "yellow"
+                : dealInfo.dealType === "Trade"
+                ? "pink"
+                : "indigo"
+            }
+            onClick={createDeal}
+          >
             생성하기
           </Button>
         </div>

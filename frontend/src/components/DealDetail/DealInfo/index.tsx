@@ -45,12 +45,9 @@ export default function index(props: any) {
     if (dealInfo.dealType === "Auction") {
       const start = new Date(dealInfo.startTime);
       const end = new Date(dealInfo.endTime);
-      console.log(start, end);
-      console.log((end.getTime() - start.getTime()) / 60000, "계산");
       // 분단위 ms로 나누기
       const duration = (end.getTime() - start.getTime()) / 60000;
       setAuctionDuration(duration);
-      console.log(auctionDuration);
     }
 
     // map 그리기
@@ -63,7 +60,6 @@ export default function index(props: any) {
       ), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
     };
-    console.log(mapOption);
 
     // 지도를 표시할 dv와  지도 옵션으로  지도를 생성합니다
     const map = new window.kakao.maps.Map(container, mapOption);
@@ -85,7 +81,6 @@ export default function index(props: any) {
     if (!dealInfo.isBookmarked) {
       const result = dealAPI.postBookmark(dealId);
       result.then((res) => {
-        console.log(res, "북마크 성공 ㅋㅋ");
         setDealInfo((prev: any) => ({
           ...prev,
           isBookmarked: true,
@@ -96,7 +91,6 @@ export default function index(props: any) {
     else {
       const result = dealAPI.deleteBookmark(dealId);
       result.then((res) => {
-        console.log(res, "북마크 해제 ㅋㅋ");
         setDealInfo((prev: any) => ({
           ...prev,
           isBookmarked: false,
