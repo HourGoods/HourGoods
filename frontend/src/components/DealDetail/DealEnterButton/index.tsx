@@ -120,7 +120,7 @@ export default function index(props: any) {
     <div className="deal-enter-button-and-modal-component-container">
       {isModalOpen && (
         <Modal setModalOpen={setIsModalOpen}>
-          {sharingNum === 0 ? (
+          {sharingNum === -1 ? (
             <>
               <h3>😥신청 실패😥</h3>
               <p>
