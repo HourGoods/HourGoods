@@ -117,7 +117,7 @@ export default function index() {
     // 알림 초기화
     setNicknamAlert("");
     // 유효성 검사
-    const regex = /^[a-zA-Z0-9가-힣]{2,16}$/;
+    const regex = /^[a-zA-Z0-9가-힣]{2,10}$/;
     if (regex.test(newNickname)) {
       setIsValidNickname(true);
     } else {
