@@ -7,14 +7,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
 import org.a204.hourgoods.CustomSpringBootTest;
 import org.a204.hourgoods.domain.concert.entity.Concert;
-import org.a204.hourgoods.domain.concert.request.ConcertIdRequest;
+import org.a204.hourgoods.domain.concert.exception.ConcertNotFoundException;
+import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
 import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
+import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,6 +53,8 @@ class ConcertControllerTest {
 	int port;
 	private final String url = "http://localhost:" + port + "/api/concert/";
 	private Concert concert;
+	@Autowired
+	private ConcertRepository concertRepository;
 
 	@BeforeEach
 	void setUp() {
@@ -57,69 +62,26 @@ class ConcertControllerTest {
 			.addFilters(new CharacterEncodingFilter("UTF-8", true))
 			.build();
 
-		concert = Concert.builder()
-			.title("아이유 콘서트")
-			.imageUrl("url")
-			.startTime(LocalDateTime.now())
-			.kopisConcertId("TestIdFromDB")
-			.bookmarkCount(0)
-			.latitude(Double.valueOf(38))
-			.longitude(Double.valueOf(126))
-			.place("잠실주경기장")
-			.build();
-		em.persist(concert);
-	}
-
-	@Nested
-	@DisplayName("공연 아이디 조회 API TEST")
-	class GetConcertId {
-		@Test
-		@DisplayName("공연 아이디 조회 성공(DB에 존재하는 공연)")
-		void getConcertIdSuccess() throws Exception {
-			String content = objectMapper.writeValueAsString(new ConcertIdRequest("TestIdFromDB"));
-			MockHttpServletResponse response = mockMvc
-				.perform(post(url + "")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(content))
-				.andExpect(jsonPath("$.status", is(200)))
-				.andDo(print())
-				.andReturn()
-				.getResponse();
-			BaseResponse<ConcertIdResponse> concertId = objectMapper.readValue(response.getContentAsString(),
-				new TypeReference<>() {
-				});
-			assertEquals(concert.getId(), concertId.getResult().getConcertId());
-		}
-
-		@Test
-		@DisplayName("공연 아이디 조회 성공(DB에 존재하지 않는 공연)")
-		void createConcertAndGetConcertIdSuccess() throws Exception {
-			String content = objectMapper.writeValueAsString(new ConcertIdRequest("PF217601"));
-			mockMvc
-				.perform(post(url + "")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(content))
-				.andExpect(jsonPath("$.status", is(200)))
-				.andDo(print());
-		}
-
-		@Test
-		@DisplayName("공연 아이디 조회 실패(유효하지 않은 kopisConcertId)")
-		void invalidKopisConcertId() throws Exception {
-			String content = objectMapper.writeValueAsString(new ConcertIdRequest("invalidTest"));
-			mockMvc
-				.perform(post(url + "")
-					.contentType(MediaType.APPLICATION_JSON)
-					.content(content))
-				.andExpect(jsonPath("$.status", is(404)))
-				.andExpect(jsonPath("$.code", is("C300")))
-				.andDo(print());
-		}
 	}
 
 	@Nested
 	@DisplayName("공연 상세 정보 조회 API TEST")
 	class GetConcertDetail {
+		@BeforeEach
+		void setUp() {
+			concert = Concert
+				.builder()
+				.title("백예린 단독공연, Square")
+				.imageUrl("http://www.kopis.or.kr/upload/pfmPoster/PF_PF216426_230407_152630.gif")
+				.longitude(Double.valueOf(127.12836360000006))
+				.latitude(Double.valueOf(37.52112))
+				.place("올림픽공원 (SK핸드볼경기장(펜싱경기장))")
+				.startTime(LocalDateTime.now())
+				.kopisConcertId("PF216426")
+				.build();
+			em.persist(concert);
+		}
+
 		@Test
 		@DisplayName("공연 상세 정보 조회 성공")
 		void getConcertDetailSuccess() throws Exception {
@@ -131,6 +93,7 @@ class ConcertControllerTest {
 				.andDo(print())
 				.andReturn()
 				.getResponse();
+
 			BaseResponse<ConcertInfoResponse> concertInfo = objectMapper.readValue(response.getContentAsString(),
 				new TypeReference<>() {
 				});
@@ -158,34 +121,181 @@ class ConcertControllerTest {
 	}
 
 	@Nested
-	@DisplayName("공연 정보 목록 조회 API TEST")
-	class GetConcertList {
+	@DisplayName("공연 정보 검색 API TEST")
+	class GetConcertListByKeyword {
+
 		@Test
-		@DisplayName("공연 정보 목록 조회 성공")
-		void getConcertListSuccess() throws Exception {
-			mockMvc
+		@DisplayName("공연 정보 검색 성공(검색된 공연 없음)")
+		void getConcertListForEmptyResultSuccess() throws Exception {
+			MockHttpServletResponse response = mockMvc
 				.perform(get(url + "search")
 					.contentType(MediaType.APPLICATION_JSON)
-					.param("keyword", "트롯"))
+					.param("keyword", "백예린"))
 				.andExpect(jsonPath("$.status", is(200)))
-				.andDo(print());
+				.andExpect(jsonPath("$.code", is("G000")))
+				.andDo(print())
+				.andReturn()
+				.getResponse();
+
+			BaseResponse<ConcertListResponse> baseResponse = objectMapper.readValue(response.getContentAsString(),
+				new TypeReference<>() {
+				});
+			ConcertListResponse actual = baseResponse.getResult();
+			assertFalse(actual.getHasNextPage());
+			assertEquals(-1, actual.getLastConcertId());
+			assertTrue(actual.getConcertInfoList().isEmpty());
+		}
+
+		@Test
+		@DisplayName("공연 정보 검색 성공(검색된 공연 있음)")
+		void getConcertListForNotEmptyResultSuccess() throws Exception {
+			concert = Concert
+				.builder()
+				.title("백예린 단독공연, Square")
+				.imageUrl("http://www.kopis.or.kr/upload/pfmPoster/PF_PF216426_230407_152630.gif")
+				.longitude(Double.valueOf(127.12836360000006))
+				.latitude(Double.valueOf(37.52112))
+				.place("올림픽공원 (SK핸드볼경기장(펜싱경기장))")
+				.startTime(LocalDateTime.now())
+				.kopisConcertId("PF216426")
+				.build();
+			em.persist(concert);
+
+			MockHttpServletResponse response = mockMvc
+				.perform(get(url + "search")
+					.contentType(MediaType.APPLICATION_JSON)
+					.param("keyword", "백예린"))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andExpect(jsonPath("$.code", is("G000")))
+				.andDo(print())
+				.andReturn()
+				.getResponse();
+
+			BaseResponse<ConcertListResponse> baseResponse = objectMapper.readValue(response.getContentAsString(),
+				new TypeReference<>() {
+				});
+			ConcertListResponse actual = baseResponse.getResult();
+			assertFalse(actual.getHasNextPage());
+			assertEquals(concert.getId(), actual.getLastConcertId());
+			assertEquals(concert.getId(), actual.getConcertInfoList().get(0).getConcertId());
+			assertEquals(1, actual.getConcertInfoList().size());
 		}
 	}
 
 	@Nested
-	@DisplayName("오늘의 사용자 주변 공연 정보 목록 조회 API")
+	@DisplayName("오늘의 공연 목록 조회 API TEST")
 	class GetTodayConcertList {
 		@Test
-		@DisplayName("공연 정보 목록 조회 성공")
-		void getTodayConcertList() throws Exception {
-			mockMvc
+		@DisplayName("오늘의 공연 정보 목록 조회 성공(공연 정보 없음)")
+		void getTodayConcertListForEmptyResultSuccess() throws Exception {
+			MockHttpServletResponse response = mockMvc
 				.perform(get(url + "today")
 					.contentType(MediaType.APPLICATION_JSON)
 					.param("longitude", Double.valueOf(126).toString())
 					.param("latitude", Double.valueOf(38).toString()))
 				.andExpect(jsonPath("$.status", is(200)))
-				.andDo(print());
+				.andDo(print())
+				.andReturn()
+				.getResponse();
+
+			BaseResponse<ConcertListResponse> baseResponse = objectMapper.readValue(response.getContentAsString(),
+				new TypeReference<>() {
+				});
+			ConcertListResponse actual = baseResponse.getResult();
+			assertFalse(actual.getHasNextPage());
+			assertTrue(actual.getConcertInfoList().isEmpty());
+			assertEquals(Long.valueOf(-1), actual.getLastConcertId());
+		}
+
+		@Test
+		@DisplayName("오늘의 공연 정보 목록 조회 성공(공연 정보 있음)")
+		void getTodayConcertListForNotEmptyResultSuccess() throws Exception {
+			concert = Concert
+				.builder()
+				.title("백예린 단독공연, Square")
+				.imageUrl("http://www.kopis.or.kr/upload/pfmPoster/PF_PF216426_230407_152630.gif")
+				.longitude(Double.valueOf(127.12836360000006))
+				.latitude(Double.valueOf(37.52112))
+				.place("올림픽공원 (SK핸드볼경기장(펜싱경기장))")
+				.startTime(LocalDateTime.now())
+				.kopisConcertId("PF216426")
+				.build();
+			em.persist(concert);
+
+			Concert concert1 = Concert
+				.builder()
+				.title("김동현 단독공연, Triangle")
+				.imageUrl("http://www.kopis.or.kr/upload/pfmPoster/PF_PF216426_230407_152630.gif")
+				.longitude(Double.valueOf(110.12836360000006))
+				.latitude(Double.valueOf(60.52112))
+				.place("고척스카이돔")
+				.startTime(LocalDateTime.now())
+				.kopisConcertId("PF216426")
+				.build();
+			em.persist(concert1);
+
+			Concert concert2 = Concert
+				.builder()
+				.title("공조한 단독공연, Circle")
+				.imageUrl("http://www.kopis.or.kr/upload/pfmPoster/PF_PF216426_230407_152630.gif")
+				.longitude(Double.valueOf(120.12836360000006))
+				.latitude(Double.valueOf(45.52112))
+				.place("바르셀로나")
+				.startTime(LocalDateTime.now())
+				.kopisConcertId("PF216426")
+				.build();
+			em.persist(concert2);
+
+			MockHttpServletResponse response = mockMvc
+				.perform(get(url + "today")
+					.contentType(MediaType.APPLICATION_JSON)
+					.param("longitude", Double.valueOf(126).toString())
+					.param("latitude", Double.valueOf(38).toString()))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andDo(print())
+				.andReturn()
+				.getResponse();
+			BaseResponse<ConcertListResponse> baseResponse = objectMapper.readValue(response.getContentAsString(),
+				new TypeReference<>() {
+				});
+			ConcertListResponse actual = baseResponse.getResult();
+			assertFalse(actual.getHasNextPage());
+			assertEquals(3, actual.getConcertInfoList().size());
+			assertEquals(actual.getConcertInfoList().get(0).getConcertId(), concert.getId());
+			assertEquals(actual.getConcertInfoList().get(1).getConcertId(), concert2.getId());
+			assertEquals(actual.getConcertInfoList().get(2).getConcertId(), concert1.getId());
+			assertEquals(concert1.getId(), actual.getLastConcertId());
 		}
 	}
 
+	@Nested
+	@DisplayName("앞으로 한 달 내의 공연 정보 갱신 API TEST")
+	class UpdateConcertList {
+		@Test
+		@DisplayName("앞으로 한 달 내의 공연 정보 갱신 성공")
+		void updateConcertListSuccess() throws Exception {
+			MockHttpServletResponse response = mockMvc
+				.perform(post(url + "update")
+					.contentType(MediaType.APPLICATION_JSON)
+					.param("maxSize", "1"))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andExpect(jsonPath("$.code", is("G000")))
+				.andDo(print())
+				.andReturn()
+				.getResponse();
+
+			BaseResponse<List<ConcertIdResponse>> baseResponse = objectMapper.readValue(response.getContentAsString(),
+				new TypeReference<>() {
+				});
+			List<ConcertIdResponse> actual = baseResponse.getResult();
+
+			for (ConcertIdResponse idResponse : actual) {
+				assertNotNull(concertRepository.findById(idResponse.getConcertId()));
+				System.out.println(concertRepository.findById(idResponse.getConcertId()).get());
+			}
+			assertThrows(ConcertNotFoundException.class,
+				() -> concertRepository.findById(Long.valueOf(actual.size() + 1))
+					.orElseThrow(ConcertNotFoundException::new));
+		}
+	}
 }
