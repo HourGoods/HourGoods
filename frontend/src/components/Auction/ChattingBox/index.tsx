@@ -18,8 +18,8 @@ export default function index({ msgList, inoutMsgList }: Props) {
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
   const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(true);
-  const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
-  // const [latestMessage, setLatestMessage] = useState<ChatMessage | null>(null);
+  // const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
+  const [latestMessage, setLatestMessage] = useState<ChatMessage | null>(null);
 
   useEffect(() => {
     if (chatMsgListRef.current) {
@@ -33,11 +33,11 @@ export default function index({ msgList, inoutMsgList }: Props) {
   }, [chatMsgListRef.current]);
 
   useEffect(() => {
-    console.log("isScrollAtBottom", isScrollAtBottom);
+    // console.log("isScrollAtBottom", isScrollAtBottom);
     // if (isScrollAtBottom) {
     scrollToBottom(chatBottomRef.current);
     // } else {
-    // setIsNewMessage(true);
+    // // setIsNewMessage(true);
     // const lastMessage = msgList[msgList.length - 1];
     // setLatestMessage(lastMessage);
     // }
@@ -55,8 +55,8 @@ export default function index({ msgList, inoutMsgList }: Props) {
   };
 
   const handleButtonClick = () => {
-    setIsNewMessage(false);
-    // setLatestMessage(null);
+    // setIsNewMessage(false);
+    setLatestMessage(null);
     scrollToBottom(chatBottomRef.current);
   };
 
@@ -67,7 +67,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
           const isMe = message.nickname === userName;
           const messageClassName = isMe ? "its-me-chat" : "not-me-chat";
           const join = message.messageType === "JOIN";
-          // const isLatestMessage = latestMessage === message;
+          const isLatestMessage = latestMessage === message;
           return (
             <React.Fragment key={index}>
               {message.content && isMe ? (
@@ -87,7 +87,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
                         </div>
                         <div>
                           <p className="not-me-chat-name">{message.nickname}</p>
-                          <p>{message.content}</p>
+                          <p className="not-me-chat-content">{message.content}</p>
                         </div>
                       </div>
                     </div>
@@ -99,7 +99,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
                   <p>{message.nickname}님이 참여하였습니다.</p>
                 </div>
               )}
-              {isNewMessage && (
+              {/* {isLatestMessage && (
                 // 새메시지 하단 이동 버튼
                 <button
                   type="button"
@@ -112,7 +112,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
                   />
                   {message.nickname}: {message.content}
                 </button>
-              )}
+              )} */}
             </React.Fragment>
           );
         })}

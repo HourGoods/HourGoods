@@ -77,14 +77,14 @@
   .a-page-inputbox-container {
     @include tablet {
       position: fixed;
-      bottom: 10px;
+      bottom: 0px;
       left: 10;
       width: 90%;
     }
     @include mobile {
       width: 90%;
       position: fixed;
-      bottom: 10px;
+      bottom: 0px;
       left: 10;
     }
     width: 100%;
@@ -346,7 +346,7 @@
         gap: 5px;
         margin: 10px 0;
         align-items: center;
-        max-width: 60%;
+        max-width: 80%;
         min-width: 40px;
         img {
           width: 40px;
@@ -359,6 +359,12 @@
         }
         .not-me-chat-name {
           font-weight: 900;
+          font-size: 8px;
+        }
+        .not-me-chat-content {
+          padding: 5px;
+          background-color: $gray-5;
+          border-radius: 0px 5px 5px 5px;
         }
       }
     }
@@ -368,7 +374,7 @@
       justify-content: flex-end;
       .its-me-chat-box {
         background-color: $violet-2;
-        border-radius: 10px 10px 0px 10px;
+        border-radius: 5px 5px 0px 5px;
         padding: 5px;
         max-width: 60%;
         min-width: 40px;
@@ -377,7 +383,7 @@
     // 새로운 메세지 버튼
     .new-message-button {
       position: fixed;
-      bottom: 20px;
+      bottom: 80px;
       left: 50%;
       transform: translateX(-50%);
       padding: 10px 20px;
@@ -415,5 +421,10 @@
 }
 
 .chat-bottom-ref {
-  margin: 100px;
+  @include tablet {
+    margin: 70px;
+  }
+  @include mobile {
+    margin: 70px;
+  }
 }
