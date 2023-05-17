@@ -71,11 +71,11 @@ export default function Nav() {
             </Link>
           </div>
           <div className="web-navbar-profile">
-            {localLogin ? (
+            {localLogin && userInfo.imageUrl !== "" ? (
               <img
                 src={
                   location.pathname === "/mypage"
-                    ? `${ hamburger }`
+                    ? `${hamburger}`
                     : `https://d2uxndkqa5kutx.cloudfront.net/${userInfo.imageUrl}`
                 }
                 alt="프로필이미지"

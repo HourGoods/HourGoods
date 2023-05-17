@@ -107,7 +107,7 @@ export default function index() {
 
   const nicknameChecker = (e: any) => {
     e.preventDefault();
-    const regex = /^[a-zA-Z0-9가-힣]{2,16}$/;
+    const regex = /^[a-zA-Z0-9가-힣]{2,10}$/;
     if (regex.test(nicknameInput)) {
       console.log(nicknameInput);
       const nickname = nicknameInput;
@@ -267,8 +267,11 @@ export default function index() {
                 <h2>회원정보 수정💝</h2>
                 <div className="updateprofile-contents-container-wrapper">
                   {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
-                  {!uploadedImage ? (
-                    <img src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} alt="프로필 사진" />
+                  {!uploadedImage && userInfo.imageUrl !== "" ? (
+                    <img
+                      src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`}
+                      alt="프로필 사진"
+                    />
                   ) : (
                     <img src={croppedImage} alt="프로필 사진" />
                   )}
@@ -310,7 +313,7 @@ export default function index() {
                 ) : null}
                 {checkAlert === 3 ? (
                   <p className="check-alert-3-p">
-                    한글로만 특수문자와 공백 없이 2~10자로 입력해주세요.
+                    특수문자와 공백 없이 2~10자로 입력해주세요.
                   </p>
                 ) : null}
               </form>

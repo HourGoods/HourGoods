@@ -26,10 +26,12 @@ export default function index(props: any) {
         <div className="seller-profile-infos-container">
           <p>{dealInfo.userNickname}</p>
           <button type="button" onClick={creatorProfileHandler}>
-            <img
-              src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.userImageUrl}`}
-              alt=""
-            />
+            {dealInfo.userImageUrl && dealInfo.userImageUrl !== "" ? (
+              <img
+                src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.userImageUrl}`}
+                alt=""
+              />
+            ) : null}
           </button>
           {dropdownOpen ? (
             <DropDown
@@ -46,10 +48,12 @@ export default function index(props: any) {
           ) : null}
         </div>
         <div className="product-img-wrapper">
-          <img
-            src={`https://d15nekhnxhc8rz.cloudfront.net/${dealInfo.dealImageUrl}`}
-            alt=""
-          />
+          {dealInfo && dealInfo.dealImageUrl !== "" ? (
+            <img
+              src={`https://d15nekhnxhc8rz.cloudfront.net/${dealInfo.dealImageUrl}`}
+              alt=""
+            />
+          ) : null}
         </div>
       </div>
     </>

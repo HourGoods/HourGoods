@@ -44,6 +44,12 @@ export default function AuctionDealCard({
     const progress = (leftTime / totalDuration) * 100;
     setProgressBarWidth(`${progress}%`);
   };
+    const startTime = new Date(dealInfo.startTime);
+    const totalDuration = endTime.getTime() - startTime.getTime();
+    const leftTime = endTime.getTime() - now.getTime();
+    const progress = (leftTime / totalDuration) * 100;
+    setProgressBarWidth(`${progress}%`);
+  };
 
   useEffect(() => {
     updateRemainingTime();
@@ -54,10 +60,12 @@ export default function AuctionDealCard({
   return (
     <div className="auction-dealcard-container">
       <div className="a-dealcard-img">
-        <img
-          src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.dealImageUrl}`}
-          alt=""
-        />
+        {dealInfo.dealImageUrl && dealInfo.dealImageUrl !== "" ? (
+          <img
+            src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.dealImageUrl}`}
+            alt=""
+          />
+        ) : null}
       </div>
       <div className="a-dealcard-right">
         <div className="a-dealcard-title">

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 import { useRecoilState } from "recoil";
@@ -117,7 +118,7 @@ export default function index() {
     // 알림 초기화
     setNicknamAlert("");
     // 유효성 검사
-    const regex = /^[a-zA-Z0-9가-힣]{2,16}$/;
+    const regex = /^[a-zA-Z0-9가-힣]{2,10}$/;
     if (regex.test(newNickname)) {
       setIsValidNickname(true);
     } else {
@@ -274,12 +275,12 @@ export default function index() {
           <label htmlFor="uploadImg">
             {uploadedImage ? (
               <img src={croppedImage} alt="프로필 사진" />
-            ) : (
+            ) : userInfo.imageUrl !== "" ? (
               <img
                 src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`}
                 alt="프로필 사진"
               />
-            )}
+            ) : null}
             <input
               id="uploadImg"
               type="file"
