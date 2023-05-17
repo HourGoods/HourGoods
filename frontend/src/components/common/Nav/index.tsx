@@ -47,7 +47,9 @@ export default function Nav() {
     localStorage.setItem("isLogin", "");
     toggleMenu();
     navigate("/");
-    toast.success("안녕히가세요!");
+    toast.success("안녕히가세요!", {
+      autoClose: 2000,
+    });
   };
 
   useModalRef(menuRef, () => setIsOpen(false));

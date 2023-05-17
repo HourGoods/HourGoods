@@ -52,7 +52,9 @@ export default function index() {
           !dealInfo.dealType ||
           !dealInfo.meetingLocation
         ) {
-          toast.error("내용을 모두 입력해 주세요");
+          toast.error("내용을 모두 입력해 주세요", {
+            autoClose: 2000,
+          });
         } else {
           // POST API 요청
           const baseUrl =
@@ -63,7 +65,9 @@ export default function index() {
             imageUrl: trimmedUrl,
           });
           result.then((res) => {
-            toast.success("거래가 생성되었습니다!");
+            toast.success("거래가 생성되었습니다!", {
+              autoClose: 2000,
+            });
             // 성공시 detail페이지로 이동
             console.log(res, "생성된 거래 정보");
             // recoil 비우기

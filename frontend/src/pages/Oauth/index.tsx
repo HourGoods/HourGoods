@@ -40,7 +40,9 @@ export default function Oauth() {
       localStorage.setItem("isLogin", "true");
       setCookie("refreshToken", refreshToken);
       navigate("/mypage");
-      toast.success(`${nickname}님 환영합니다!`);
+      toast.success(`${nickname}님 환영합니다!`, {
+        autoClose: 2000,
+      });
     }
   }, []);
   1;
