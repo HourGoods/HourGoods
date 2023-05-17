@@ -5,9 +5,13 @@
   justify-self: center;
   margin: 0 20px;
   padding: 0 20px 20px;
-  min-width: 280px;
+  min-width: 230px;
   background-color: $white-op;
   border-radius: 30px;
+
+  @include mobile {
+    margin: 0 auto;
+  }
 
   hr {
     border: 0;
@@ -19,7 +23,7 @@
   .deal-banner-component-container {
     display: flex;
     flex-direction: column;
-    min-width: 280px;
+    min-width: 230px;
     max-width: 640px;
     margin: auto;
     padding: 20px 0;
@@ -30,7 +34,7 @@
       display: flex;
       align-items: center;
       margin: auto;
-      min-width: 266px;
+      min-width: 230px;
       max-width: 350px;
       width: 100%;
       justify-content: end;
@@ -49,7 +53,7 @@
     .product-img-wrapper {
       margin: 10px auto;
       // border: 1px solid black;
-      min-width: 266px;
+      min-width: 230px;
       max-width: 350px;
 
       img {
@@ -173,6 +177,7 @@
     // desktop 우측박스 영역 (지도)
     .deal-info-desktop-right-container {
       max-width: 640px;
+      min-width: 220px;
       margin: auto;
       #map {
         width: 100%;
@@ -191,10 +196,33 @@
   }
 
   // 하단 버튼
+
+  .deal-enter-button-and-modal-component-container {
+    .common-modal-box {
+      min-width: 230px;
+      .common-modal-content {
+        width: 100%;
+      }
+    }
+    .sharing-num-p {
+      font-weight: 800;
+      font-size: 18px;
+      color: $indigo-2;
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 3px 10px;
+      margin: 0 auto;
+    }
+  }
+
   .deal-enter-button-component-container {
-    margin: 50px auto;
+    margin: 50px 0;
+    min-width: 230px;
     button {
-      margin: auto;
+      width: 100%;
+      max-width: 260px;
+      margin: 0 auto;
+      scale: 0.8;
     }
   }
   .no-enter-button {

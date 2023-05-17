@@ -111,13 +111,13 @@ export default function index(props: any) {
       apply.then((res) => {
         console.log(res, "나눔이 신청되었습니다!");
         setIsModalOpen(true);
-        setSharingNum(res.data.result);
+        setSharingNum(res.data.result.result);
       });
     }
   };
 
   return (
-    <>
+    <div className="deal-enter-button-and-modal-component-container">
       {isModalOpen && (
         <Modal setModalOpen={setIsModalOpen}>
           {sharingNum === 0 ? (
@@ -136,7 +136,7 @@ export default function index(props: any) {
                 거래에 늦지 않게 참여해 주세요!
               </p>
               <p>당첨 번호</p>
-              {/* <p>{sharingNum}</p> */}
+              <p className="sharing-num-p">{sharingNum}번</p>
             </>
           )}
         </Modal>
@@ -178,6 +178,6 @@ export default function index(props: any) {
           </Button>
         )}
       </div>
-    </>
+    </div>
   );
 }

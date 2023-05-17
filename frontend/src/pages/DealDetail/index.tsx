@@ -62,6 +62,9 @@ export default function DealDetail() {
       navigate("/");
     }
     if (stringDealId) {
+      // scroll top
+      window.scrollTo(0, 0);
+
       const dealId = parseInt(stringDealId, 10); // 문자열을 숫자로 변환
       const result = dealAPI.getDealDeatail(dealId);
       setDealId(dealId);
