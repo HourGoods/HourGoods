@@ -18,8 +18,10 @@ import org.a204.hourgoods.domain.chatting.response.AuctionChatMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.MyDirectChatResponse;
+import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
+import org.a204.hourgoods.domain.deal.repository.DealRepository;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
@@ -42,13 +44,14 @@ public class ChattingService {
 	private final DirectChattingRoomQueryDslRepository directChattingRoomQueryDslRepository;
 	private final MemberRepository memberRepository;
 	private final TradeRepository tradeRepository;
+	private final DealRepository dealRepository;
 	private final RedisTemplate<String, DirectMessage> redisTemplate;
 
 	// 1:1 채팅방 재접속하기
 	@Transactional(readOnly = true)
 	public DirectChattingResponse renterDirectChatting(DirectChattingRoomRequest request) {
 		// 거래 정보 가져오기
-		Trade trade = getTrade(request.getDealId());
+		Deal deal = dealRepository.findById(request.getDealId()).orElseThrow(DealNotFoundException::new);
 		// receiver id가 유효하지 않으면 예외처리
 		if (!checkValidMember(request.getReceiverNickname())) {
 			throw new ReceiverNotFoundException();
@@ -69,7 +72,7 @@ public class ChattingService {
 	@Transactional
 	public DirectChattingResponse createChattingRoom(DirectChattingRoomRequest request) {
 		// 거래 정보 가져오기
-		Trade trade = getTrade(request.getDealId());
+		Deal deal = dealRepository.findById(request.getDealId()).orElseThrow(DealNotFoundException::new);
 		// receiver, sender 정보 가져오기
 		Member receiver = memberRepository.findByNickname(request.getReceiverNickname())
 			.orElseThrow(ReceiverNotFoundException::new);
@@ -77,7 +80,7 @@ public class ChattingService {
 			.orElseThrow(MemberNotFoundException::new);
 		DirectChattingRoom saveRoom = directChattingRoomRepository.save(
 			DirectChattingRoom.builder()
-				.deal(trade)
+				.deal(deal)
 				.receiver(receiver)
 				.sender(sender)
 				.build());
