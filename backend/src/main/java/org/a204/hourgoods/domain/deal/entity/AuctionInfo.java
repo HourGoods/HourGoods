@@ -37,6 +37,6 @@ public class AuctionInfo implements Serializable {
         return AuctionEntryResponse.builder()
                 .currentBid(this.currentBid)
                 .participantCount(this.participantCount)
-                .currentTime(LocalDateTime.now()).build();
+                .currentTime(LocalDateTime.now().toString().split("\\.")[0]).build();
     }
 }
