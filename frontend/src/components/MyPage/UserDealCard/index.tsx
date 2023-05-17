@@ -130,7 +130,13 @@ export default function index({ getmy, deal }: IProps) {
         ) : null}
         <button type="button" onClick={detailNavigate}>
           <div className="user-deal-card-wrapper-img">
-            <img src={`https://d2uxndkqa5kutx.cloudfront.net/${deal.imageUrl}`} alt="물품사진" className="deal-img" />
+            {deal.imageUrl && deal.imageUrl !== "" ? (
+              <img
+                src={`https://d2uxndkqa5kutx.cloudfront.net/${deal.imageUrl}`}
+                alt="물품사진"
+                className="deal-img"
+              />
+            ) : null}
             <p
               className="deal-tag"
               style={{ backgroundColor: backgroundcolor }}

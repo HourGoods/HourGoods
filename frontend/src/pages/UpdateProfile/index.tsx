@@ -267,8 +267,11 @@ export default function index() {
                 <h2>회원정보 수정💝</h2>
                 <div className="updateprofile-contents-container-wrapper">
                   {/* <img src={userInfo.imageUrl} alt="프로필 사진" /> */}
-                  {!uploadedImage ? (
-                    <img src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} alt="프로필 사진" />
+                  {!uploadedImage && userInfo.imageUrl !== "" ? (
+                    <img
+                      src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`}
+                      alt="프로필 사진"
+                    />
                   ) : (
                     <img src={croppedImage} alt="프로필 사진" />
                   )}

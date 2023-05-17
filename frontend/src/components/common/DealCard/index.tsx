@@ -100,10 +100,12 @@ export default function index({ dealInfo }: DealCardProps) {
           onClick={goDetail}
         >
           <div className="deal-card-left-img-wrapper">
-            <img
-              src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.imageUrl}`}
-              alt="물품사진"
-            />
+            {dealInfo.imageUrl && dealInfo.imageUrl !== "" ? (
+              <img
+                src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.imageUrl}`}
+                alt="물품사진"
+              />
+            ) : null}
           </div>
           <div className="deal-card-right-contents-container">
             <div className="deal-card-top-container">
