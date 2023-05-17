@@ -18,7 +18,8 @@ export default function index({ msgList, inoutMsgList }: Props) {
   const userInfo = useRecoilValue(UserStateAtom);
   const userName = userInfo.nickname;
   const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(true);
-  // const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
+  const [isNewMessage, setIsNewMessage] = useState<boolean>(false);
+  // const [latestMessage, setLatestMessage] = useState<ChatMessage | null>(null);
 
   useEffect(() => {
     if (chatMsgListRef.current) {
@@ -33,13 +34,14 @@ export default function index({ msgList, inoutMsgList }: Props) {
 
   useEffect(() => {
     console.log("isScrollAtBottom", isScrollAtBottom);
-    if (isScrollAtBottom) {
-      scrollToBottom(chatBottomRef.current);
-    }
-    // else {
-    //   setIsNewMessage(true);
+    // if (isScrollAtBottom) {
+    scrollToBottom(chatBottomRef.current);
+    // } else {
+    // setIsNewMessage(true);
+    // const lastMessage = msgList[msgList.length - 1];
+    // setLatestMessage(lastMessage);
     // }
-  }, [msgList, inoutMsgList, isScrollAtBottom]);
+  }, [msgList, inoutMsgList]);
 
   const handleScroll = () => {
     const element = chatMsgListRef?.current;
@@ -47,14 +49,16 @@ export default function index({ msgList, inoutMsgList }: Props) {
       const { scrollTop, scrollHeight, clientHeight } = element;
       const isScrolledToBottom =
         Math.abs(scrollTop + clientHeight - scrollHeight) <= 60;
+      console.log("isScrolledToBottom", isScrolledToBottom);
       setIsScrollAtBottom(isScrolledToBottom);
     }
   };
 
-  // const handleButtonClick = () => {
-  //   setIsNewMessage(false);
-  //   scrollToBottom(chatBottomRef.current);
-  // };
+  const handleButtonClick = () => {
+    setIsNewMessage(false);
+    // setLatestMessage(null);
+    scrollToBottom(chatBottomRef.current);
+  };
 
   return (
     <div ref={chatMsgListRef} className="chattingbox-all-container">
@@ -63,6 +67,7 @@ export default function index({ msgList, inoutMsgList }: Props) {
           const isMe = message.nickname === userName;
           const messageClassName = isMe ? "its-me-chat" : "not-me-chat";
           const join = message.messageType === "JOIN";
+          // const isLatestMessage = latestMessage === message;
           return (
             <React.Fragment key={index}>
               {message.content && isMe ? (
@@ -75,7 +80,10 @@ export default function index({ msgList, inoutMsgList }: Props) {
                     <div className={messageClassName}>
                       <div className="not-me-chat-message">
                         <div>
-                          <img src={`https://d2uxndkqa5kutx.cloudfront.net/${message.imageUrl}`} alt="프로필사진" />
+                          <img
+                            src={`https://d2uxndkqa5kutx.cloudfront.net/${message.imageUrl}`}
+                            alt="프로필사진"
+                          />
                         </div>
                         <div>
                           <p className="not-me-chat-name">{message.nickname}</p>
@@ -91,19 +99,24 @@ export default function index({ msgList, inoutMsgList }: Props) {
                   <p>{message.nickname}님이 참여하였습니다.</p>
                 </div>
               )}
+              {isNewMessage && (
+                // 새메시지 하단 이동 버튼
+                <button
+                  type="button"
+                  className="new-message-button"
+                  onClick={handleButtonClick}
+                >
+                  <img
+                    src={`https://d2uxndkqa5kutx.cloudfront.net/${message.imageUrl}`}
+                    alt="프로필사진"
+                  />
+                  {message.nickname}: {message.content}
+                </button>
+              )}
             </React.Fragment>
           );
         })}
-        {/* {isNewMessage && (
-          <button
-            type="button"
-            className="new-message-button"
-            onClick={handleButtonClick}
-          >
-            새로운 메시지가 도착했습니다. 최하단으로 이동
-          </button>
-        )} */}
-        <div ref={chatBottomRef}></div>
+        <div className="chat-bottom-ref" ref={chatBottomRef}></div>
       </div>
     </div>
   );

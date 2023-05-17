@@ -25,7 +25,8 @@
   gap: 10px;
   @include desktop {
     width: 100%;
-    justify-content: space-between;
+    height: 80vh;
+    justify-content: center;
   }
   @include tablet {
     width: 90%;
@@ -74,11 +75,23 @@
   }
 
   .a-page-inputbox-container {
-    bottom: 30px;
+    @include tablet {
+      position: fixed;
+      bottom: 10px;
+      left: 10;
+      width: 90%;
+    }
+    @include mobile {
+      width: 90%;
+      position: fixed;
+      bottom: 10px;
+      left: 10;
+    }
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 0 auto;
     .a-page-inputbox-button {
       background-color: $white-op;
       width: 50px;
@@ -115,7 +128,8 @@
   flex-direction: column;
   gap: 20px;
   @include desktop {
-    max-height: 530px;
+    // max-height: 530px;
+    height: 80%;
     width: 60%;
   }
   @include tablet {
@@ -306,17 +320,20 @@
   }
   @include desktop {
     width: 30%;
-    height: 530px;
+    // max-height: 530px;
+    height: 80%;
   }
   @include tablet {
     width: 100%;
     height: 200px;
+    // margin-bottom: 80px;
   }
   @include mobile {
     width: 100%;
     height: 200px;
   }
   .private-chatroom-content-container {
+    // padding-bottom: 80px;
     p {
       margin: 0;
       text-align: left;
@@ -357,7 +374,32 @@
         min-width: 40px;
       }
     }
+    // 새로운 메세지 버튼
+    .new-message-button {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #f5f5f5;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      box-shadow: $shadow-gray;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      img {
+        width: 24px;
+        height: 24px;
+        border-radius: 24px;
+        margin-right: 5px;
+      }
+    }
   }
+  position: relative;
   .box-bottom-wrapper {
     width: 100%;
   }
@@ -370,4 +412,8 @@
   100% {
     width: 92%;
   }
+}
+
+.chat-bottom-ref {
+  margin: 100px;
 }
