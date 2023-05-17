@@ -186,6 +186,7 @@ class DealControllerTest {
 			// given
 			MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
 			request.add("concertId", CONCERT_ID.toString());
+			request.add("nickname", member.getNickname());
 			request.add("lastDealId", "-1");
 			request.add("dealTypeName", "All");
 
@@ -203,6 +204,7 @@ class DealControllerTest {
 			// given
 			MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
 			request.add("concertId", CONCERT_ID.toString());
+			request.add("nickname", member.getNickname());
 			request.add("lastDealId", "-1");
 			request.add("dealTypeName", "Auction");
 
@@ -219,6 +221,7 @@ class DealControllerTest {
 		void getKeywordSearchList() throws Exception {
 			// given
 			MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
+			request.add("nickname", member.getNickname());
 			request.add("concertId", CONCERT_ID.toString());
 			request.add("lastDealId", "-1");
 			request.add("dealTypeName", "All");
