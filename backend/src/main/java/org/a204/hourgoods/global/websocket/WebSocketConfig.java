@@ -63,7 +63,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
                 StompCommand command = accessor.getCommand();
-                if (StompCommand.SUBSCRIBE.equals(command)) {
+                if (StompCommand.SUBSCRIBE.equals(command) && accessor.getSessionAttributes() != null) {
                     HttpSession session = (HttpSession) accessor.getSessionAttributes().get("session");
                     if (session != null) {
                         String destination = accessor.getDestination();
@@ -85,18 +85,17 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
                         StompHeaderAccessor accessor = StompHeaderAccessor.create(StompCommand.DISCONNECT);
                         accessor.setSessionAttributes(session.getAttributes());
-                        HttpSession httpSession = (HttpSession) accessor.getSessionAttributes().get("session");
-                        String subscriptionDestination = (String) httpSession.getAttribute("subscriptionDestination");
-                        if (subscriptionDestination != null) {
-                            if (subscriptionDestination.startsWith("/bidding")) {
-                                String dealId = subscriptionDestination.substring(9);
-                                eventPublisher.publishEvent(new AuctionDisconnectEvent(this, dealId));
-                            } else if (subscriptionDestination.startsWith("/topic/another-prefix")) {
-                                // 다른 구독 URL에 대한 처리
-                                // 예: 다른 종류의 채널이나 이벤트에 대한 처리
+                        if (accessor.getSessionAttributes() != null) {
+                            HttpSession httpSession = (HttpSession) accessor.getSessionAttributes().get("session");
+                            String subscriptionDestination = (String) httpSession.getAttribute("subscriptionDestination");
+                            if (subscriptionDestination != null) {
+                                if (subscriptionDestination.startsWith("/bidding")) {
+                                    String dealId = subscriptionDestination.substring(9);
+                                    eventPublisher.publishEvent(new AuctionDisconnectEvent(this, dealId));
+                                }
                             }
+                            super.afterConnectionClosed(session, closeStatus);
                         }
-                        super.afterConnectionClosed(session, closeStatus);
                     }
                 };
             }
