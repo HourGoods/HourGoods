@@ -90,6 +90,16 @@ export default function index({ tradeLocId }: Props) {
       alert("거래가 종료됩니다.");
       navigate("/mypage");
     }
+    if (parsedMessage.messageType === "ClosedDeal") {
+      disconnect();
+      alert("이미 종료된 거래입니다.");
+      navigate("/mypage");
+    }
+    if (parsedMessage.messageType === "NotEnoughCashPoint") {
+      disconnect();
+      alert("돈이 부족합니다. 충전해주세요");
+      navigate("/payment");
+    }
   };
 
   return (
