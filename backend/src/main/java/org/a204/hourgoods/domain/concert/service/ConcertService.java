@@ -1,6 +1,7 @@
 package org.a204.hourgoods.domain.concert.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,12 @@ public class ConcertService {
 	// 오늘의 공연 목록 조회
 	public ConcertListResponse getTodayConcertList(TodayConcertRequest request) {
 		// 오늘 열리는 공연 리스트 조회
-		List<Concert> concertList = concertQueryDslRepository.searchConcertByDate(LocalDate.now());
+		// 0차
+		LocalDateTime startTime = LocalDate.now().atStartOfDay();
+		LocalDateTime endTime = LocalDate.now().plusDays(1).atStartOfDay().minusSeconds(1);
+		List<Concert> concertList = concertRepository.findAllByStartTimeBetween(startTime, endTime);
+		// 1차
+		// List<Concert> concertList = concertQueryDslRepository.searchConcertByDate(LocalDate.now());
 
 		// 사용자와 가까운 순으로 정렬
 		concertList.sort(new Comparator<Concert>() {
@@ -67,8 +73,14 @@ public class ConcertService {
 
 	// 키워드를 제목에 포함하는 공연 정보 검색
 	public ConcertListResponse getConcertListByKeyword(String keyword) {
-		List<Concert> concertList = concertQueryDslRepository.searchAllConcertByPeriodAndKeyword(
-			LocalDate.now().atStartOfDay(), LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1), keyword);
+		// 0차
+		LocalDateTime startTime = LocalDate.now().atStartOfDay();
+		LocalDateTime endTime = LocalDate.now().plusDays(1).atStartOfDay().minusSeconds(1);
+		List<Concert> concertList = concertRepository.findAllByStartTimeBetweenAndTitleContaining(startTime, endTime,
+			keyword);
+		// 1차
+		// List<Concert> concertList = concertQueryDslRepository.searchAllConcertByPeriodAndKeyword(
+		// 	LocalDate.now().atStartOfDay(), LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1), keyword);
 		List<ConcertInfoResponse> concertInfoResponses = concertList.stream()
 			.map(ConcertInfoResponse::new)
 			.collect(Collectors.toList());
