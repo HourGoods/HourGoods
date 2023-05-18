@@ -44,7 +44,7 @@ public class Member {
 	private String nickname;
 
 	@Column(name = "image_url")
-	@ColumnDefault("'https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg'")
+	@ColumnDefault("'image/member-profile/default_profile.png'")
 	private String imageUrl;
 
 	@Column(name = "cash_point")
@@ -97,7 +97,7 @@ public class Member {
 		this.email = email;
 		this.nickname = nickname;
 		this.imageUrl = imageUrl != null ? imageUrl :
-			"'https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg'";
+			"'image/member-profile/default_profile.png'";
 		this.cashPoint = 0;
 	}
 
