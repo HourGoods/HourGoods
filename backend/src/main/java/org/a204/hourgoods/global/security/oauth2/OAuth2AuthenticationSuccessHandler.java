@@ -55,7 +55,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			RefreshToken token = jwtTokenUtils.generateRefreshToken(tokens);
 			response.setHeader(AUTHORIZATION, tokens);
 			targetUrl = UriComponentsBuilder.newInstance()
-경							   .scheme("http")
+							   .scheme("http")
 							   .host("localhost")
 							   .port(3000)
 				.path("/oauth")
