@@ -33,6 +33,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -60,6 +61,7 @@ public class KopisService {
 	}
 
 	// kopis api에서 호출한 특정 기간 내의 새로운 공연 정보 저장하기
+	@Scheduled(cron = "0 0 1 * * *")
 	public List<ConcertIdResponse> getConcertByPeriod(Integer maxSize) {
 		// 오늘로부터 앞으로 한달 이내로 기간 설정
 		final LocalDateTime startTime = LocalDate.now().atStartOfDay();
