@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/no-array-index-key */
 import React, { useRef, useEffect } from "react";
 import { scrollToBottom } from "@utils/scrollToBottom";
@@ -16,7 +17,7 @@ export default function index({ chatMsgList, userName }: Props) {
   }, [chatMsgList]);
 
   return (
-    <div ref={chatMsgListRef} className="private-chatroom-content-container">
+    <div className="private-chatroom-content-container">
       {chatMsgList.length === 0 ? (
         <div className="private-no-chat-yet">
           <p>아직 채팅이 없어요</p>
@@ -41,6 +42,7 @@ export default function index({ chatMsgList, userName }: Props) {
           );
         })
       )}
+      <div ref={chatMsgListRef}></div>
     </div>
   );
 }

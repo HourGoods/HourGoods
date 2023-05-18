@@ -2,20 +2,6 @@
 @import "@styles/Mixins";
 @import "@styles/Animation";
 
-@mixin icon-wrapper($color) {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  margin: 5px 0;
-  svg {
-    width: 24px;
-    color: $color;
-  }
-  p {
-    margin: 0;
-  }
-}
-
 .auction-page-upper-container {
   display: flex;
   justify-content: center;
