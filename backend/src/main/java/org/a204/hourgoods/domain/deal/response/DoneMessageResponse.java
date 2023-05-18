@@ -15,5 +15,5 @@ import lombok.ToString;
 @Schema(description = "거래 종료 응답")
 public class DoneMessageResponse {
 	@Schema(description = "메시지 타입")
-	private String messageType = "Done";
+	private String messageType;
 }

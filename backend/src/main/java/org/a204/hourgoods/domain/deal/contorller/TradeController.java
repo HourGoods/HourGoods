@@ -2,6 +2,7 @@ package org.a204.hourgoods.domain.deal.contorller;
 
 import javax.validation.Valid;
 
+import org.a204.hourgoods.domain.deal.model.DoneMessageInfo;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
 import org.a204.hourgoods.domain.deal.request.DoneMessageRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
@@ -65,11 +66,11 @@ public class TradeController {
 
 	@MessageMapping(value = "/meet/{dealId}/done")
 	public BaseResponse<Void> terminateTrade(@DestinationVariable Long dealId, @Payload DoneMessageRequest request) {
-		TradeMessageResponse response = tradeService.terminateTrade(dealId, request);
-		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + response.getSellerNickname(),
-			new DoneMessageRequest());
-		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + response.getSellerNickname(),
-			new DoneMessageRequest());
+		DoneMessageInfo messageInfo = tradeService.terminateTrade(dealId, request);
+		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + messageInfo.getSellerNickname(),
+			messageInfo.getDoneMessageResponse());
+		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + messageInfo.getSellerNickname(),
+			messageInfo.getDoneMessageResponse());
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 }
