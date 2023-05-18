@@ -159,13 +159,13 @@ export default function index() {
       return;
     }
     if (parseInt(bidValue) === currentBid) {
-      toast.error("현재 입찰가와 같은 금액을 응찰할 수 없🙅‍♂️어🙅요🙅‍♀️", {
+      toast.error("현재 입찰가와 같은 금액을 응찰할 수 없어요🙅‍♀️", {
         autoClose: 2000,
       });
       return;
     }
     if (parseInt(bidValue) > userBudget) {
-      toast.error("금액💵이 부족해요🥲 충전🤑 후 다시 이용해주세요🙏", {
+      toast.error("금액이 부족해요. 충전 후 다시 이용해주세요😢", {
         autoClose: 2000,
       });
       return;
