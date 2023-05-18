@@ -1,11 +1,9 @@
 package org.a204.hourgoods.domain.concert.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
 
-import org.a204.hourgoods.domain.concert.request.ConcertIdRequest;
 import org.a204.hourgoods.domain.concert.request.TodayConcertRequest;
 import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
@@ -15,7 +13,6 @@ import org.a204.hourgoods.domain.concert.service.KopisService;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
