@@ -206,9 +206,9 @@ class TradeServiceTest {
 			assertEquals("Location", response.getPurchaserLocationInfo().getMessageType());
 			assertEquals(purchaser.getNickname(), response.getPurchaserLocationInfo().getOtherNickname());
 			assertEquals(tradeLocation.getPurchaserLongitude(),
-				response.getPurchaserLocationInfo().getOtherLongitude());
+				response.getPurchaserLocationInfo().getOtherLongitude().toString());
 			assertEquals(tradeLocation.getPurchaserLatitude(),
-				response.getPurchaserLocationInfo().getOtherLatitude());
+				response.getPurchaserLocationInfo().getOtherLatitude().toString());
 			assertNull(response.getSellerLocationInfo().getDistance());
 			assertNull(response.getPurchaserLocationInfo().getDistance());
 		}
