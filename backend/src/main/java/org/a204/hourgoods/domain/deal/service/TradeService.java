@@ -1,5 +1,7 @@
 package org.a204.hourgoods.domain.deal.service;
 
+import java.time.LocalDateTime;
+
 import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.chatting.exception.DirectChattingRoomNotFoundException;
 import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepository;
@@ -22,8 +24,10 @@ import org.a204.hourgoods.domain.deal.response.DoneMessageResponse;
 import org.a204.hourgoods.domain.deal.response.LocationInfoResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.entity.PointHistory;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
+import org.a204.hourgoods.domain.member.repository.PointHistoryRepository;
 import org.a204.hourgoods.global.util.CheckDistanceUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +41,7 @@ public class TradeService {
 	private final TradeRepository tradeRepository;
 	private final TradeLocationRepository tradeLocationRepository;
 	private final DirectChattingRoomRepository directChattingRoomRepository;
+	private final PointHistoryRepository pointHistoryRepository;
 
 	public CreateTradeLocationResponse createTradeLocation(CreateTradeLocationRequest request) {
 		// 유효성 검사
@@ -185,6 +190,22 @@ public class TradeService {
 		seller.updateCashPoint(trade.getPrice());
 		// 거래 종료 처리
 		trade.falseAvailable();
+		// 판매자 포인트 내역 추가
+		PointHistory sellerPointHistory = PointHistory.builder()
+			.member(seller)
+			.usageTime(LocalDateTime.now())
+			.amount(trade.getPrice())
+			.description(trade.getTitle())
+			.build();
+		pointHistoryRepository.save(sellerPointHistory);
+		// 구매자 포인트 내역 추가
+		PointHistory purchaserPointHistory = PointHistory.builder()
+			.member(purchaser)
+			.usageTime(LocalDateTime.now())
+			.amount((-1) * trade.getPrice())
+			.description(trade.getTitle())
+			.build();
+		pointHistoryRepository.save(purchaserPointHistory);
 
 		DoneMessageResponse doneMessageResponse = DoneMessageResponse.builder()
 			.messageType("Done")
