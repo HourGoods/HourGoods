@@ -13,8 +13,11 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.entity.TradeLocation;
+import org.a204.hourgoods.domain.deal.exception.DealClosedException;
+import org.a204.hourgoods.domain.deal.exception.NotEnoughCashPointException;
 import org.a204.hourgoods.domain.deal.repository.TradeLocationRepository;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
+import org.a204.hourgoods.domain.deal.request.DoneMessageRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
 import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
@@ -197,9 +200,11 @@ class TradeServiceTest {
 			assertEquals(trade.getId(), response.getDealId());
 			assertEquals(request.getNickname(), response.getSellerNickname());
 			assertEquals(purchaser.getNickname(), response.getPurchaserNickname());
+			assertEquals("Location", response.getSellerLocationInfo().getMessageType());
 			assertEquals(request.getNickname(), response.getSellerLocationInfo().getOtherNickname());
 			assertEquals(request.getLongitude(), response.getSellerLocationInfo().getOtherLongitude());
 			assertEquals(request.getLatitude(), response.getSellerLocationInfo().getOtherLatitude());
+			assertEquals("Location", response.getPurchaserLocationInfo().getMessageType());
 			assertEquals(purchaser.getNickname(), response.getPurchaserLocationInfo().getOtherNickname());
 			assertEquals(tradeLocation.getPurchaserLongitude(),
 				response.getPurchaserLocationInfo().getOtherLongitude());
@@ -221,7 +226,7 @@ class TradeServiceTest {
 				.longitude(127.1)
 				.latitude(38.1)
 				.build();
-			TradeMessageResponse preResponse = tradeService.updateTradeLocation(preRequest);
+			tradeService.updateTradeLocation(preRequest);
 
 			TradeMessageRequest request = new TradeMessageRequest().builder()
 				.tradeLocationId(tradeLocationId)
@@ -238,11 +243,13 @@ class TradeServiceTest {
 			assertEquals(trade.getId(), response.getDealId());
 			assertEquals(seller.getNickname(), response.getSellerNickname());
 			assertEquals(purchaser.getNickname(), response.getPurchaserNickname());
+			assertEquals("Location", response.getSellerLocationInfo().getMessageType());
 			assertEquals(preRequest.getNickname(), response.getSellerLocationInfo().getOtherNickname());
 			assertEquals(preRequest.getLongitude().toString(),
 				response.getSellerLocationInfo().getOtherLongitude().toString());
 			assertEquals(preRequest.getLatitude().toString(),
 				response.getSellerLocationInfo().getOtherLatitude().toString());
+			assertEquals("Location", response.getSellerLocationInfo().getMessageType());
 			assertEquals(request.getNickname(), response.getPurchaserLocationInfo().getOtherNickname());
 			assertEquals(request.getLongitude().toString(),
 				response.getPurchaserLocationInfo().getOtherLongitude().toString());
@@ -253,6 +260,67 @@ class TradeServiceTest {
 			assertEquals(response.getSellerLocationInfo().getDistance().toString(),
 				response.getPurchaserLocationInfo().getDistance().toString());
 		}
+	}
 
+	@Nested
+	@DisplayName("거래 종료 REQUEST TEST")
+	class TerminateTrade {
+		private TradeLocation tradeLocation;
+		private String tradeLocationId;
+		private Long dealId;
+		private DoneMessageRequest request;
+
+		@BeforeEach
+		void setUp() {
+			tradeLocation = TradeLocation.builder()
+				.dealId(trade.getId().toString())
+				.sellerId(seller.getId().toString())
+				.sellerLongitude(null)
+				.sellerLatitude(null)
+				.purchaserId(purchaser.getId().toString())
+				.purchaserLongitude(null)
+				.purchaserLatitude(null)
+				.distance(null)
+				.build();
+			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
+
+			dealId = trade.getId();
+			request = DoneMessageRequest.builder()
+				.tradeLocationId(tradeLocationId)
+				.nickname(purchaser.getNickname())
+				.build();
+		}
+
+		@Test
+		@Transactional
+		@DisplayName("결제 및 거래 종료 성공")
+		void terminateTradeSuccess() {
+			Integer sellerCashPoint = purchaser.getCashPoint();
+			Integer purchaserCashPoint = purchaser.getCashPoint();
+			TradeMessageResponse response = tradeService.terminateTrade(dealId, request);
+			assertEquals(seller.getNickname(), response.getSellerNickname());
+			assertEquals(purchaser.getNickname(), response.getPurchaserNickname());
+			assertEquals(sellerCashPoint + trade.getPrice(), seller.getCashPoint());
+			assertEquals(purchaserCashPoint - trade.getPrice(), purchaser.getCashPoint());
+			assertFalse(trade.getIsAvailable());
+		}
+
+		@Test
+		@Transactional
+		@DisplayName("이미 완료된 거래로 인한 실패")
+		void dealIsNotAvailableFail() {
+			// 거래 종료 상태로 변경
+			trade.falseAvailable();
+			assertThrows(DealClosedException.class, () -> tradeService.terminateTrade(dealId, request));
+		}
+
+		@Test
+		@Transactional
+		@DisplayName("보유 캐시포인트 부족으로 인한 실패")
+		void notEnoughCashPointFail() {
+			// 보유 캐시포인트 0원으로 초기화
+			purchaser.updateCashPoint((-1) * purchaser.getCashPoint());
+			assertThrows(NotEnoughCashPointException.class, () -> tradeService.terminateTrade(dealId, request));
+		}
 	}
 }

@@ -24,8 +24,10 @@ import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.entity.TradeLocation;
 import org.a204.hourgoods.domain.deal.repository.TradeLocationRepository;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
+import org.a204.hourgoods.domain.deal.request.DoneMessageRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
 import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
+import org.a204.hourgoods.domain.deal.response.DoneMessageResponse;
 import org.a204.hourgoods.domain.deal.response.LocationInfoResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
@@ -242,13 +244,14 @@ class TradeControllerTest {
 
 	@Nested
 	@DisplayName("Web Socket TEST")
-	class UpdateTradeLocation {
+	class WebSocketTest {
 		private final String wsUrl = "ws://localhost:" + port + "/ws";
 		private WebSocketStompClient stompClient;
 		private StompSession stompSession;
 		private String tradeLocationId;
 		private TestStompFrameHandler testStompFrameHandler;
 		private ListenableFuture<StompSession> sessionFuture;
+		private String subscribeUrl;
 
 		@BeforeEach
 		void setUp() throws Exception {
@@ -266,11 +269,6 @@ class TradeControllerTest {
 				.build();
 			tradeLocationId = tradeLocationRepository.save(tradeLocation).getId();
 
-		}
-
-		@Test
-		@DisplayName("발행 및 구독 성공")
-		void updateTradeLocationSuccess() throws Exception {
 			// 세션 핸들러를 생성합니다.
 			testStompFrameHandler = new TestStompFrameHandler();
 
@@ -282,77 +280,126 @@ class TradeControllerTest {
 			stompSession = sessionFuture.get();
 
 			// 특정 URL을 구독합니다.
-			final String subscribeUrl = "/topic/meet/" + trade.getId() + "/";
+			subscribeUrl = "/topic/meet/" + trade.getId() + "/";
 			stompSession.subscribe(subscribeUrl + seller.getNickname(), testStompFrameHandler);
 			stompSession.subscribe(subscribeUrl + purchaser.getNickname(), testStompFrameHandler);
 
-			// request
-			TradeMessageRequest request = new TradeMessageRequest().builder()
-				.tradeLocationId(tradeLocationId)
-				.nickname(seller.getNickname())
-				.longitude(127.1)
-				.latitude(38.1)
-				.build();
+		}
 
-			// response
-			LocationInfoResponse sellerLocationInfo = LocationInfoResponse.builder()
-				.otherNickname(request.getNickname())
-				.otherLongitude(request.getLongitude())
-				.otherLatitude(request.getLatitude())
-				.distance(tradeLocation.getDistance() == null ? null : Double.parseDouble(tradeLocation.getDistance()))
-				.build();
+		@Nested
+		@DisplayName("실시간 위치 정보 REQUEST TEST")
+		class UpdateTradeLocation {
+			@Test
+			@DisplayName("발행 및 구독 성공")
+			void updateTradeLocationSuccess() throws Exception {
 
-			LocationInfoResponse purchaseLocationInfo = LocationInfoResponse.builder()
-				.otherNickname(purchaser.getNickname())
-				.otherLongitude(tradeLocation.getPurchaserLongitude() == null ? null :
-					Double.parseDouble(tradeLocation.getPurchaserLongitude()))
-				.otherLatitude(tradeLocation.getPurchaserLatitude() == null ? null :
-					Double.parseDouble(tradeLocation.getPurchaserLatitude()))
-				.distance(tradeLocation.getDistance() == null ? null : Double.parseDouble(tradeLocation.getDistance()))
-				.build();
+				// request
+				TradeMessageRequest request = new TradeMessageRequest().builder()
+					.tradeLocationId(tradeLocationId)
+					.nickname(seller.getNickname())
+					.longitude(127.1)
+					.latitude(38.1)
+					.build();
 
-			TradeMessageResponse response = TradeMessageResponse.builder()
-				.tradeLocationId(tradeLocationId)
-				.dealId(Long.parseLong(tradeLocation.getDealId()))
-				.sellerNickname(request.getNickname())
-				.purchaserNickname(purchaser.getNickname())
-				.sellerLocationInfo(sellerLocationInfo)
-				.purchaserLocationInfo(purchaseLocationInfo)
-				.build();
+				// response
+				LocationInfoResponse sellerLocationInfo = LocationInfoResponse.builder()
+					.otherNickname(request.getNickname())
+					.otherLongitude(request.getLongitude())
+					.otherLatitude(request.getLatitude())
+					.distance(
+						tradeLocation.getDistance() == null ? null : Double.parseDouble(tradeLocation.getDistance()))
+					.build();
 
-			// 메시지를 전송합니다.
-			// stompSession.send("/pub/meet/" + request.getDealId(),
-			// 	objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
-			stompSession.send(subscribeUrl + seller.getNickname(),
-				objectMapper.writeValueAsString(response.getSellerLocationInfo()).getBytes(StandardCharsets.UTF_8));
+				LocationInfoResponse purchaseLocationInfo = LocationInfoResponse.builder()
+					.otherNickname(purchaser.getNickname())
+					.otherLongitude(tradeLocation.getPurchaserLongitude() == null ? null :
+						Double.parseDouble(tradeLocation.getPurchaserLongitude()))
+					.otherLatitude(tradeLocation.getPurchaserLatitude() == null ? null :
+						Double.parseDouble(tradeLocation.getPurchaserLatitude()))
+					.distance(
+						tradeLocation.getDistance() == null ? null : Double.parseDouble(tradeLocation.getDistance()))
+					.build();
 
-			// 메시지를 받을 때까지 대기합니다.
-			String receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
+				TradeMessageResponse response = TradeMessageResponse.builder()
+					.tradeLocationId(tradeLocationId)
+					.dealId(Long.parseLong(tradeLocation.getDealId()))
+					.sellerNickname(request.getNickname())
+					.purchaserNickname(purchaser.getNickname())
+					.sellerLocationInfo(sellerLocationInfo)
+					.purchaserLocationInfo(purchaseLocationInfo)
+					.build();
 
-			// 받은 메시지가 예상한 메시지와 일치하는지 확인합니다.
-			LocationInfoResponse actual = objectMapper.readValue(receivedMessage, LocationInfoResponse.class);
-			assertEquals(request.getNickname(), actual.getOtherNickname());
-			assertEquals(request.getLongitude(), actual.getOtherLongitude());
-			assertEquals(request.getLatitude(), actual.getOtherLatitude());
-			assertNull(actual.getDistance());
+				// 메시지를 전송합니다.
+				// stompSession.send("/pub/meet/" + request.getDealId(),
+				// 	objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
+				stompSession.send(subscribeUrl + seller.getNickname(),
+					objectMapper.writeValueAsString(response.getSellerLocationInfo()).getBytes(StandardCharsets.UTF_8));
 
-			// 메시지를 전송합니다.
-			// stompSession.send("/pub/meet/" + request.getDealId(),
-			// 	objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
-			stompSession.send(subscribeUrl + purchaser.getNickname(),
-				objectMapper.writeValueAsString(response.getPurchaserLocationInfo()).getBytes(StandardCharsets.UTF_8));
+				// 메시지를 받을 때까지 대기합니다.
+				String receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
 
-			// 메시지를 받을 때까지 대기합니다.
-			receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
+				// 받은 메시지가 예상한 메시지와 일치하는지 확인합니다.
+				LocationInfoResponse actual = objectMapper.readValue(receivedMessage, LocationInfoResponse.class);
+				assertEquals(request.getNickname(), actual.getOtherNickname());
+				assertEquals(request.getLongitude(), actual.getOtherLongitude());
+				assertEquals(request.getLatitude(), actual.getOtherLatitude());
+				assertNull(actual.getDistance());
 
-			// 받은 메시지가 예상한 메시지와 일치하는지 확인합니다.
-			actual = objectMapper.readValue(receivedMessage, LocationInfoResponse.class);
-			assertEquals(purchaser.getNickname(), actual.getOtherNickname());
-			assertEquals(tradeLocation.getPurchaserLongitude() == null ? null :
-				Double.parseDouble(tradeLocation.getPurchaserLongitude()), actual.getOtherLongitude());
-			assertEquals(tradeLocation.getPurchaserLatitude() == null ? null :
-				Double.parseDouble(tradeLocation.getPurchaserLatitude()), actual.getOtherLatitude());
-			assertNull(actual.getDistance());
+				// 메시지를 전송합니다.
+				// stompSession.send("/pub/meet/" + request.getDealId(),
+				// 	objectMapper.writeValueAsString(request).getBytes(StandardCharsets.UTF_8));
+				stompSession.send(subscribeUrl + purchaser.getNickname(),
+					objectMapper.writeValueAsString(response.getPurchaserLocationInfo())
+						.getBytes(StandardCharsets.UTF_8));
+
+				// 메시지를 받을 때까지 대기합니다.
+				receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
+
+				// 받은 메시지가 예상한 메시지와 일치하는지 확인합니다.
+				actual = objectMapper.readValue(receivedMessage, LocationInfoResponse.class);
+				assertEquals(purchaser.getNickname(), actual.getOtherNickname());
+				assertEquals(tradeLocation.getPurchaserLongitude() == null ? null :
+					Double.parseDouble(tradeLocation.getPurchaserLongitude()), actual.getOtherLongitude());
+				assertEquals(tradeLocation.getPurchaserLatitude() == null ? null :
+					Double.parseDouble(tradeLocation.getPurchaserLatitude()), actual.getOtherLatitude());
+				assertNull(actual.getDistance());
+			}
+		}
+
+		@Nested
+		@DisplayName("거래 종료 REQUEST TEST")
+		class TerminateTrade {
+			private DoneMessageRequest request;
+			private TradeMessageResponse response;
+
+			@BeforeEach
+			void setUp() {
+				request = DoneMessageRequest.builder()
+					.tradeLocationId(tradeLocationId)
+					.nickname(purchaser.getNickname())
+					.build();
+
+				response = TradeMessageResponse.builder()
+					.sellerNickname(seller.getNickname())
+					.purchaserNickname(purchaser.getNickname())
+					.build();
+			}
+
+			@Test
+			@DisplayName("거래 종료 요청 성공")
+			void terminateTradeSuccess() throws Exception {
+				stompSession.send(subscribeUrl + response.getSellerNickname(),
+					objectMapper.writeValueAsString(new DoneMessageResponse()).getBytes(StandardCharsets.UTF_8));
+				String receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
+				DoneMessageResponse actual = objectMapper.readValue(receivedMessage, DoneMessageResponse.class);
+				assertEquals("Done", actual.getMessageType());
+
+				stompSession.send(subscribeUrl + response.getPurchaserNickname(),
+					objectMapper.writeValueAsString(new DoneMessageResponse()).getBytes(StandardCharsets.UTF_8));
+				receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
+				actual = objectMapper.readValue(receivedMessage, DoneMessageResponse.class);
+				assertEquals("Done", actual.getMessageType());
+			}
 		}
 
 		@AfterEach

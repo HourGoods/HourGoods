@@ -3,6 +3,7 @@ package org.a204.hourgoods.domain.deal.contorller;
 import javax.validation.Valid;
 
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
+import org.a204.hourgoods.domain.deal.request.DoneMessageRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
 import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
@@ -59,6 +60,16 @@ public class TradeController {
 			response.getPurchaserLocationInfo());
 		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + response.getPurchaserNickname(),
 			response.getSellerLocationInfo());
+		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
+	}
+
+	@MessageMapping(value = "/meet/{dealId}/done")
+	public BaseResponse<Void> terminateTrade(@DestinationVariable Long dealId, @Payload DoneMessageRequest request) {
+		TradeMessageResponse response = tradeService.terminateTrade(dealId, request);
+		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + response.getSellerNickname(),
+			new DoneMessageRequest());
+		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + response.getSellerNickname(),
+			new DoneMessageRequest());
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
 }
