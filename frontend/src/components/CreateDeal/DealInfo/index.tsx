@@ -250,6 +250,7 @@ export default function index() {
             name="content"
             value={dealInfo.content}
             onChange={handleChange}
+            maxLength={250}
             placeholder="공지사항을 적어주세요"
           />
         </label>
