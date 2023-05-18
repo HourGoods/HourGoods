@@ -241,8 +241,11 @@
       height: 100%;
       border-radius: 10px;
       background-color: $white-op;
-      // @include scrollbar-css;
+      @include scrollbar-css;
       .chatroom-card-list-bottom {
+        .chatroom-card-list-no-now-chatlist {
+          color: $gray-3;
+        }
         margin: 10px auto;
         justify-content: center;
         // padding: 10px 10px 10px 20px;
