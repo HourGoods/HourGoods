@@ -107,7 +107,11 @@ export default function index(props: any) {
           <div className="deal-info-desktop-left-container">
             <div className="title-alert-container">
               <h2>{dealInfo.dealTitle}</h2>
-              <button type="button" onClick={bookmarkHanlder}>
+              <button
+                type="button"
+                aria-label="북마크"
+                onClick={bookmarkHanlder}
+              >
                 {dealInfo.isBookmarked ? (
                   <BellAlertIcon />
                 ) : (

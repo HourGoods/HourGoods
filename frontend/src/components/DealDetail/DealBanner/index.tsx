@@ -26,7 +26,11 @@ export default function index(props: any) {
       <div className="deal-banner-component-container">
         <div className="seller-profile-infos-container">
           <p>{dealInfo.userNickname}</p>
-          <button type="button" onClick={creatorProfileHandler}>
+          <button
+            type="button"
+            aria-label="판매자 프로필"
+            onClick={creatorProfileHandler}
+          >
             {dealInfo.userImageUrl && dealInfo.userImageUrl !== "" ? (
               <img
                 src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.userImageUrl}`}

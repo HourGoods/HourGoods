@@ -133,6 +133,7 @@ export default function index({ dealInfo }: DealCardProps) {
             type="button"
             onClick={bookmarkHanlder}
             className="bookmark-button"
+            aria-label="북마크"
           >
             {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
           </button>
