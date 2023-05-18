@@ -29,6 +29,7 @@ public enum GlobalErrorCode {
 	CONCERT_NOT_FOUND(404, "C100", "해당하는 공연을 찾을 수 없습니다."),
 	CONCERT_ALREADY_EXISTS(400, "C200", "이미 등록된 공연 정보입니다."),
 	KOPIS_CONCET_NOT_FOUND(404, "C300", "Kopis API에서 해당 공연을 찾을 수 없습니다."),
+	EMPTY_CONCERT_DETAIL(404, "C400", "콘서트 내부 상세 정보가 비어있습니다."),
 	UNSUPPORTED_INFO(400, "M100", "지원하지 않는 로그인 방식입니다."),
 	INCORRECT_ADMIN_INFO(401, "M200", "관리자 로그인 정보가 틀렸습니다."),
 	USER_NOT_FOUND(400, "M300", "해당 id에 해당하는 사용자가 없습니다."),
