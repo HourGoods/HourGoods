@@ -23,9 +23,9 @@ export default function index() {
       total_amount: 0,
       vat_amount: 200,
       tax_free_amount: 0,
-      approval_url: "http://localhost:3000/payresult",
-      fail_url: "http://localhost:3000/mypage",
-      cancel_url: "http://localhost:3000/mypage",
+      approval_url: "https://hourgoods.co.kr/payresult",
+      fail_url: "https://hourgoods.co.kr/mypage",
+      cancel_url: "https://hourgoods.co.kr/mypage",
     },
   });
 
