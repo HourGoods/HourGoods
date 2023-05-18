@@ -58,6 +58,7 @@ export default function index(props: any) {
         dealInfo.dealLatitude,
         dealInfo.dealLongitude
       ), // 지도의 중심좌표
+      draggable: false,
       level: 3, // 지도의 확대 레벨
     };
 
