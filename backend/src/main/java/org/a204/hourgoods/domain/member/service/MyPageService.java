@@ -208,7 +208,7 @@ public class MyPageService {
 		// 포인트 내역 생성
 		PointHistory pointHistory = PointHistory.builder()
 			.amount(request.getCashPoint())
-			.description("카카오페이 결제")
+			.description("카카오페이 충전")
 			.usageTime(LocalDateTime.now())
 			.member(member)
 			.build();

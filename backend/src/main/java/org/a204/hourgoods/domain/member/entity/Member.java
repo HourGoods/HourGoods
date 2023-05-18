@@ -98,7 +98,7 @@ public class Member {
 		this.nickname = nickname;
 		this.imageUrl = imageUrl != null ? imageUrl :
 			"'https://a204-hourgoods-bucket.s3.ap-northeast-2.amazonaws.com/image/member-profile/Union.svg'";
-		this.cashPoint = 1000000;
+		this.cashPoint = 0;
 	}
 
 	public void editMember(String nickname, String imageUrl) {
