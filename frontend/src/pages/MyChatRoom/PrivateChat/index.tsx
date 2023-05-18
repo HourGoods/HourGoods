@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect } from "react";
 import PrivateChat from "@components/MyChatRoom/PrivateChat";
-import Button from "@components/common/Button";
-import Modal from "@components/common/Modal";
 import { useLocation, useNavigate } from "react-router-dom";
 import bgStars from "@assets/BGstars.svg";
 
@@ -22,10 +21,12 @@ export default function index() {
   }, [location]);
 
   return (
-    <div>
-      <Modal>
-        <PrivateChat />
-      </Modal>
+    <div className="private-chat-main-container">
+      <div className="private-chat-modal-overay">
+        <div className="private-caht-modal-box">
+          <PrivateChat />
+        </div>
+      </div>
     </div>
   );
 }

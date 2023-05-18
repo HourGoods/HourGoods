@@ -1,14 +1,17 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { UserStateAtom } from "@recoils/user/Atom";
 import { Client, Message } from "@stomp/stompjs";
-import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
+import { ChevronDoubleLeftIcon } from "@heroicons/react/24/solid";
 import Map from "./Map";
 import Loading from "./Loading";
 
 // 소켓통신으로 수신받은 결과값을 저장한 인스턴스
 export interface MeetingDealInfo {
+  messageType: string; // '판매자정보'인지 '종료된정보'인지 판별하는 트리거
   otherNickname: string; // 판매자이름
   otherLongitude: number; // 판매자경도
   otherLatitude: number; // 판매자위도
@@ -26,9 +29,12 @@ export default function index({ tradeLocId }: Props) {
   const userName = userInfo.nickname; // 내이름
   const [isConnected, setIsConnected] = useState(false);
 
+  const navigate = useNavigate();
+
   // --------------------- 소켓 통신하기 -------------------------
   const clientRef = useRef<Client>();
   const [meetingInfo, setMeetingInfo] = useState<MeetingDealInfo>({
+    messageType: "", // 메세지타입
     otherNickname: "", // 판매자이름
     otherLongitude: 0, // 판매자경도
     otherLatitude: 0, // 판매자위도
@@ -50,7 +56,6 @@ export default function index({ tradeLocId }: Props) {
         authorization: localStorage.getItem("accessToken") || "",
       },
       onConnect: () => {
-        console.log("소켓에 연결되었습니당");
         setIsConnected(true); // 연결 상태 업데이트
 
         // 해당 소켓주소에 구독
@@ -74,13 +79,39 @@ export default function index({ tradeLocId }: Props) {
 
   // 소켓으로부터 받아오는 MeetingDealInfo 결과값
   const handleMessage = (message: string) => {
-    console.log("받아옵니다.");
     const parsedMessage = JSON.parse(message) as MeetingDealInfo;
-    setMeetingInfo(parsedMessage);
+    // 판매자정보를 받아옵니다.
+    if (parsedMessage.messageType === "Location") {
+      setMeetingInfo(parsedMessage);
+    }
+    // 종료된 정보이면 소켓연결 종료 후 리다이렉트
+    if (parsedMessage.messageType === "Done") {
+      disconnect();
+      alert("거래가 종료됩니다.");
+      navigate("/mypage");
+    }
+    if (parsedMessage.messageType === "ClosedDeal") {
+      disconnect();
+      alert("이미 종료된 거래입니다.");
+      navigate("/mypage");
+    }
+    if (parsedMessage.messageType === "NotEnoughCashPoint") {
+      disconnect();
+      alert("돈이 부족합니다. 충전해주세요");
+      navigate("/payment");
+    }
   };
 
   return (
     <div className="meeting-socket-component-container">
+      <button
+        type="button"
+        className="go-back-icon-text-container"
+        onClick={() => navigate(-1)}
+      >
+        <ChevronDoubleLeftIcon />
+        <p>채팅으로 돌아가기</p>
+      </button>
       {isConnected ? (
         <Map
           meetingInfo={meetingInfo}

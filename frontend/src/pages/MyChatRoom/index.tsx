@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./index.scss";
 import bgStars from "@assets/BGstars.svg";
 import ChatRoomCardList from "@components/MyChatRoom/ChatroomCardList";
@@ -20,10 +20,8 @@ export default function index() {
   }, [location]);
 
   return (
-    <div className="chatroom-container-upper">
-      <div className="chatroom-container">
-        <ChatRoomCardList />
-      </div>
+    <div className="chatroom-container">
+      <ChatRoomCardList />
     </div>
   );
 }

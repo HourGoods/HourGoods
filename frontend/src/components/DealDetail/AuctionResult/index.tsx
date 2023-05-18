@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuctionAPI, chattingAPI } from "@api/apis";
 import { useRecoilValue } from "recoil";
@@ -45,7 +46,6 @@ export default function index(props: any) {
     const req = chattingAPI.postchatDirect(receiver, dealId);
     req
       .then((res) => {
-        console.log("채팅하기 res", res.data.result);
         const chattingRoomId = res.data.result.directChattingRoomId;
         navigate(`/mychatroom/${chattingRoomId}`, {
           state: { dealid: dealId, chatId: chattingRoomId },

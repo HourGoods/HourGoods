@@ -1,7 +1,5 @@
-import React from "react";
-import { Navigate, Outlet } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { AuthStateAtom } from "@recoils/user/Atom";
+/* eslint-disable react/react-in-jsx-scope */
+import { Outlet } from "react-router-dom";
 
 export default function PrivateRoute() {
   const localLogin = localStorage.getItem("isLogin");

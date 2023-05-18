@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+/* eslint-disable react/react-in-jsx-scope */
+import { useNavigate } from "react-router-dom";
 
 type ChatroomProps = {
   chatroom: {
@@ -60,18 +60,20 @@ export default function ChatroomCard({ chatroom }: ChatroomProps) {
           onClick={navigateChatroomHandler}
         >
           <div className="chatroom-left-section">
-            <img
-              src={`https://d15nekhnxhc8rz.cloudfront.net/${chatroom.otherImageUrl}`}
-              alt="프로필이미지"
-            />
+            {chatroom.otherImageUrl && chatroom.otherImageUrl !== "" ? (
+              <img
+                src={`https://d15nekhnxhc8rz.cloudfront.net/${chatroom.otherImageUrl}`}
+                alt="프로필이미지"
+              />
+            ) : null}
           </div>
           <div className="chatroom-right-section">
             <div className="chatroom-name-datetime-container">
               <p className="chatroom-profile-name">{chatroom.otherNickname}</p>
-              <p className="chatroom-recent-datetime">{formattedLastLogTime}</p>
-            </div>
-            <div className="chatroom-recent-msg-wrapper">
               <p className="recent-msg">{chatroom.lastLogContent}</p>
+            </div>
+            <div className="chatroom-lastlongtime-section">
+              <p className="chatroom-recent-datetime">{formattedLastLogTime}</p>
             </div>
           </div>
         </button>

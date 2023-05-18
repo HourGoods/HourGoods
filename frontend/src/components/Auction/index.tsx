@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import SockJS from "sockjs-client";
 import InputMsgBox from "@components/common/InputMsgBox";
-import over, { Client, Message } from "@stomp/stompjs";
+import { Client, Message } from "@stomp/stompjs";
 import AuctionBox from "./AuctionBox";
 import ChattingBox from "./ChattingBox";
 import { UserStateAtom } from "@recoils/user/Atom";
@@ -11,7 +11,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   ChatBubbleOvalLeftIcon,
   CurrencyDollarIcon,
-  TicketIcon,
 } from "@heroicons/react/24/solid";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 import { toast, ToastContainer } from "react-toastify";
@@ -154,19 +153,27 @@ export default function index() {
   const sendBid = () => {
     if (!bidValue) return; // 빈값 return
     if (parseInt(bidValue) < currentBid) {
-      toast.error("현재 입찰가보다 높은 금액을 제시해주세요🙏");
+      toast.error("현재 입찰가보다 높은 금액을 제시해주세요🙏", {
+        autoClose: 2000,
+      });
       return;
     }
     if (parseInt(bidValue) === currentBid) {
-      toast.error("현재 입찰가와 같은 금액을 응찰할 수 없🙅‍♂️어🙅요🙅‍♀️");
+      toast.error("현재 입찰가와 같은 금액을 응찰할 수 없🙅‍♂️어🙅요🙅‍♀️", {
+        autoClose: 2000,
+      });
       return;
     }
     if (parseInt(bidValue) > userBudget) {
-      toast.error("금액💵이 부족해요🥲 충전🤑 후 다시 이용해주세요🙏");
+      toast.error("금액💵이 부족해요🥲 충전🤑 후 다시 이용해주세요🙏", {
+        autoClose: 2000,
+      });
       return;
     }
     if (parseInt(bidValue) > 2147483647) {
-      toast.info("int범위 내로 입력해주세요😢");
+      toast.info("int범위 내로 입력해주세요😢", {
+        autoClose: 2000,
+      });
       return;
     }
     const bidMoney = {
@@ -225,6 +232,7 @@ export default function index() {
             }`}
           >
             <CurrencyDollarIcon />
+            <p>응찰</p>
           </button>
 
           {showBidBox && (
@@ -259,6 +267,7 @@ export default function index() {
             }`}
           >
             <ChatBubbleOvalLeftIcon />
+            <p>채팅</p>
           </button>
         </div>
       </div>

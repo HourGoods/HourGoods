@@ -1,7 +1,8 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 import { useRecoilState } from "recoil";
-import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
+import { UserStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
@@ -117,7 +118,7 @@ export default function index() {
     // 알림 초기화
     setNicknamAlert("");
     // 유효성 검사
-    const regex = /^[a-zA-Z0-9가-힣]{2,16}$/;
+    const regex = /^[a-zA-Z0-9가-힣]{2,10}$/;
     if (regex.test(newNickname)) {
       setIsValidNickname(true);
     } else {
@@ -186,7 +187,9 @@ export default function index() {
             // 이동
             navigate("/mypage");
             // 알림
-            toast.success(`${nickname}님 환영합니다!`);
+            toast.success(`${nickname}님 환영합니다!`, {
+              autoClose: 2000,
+            });
           });
         }
       } catch (err) {
@@ -215,7 +218,9 @@ export default function index() {
         // 이동
         navigate("/mypage");
         // 알림
-        toast.success(`${nickname}님 환영합니다!`);
+        toast.success(`${nickname}님 환영합니다!`, {
+          autoClose: 2000,
+        });
       });
     }
   };
@@ -270,9 +275,12 @@ export default function index() {
           <label htmlFor="uploadImg">
             {uploadedImage ? (
               <img src={croppedImage} alt="프로필 사진" />
-            ) : (
-              <img src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} alt="프로필 사진" />
-            )}
+            ) : userInfo.imageUrl !== "" ? (
+              <img
+                src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`}
+                alt="프로필 사진"
+              />
+            ) : null}
             <input
               id="uploadImg"
               type="file"

@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import bgStars from "@assets/BGstars.svg";
 import Auction from "@components/Auction";

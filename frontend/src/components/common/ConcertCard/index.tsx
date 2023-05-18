@@ -1,9 +1,9 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import { concertDetailState } from "@recoils/concert/Atoms";
-import { MapPinIcon, CalendarIcon, ClockIcon } from "@heroicons/react/24/solid";
+import { MapPinIcon, CalendarIcon } from "@heroicons/react/24/solid";
 import { ConcertInterface } from "@pages/Search";
 import { concertAPI } from "@api/apis";
 import "./index.scss";
@@ -20,42 +20,25 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
   const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
 
   // Update할 Deal 정보
-  const [dealInfo, setDealInfo] = useRecoilState(dealState);
-  const [concertDetailInfo, setConcertDetailInfo] = useRecoilState(
-    concertDetailState
-  );
+  const [concertDetailInfo, setConcertDetailInfo] =
+    useRecoilState(concertDetailState);
 
   const clickHanlder = () => {
-    const { kopisConcertId } = concertInfo;
+    const { concertId } = concertInfo;
 
-    // DB에서 콘서트 아이디 탐색
-    const result = concertAPI.postConcertId(kopisConcertId);
-    result
-      .then((res) => {
-        console.log(res, "DB에서 받아온 ID값");
-        const { concertId } = res.data.result;
-
-        if (flag === "fromCreate") {
-          // 딜 생성에서 만든 경우
-          // 콘서트 아이디 상태값 Update
-          setDealInfo((prev) => ({
-            ...prev,
-            concertId,
-          }));
-          concertAPI.getConcertDetail(concertId).then((res) => {
-            console.log(res);
-            const startDate = res.data.result.startTime;
-            setConcertDetailInfo({ ...res.data.result, startDate });
-          });
-        } else {
-          navigate(`/concert/${concertId}`, {
-            state: { concertId, concertInfo },
-          }); // 전체 검색인 경우 클릭시 디테일 페이지로 이동
-        }
-      })
-      .catch((err) => {
-        console.log(err);
+    if (flag === "fromCreate" && concertId) {
+      // 딜 생성에서 만든 경우
+      // 콘서트 아이디 상태값 Update
+      concertAPI.getConcertDetail(concertId).then((res) => {
+        const startDate = res.data.result.startTime;
+        setConcertDetailInfo({ ...res.data.result, startDate });
       });
+    } else if (concertId) {
+      navigate(`/concert/${concertId}`, {
+        state: { concertId, concertInfo },
+      }); // 전체 검색인 경우 클릭시 디테일 페이지로 이동
+    }
+
     // 처리가 끝나면 모달 닫기
     setModalOpen(false);
   };

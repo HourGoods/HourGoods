@@ -1,5 +1,4 @@
-import React from "react";
-import walking from "@assets/walkLoad.gif";
+/* eslint-disable react/react-in-jsx-scope */
 import "./index.scss";
 
 export default function index() {

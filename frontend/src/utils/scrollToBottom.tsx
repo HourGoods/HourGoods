@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 
 export const scrollToBottom = (element: HTMLDivElement | null) => {
   if (element) {
@@ -9,4 +9,3 @@ export const scrollToBottom = (element: HTMLDivElement | null) => {
     });
   }
 };
-

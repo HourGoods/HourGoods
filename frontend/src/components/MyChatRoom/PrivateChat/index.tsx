@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Client, Message } from "@stomp/stompjs";
 import { chattingAPI, dealAPI } from "@api/apis";
-import DealCard from "@components/common/DealCard";
+import SmallDealCard from "@components/common/SmallDealCard";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
@@ -175,10 +175,15 @@ export default function index() {
       <div className="private-chatroom-all-container">
         <div className="private-chatroom-box-container">
           <div className="chatroom-dealcard">
-            <DealCard dealInfo={dealInfo} />
+            <SmallDealCard dealInfo={dealInfo} />
           </div>
           <div className="box-upper-wrapper">
             <ChatContent chatMsgList={chatMsgList} userName={userName} />
+            <div className="meeting-deal-button-wrapper">
+              <Button color="pink" onClick={meetModalHandler}>
+                만나서 거래하기
+              </Button>
+            </div>
           </div>
           <div className="box-bottom-wrapper">
             <InputMsgBox
@@ -197,11 +202,6 @@ export default function index() {
 
       {/* 만나서 거래하기  */}
       {/* DealDetail 거래 혹은 경매 성공시 만나서 거래하기 버튼 활성화하기 -> location 써서 코드 고칠 것 */}
-      <div className="meeting-deal-button-wrapper">
-        <Button color="pink" onClick={meetModalHandler}>
-          만나서 거래하기
-        </Button>
-      </div>
       <div className="meeting-deal-modal-container">
         {isModalOpen && (
           <Modal setModalOpen={setIsModalOpen}>

@@ -3,17 +3,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { dealAPI } from "@api/apis";
 import { DealInfoInterface } from "@pages/ConcertDeal";
-import {
-  MapPinIcon,
-  CalendarIcon,
-  BellAlertIcon,
-  ClockIcon,
-} from "@heroicons/react/24/solid";
-import BellAlertLineIcon from "@heroicons/react/24/outline/BellAlertIcon";
-import Button from "@components/common/Button";
+import { MapPinIcon, CalendarIcon, ClockIcon } from "@heroicons/react/24/solid";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import "./index.scss";
 
 interface DealCardProps {
@@ -32,8 +24,10 @@ export default function index({ dealInfo }: DealCardProps) {
     navigate(`/deal/detail/${dealInfo.dealId}`);
   };
 
+  const [typeName, setTypeName] = useState("");
+
   useEffect(() => {
-    // console.log(dealInfo);
+    console.log(dealInfo);
     // 북마크 정보
     setIsBookmarked(dealInfo.isBookmarked);
     // 시간정보
@@ -56,6 +50,13 @@ export default function index({ dealInfo }: DealCardProps) {
         startDate: date,
         timeInfo: `${hour}~${end}`,
       });
+    }
+
+    if (dealInfo.dealTypeName === "Trade") {
+      setTypeName("거래");
+    }
+    if (dealInfo.dealTypeName === "Auction") {
+      setTypeName("경매");
     }
   }, [dealInfo]);
 
@@ -92,13 +93,13 @@ export default function index({ dealInfo }: DealCardProps) {
   return (
     <>
       <ToastContainer />
-      <div className="deal-card-component-container">
+      <div className="small-deal-card-component-container">
         <button
-          className="deal-card-left-contents-container"
+          className="small-deal-card-left-contents-container"
           type="button"
           onClick={goDetail}
         >
-          <div className="deal-card-left-img-wrapper">
+          <div className="small-deal-card-left-img-wrapper">
             {dealInfo.imageUrl && dealInfo.imageUrl !== "" ? (
               <img
                 src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.imageUrl}`}
@@ -106,11 +107,13 @@ export default function index({ dealInfo }: DealCardProps) {
               />
             ) : null}
           </div>
-          <div className="deal-card-right-contents-container">
-            <div className="deal-card-top-container">
-              <p className="deal-title-p">{dealInfo.title}</p>
+          <div className="small-deal-card-right-contents-container">
+            <div className="small-deal-card-top-container">
+              <p className="small-deal-title-p">
+                [{typeName}] {dealInfo.title}
+              </p>
             </div>
-            <div className="deal-card-bottom-container">
+            <div className="small-deal-card-bottom-container">
               <div className="card-icon-text-div">
                 <CalendarIcon />
                 <p>{dealCardTimeInfo.startDate}</p>
@@ -126,18 +129,6 @@ export default function index({ dealInfo }: DealCardProps) {
             </div>
           </div>
         </button>
-
-        <div className="deal-card-alert-wrapper">
-          <Button color={dealInfo.dealTypeName} size="deal" isActive />
-          <button
-            type="button"
-            onClick={bookmarkHanlder}
-            className="bookmark-button"
-            aria-label="북마크"
-          >
-            {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
-          </button>
-        </div>
       </div>
     </>
   );

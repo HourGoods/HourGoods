@@ -1,10 +1,9 @@
 /* eslint-disable react/no-array-index-key */
-import React, { Component, useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import "./index.scss";
 import TicketBalance from "@components/Ticket/TicketBalance";
 import TickCard from "@components/Ticket/TicketCard";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { useParams } from "react-router-dom";
 import { mypageAPI } from "@api/apis";
 import { useRecoilState } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";

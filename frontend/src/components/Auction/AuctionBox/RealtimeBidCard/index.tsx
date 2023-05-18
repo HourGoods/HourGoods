@@ -1,25 +1,20 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable react/react-in-jsx-scope */
 import { BidMessage, InoutMessage } from "@components/Auction";
 import { FireIcon, PlayIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import { AuctionCurrentBidAtom } from "@recoils/auction/Atoms";
 import { scrollToBottom } from "@utils/scrollToBottom";
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRecoilState } from "recoil";
 
 interface BidInfoProps {
   bidList: BidMessage[];
   nowBid: number;
-  nowCount: number;
   inoutMsgList: InoutMessage[];
 }
 
-export default function Index({
-  bidList,
-  nowBid,
-  nowCount,
-  inoutMsgList,
-}: BidInfoProps) {
+export default function Index({ bidList, nowBid, inoutMsgList }: BidInfoProps) {
   const [currentBid, setCurrentBid] = useRecoilState(AuctionCurrentBidAtom);
   const [interval, setInterval] = useState<number>(0);
   const [participantCount, setParticipantCount] = useState<number>(0);
@@ -54,21 +49,19 @@ export default function Index({
       <div className="realtime-bid-card-container">
         <div className="realtime-bid-left">
           <p>현재 입찰가</p>
-        </div>
-        <div className="realtime-bid-right">
-          <div className="r-bid-card-icon fire">
+          <div className="r-bid-card-icon-fire">
             <FireIcon />
             <p>{formatCurrency(currentBid)}</p>
           </div>
-          <div className="r-const-ppl-wrapper">
-            <div className="r-bid-card-icon up">
-              <PlayIcon />
-              <p>{interval}</p>
-            </div>
-            <div className="r-bid-card-icon user">
-              <UserGroupIcon />
-              <p>{participantCount}</p>
-            </div>
+        </div>
+        <div className="realtime-bid-right">
+          <div className="r-bid-card-icon up">
+            <PlayIcon />
+            <p>{interval}</p>
+          </div>
+          <div className="r-bid-card-icon user">
+            <UserGroupIcon />
+            <p>{participantCount}</p>
           </div>
         </div>
       </div>

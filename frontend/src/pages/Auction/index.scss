@@ -1,19 +1,6 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
-
-@mixin icon-wrapper($color) {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  margin: 5px 0;
-  svg {
-    width: 24px;
-    color: $color;
-  }
-  p {
-    margin: 0;
-  }
-}
+@import "@styles/Animation";
 
 .auction-page-upper-container {
   display: flex;
@@ -25,15 +12,19 @@
   gap: 10px;
   @include desktop {
     width: 100%;
-    justify-content: space-between;
+    height: 80vh;
+    justify-content: center;
   }
   @include tablet {
     width: 90%;
+    height: 80vh;
   }
   @include mobile {
     width: 90%;
+    height: 80vh;
   }
 
+  // 경매장 상단 공지사항
   .track {
     display: flex;
     justify-content: flex-end;
@@ -44,8 +35,8 @@
     .dealContent {
       white-space: nowrap;
       will-change: transform;
-      animation: marquee 20s linear infinite;
-      -webkit-animation: marquee 20s linear infinite;
+      animation: marquee 25s linear infinite;
+      -webkit-animation: marquee 25s linear infinite;
       .dealContnet-text {
         margin: 0;
         color: #fff;
@@ -73,11 +64,23 @@
   }
 
   .a-page-inputbox-container {
-    bottom: 30px;
+    @include tablet {
+      position: fixed;
+      bottom: 15px;
+      left: 10;
+      width: 90%;
+    }
+    @include mobile {
+      width: 90%;
+      position: fixed;
+      bottom: 15px;
+      left: 10;
+    }
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 0 auto;
     .a-page-inputbox-button {
       background-color: $white-op;
       width: 50px;
@@ -87,6 +90,11 @@
       svg {
         width: 24px;
         color: $indigo-1;
+      }
+      p {
+        font-size: 8px;
+        margin: 0;
+        color: $gray-2;
       }
     }
     .input-message-container {
@@ -104,19 +112,41 @@
 .auctionbox-all-conatiner {
   background-color: $white-op;
   border-radius: 10px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   @include desktop {
-    max-height: 530px;
+    // max-height: 530px;
+    height: 80%;
     width: 60%;
+    padding: 20px;
   }
   @include tablet {
     width: 100%;
+    // height: 60%;
+    padding: 20px;
   }
   @include mobile {
+    // min-height: 400px;
+    // height: 60%;
     width: 100%;
+    padding: 20px 10px 10px 10px;
+  }
+
+  .dealCard-toggle-button {
+    background-color: $white-op;
+    border-radius: 10px;
+    padding: 0;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    @include fadeInUp;
+  }
+  .dealCard-toggle-button-active {
+    background-color: transparent;
+    padding: 0;
+    @include fadeInDown;
   }
 
   //AuctionDealCard.tsx(경매되는거래정보카드)
@@ -126,32 +156,66 @@
     padding: 10px;
     border-radius: 10px;
     display: flex;
-    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    @include desktop {
+      gap: 10px;
+    }
+    @include tablet {
+      gap: 10px;
+    }
+    @include mobile {
+      gap: 5px;
+    }
     .a-dealcard-img {
-      align-items: center;
       display: flex;
+      justify-content: center;
       img {
+        object-fit: cover;
         max-width: 80px;
         max-height: 200px;
       }
     }
     .a-dealcard-right {
+      @include desktop {
+        width: calc(100% - 100px);;
+      }
+      @include tablet {
+        width: calc(100% - 100px);
+      }
+      @include mobile {
+        width: 100%;
+      }
       .a-dealcard-icon {
         @include icon-wrapper($indigo-1);
       }
-      width: 100%;
       .a-dealcard-title {
         p {
           margin: 5px 0;
           text-align: left;
           color: $indigo-1;
           font-weight: 900;
+          font-size: 16px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
         }
       }
       .a-dealcard-date-time {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         display: flex;
-        gap: 20px;
         flex-wrap: wrap;
+        @include desktop {
+          gap: 20px;
+        }
+        @include tablet {
+          gap: 10px;
+        }
+        @include mobile {
+          gap: 3px;
+        }
       }
       .a-dealcard-progressbar {
         @include timer-progressbar;
@@ -176,46 +240,42 @@
     padding: 10px;
 
     .realtime-bid-left {
-      margin-right: 50px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
       p {
+        font-weight: 900;
+        color: $indigo-1;
+        margin: 0;
+      }
+      .r-bid-card-icon-fire {
+        @include icon-wrapper($pink-1);
         font-weight: 900;
         color: $indigo-1;
       }
     }
     .realtime-bid-right {
-      @include mobile {
-        width: 100%;
-      }
-      width: 80%;
       display: flex;
-      justify-content: space-between;
-      .fire {
-        @include icon-wrapper($pink-1);
-        font-weight: 900;
-        color: $indigo-1;
-      }
-      .r-const-ppl-wrapper {
+      justify-content: flex-end;
+      gap: 40px;
+      .up {
         display: flex;
-        gap: 40px;
-        .up {
-          display: flex;
-          gap: 5px;
-          align-items: center;
-          margin: 5px 0;
-          svg {
-            width: 20px;
-            color: $pink-1;
-            rotate: -90deg;
-          }
-          p {
-            margin: 0;
-          }
+        gap: 5px;
+        align-items: center;
+        margin: 5px 0;
+        svg {
+          width: 20px;
+          color: $pink-1;
+          rotate: -90deg;
         }
-        .user {
-          @include icon-wrapper($indigo-1);
-          svg {
-            width: 20px;
-          }
+        p {
+          margin: 0;
+        }
+      }
+      .user {
+        @include icon-wrapper($indigo-1);
+        svg {
+          width: 20px;
         }
       }
     }
@@ -233,10 +293,10 @@
         height: 250px;
       }
       @include tablet {
-        height: 150px;
+        height: 80px;
       }
       @include mobile {
-        height: 100px;
+        height: 60px;
       }
 
       display: flex;
@@ -299,17 +359,23 @@
   }
   @include desktop {
     width: 30%;
-    height: 530px;
+    // max-height: 530px;
+    height: 80%;
   }
   @include tablet {
     width: 100%;
-    height: 200px;
+    // height: 40%;
+    // height: 200px;
+    height: 25%;
+    // margin-bottom: 80px;
   }
   @include mobile {
     width: 100%;
-    height: 200px;
+    height: 25%;
+    // height: 150px;
   }
   .private-chatroom-content-container {
+    // padding-bottom: 80px;
     p {
       margin: 0;
       text-align: left;
@@ -322,7 +388,7 @@
         gap: 5px;
         margin: 10px 0;
         align-items: center;
-        max-width: 60%;
+        max-width: 80%;
         min-width: 40px;
         img {
           width: 40px;
@@ -335,6 +401,12 @@
         }
         .not-me-chat-name {
           font-weight: 900;
+          font-size: 8px;
+        }
+        .not-me-chat-content {
+          padding: 5px;
+          background-color: $gray-5;
+          border-radius: 0px 5px 5px 5px;
         }
       }
     }
@@ -344,10 +416,43 @@
       justify-content: flex-end;
       .its-me-chat-box {
         background-color: $violet-2;
-        border-radius: 10px 10px 0px 10px;
+        border-radius: 5px 5px 0px 5px;
         padding: 5px;
         max-width: 60%;
         min-width: 40px;
+      }
+    }
+    // 새로운 메세지 버튼
+    .new-message-button {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #f5f5f5;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      box-shadow: $shadow-gray;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      img {
+        width: 24px;
+        height: 24px;
+        border-radius: 24px;
+        margin-right: 5px;
+      }
+      @include desktop {
+        position: fixed;
+        bottom: 130px;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
       }
     }
   }
@@ -364,3 +469,13 @@
     width: 92%;
   }
 }
+
+// 새로운 채팅이 왔을 때 돌아오는 ref 요소
+// .chat-bottom-ref {
+//   @include tablet {
+//     margin: 70px;
+//   }
+//   @include mobile {
+//     margin: 70px;
+//   }
+// }

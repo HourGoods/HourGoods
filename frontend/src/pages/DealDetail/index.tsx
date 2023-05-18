@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { AuthStateAtom } from "@recoils/user/Atom";
 import DealBanner from "@components/DealDetail/DealBanner";
 import DealInfo from "@components/DealDetail/DealInfo";
 import DealEnterButton from "@components/DealDetail/DealEnterButton";
@@ -56,10 +55,15 @@ export default function DealDetail() {
   useEffect(() => {
     // login한 유저만 볼 수 있습니다
     if (!isLogin) {
-      toast.info("로그인해주세요");
+      toast.info("로그인 해주세요", {
+        autoClose: 2000,
+      });
       navigate("/");
     }
     if (stringDealId) {
+      // scroll top
+      window.scrollTo(0, 0);
+
       const dealId = parseInt(stringDealId, 10); // 문자열을 숫자로 변환
       const result = dealAPI.getDealDeatail(dealId);
       setDealId(dealId);
@@ -96,10 +100,10 @@ export default function DealDetail() {
             concertInfo.latitude,
             concertInfo.longitude,
             // 임시 현재 위치
-            37.501,
-            127.04
-            // res.latitude,
-            // res.longitude
+            // 37.501,
+            // 127.04
+            res.latitude,
+            res.longitude
           );
 
           setDistance(distance);

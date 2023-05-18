@@ -13,6 +13,7 @@
     background-color: inherit;
     display: flex;
     padding: 0;
+    width: 100%;
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
 
@@ -88,4 +89,8 @@
       color: $indigo-1;
     }
   }
+
+  // @media all and(max-width: 350px) {
+  //   scale: 0.8;
+  // }
 }

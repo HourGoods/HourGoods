@@ -1,6 +1,5 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import "./index.scss";
-// import { useSelector } from 'react-redux'
 
 export default function Loading() {
   return (

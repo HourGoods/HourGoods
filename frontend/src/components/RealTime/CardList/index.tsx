@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import DealCard from "@components/common/DealCard";
 import SearchBar from "@components/common/SearchBar";
 import { ClockIcon } from "@heroicons/react/24/solid";
@@ -23,27 +24,6 @@ export default function index(props: any) {
           return setConcertDealList(res.data.result.dealInfoList);
         });
     }
-
-    // if (inConcertList.length > 0) {
-    //   Promise.all(
-    //     inConcertList.map((concert: any) => {
-    //       return concertAPI
-    //         .getConcertDealList(
-    //           concert.concertId,
-    //           -1,
-    //           "All",
-    //           "",
-    //           userInfo.nickname
-    //         )
-    //         .then((res) => {
-    //           return res.data.result.dealInfoList;
-    //         });
-    //     })
-    //   ).then((results) => {
-    //     console.log("새로운 콘서트별 deal 정보", results);
-    //     setConcertDealList(results.flat());
-    //   });
-    // }
   }, [inConcertList]);
 
   const searchHandler = () => {
@@ -75,7 +55,9 @@ export default function index(props: any) {
           <p className="realtime-page-helper-p">
             콘서트 범위 안에서만 Deal을 확인할 수 있어요.
           </p>
-          <p>Deal카드가 없습니다</p>
+          <p className="realtime-page-notion">
+            현재 위치에서 확인할 수 있는 거래가 없어요!
+          </p>
         </>
       ) : (
         <>

@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ChevronRightIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+/* eslint-disable react/react-in-jsx-scope */
+import { useNavigate } from "react-router-dom";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useRecoilState } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";
 
@@ -31,7 +31,13 @@ export default function index() {
       </div>
       {/* <UserCircleIcon /> */}
       {/* <img alt="프로필 사진" className="profile" src={newUserInfo.imageUrl} /> */}
-      <img alt="프로필 사진" className="profile" src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`} />
+      {userInfo.imageUrl && userInfo.imageUrl !== "" ? (
+        <img
+          alt="프로필 사진"
+          className="profile"
+          src={`https://d15nekhnxhc8rz.cloudfront.net/${userInfo.imageUrl}`}
+        />
+      ) : null}
     </div>
   );
 }

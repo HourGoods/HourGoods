@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from "react";
 import { concertAPI } from "@api/apis";
 import { useRecoilValue } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";
@@ -34,7 +35,6 @@ export default function index(props: any) {
       userInfo.nickname
     );
     result.then((res) => {
-      console.log("콘서트별 딜 정보", res);
       setConcertDealList(res.data.result.dealInfoList);
     });
   };
@@ -49,7 +49,6 @@ export default function index(props: any) {
       userInfo.nickname
     );
     result.then((res) => {
-      console.log("콘서트별 딜 정보", res);
       setConcertDealList(res.data.result.dealInfoList);
     });
   };
@@ -83,7 +82,6 @@ export default function index(props: any) {
           isActive={activeDealType.Auction}
           onClick={() => activationHandler("Auction")}
         />
-
       </div>
 
       <SearchBar

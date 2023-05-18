@@ -1,5 +1,4 @@
-import React from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable react/react-in-jsx-scope */
 import { TicketIcon } from "@heroicons/react/24/solid";
 import { useRecoilState } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";

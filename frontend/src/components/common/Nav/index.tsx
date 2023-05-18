@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Bars3Icon,
   UserCircleIcon,
@@ -7,11 +7,11 @@ import {
 } from "@heroicons/react/24/solid";
 import "./index.scss";
 import logo from "@assets/logo.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useModalRef from "@hooks/useModalRef";
 import DropDown from "@components/common/DropDown";
 import { AuthStateAtom, UserStateAtom } from "@recoils/user/Atom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import hamburger from "@assets/hamburger.svg";
@@ -47,20 +47,12 @@ export default function Nav() {
     localStorage.setItem("isLogin", "");
     toggleMenu();
     navigate("/");
-    toast.success("안녕히가세요!");
+    toast.success("안녕히가세요!", {
+      autoClose: 2000,
+    });
   };
 
   useModalRef(menuRef, () => setIsOpen(false));
-
-  // 임시 메인페이지에서 nav 가립니다
-  // const location = useLocation();
-  // if (location.pathname === "/") {
-  //   return null;
-  // }
-
-  useEffect(() => {
-    console.log(userInfo, "유저인포바뀜;; 네브");
-  }, [userInfo]);
 
   return (
     <>
@@ -79,11 +71,11 @@ export default function Nav() {
             </Link>
           </div>
           <div className="web-navbar-profile">
-            {localLogin ? (
+            {localLogin && userInfo.imageUrl !== "" ? (
               <img
                 src={
                   location.pathname === "/mypage"
-                    ? `${ hamburger }`
+                    ? `${hamburger}`
                     : `https://d2uxndkqa5kutx.cloudfront.net/${userInfo.imageUrl}`
                 }
                 alt="프로필이미지"

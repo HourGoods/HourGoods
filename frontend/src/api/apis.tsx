@@ -2,14 +2,6 @@ import { AxiosResponse } from "axios";
 import request from "./agents";
 
 const mypageAPI = {
-  // pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/point", { params: { lastPointHistoryId } }),
-  // getMyDeal: (lastDealId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/create", { params: { lastDealId } }),
-  // favoriteDeal: (lastDealId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/bookmark", { params: { lastDealId } }),
-  // participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/attend", { params: { lastDealId } }),
   pointHistory: (): Promise<AxiosResponse> => request.authGet("mypage/point"),
   getMyDeal: (): Promise<AxiosResponse> => request.authGet("mypage/create"),
   favoriteDeal: (): Promise<AxiosResponse> =>
@@ -107,6 +99,10 @@ const dealAPI = {
   // 나눔 참여
   postSharingApply: (dealId: number): Promise<AxiosResponse> =>
     request.authPost("deal/sharing/apply", { dealId }),
+
+  // Deal 생성자 조회
+  getDealCreator: (dealId: number): Promise<AxiosResponse> =>
+    request.authGet("deal/host", { params: { dealId } }),
 };
 
 // 채팅관련 api

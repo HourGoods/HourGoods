@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from "react";
 import DropDown from "@components/common/DropDown";
 import { useRecoilValue } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";
@@ -25,11 +26,17 @@ export default function index(props: any) {
       <div className="deal-banner-component-container">
         <div className="seller-profile-infos-container">
           <p>{dealInfo.userNickname}</p>
-          <button type="button" onClick={creatorProfileHandler}>
-            <img
-              src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.userImageUrl}`}
-              alt=""
-            />
+          <button
+            type="button"
+            aria-label="판매자 프로필"
+            onClick={creatorProfileHandler}
+          >
+            {dealInfo.userImageUrl && dealInfo.userImageUrl !== "" ? (
+              <img
+                src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.userImageUrl}`}
+                alt=""
+              />
+            ) : null}
           </button>
           {dropdownOpen ? (
             <DropDown
@@ -46,10 +53,12 @@ export default function index(props: any) {
           ) : null}
         </div>
         <div className="product-img-wrapper">
-          <img
-            src={`https://d15nekhnxhc8rz.cloudfront.net/${dealInfo.dealImageUrl}`}
-            alt=""
-          />
+          {dealInfo && dealInfo.dealImageUrl !== "" ? (
+            <img
+              src={`https://d15nekhnxhc8rz.cloudfront.net/${dealInfo.dealImageUrl}`}
+              alt=""
+            />
+          ) : null}
         </div>
       </div>
     </>

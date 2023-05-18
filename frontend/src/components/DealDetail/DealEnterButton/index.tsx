@@ -1,5 +1,7 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable prefer-destructuring */
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import Button from "@components/common/Button";
 import { AuctionAPI, chattingAPI, dealAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
@@ -67,7 +69,6 @@ export default function index(props: any) {
       const req = chattingAPI.postchatDirect(receiver, dealid);
       req
         .then((res) => {
-          console.log("채팅하기 res", res.data.result);
           const chattingRoomId = res.data.result.directChattingRoomId;
           navigate(`/mychatroom/${chattingRoomId}`, {
             state: { dealid: dealId, chatId: chattingRoomId },
@@ -111,16 +112,16 @@ export default function index(props: any) {
       apply.then((res) => {
         console.log(res, "나눔이 신청되었습니다!");
         setIsModalOpen(true);
-        setSharingNum(res.data.result);
+        setSharingNum(res.data.result.result);
       });
     }
   };
 
   return (
-    <>
+    <div className="deal-enter-button-and-modal-component-container">
       {isModalOpen && (
         <Modal setModalOpen={setIsModalOpen}>
-          {sharingNum === 0 ? (
+          {sharingNum === -1 ? (
             <>
               <h3>😥신청 실패😥</h3>
               <p>
@@ -136,7 +137,7 @@ export default function index(props: any) {
                 거래에 늦지 않게 참여해 주세요!
               </p>
               <p>당첨 번호</p>
-              {/* <p>{sharingNum}</p> */}
+              <p className="sharing-num-p">{sharingNum}번</p>
             </>
           )}
         </Modal>
@@ -158,12 +159,26 @@ export default function index(props: any) {
       )}
       <ToastContainer />
       <div className="deal-enter-button-component-container">
-        {typeInfo && (
+        {/* {typeInfo && (
+          <Button color={typeInfo.color} onClick={dealClickHandler}>
+            {typeInfo.content}
+          </Button>
+        )} */}
+        {receiver === userInfo.nickname && dealInfo.dealType === "Trade" ? (
+          <div className="no-enter-button">
+            <p>나의 채팅 목록에서 구매자와 거래를 이어갈 수 있어요 ☺</p>
+          </div>
+        ) : receiver === userInfo.nickname &&
+          dealInfo.dealType === "Sharing" ? (
+          <div className="no-enter-button">
+            <p>오픈 시간이 되면 신청자에게 선착순으로 번호표가 배부됩니다 💌</p>
+          </div>
+        ) : (
           <Button color={typeInfo.color} onClick={dealClickHandler}>
             {typeInfo.content}
           </Button>
         )}
       </div>
-    </>
+    </div>
   );
 }
