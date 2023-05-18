@@ -6,13 +6,17 @@ import org.a204.hourgoods.domain.chatting.repository.DirectChattingRoomRepositor
 import org.a204.hourgoods.domain.deal.entity.Deal;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.entity.TradeLocation;
+import org.a204.hourgoods.domain.deal.exception.DealClosedException;
+import org.a204.hourgoods.domain.deal.exception.NotEnoughCashPointException;
 import org.a204.hourgoods.domain.deal.exception.PurchaserNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.SellerNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.SellerNotValidException;
+import org.a204.hourgoods.domain.deal.exception.TradeLocationNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.TradeNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.TradeLocationRepository;
 import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
+import org.a204.hourgoods.domain.deal.request.DoneMessageRequest;
 import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
 import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
 import org.a204.hourgoods.domain.deal.response.LocationInfoResponse;
@@ -120,6 +124,7 @@ public class TradeService {
 		tradeLocationRepository.save(tradeLocation);
 
 		LocationInfoResponse sellerLocationInfo = LocationInfoResponse.builder()
+			.messageType("Location")
 			.otherNickname(seller.getNickname())
 			.otherLongitude(sellerLongitude)
 			.otherLatitude(sellerLatitude)
@@ -127,6 +132,7 @@ public class TradeService {
 			.build();
 
 		LocationInfoResponse purchaserLocationInfo = LocationInfoResponse.builder()
+			.messageType("Location")
 			.otherNickname(purchaser.getNickname())
 			.otherLongitude(purchaserLongitude)
 			.otherLatitude(purchaserLatitude)
@@ -140,6 +146,36 @@ public class TradeService {
 			.purchaserNickname(purchaser.getNickname())
 			.sellerLocationInfo(sellerLocationInfo)
 			.purchaserLocationInfo(purchaserLocationInfo)
+			.build();
+	}
+
+	@Transactional
+	public TradeMessageResponse terminateTrade(Long dealId, DoneMessageRequest request) {
+		TradeLocation tradeLocation = tradeLocationRepository.findById(request.getTradeLocationId())
+			.orElseThrow(TradeLocationNotFoundException::new);
+		Member seller = memberRepository.findById(Long.parseLong(tradeLocation.getSellerId()))
+			.orElseThrow(SellerNotFoundException::new);
+		Member purchaser = memberRepository.findById(Long.parseLong(tradeLocation.getPurchaserId()))
+			.orElseThrow(PurchaserNotFoundException::new);
+		Trade trade = tradeRepository.findById(dealId).orElseThrow(TradeNotFoundException::new);
+		// 이미 종료된 거래일 시 예외 호출
+		if (!trade.getIsAvailable()) {
+			throw new DealClosedException();
+		}
+		// 사용자 보유 금액 부족 시 예외 호출
+		if (purchaser.getCashPoint() < trade.getPrice()) {
+			throw new NotEnoughCashPointException();
+		}
+		// 구매자 보유 금액 차감
+		purchaser.updateCashPoint((-1) * trade.getPrice());
+		// 판매자 보유 금액 증가
+		seller.updateCashPoint(trade.getPrice());
+		// 거래 종료 처리
+		trade.falseAvailable();
+
+		return TradeMessageResponse.builder()
+			.sellerNickname(seller.getNickname())
+			.purchaserNickname(purchaser.getNickname())
 			.build();
 	}
 

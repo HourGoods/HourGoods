@@ -14,6 +14,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @Schema(description = "거래자의 위치 정보")
 public class LocationInfoResponse {
+	@Schema(description = "메시지 타입")
+	private String messageType = "Location";
+
 	@Schema(description = "닉네임")
 	private String otherNickname;
 
