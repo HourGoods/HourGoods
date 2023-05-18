@@ -188,6 +188,18 @@ class ConcertControllerTest {
 		@Test
 		@DisplayName("오늘의 공연 정보 목록 조회 성공(공연 정보 없음)")
 		void getTodayConcertListForEmptyResultSuccess() throws Exception {
+			concert = Concert
+				.builder()
+				.title("백예린 단독공연, Square")
+				.imageUrl("http://www.kopis.or.kr/upload/pfmPoster/PF_PF216426_230407_152630.gif")
+				.longitude(Double.valueOf(127.12836360000006))
+				.latitude(Double.valueOf(37.52112))
+				.place("올림픽공원 (SK핸드볼경기장(펜싱경기장))")
+				.startTime(LocalDateTime.now().minusDays(1))
+				.kopisConcertId("PF216426")
+				.build();
+			em.persist(concert);
+
 			MockHttpServletResponse response = mockMvc
 				.perform(get(url + "today")
 					.contentType(MediaType.APPLICATION_JSON)
