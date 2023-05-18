@@ -19,6 +19,9 @@ public class KopisPlaceDetail {
 	@ToString
 	@XmlRootElement(name = "db")
 	public static class Info {
+		@XmlElement(name = "fcltynm")
+		private String name;
+
 		@XmlElement(name = "la")
 		private String latitude;
 

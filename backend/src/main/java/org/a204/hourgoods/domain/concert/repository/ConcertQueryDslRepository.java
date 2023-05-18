@@ -1,6 +1,5 @@
 package org.a204.hourgoods.domain.concert.repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,17 +37,20 @@ public class ConcertQueryDslRepository {
 		List<Concert> results = query.selectFrom(concert)
 			.where(
 				concert.startTime.between(startTime, endTime),
-				concert.title.contains(keyword)
+				concert.title.containsIgnoreCase(keyword)
 			)
-			.orderBy(concert.startTime.asc())
+			.orderBy(
+				concert.deals.size().desc(),
+				concert.startTime.asc()
+			)
 			.fetch();
 		return results;
 	}
 
-	public List<Concert> searchConcertByDate(LocalDate date) {
+	public List<Concert> searchAllConcertByPeriod(LocalDateTime startTime, LocalDateTime endTime) {
 		List<Concert> results = query.selectFrom(concert)
 			.where(
-				concert.startTime.between(date.atStartOfDay(), date.plusDays(1).atStartOfDay().minusSeconds(1))
+				concert.startTime.between(startTime, endTime)
 			)
 			.fetch();
 		return results;
