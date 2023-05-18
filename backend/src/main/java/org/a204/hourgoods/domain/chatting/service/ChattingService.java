@@ -48,7 +48,9 @@ public class ChattingService {
 	@Transactional(readOnly = true)
 	public DirectChattingResponse renterDirectChatting(DirectChattingRoomRequest request) {
 		// 거래 정보 가져오기
-		dealRepository.findById(request.getDealId()).orElseThrow(DealNotFoundException::new);
+		if (dealRepository.findById(request.getDealId()).isEmpty()) {
+			throw new DealNotFoundException();
+		}
 		// receiver id가 유효하지 않으면 예외처리
 		if (!checkValidMember(request.getReceiverNickname())) {
 			throw new ReceiverNotFoundException();
