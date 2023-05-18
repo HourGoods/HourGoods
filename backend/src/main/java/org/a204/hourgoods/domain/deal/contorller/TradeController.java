@@ -69,7 +69,7 @@ public class TradeController {
 		DoneMessageInfo messageInfo = tradeService.terminateTrade(dealId, request);
 		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + messageInfo.getSellerNickname(),
 			messageInfo.getDoneMessageResponse());
-		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + messageInfo.getSellerNickname(),
+		simpMessageSendingOperations.convertAndSend("/topic/meet/" + dealId + "/" + messageInfo.getPurchaserNickname(),
 			messageInfo.getDoneMessageResponse());
 		return new BaseResponse<>(GlobalErrorCode.SUCCESS);
 	}
