@@ -53,7 +53,7 @@ export default function index(props: mapProps) {
   useEffect(() => {
     const container = document.getElementById("map");
     const options = {
-      center: new window.kakao.maps.LatLng(37.5665, 126.978), // 기본 위치
+      center: new window.kakao.maps.LatLng(37.49483466037, 127.02871475306), // 기본 위치
       level: 4,
     };
     const map = new window.kakao.maps.Map(container, options);

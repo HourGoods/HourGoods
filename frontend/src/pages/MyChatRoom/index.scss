@@ -15,7 +15,7 @@
   background-image: url("../../assets/BGstars.svg");
   .private-chat-modal-overay {
     padding: 0px;
-    .private-caht-modal-box {
+    .private-chat-modal-box {
       width: 70%;
       max-width: 500px;
       min-width: 240px;
@@ -49,26 +49,42 @@
         margin: auto;
         width: 100%;
         height: 100%;
+        position: relative;
         h1 {
           text-align: left;
           color: white;
           font-weight: 900;
           margin: 0;
         }
+        .private-chatroom-XIcon {
+          z-index: 10;
+          cursor: pointer;
+          position: absolute;
+          right: 1px;
+          top: 10px;
+          button {
+            background-color: transparent;
+            margin: 0;
+          }
+          svg {
+            width: 24px;
+            color: $pink-1;
+          }
+        }
+
         .private-chatroom-box-container {
           display: flex;
           position: relative;
           flex-direction: column;
-          justify-content: space-around;
+          justify-content: space-between;
           height: 100%;
+          padding: 30px 10px 10px 10px;
           .box-upper-wrapper {
-            margin: 0;
-            // margin-top: 10px;
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            height: 68%;
+            height: 100%;
             width: 100%;
-            // margin-right: 10px;
             min-width: 230px;
             justify-content: space-between;
 
@@ -76,23 +92,20 @@
             .private-chatroom-content-container {
               display: flex;
               flex-direction: column;
-              padding-bottom: 5px;
-              margin-top: 5px;
-              margin: auto 10px;
+              // padding-bottom: 5px;
+              // margin-top: 5px;
+              // margin: auto 10px;
               width: calc(100% -20px);
               overflow-y: scroll;
               @include scrollbar-css;
               @include desktop {
-                max-height: 380px;
-                min-height: 240px;
+                height: calc(100% - 260px);
               }
               @include tablet {
-                max-height: 380px;
-                min-height: 240px;
+                height: calc(100% - 260px);
               }
               @include mobile {
-                min-height: 290px;
-                height: 90%;
+                height: calc(100% - 260px);
               }
 
               p {
@@ -147,23 +160,10 @@
                 }
               }
             }
-
-            // 만나서 거래하기
-            .meeting-deal-button-wrapper {
-              margin: 0 auto;
-              width: 100%;
-              margin: auto;
-              .commonButton {
-                width: 220px;
-                height: 55px;
-                font-size: 16px;
-                margin: auto;
-              }
-            }
           }
           .chatroom-dealcard {
-            margin: 10px;
-            width: calc(100%-20px);
+            margin: 10px auto;
+            width: 100%;
             .small-deal-card-component-container {
               width: 100%;
             }
@@ -176,10 +176,25 @@
               }
             }
           }
-
+          // 만나서 거래하기
+          .meeting-deal-button-wrapper {
+            position: absolute;
+            bottom: 115px;
+            left: 0px;
+            width: 100%;
+            .commonButton {
+              width: 220px;
+              height: 55px;
+              font-size: 16px;
+              margin: auto;
+            }
+          }
           .box-bottom-wrapper {
-            width: 97%;
-            margin: auto;
+            width: 95%;
+            margin: 0 auto;
+            position: absolute;
+            bottom: 45px;
+            left: 10px;
           }
         }
       }

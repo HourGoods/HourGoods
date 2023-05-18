@@ -17,16 +17,6 @@ export default function index({ ticket }: IProps) {
   const year = String(startTime.getFullYear()).slice(-2);
   const month = String(startTime.getMonth() + 1).padStart(2, "0");
   const day = String(startTime.getDate()).padStart(2, "0");
-  // useEffect(() => {
-  //   mypageAPI
-  //     .pointHistory(-1)
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }, []);
 
   return (
     <div className="ticketcard-container" key={ticket.pointHistoryId}>
@@ -43,7 +33,12 @@ export default function index({ ticket }: IProps) {
           {/* <p className="cash">{`${ticket.amount.toLocaleString()}원`}</p> */}
           <p
             className={`cash ${ticket.amount < 0 ? "minus" : ""}`}
-          >{`${ticket.amount.toLocaleString()}원`}</p>
+            // >{`${ticket.amount.toLocaleString()}원`}</p>
+          >
+            {`${
+              ticket.amount > 0 ? "+" : ""
+            }${ticket.amount.toLocaleString()}원`}
+          </p>
         </div>
       </div>
     </div>
