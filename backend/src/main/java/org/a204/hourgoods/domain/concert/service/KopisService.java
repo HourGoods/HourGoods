@@ -100,14 +100,15 @@ public class KopisService {
 			if (!kopisConcertIdSetFromDB.contains(concertInfo.getKopisConcertId())) {
 				// 공연 상세 정보, 공연장 위치 정보 조회
 				KopisConcertDetail.Info concertDetail = getConcertDetail(concertInfo.getKopisConcertId());
-				if (concertDetail == null) throw new EmptyConcertDetailException();
+				if (concertDetail == null)
+					throw new EmptyConcertDetailException();
 				KopisPlaceDetail.Info placeDetail = getPlaceDetail(concertDetail.getKopisPlaceId());
 
 				// 공연 객체 생성 후 저장
 				Concert concert = Concert.builder()
 					.title(concertDetail.getTitle())
 					.imageUrl(concertDetail.getImageUrl())
-					.place(concertDetail.getPlace())
+					.place(placeDetail.getName())
 					.startTime(parseLocalDateTime(concertDetail.getStartDate(), concertDetail.getTimeInfo()))
 					.longitude(Double.parseDouble(placeDetail.getLongitude()))
 					.latitude(Double.parseDouble(placeDetail.getLatitude()))
@@ -122,27 +123,6 @@ public class KopisService {
 		// 새로 생성된 공연의 id 목록 반환
 		return responses;
 	}
-
-	// 시연에 필요한 임의 콘서트 생성
-	// if ("204".equals(keyword)) {
-	// 	concertInfoList.add(KopisConcertList.ConcertInfo.builder()
-	// 		.kopisConcertId("HG216423")
-	// 		.imageUrl("https://shorturl.at/kvxEQ")
-	// 		.place("낙성대 커피 어반")
-	// 		.startDate("2023-05-11")
-	// 		.title("박다솜 단독공연 페스티벌").build());
-	// 	concertInfoList.add(KopisConcertList.ConcertInfo.builder()
-	// 		.kopisConcertId("HG216424")
-	// 		.imageUrl("https://shorturl.at/dEP15")
-	// 		.place("역삼역 멀티켐퍼스")
-	// 		.startDate("2023-05-11")
-	// 		.title("김규연 단독콘서트 Op.1").build());
-	// 	concertInfoList.add(KopisConcertList.ConcertInfo.builder()
-	// 		.kopisConcertId("HG080905")
-	// 		.imageUrl("https://shorturl.at/acqGS")
-	// 		.place("학동역 투썸플레이스")
-	// 		.startDate("2023-05-11")
-	// 		.title("불타는 김동현 전국투어 콘서트").build());
 
 	// http 요청 객체를 만드는 메서드
 	private ResponseEntity<String> getForEntity(String uri) {
@@ -181,7 +161,7 @@ public class KopisService {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
-			throw new GlobalBaseException(GlobalErrorCode.KOPIS_CONCET_NOT_FOUND);
+			throw new GlobalBaseException(GlobalErrorCode.KOPIS_CONCERT_NOT_FOUND);
 		}
 
 		return concertDetail;

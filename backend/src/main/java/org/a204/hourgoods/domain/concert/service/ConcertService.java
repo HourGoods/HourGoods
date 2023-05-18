@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import org.a204.hourgoods.domain.concert.entity.Concert;
@@ -26,34 +28,30 @@ public class ConcertService {
 
 	// 오늘의 공연 목록 조회
 	public ConcertListResponse getTodayConcertList(TodayConcertRequest request) {
-		// 오늘 열리는 공연 리스트 조회
-		// 0차
+		// 1차 성능 개선
 		LocalDateTime startTime = LocalDate.now().atStartOfDay();
 		LocalDateTime endTime = LocalDate.now().plusDays(1).atStartOfDay().minusSeconds(1);
-		List<Concert> concertList = concertRepository.findAllByStartTimeBetween(startTime, endTime);
-		// 1차
-		// List<Concert> concertList = concertQueryDslRepository.searchConcertByDate(LocalDate.now());
-
-		// 사용자와 가까운 순으로 정렬
-		concertList.sort(new Comparator<Concert>() {
+		List<Concert> concertList = concertQueryDslRepository.searchAllConcertByPeriod(startTime, endTime);
+		// 사용자와의 거리를 key, 공연 정보를 value로 하는 오름차순 treeMap 생성
+		Map<Double, Concert> treeMap = new TreeMap<>(new Comparator<Double>() {
 			@Override
-			public int compare(Concert c1, Concert c2) {
-				double dist1 = CheckDistanceUtil.getDistance(c1.getLatitude(), c1.getLongitude(),
-					request.getLatitude(), request.getLongitude());
-				double dist2 = CheckDistanceUtil.getDistance(c2.getLatitude(), c2.getLongitude(),
-					request.getLatitude(), request.getLongitude());
-				if (dist1 - dist2 > 0) {
+			public int compare(Double o1, Double o2) {
+				if (o1 > o2) {
 					return 1;
 				}
 				return -1;
 			}
 		});
-
+		for (Concert concert : concertList) {
+			Double distance = CheckDistanceUtil.getDistance(concert.getLatitude(), concert.getLongitude(),
+				request.getLatitude(), request.getLongitude());
+			treeMap.put(distance, concert);
+		}
 		// API 응답 형태로 변환 후 반환
-		List<ConcertInfoResponse> concertInfoResponses = concertList.stream()
+		List<ConcertInfoResponse> concertInfoResponses = treeMap.values()
+			.stream()
 			.map(ConcertInfoResponse::new)
 			.collect(Collectors.toList());
-
 		Long lastConcertId = concertInfoResponses.isEmpty() ? -1 :
 			concertInfoResponses.get(concertInfoResponses.size() - 1).getConcertId();
 
@@ -73,14 +71,9 @@ public class ConcertService {
 
 	// 키워드를 제목에 포함하는 공연 정보 검색
 	public ConcertListResponse getConcertListByKeyword(String keyword) {
-		// 0차
-		LocalDateTime startTime = LocalDate.now().atStartOfDay();
-		LocalDateTime endTime = LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1);
-		List<Concert> concertList = concertRepository.findAllByStartTimeBetweenAndTitleContaining(startTime, endTime,
-			keyword);
-		// 1차
-		// List<Concert> concertList = concertQueryDslRepository.searchAllConcertByPeriodAndKeyword(
-		// 	LocalDate.now().atStartOfDay(), LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1), keyword);
+		// 2차 성능 개선
+		List<Concert> concertList = concertQueryDslRepository.searchAllConcertByPeriodAndKeyword(
+			LocalDate.now().atStartOfDay(), LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1), keyword);
 		List<ConcertInfoResponse> concertInfoResponses = concertList.stream()
 			.map(ConcertInfoResponse::new)
 			.collect(Collectors.toList());
