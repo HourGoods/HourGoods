@@ -75,7 +75,7 @@ public class ConcertService {
 	public ConcertListResponse getConcertListByKeyword(String keyword) {
 		// 0차
 		LocalDateTime startTime = LocalDate.now().atStartOfDay();
-		LocalDateTime endTime = LocalDate.now().plusDays(1).atStartOfDay().minusSeconds(1);
+		LocalDateTime endTime = LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1);
 		List<Concert> concertList = concertRepository.findAllByStartTimeBetweenAndTitleContaining(startTime, endTime,
 			keyword);
 		// 1차
