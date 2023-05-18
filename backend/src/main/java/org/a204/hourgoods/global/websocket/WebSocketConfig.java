@@ -1,5 +1,7 @@
 package org.a204.hourgoods.global.websocket;
 
+import java.util.Map;
+
 import lombok.extern.slf4j.Slf4j;
 import org.a204.hourgoods.global.event.AuctionDisconnectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +65,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
                 StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
                 StompCommand command = accessor.getCommand();
-                if (StompCommand.SUBSCRIBE.equals(command) && accessor.getSessionAttributes() != null) {
-                    HttpSession session = (HttpSession) accessor.getSessionAttributes().get("session");
+                Map<String, Object> sessionAttributes = accessor.getSessionAttributes();
+                if (StompCommand.SUBSCRIBE.equals(command) && sessionAttributes != null) {
+                    HttpSession session = (HttpSession) sessionAttributes.get("session");
                     if (session != null) {
                         String destination = accessor.getDestination();
                         session.setAttribute("subscriptionDestination", destination);
@@ -85,8 +88,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                     public void afterConnectionClosed(WebSocketSession session, CloseStatus closeStatus) throws Exception {
                         StompHeaderAccessor accessor = StompHeaderAccessor.create(StompCommand.DISCONNECT);
                         accessor.setSessionAttributes(session.getAttributes());
-                        if (accessor.getSessionAttributes() != null) {
-                            HttpSession httpSession = (HttpSession) accessor.getSessionAttributes().get("session");
+                        Map<String, Object> sessionAttributes = accessor.getSessionAttributes();
+                        if (sessionAttributes != null) {
+                            HttpSession httpSession = (HttpSession) sessionAttributes.get("session");
                             String subscriptionDestination = (String) httpSession.getAttribute("subscriptionDestination");
                             if (subscriptionDestination != null) {
                                 if (subscriptionDestination.startsWith("/bidding")) {
