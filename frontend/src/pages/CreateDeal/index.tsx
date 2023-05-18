@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UploadImage from "@components/CreateDeal/UploadImage";
 import DealInfo from "@components/CreateDeal/DealInfo";

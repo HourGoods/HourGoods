@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { DealInfoInterface } from "@pages/ConcertDeal";
 import DealCard from "@components/common/DealCard";
 

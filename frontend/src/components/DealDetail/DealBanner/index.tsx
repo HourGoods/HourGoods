@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from "react";
 import DropDown from "@components/common/DropDown";
 import { useRecoilValue } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Cropper, { ReactCropperElement } from "react-cropper";
 import { toast, ToastContainer } from "react-toastify";

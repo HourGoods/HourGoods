@@ -1,9 +1,9 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import { concertDetailState } from "@recoils/concert/Atoms";
-import { MapPinIcon, CalendarIcon, ClockIcon } from "@heroicons/react/24/solid";
+import { MapPinIcon, CalendarIcon } from "@heroicons/react/24/solid";
 import { ConcertInterface } from "@pages/Search";
 import { concertAPI } from "@api/apis";
 import "./index.scss";
@@ -20,7 +20,6 @@ export default function index({ concertInfo, flag }: ConcertCardProps) {
   const [modalOpen, setModalOpen] = useRecoilState(searchModalState);
 
   // Update할 Deal 정보
-  const [dealInfo, setDealInfo] = useRecoilState(dealState);
   const [concertDetailInfo, setConcertDetailInfo] =
     useRecoilState(concertDetailState);
 

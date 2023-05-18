@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { dealAPI } from "@api/apis";
 import { DealInfoInterface } from "@pages/ConcertDeal";
 import {
   MapPinIcon,
   CalendarIcon,
-  BellIcon,
   BellAlertIcon,
   ClockIcon,
-  MinusCircleIcon,
 } from "@heroicons/react/24/solid";
 import BellAlertLineIcon from "@heroicons/react/24/outline/BellAlertIcon";
 import Button from "@components/common/Button";

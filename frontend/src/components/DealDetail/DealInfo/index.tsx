@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { dealAPI } from "@api/apis";
 import Button from "@components/common/Button";
 import ConcertCard from "@components/common/ConcertCard";
@@ -20,14 +21,6 @@ declare global {
     kakao: any;
   }
 }
-
-interface ButtonColor {
-  [key: string]: string;
-}
-interface ButtonContent {
-  [key: string]: string;
-}
-
 export default function index(props: any) {
   const { dealInfo, setDealInfo, dealId, concertInfo, distance } = props;
   const [startDate, setStartDate] = useState("");

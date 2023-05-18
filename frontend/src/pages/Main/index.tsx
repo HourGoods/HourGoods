@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect } from "react";
 import simpleLogo from "@assets/simpleLogo.svg";
 import { UserIcon, UsersIcon } from "@heroicons/react/24/solid";
 import "./index.scss";

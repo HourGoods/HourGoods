@@ -1,6 +1,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react/no-array-index-key */
-import React, { useRef, useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useRef, useEffect } from "react";
 import { scrollToBottom } from "@utils/scrollToBottom";
 import { PrivatChatMessage } from "..";
 

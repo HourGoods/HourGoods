@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import AWS from "aws-sdk";
 
 export default function uploadDealImage(

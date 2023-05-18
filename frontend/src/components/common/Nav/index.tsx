@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Bars3Icon,
   UserCircleIcon,
@@ -7,11 +7,11 @@ import {
 } from "@heroicons/react/24/solid";
 import "./index.scss";
 import logo from "@assets/logo.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import useModalRef from "@hooks/useModalRef";
 import DropDown from "@components/common/DropDown";
 import { AuthStateAtom, UserStateAtom } from "@recoils/user/Atom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
 import hamburger from "@assets/hamburger.svg";

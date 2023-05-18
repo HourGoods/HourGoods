@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
 

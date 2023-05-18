@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import SockJS from "sockjs-client";
 import InputMsgBox from "@components/common/InputMsgBox";
-import over, { Client, Message } from "@stomp/stompjs";
+import { Client, Message } from "@stomp/stompjs";
 import AuctionBox from "./AuctionBox";
 import ChattingBox from "./ChattingBox";
 import { UserStateAtom } from "@recoils/user/Atom";
@@ -11,7 +11,6 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   ChatBubbleOvalLeftIcon,
   CurrencyDollarIcon,
-  TicketIcon,
 } from "@heroicons/react/24/solid";
 import { handleOnKeyPress } from "@utils/handleOnKeyPress";
 import { toast, ToastContainer } from "react-toastify";

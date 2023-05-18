@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { AuthStateAtom } from "@recoils/user/Atom";
 import DealBanner from "@components/DealDetail/DealBanner";
 import DealInfo from "@components/DealDetail/DealInfo";
 import DealEnterButton from "@components/DealDetail/DealEnterButton";

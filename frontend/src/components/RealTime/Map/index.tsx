@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import watchCurrentLocation from "@utils/watchCurrentLocation";
 import ConcertCard from "@components/common/ConcertCard";
 import { haversineDistance, drawCircles } from "@utils/realTime";
 import { MapIcon } from "@heroicons/react/24/solid";

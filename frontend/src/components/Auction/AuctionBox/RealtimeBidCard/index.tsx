@@ -1,25 +1,20 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable react/react-in-jsx-scope */
 import { BidMessage, InoutMessage } from "@components/Auction";
 import { FireIcon, PlayIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import { AuctionCurrentBidAtom } from "@recoils/auction/Atoms";
 import { scrollToBottom } from "@utils/scrollToBottom";
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useRecoilState } from "recoil";
 
 interface BidInfoProps {
   bidList: BidMessage[];
   nowBid: number;
-  nowCount: number;
   inoutMsgList: InoutMessage[];
 }
 
-export default function Index({
-  bidList,
-  nowBid,
-  nowCount,
-  inoutMsgList,
-}: BidInfoProps) {
+export default function Index({ bidList, nowBid, inoutMsgList }: BidInfoProps) {
   const [currentBid, setCurrentBid] = useRecoilState(AuctionCurrentBidAtom);
   const [interval, setInterval] = useState<number>(0);
   const [participantCount, setParticipantCount] = useState<number>(0);

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router";
 import { useRecoilValue } from "recoil";
 import { concertAPI } from "@api/apis";
@@ -7,8 +8,6 @@ import SearchTab from "@components/ConcertDeal/SearchTab";
 import DealCardList from "@components/ConcertDeal/DealCardList";
 import ConcertCard from "@components/common/ConcertCard";
 import Button from "@components/common/Button";
-import SearchBar from "@components/common/SearchBar";
-import DealCard from "@components/common/DealCard";
 import { ConcertInterface } from "@pages/Search";
 import "./index.scss";
 

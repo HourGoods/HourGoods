@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { ChevronRightIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+/* eslint-disable react/react-in-jsx-scope */
+import { useNavigate } from "react-router-dom";
+import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useRecoilState } from "recoil";
 import { UserStateAtom } from "@recoils/user/Atom";
 

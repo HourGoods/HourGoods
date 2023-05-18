@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { atom } from "recoil";
 
 // 콘서트 검색 결과 활용할 카드 정보

@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { useLocation, useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { useParams } from "react-router-dom";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
-import {
-  searchResultConcertState,
-  concertDetailState,
-} from "@recoils/concert/Atoms";
+import { concertDetailState } from "@recoils/concert/Atoms";
 import { concertAPI } from "@api/apis";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { Link } from "react-router-dom";
 import {
   ChevronRightIcon,

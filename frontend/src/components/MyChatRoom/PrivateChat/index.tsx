@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Client, Message } from "@stomp/stompjs";
 import { chattingAPI, dealAPI } from "@api/apis";
-import DealCard from "@components/common/DealCard";
 import SmallDealCard from "@components/common/SmallDealCard";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
