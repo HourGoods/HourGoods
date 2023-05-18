@@ -3,6 +3,7 @@ package org.a204.hourgoods.domain.deal.repository;
 import lombok.RequiredArgsConstructor;
 import org.a204.hourgoods.domain.deal.entity.Auction;
 import org.a204.hourgoods.domain.deal.entity.AuctionInfo;
+import org.a204.hourgoods.domain.deal.exception.AuctionNotFoundException;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,7 @@ public class AuctionRedisRepository {
     public AuctionInfo addParticipant(String dealId) {
         String auctionKey = "auction:" + dealId;
         AuctionInfo auctionInfo = valueOperations.get(auctionKey);
+        if (auctionInfo == null) throw new AuctionNotFoundException();
         auctionInfo.addParticipant();
         valueOperations.set(auctionKey, auctionInfo);
         return auctionInfo;
@@ -32,6 +34,7 @@ public class AuctionRedisRepository {
     public AuctionInfo removeParticipant(String dealId) {
         String auctionKey = "auction:" + dealId;
         AuctionInfo auctionInfo = valueOperations.get(auctionKey);
+        if (auctionInfo == null) throw new AuctionNotFoundException();
         auctionInfo.removeParticipant();
         valueOperations.set(auctionKey, auctionInfo);
         return auctionInfo;
@@ -45,6 +48,7 @@ public class AuctionRedisRepository {
     public Integer getParticipantCount(String dealId) {
         String auctionKey = "auction:" + dealId;
         AuctionInfo auctionInfo = valueOperations.get(auctionKey);
+        if (auctionInfo == null) throw new AuctionNotFoundException();
         return auctionInfo.getParticipantCount();
     }
     public AuctionInfo getAuctionInfo(String dealId) {

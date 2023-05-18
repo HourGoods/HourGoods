@@ -260,7 +260,7 @@ public class DealService {
 	@Transactional
 	public Boolean deleteDeal(Long memberId, Long dealId) {
 		Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-		if (memberId != deal.getDealHost().getId())
+		if (!memberId.equals(deal.getDealHost().getId()))
 			throw new MemberMissMatchException();
 		dealRepository.deleteById(dealId);
 		return true;

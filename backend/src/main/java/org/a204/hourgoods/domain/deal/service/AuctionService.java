@@ -144,7 +144,7 @@ public class AuctionService {
         Long memberId = member.getId();
         Member retrieved = memberRepository.findById(memberId).orElseThrow(MemberNotFoundException::new);
         Deal deal = dealRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
-        Auction auction = auctionRepository.findById(dealId).get();
+        Auction auction = auctionRepository.findById(dealId).orElseThrow(DealNotFoundException::new);
         // 1. 주최자 인 경우
         if (retrieved.getId().equals(deal.getDealHost().getId())) {
             AuctionResultResponse response = AuctionResultResponse.builder()
