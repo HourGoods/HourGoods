@@ -13,8 +13,7 @@ import org.a204.hourgoods.domain.concert.entity.Concert;
 import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.entity.TradeLocation;
-import org.a204.hourgoods.domain.deal.exception.DealClosedException;
-import org.a204.hourgoods.domain.deal.exception.NotEnoughCashPointException;
+import org.a204.hourgoods.domain.deal.model.DoneMessageInfo;
 import org.a204.hourgoods.domain.deal.repository.TradeLocationRepository;
 import org.a204.hourgoods.domain.deal.request.CreateTradeLocationRequest;
 import org.a204.hourgoods.domain.deal.request.DoneMessageRequest;
@@ -297,12 +296,13 @@ class TradeServiceTest {
 		void terminateTradeSuccess() {
 			Integer sellerCashPoint = purchaser.getCashPoint();
 			Integer purchaserCashPoint = purchaser.getCashPoint();
-			TradeMessageResponse response = tradeService.terminateTrade(dealId, request);
+			DoneMessageInfo response = tradeService.terminateTrade(dealId, request);
 			assertEquals(seller.getNickname(), response.getSellerNickname());
 			assertEquals(purchaser.getNickname(), response.getPurchaserNickname());
 			assertEquals(sellerCashPoint + trade.getPrice(), seller.getCashPoint());
 			assertEquals(purchaserCashPoint - trade.getPrice(), purchaser.getCashPoint());
 			assertFalse(trade.getIsAvailable());
+			assertEquals("Done", response.getDoneMessageResponse().getMessageType());
 		}
 
 		@Test
@@ -311,7 +311,8 @@ class TradeServiceTest {
 		void dealIsNotAvailableFail() {
 			// 거래 종료 상태로 변경
 			trade.falseAvailable();
-			assertThrows(DealClosedException.class, () -> tradeService.terminateTrade(dealId, request));
+			DoneMessageInfo response = tradeService.terminateTrade(dealId, request);
+			assertEquals("ClosedDeal", response.getDoneMessageResponse().getMessageType());
 		}
 
 		@Test
@@ -320,7 +321,8 @@ class TradeServiceTest {
 		void notEnoughCashPointFail() {
 			// 보유 캐시포인트 0원으로 초기화
 			purchaser.updateCashPoint((-1) * purchaser.getCashPoint());
-			assertThrows(NotEnoughCashPointException.class, () -> tradeService.terminateTrade(dealId, request));
+			DoneMessageInfo response = tradeService.terminateTrade(dealId, request);
+			assertEquals("NotEnoughCashPoint", response.getDoneMessageResponse().getMessageType());
 		}
 	}
 }
