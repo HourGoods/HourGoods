@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuctionAPI, chattingAPI } from "@api/apis";
 import { useRecoilValue } from "recoil";

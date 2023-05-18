@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+/* eslint-disable react/react-in-jsx-scope */
+import { useNavigate } from "react-router-dom";
 
 type ChatroomProps = {
   chatroom: {

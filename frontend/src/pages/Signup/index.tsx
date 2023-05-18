@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Button from "@components/common/Button";
 import { useRecoilState } from "recoil";
-import { UserStateAtom, AuthStateAtom } from "@recoils/user/Atom";
+import { UserStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";

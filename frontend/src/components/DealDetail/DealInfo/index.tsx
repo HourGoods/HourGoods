@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { dealAPI } from "@api/apis";
 import Button from "@components/common/Button";
 import ConcertCard from "@components/common/ConcertCard";
@@ -20,14 +21,6 @@ declare global {
     kakao: any;
   }
 }
-
-interface ButtonColor {
-  [key: string]: string;
-}
-interface ButtonContent {
-  [key: string]: string;
-}
-
 export default function index(props: any) {
   const { dealInfo, setDealInfo, dealId, concertInfo, distance } = props;
   const [startDate, setStartDate] = useState("");
@@ -58,6 +51,7 @@ export default function index(props: any) {
         dealInfo.dealLatitude,
         dealInfo.dealLongitude
       ), // 지도의 중심좌표
+      draggable: false,
       level: 3, // 지도의 확대 레벨
     };
 
@@ -114,7 +108,11 @@ export default function index(props: any) {
           <div className="deal-info-desktop-left-container">
             <div className="title-alert-container">
               <h2>{dealInfo.dealTitle}</h2>
-              <button type="button" onClick={bookmarkHanlder}>
+              <button
+                type="button"
+                aria-label="북마크"
+                onClick={bookmarkHanlder}
+              >
                 {dealInfo.isBookmarked ? (
                   <BellAlertIcon />
                 ) : (

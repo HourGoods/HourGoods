@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { atom } from "recoil";
 
 // {chatroomId} 를 가지고 있는 direct 채팅방의 모달 open/close\

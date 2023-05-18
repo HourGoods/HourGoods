@@ -1,7 +1,4 @@
-import React, { useEffect } from "react";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
-import { mypageAPI } from "@api/apis";
-
+/* eslint-disable react/react-in-jsx-scope */
 interface IProps {
   ticket: {
     pointHistoryId: number;

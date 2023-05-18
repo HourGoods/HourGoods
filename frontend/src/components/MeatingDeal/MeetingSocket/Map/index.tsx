@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
-// import getCurrentLocation from "@utils/getCurrentLocation";
-// import watchCurrentLocation from "@utils/watchCurrentLocation";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import meMarker from "@assets/userLocPoint.svg";
 import youMarker from "@assets/otherUserLocPoint.svg";
-import { useLocation } from "react-router-dom";
 import { dealAPI } from "@api/apis";
 import Button from "@components/common/Button";
 import { MeetingDealInfo } from "../index";

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from "react";
 import { concertAPI } from "@api/apis";
 import SearchBar from "@components/common/SearchBar";
 import ConcertList from "@components/SearchPage/ConcertList";

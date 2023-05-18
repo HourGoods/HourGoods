@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { chattingAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";

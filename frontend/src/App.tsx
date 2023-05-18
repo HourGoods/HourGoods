@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import Routers from "@pages/Routers";
 import "./App.scss";
 import Nav from "@components/common/Nav";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { useNavigate } from "react-router";
 import "./index.scss";
 import {
@@ -8,9 +8,7 @@ import {
   MapPinIcon,
   MinusCircleIcon,
 } from "@heroicons/react/24/solid";
-import Modal from "@components/common/Modal";
 import { useRecoilState } from "recoil";
-import { Link } from "react-router-dom";
 import {
   isDeleteCardModal,
   isAuctionAlarmModal,

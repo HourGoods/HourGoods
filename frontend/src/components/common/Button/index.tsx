@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import classNames from "classnames";
 import "./index.scss";
 import kakaoImg from "@assets/kakao.svg";

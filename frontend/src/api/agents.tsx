@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { requestConfig, axiosInstance, authInstance } from "./configs";
 
 const responseBody = (response: AxiosResponse) => {
