@@ -389,13 +389,13 @@ class TradeControllerTest {
 			@DisplayName("거래 종료 요청 성공")
 			void terminateTradeSuccess() throws Exception {
 				stompSession.send(subscribeUrl + response.getSellerNickname(),
-					objectMapper.writeValueAsString(new DoneMessageResponse()).getBytes(StandardCharsets.UTF_8));
+					objectMapper.writeValueAsString(new DoneMessageResponse("Done")).getBytes(StandardCharsets.UTF_8));
 				String receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
 				DoneMessageResponse actual = objectMapper.readValue(receivedMessage, DoneMessageResponse.class);
 				assertEquals("Done", actual.getMessageType());
 
 				stompSession.send(subscribeUrl + response.getPurchaserNickname(),
-					objectMapper.writeValueAsString(new DoneMessageResponse()).getBytes(StandardCharsets.UTF_8));
+					objectMapper.writeValueAsString(new DoneMessageResponse("Done")).getBytes(StandardCharsets.UTF_8));
 				receivedMessage = testStompFrameHandler.getReceivedMessage(5, TimeUnit.SECONDS);
 				actual = objectMapper.readValue(receivedMessage, DoneMessageResponse.class);
 				assertEquals("Done", actual.getMessageType());
