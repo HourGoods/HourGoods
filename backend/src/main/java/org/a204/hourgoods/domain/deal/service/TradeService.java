@@ -50,7 +50,7 @@ public class TradeService {
 		isEqualDealHostAndSeller(trade, seller);
 
 		// 없으면 생성
-		String tradeLocationId = "";
+		String tradeLocationId;
 		if (!checkAlreadyExistedTradeLocation(trade.getId(), seller.getId(), purchaser.getId())) {
 			TradeLocation tradeLocation = TradeLocation.builder()
 				.dealId(trade.getId().toString())
@@ -194,7 +194,7 @@ public class TradeService {
 	}
 
 	private void isEqualDealHostAndSeller(Trade trade, Member seller) {
-		if (trade.getDealHost().getId() != seller.getId()) {
+		if (!trade.getDealHost().getId().equals(seller.getId())) {
 			throw new SellerNotValidException();
 		}
 	}
