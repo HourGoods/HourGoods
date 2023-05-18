@@ -17,6 +17,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.a204.hourgoods.domain.concert.entity.Concert;
+import org.a204.hourgoods.domain.concert.exception.EmptyConcertDetailException;
 import org.a204.hourgoods.domain.concert.model.KopisConcertDetail;
 import org.a204.hourgoods.domain.concert.model.KopisConcertList;
 import org.a204.hourgoods.domain.concert.model.KopisPlaceDetail;
@@ -99,6 +100,7 @@ public class KopisService {
 			if (!kopisConcertIdSetFromDB.contains(concertInfo.getKopisConcertId())) {
 				// 공연 상세 정보, 공연장 위치 정보 조회
 				KopisConcertDetail.Info concertDetail = getConcertDetail(concertInfo.getKopisConcertId());
+				if (concertDetail == null) throw new EmptyConcertDetailException();
 				KopisPlaceDetail.Info placeDetail = getPlaceDetail(concertDetail.getKopisPlaceId());
 
 				// 공연 객체 생성 후 저장

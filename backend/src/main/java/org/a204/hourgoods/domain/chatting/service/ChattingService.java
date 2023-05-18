@@ -19,10 +19,8 @@ import org.a204.hourgoods.domain.chatting.response.DirectChattingResponse;
 import org.a204.hourgoods.domain.chatting.response.DirectMessageResponse;
 import org.a204.hourgoods.domain.chatting.response.MyDirectChatResponse;
 import org.a204.hourgoods.domain.deal.entity.Deal;
-import org.a204.hourgoods.domain.deal.entity.Trade;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.repository.DealRepository;
-import org.a204.hourgoods.domain.deal.repository.TradeRepository;
 import org.a204.hourgoods.domain.member.entity.Member;
 import org.a204.hourgoods.domain.member.entity.MemberDetails;
 import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
@@ -43,7 +41,6 @@ public class ChattingService {
 	private final DirectChattingRoomRepository directChattingRoomRepository;
 	private final DirectChattingRoomQueryDslRepository directChattingRoomQueryDslRepository;
 	private final MemberRepository memberRepository;
-	private final TradeRepository tradeRepository;
 	private final DealRepository dealRepository;
 	private final RedisTemplate<String, DirectMessage> redisTemplate;
 
@@ -51,7 +48,7 @@ public class ChattingService {
 	@Transactional(readOnly = true)
 	public DirectChattingResponse renterDirectChatting(DirectChattingRoomRequest request) {
 		// 거래 정보 가져오기
-		Deal deal = dealRepository.findById(request.getDealId()).orElseThrow(DealNotFoundException::new);
+		dealRepository.findById(request.getDealId()).orElseThrow(DealNotFoundException::new);
 		// receiver id가 유효하지 않으면 예외처리
 		if (!checkValidMember(request.getReceiverNickname())) {
 			throw new ReceiverNotFoundException();
@@ -180,12 +177,6 @@ public class ChattingService {
 				.build());
 		}
 		return result;
-	}
-
-	// 거래 정보 가져오기
-	private Trade getTrade(Long dealId) {
-		return tradeRepository.findById(dealId)
-			.orElseThrow(DealNotFoundException::new);
 	}
 
 	// 멤버 정보 확인하기
