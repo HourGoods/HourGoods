@@ -15,6 +15,7 @@ import {
 } from "@heroicons/react/24/solid";
 import BellAlertLinIcon from "@heroicons/react/24/outline/BellAlertIcon";
 import { drawCircles } from "@utils/realTime";
+import { ToastContainer, toast } from "react-toastify";
 
 declare global {
   interface Window {
@@ -79,6 +80,9 @@ export default function index(props: any) {
           ...prev,
           isBookmarked: true,
         }));
+        toast.success("북마크 성공 👌", {
+          autoClose: 2000,
+        });
       });
     }
     // 아니면 제거 api
@@ -89,105 +93,111 @@ export default function index(props: any) {
           ...prev,
           isBookmarked: false,
         }));
+        toast.success("북마크 해제 👌", {
+          autoClose: 2000,
+        });
       });
     }
   };
 
   if (dealInfo) {
     return (
-      <div className="deal-info-component-container">
-        {/* 위 */}
-        <div className="deal-info-desktop-top-container">
-          <Button color={dealInfo.dealType} size="deal" isActive />
-          <ConcertCard concertInfo={concertInfo} />
-        </div>
-
-        {/* 아래 */}
-        <div className="deal-info-desktop-bottom-container">
-          {/* 좌 */}
-          <div className="deal-info-desktop-left-container">
-            <div className="title-alert-container">
-              <h2>{dealInfo.dealTitle}</h2>
-              <button
-                type="button"
-                aria-label="북마크"
-                onClick={bookmarkHanlder}
-              >
-                {dealInfo.isBookmarked ? (
-                  <BellAlertIcon />
-                ) : (
-                  <BellAlertLinIcon />
-                )}
-              </button>
-            </div>
-
-            {/* <ConcertCard /> */}
-
-            <div className="deal-icon-infos-container">
-              <div className="deal-icon-info-div">
-                <div className="icon-text-div">
-                  <CalendarIcon />
-                  <h5>날짜</h5>
-                </div>
-                <p>{startDate}</p>
-              </div>
-              <div className="deal-icon-info-div">
-                <div className="icon-text-div">
-                  <ClockIcon />
-                  <h5>오픈 시간</h5>
-                </div>
-                <p>{startTime}</p>
-              </div>
-              <div className="deal-icon-info-div">
-                {dealInfo.dealType === "Auction" && (
-                  <>
-                    <div className="icon-text-div">
-                      <BoltIcon />
-                      <h5>경매 진행 시간</h5>
-                    </div>
-                    <p>{auctionDuration}분</p>
-                  </>
-                )}
-                {dealInfo.dealType === "Trade" && (
-                  <>
-                    <div className="icon-text-div">
-                      <TicketIcon />
-                      <h5>거래 가격</h5>
-                    </div>
-                    <p>{dealInfo.price} 원</p>
-                  </>
-                )}{" "}
-                {dealInfo.dealType === "Sharing" && (
-                  <>
-                    <div className="icon-text-div">
-                      <UsersIcon />
-                      <h5>나눔 인원</h5>
-                    </div>
-                    <p>{dealInfo.limit} 명</p>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <div className="deal-info-icon-p-div">
-              <MegaphoneIcon />
-              <p>공지사항</p>
-            </div>
-            <p>{dealInfo.dealContent}</p>
+      <>
+        <ToastContainer />
+        <div className="deal-info-component-container">
+          {/* 위 */}
+          <div className="deal-info-desktop-top-container">
+            <Button color={dealInfo.dealType} size="deal" isActive />
+            <ConcertCard concertInfo={concertInfo} />
           </div>
 
-          {/* 우 */}
-          <div className="deal-info-desktop-right-container">
-            <div className="deal-info-icon-p-div">
-              <MapPinIcon />
-              <p>
-                장소 <span>{dealInfo.meetingLocation}</span>
-              </p>
+          {/* 아래 */}
+          <div className="deal-info-desktop-bottom-container">
+            {/* 좌 */}
+            <div className="deal-info-desktop-left-container">
+              <div className="title-alert-container">
+                <h2>{dealInfo.dealTitle}</h2>
+                <button
+                  type="button"
+                  aria-label="북마크"
+                  onClick={bookmarkHanlder}
+                >
+                  {dealInfo.isBookmarked ? (
+                    <BellAlertIcon />
+                  ) : (
+                    <BellAlertLinIcon />
+                  )}
+                </button>
+              </div>
+
+              {/* <ConcertCard /> */}
+
+              <div className="deal-icon-infos-container">
+                <div className="deal-icon-info-div">
+                  <div className="icon-text-div">
+                    <CalendarIcon />
+                    <h5>날짜</h5>
+                  </div>
+                  <p>{startDate}</p>
+                </div>
+                <div className="deal-icon-info-div">
+                  <div className="icon-text-div">
+                    <ClockIcon />
+                    <h5>오픈 시간</h5>
+                  </div>
+                  <p>{startTime}</p>
+                </div>
+                <div className="deal-icon-info-div">
+                  {dealInfo.dealType === "Auction" && (
+                    <>
+                      <div className="icon-text-div">
+                        <BoltIcon />
+                        <h5>경매 진행 시간</h5>
+                      </div>
+                      <p>{auctionDuration}분</p>
+                    </>
+                  )}
+                  {dealInfo.dealType === "Trade" && (
+                    <>
+                      <div className="icon-text-div">
+                        <TicketIcon />
+                        <h5>거래 가격</h5>
+                      </div>
+                      <p>{dealInfo.price} 원</p>
+                    </>
+                  )}{" "}
+                  {dealInfo.dealType === "Sharing" && (
+                    <>
+                      <div className="icon-text-div">
+                        <UsersIcon />
+                        <h5>나눔 인원</h5>
+                      </div>
+                      <p>{dealInfo.limit} 명</p>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="deal-info-icon-p-div">
+                <MegaphoneIcon />
+                <p>공지사항</p>
+              </div>
+              <p>{dealInfo.dealContent}</p>
             </div>
-            <div id="map" />
+
+            {/* 우 */}
+            <div className="deal-info-desktop-right-container">
+              <div className="deal-info-icon-p-div">
+                <MapPinIcon />
+                <p>
+                  장소 <span>{dealInfo.meetingLocation}</span>
+                </p>
+              </div>
+              <div id="map" />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
   return null;
