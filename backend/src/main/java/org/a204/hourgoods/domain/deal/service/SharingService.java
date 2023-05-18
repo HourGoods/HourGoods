@@ -9,6 +9,7 @@ import org.a204.hourgoods.domain.deal.entity.Sharing;
 import org.a204.hourgoods.domain.deal.exception.DealNotFoundException;
 import org.a204.hourgoods.domain.deal.exception.DealTypeMissMatchException;
 import org.a204.hourgoods.domain.deal.exception.DealYetStartException;
+import org.a204.hourgoods.domain.deal.exception.SharingRankException;
 import org.a204.hourgoods.domain.deal.repository.DealRepository;
 import org.a204.hourgoods.domain.deal.repository.SharingRepository;
 import org.a204.hourgoods.domain.member.entity.Member;
@@ -48,12 +49,14 @@ public class SharingService {
 		if (userScore != null) {
 			// 이미 신청한 사용자
 			Long rank = zSetOperations.rank(sharingKey, userId);
+			if (rank == null) throw new SharingRankException();
 			return rank.intValue() + 1;
 		}
 
 		// 사용자가 처음 신청하는 경우
-		zSetOperations.add(sharingKey, userId.toString(), System.currentTimeMillis());
+		zSetOperations.add(sharingKey, userId, System.currentTimeMillis());
 		Long rank = zSetOperations.rank(sharingKey, userId);
+		if (rank == null) throw new SharingRankException();
 		Integer output;
 		if (rank < sharingLimit) {
 			output = rank.intValue() + 1; // 순위는 0부터 시작하므로 1을 더해줍니다.

@@ -41,16 +41,17 @@ public class MyPageService {
 	private final TradeRepository tradeRepository;
 	private final PointHistoryRepository pointHistoryRepository;
 	private final DealQueryDslRepository dealQueryDslRepository;
-	private Pageable pageable = Pageable.ofSize(PAGE_SIZE);
+	private final Pageable pageable = Pageable.ofSize(PAGE_SIZE);
 
 	// 사용자가 북마크한 거래 목록 조회
 	public DealListResponse getBookmarkedDealList(MemberDetails memberDetails) {
-		final Long lastDealId = Long.valueOf(-1);
+		final Long lastDealId = -1L;
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {
 			member = checkMemberValidation(memberDetails.getMember());
 		}
+		if (member == null) throw new MemberNotFoundException();
 
 		// 거래 정보 조회
 		Slice<Deal> deals = dealQueryDslRepository.searchBookmarkedDealByMember(member, lastDealId, pageable);
@@ -69,12 +70,13 @@ public class MyPageService {
 
 	// 사용자가 생성한 거래 목록 조회
 	public DealListResponse getCreatedDealList(MemberDetails memberDetails) {
-		final Long lastDealId = Long.valueOf(-1);
+		final Long lastDealId = -1L;
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {
 			member = checkMemberValidation(memberDetails.getMember());
 		}
+		if (member == null) throw new MemberNotFoundException();
 
 		// 거래 정보 조회
 		Slice<Deal> deals = dealQueryDslRepository.searchDealByHost(member, lastDealId, pageable);
@@ -99,6 +101,7 @@ public class MyPageService {
 		if (memberDetails.getMember() != null) {
 			member = checkMemberValidation(memberDetails.getMember());
 		}
+		if (member == null) throw new MemberNotFoundException();
 
 		// 거래 정보 조회
 		Slice<Deal> deals = dealQueryDslRepository.searchAttendedDealByMember(member, lastDealId, pageable);
@@ -117,7 +120,7 @@ public class MyPageService {
 
 	// 사용자의 포인트 내역 조회
 	public PointHistoryListResponse getPointHistoryList(MemberDetails memberDetails) {
-		final Long lastPointHistoryId = Long.valueOf(-1);
+		final long lastPointHistoryId = -1L;
 		// 유효성 체크
 		Member member = null;
 		if (memberDetails.getMember() != null) {
@@ -200,6 +203,7 @@ public class MyPageService {
 		if (memberDetails.getMember() != null) {
 			member = checkMemberValidation(memberDetails.getMember());
 		}
+		if (member == null) throw new MemberNotFoundException();
 
 		// 포인트 내역 생성
 		PointHistory pointHistory = PointHistory.builder()
@@ -227,6 +231,7 @@ public class MyPageService {
 		if (memberDetails.getMember() != null) {
 			member = checkMemberValidation(memberDetails.getMember());
 		}
+		if (member == null) throw new MemberNotFoundException();
 
 		return MyPageMemberInfoResponse.builder()
 			.nickname(member.getNickname())
