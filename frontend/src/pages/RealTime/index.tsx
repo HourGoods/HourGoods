@@ -21,7 +21,7 @@ export default function index() {
   const [location, setLocation] = useState<
     { latitude: number; longitude: number } | string
   >("");
-  const [flag, setFlag] = useState(false);
+  // const [flag, setFlag] = useState(false);
   const [todayConcertList, setTodayConcertList] = useState([]);
   const [inConcertList, setInConcertList] = useState<ConcertInterface[]>([]);
   const [concertDealList, setConcertDealList] = useState([]);
@@ -58,8 +58,8 @@ export default function index() {
         <Map
           location={location}
           setLocation={setLocation}
-          flag={flag}
-          setFlag={setFlag}
+          // flag={flag}
+          // setFlag={setFlag}
           todayConcertList={todayConcertList}
           inConcertList={inConcertList}
           setInConcertList={setInConcertList}
