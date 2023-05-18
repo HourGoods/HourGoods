@@ -233,6 +233,7 @@ export default function index() {
             }`}
           >
             <CurrencyDollarIcon />
+            <p>응찰</p>
           </button>
 
           {showBidBox && (
@@ -267,6 +268,7 @@ export default function index() {
             }`}
           >
             <ChatBubbleOvalLeftIcon />
+            <p>채팅</p>
           </button>
         </div>
       </div>

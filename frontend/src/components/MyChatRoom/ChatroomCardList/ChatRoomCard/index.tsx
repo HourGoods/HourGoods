@@ -70,10 +70,10 @@ export default function ChatroomCard({ chatroom }: ChatroomProps) {
           <div className="chatroom-right-section">
             <div className="chatroom-name-datetime-container">
               <p className="chatroom-profile-name">{chatroom.otherNickname}</p>
-              <p className="chatroom-recent-datetime">{formattedLastLogTime}</p>
-            </div>
-            <div className="chatroom-recent-msg-wrapper">
               <p className="recent-msg">{chatroom.lastLogContent}</p>
+            </div>
+            <div className="chatroom-lastlongtime-section">
+              <p className="chatroom-recent-datetime">{formattedLastLogTime}</p>
             </div>
           </div>
         </button>

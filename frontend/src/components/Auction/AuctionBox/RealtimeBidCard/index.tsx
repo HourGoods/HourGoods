@@ -54,21 +54,19 @@ export default function Index({
       <div className="realtime-bid-card-container">
         <div className="realtime-bid-left">
           <p>현재 입찰가</p>
-        </div>
-        <div className="realtime-bid-right">
-          <div className="r-bid-card-icon fire">
+          <div className="r-bid-card-icon-fire">
             <FireIcon />
             <p>{formatCurrency(currentBid)}</p>
           </div>
-          <div className="r-const-ppl-wrapper">
-            <div className="r-bid-card-icon up">
-              <PlayIcon />
-              <p>{interval}</p>
-            </div>
-            <div className="r-bid-card-icon user">
-              <UserGroupIcon />
-              <p>{participantCount}</p>
-            </div>
+        </div>
+        <div className="realtime-bid-right">
+          <div className="r-bid-card-icon up">
+            <PlayIcon />
+            <p>{interval}</p>
+          </div>
+          <div className="r-bid-card-icon user">
+            <UserGroupIcon />
+            <p>{participantCount}</p>
           </div>
         </div>
       </div>

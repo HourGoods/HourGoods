@@ -75,7 +75,9 @@ export default function index(props: any) {
           <p className="realtime-page-helper-p">
             콘서트 범위 안에서만 Deal을 확인할 수 있어요.
           </p>
-          <p>Deal카드가 없습니다</p>
+          <p className="realtime-page-notion">
+            현재 위치에서 확인할 수 있는 거래가 없어요!
+          </p>
         </>
       ) : (
         <>

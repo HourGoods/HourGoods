@@ -20,10 +20,8 @@ export default function index() {
   }, [location]);
 
   return (
-    <div className="chatroom-container-upper">
-      <div className="chatroom-container">
-        <ChatRoomCardList />
-      </div>
+    <div className="chatroom-container">
+      <ChatRoomCardList />
     </div>
   );
 }
