@@ -283,8 +283,11 @@
         color: $indigo-1;
       }
       .recent-msg {
+        @include mobile {
+          max-width: 80px;
+        }
         font-size: 14px;
-        max-width: 180px;
+        max-width: 200px;
         text-align: left;
         overflow: hidden;
         white-space: normal;

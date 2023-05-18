@@ -35,7 +35,7 @@ export default function Map(props: IMapPropsType) {
   // 딜 생성자 정보
   const [dealCreator, setDealCreator] = useState("");
 
-  // 내 위치 전송
+  // 내 위치 전송 (messageType === "Location")
   const sendMyLocation = (long: number, lat: number) => {
     const message = {
       nickname: userName,
@@ -45,8 +45,23 @@ export default function Map(props: IMapPropsType) {
     };
     const destination = `/pub/meet/${dealId}`;
     const body = JSON.stringify(message);
-
     clientRef.current?.publish({ destination, body });
+  };
+
+  // 백에 거래종료를 알림 (messageType === "Done")
+  const sendDoneMessage = () => {
+    const message = {
+      tradeLocationId: tradeLocId,
+      nickname: userName,
+    };
+    const destination = `/pub/meet/${dealId}/done`;
+    const body = JSON.stringify(message);
+    clientRef.current?.publish({ destination, body });
+  };
+
+  // 버튼 클릭시 sendDoneMessage 실행합니다
+  const finishDealHandler = () => {
+    sendDoneMessage();
   };
 
   useEffect(() => {
@@ -214,7 +229,9 @@ export default function Map(props: IMapPropsType) {
         </div>
         {dealCreator !== userName && meetingInfo.distance <= 1550 && (
           <div className="buy-button-box">
-            <Button color="pink">물품을 구매했어요</Button>
+            <Button color="pink" onClick={finishDealHandler}>
+              물품을 구매했어요
+            </Button>
           </div>
         )}
       </div>
