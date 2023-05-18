@@ -23,6 +23,7 @@ public enum GlobalErrorCode {
 	DEAL_TYPE_NOT_FOUND(404, "D100", "잘못된 Deal Type 형식입니다."),
 	DEAL_NOT_FOUND(404, "D200", "해당 id에 해당하는 거래가 없습니다."),
 	AUCTION_NOT_FOUND(404, "D201", "경매 시작 정보가 등록되지 않았습니다."),
+	SHARING_RANK(404, "D202", "나눔 순위를 찾을 수 없습니다."),
 	BOOKMARK_NOT_FOUND(404, "D300", "해당 사용자는 해당 거래를 북마크하지 않았습니다."),
 	DEAL_YET_START(400, "D400", "아직 거래가 시작되지 않았습니다."),
 	DEAL_TYPE_MISS_MATCH(400, "D500", "거래 타입이 올바르지 않습니다."),
