@@ -21,6 +21,7 @@ import org.a204.hourgoods.domain.deal.request.TradeMessageRequest;
 import org.a204.hourgoods.domain.deal.response.CreateTradeLocationResponse;
 import org.a204.hourgoods.domain.deal.response.TradeMessageResponse;
 import org.a204.hourgoods.domain.member.entity.Member;
+import org.a204.hourgoods.domain.member.repository.PointHistoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -37,6 +38,8 @@ class TradeServiceTest {
 	private EntityManager em;
 	@Autowired
 	private TradeLocationRepository tradeLocationRepository;
+	@Autowired
+	private PointHistoryRepository pointHistoryRepository;
 	private Member seller;
 	private Member purchaser;
 	private Concert concert;
@@ -303,6 +306,8 @@ class TradeServiceTest {
 			assertEquals(purchaserCashPoint - trade.getPrice(), purchaser.getCashPoint());
 			assertFalse(trade.getIsAvailable());
 			assertEquals("Done", response.getDoneMessageResponse().getMessageType());
+			assertEquals(seller, pointHistoryRepository.findById(Long.valueOf(1)).get().getMember());
+			assertEquals(purchaser, pointHistoryRepository.findById(Long.valueOf(2)).get().getMember());
 		}
 
 		@Test
