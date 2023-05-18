@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -26,7 +27,10 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @ToString
-@Table(name = "concert")
+@Table(name = "concert", indexes = {
+	@Index(name = "idx_start_time", columnList = "start_time"),
+	@Index(name = "idx_title", columnList = "title")
+})
 public class Concert extends BaseTime {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
