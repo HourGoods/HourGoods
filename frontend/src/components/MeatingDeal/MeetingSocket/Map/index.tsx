@@ -101,7 +101,7 @@ export default function Map(props: IMapPropsType) {
     console.log("처음 마운팅, 이후엔 되면 안 됨");
     const container = document.getElementById("map");
     const options = {
-      center: new window.kakao.maps.LatLng(37.5665, 126.978), // 기본 위치
+      center: new window.kakao.maps.LatLng(37.49483466037, 127.02871475306), // 기본 위치
       level: 3,
     };
     const map = new window.kakao.maps.Map(container, options);
@@ -201,13 +201,13 @@ export default function Map(props: IMapPropsType) {
         </div>
         {/* 상황별 표시 문구 */}
         <div className="deal-situational-contents-container">
-          {meetingInfo.distance > 1550 && (
-            <p>※ 50m 이내에서 포인트 거래가 활성화 됩니다.</p>
+          {meetingInfo.distance > 10 && (
+            <p>※ 10m 이내에서 포인트 거래가 활성화 됩니다.</p>
           )}
-          {dealCreator === userName && meetingInfo.distance <= 50 && (
+          {dealCreator === userName && meetingInfo.distance <= 10 && (
             <p>※ 구매자가 물품 구매 수락 시 포인트 거래가 성사됩니다.</p>
           )}
-          {dealCreator !== userName && meetingInfo.distance <= 1550 && (
+          {dealCreator !== userName && meetingInfo.distance <= 10 && (
             <p>※ 물품을 구매하셨나요? 버튼을 누르면 포인트가 차감됩니다.</p>
           )}
         </div>
@@ -225,7 +225,7 @@ export default function Map(props: IMapPropsType) {
           </span>{" "}
           상대 위치
         </div>
-        {dealCreator !== userName && meetingInfo.distance <= 1550 && (
+        {dealCreator !== userName && meetingInfo.distance <= 10 && (
           <div className="buy-button-box">
             <Button color="pink" onClick={finishDealHandler}>
               물품을 구매했어요
