@@ -11,6 +11,7 @@ import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
 import InputMsgBox from "@components/common/InputMsgBox";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 import ChatContent from "./ChatContent";
 
 export interface PrivatChatMessage {
@@ -170,9 +171,18 @@ export default function index() {
     });
   };
 
+  const XbuttonClickHandler = () => {
+    navigate("/mychatroom");
+  };
+
   return (
     <>
       <div className="private-chatroom-all-container">
+        <div className="private-chatroom-XIcon">
+          <button type="button" onClick={XbuttonClickHandler}>
+            <XCircleIcon />
+          </button>
+        </div>
         <div className="private-chatroom-box-container">
           <div className="chatroom-dealcard">
             <SmallDealCard dealInfo={dealInfo} />

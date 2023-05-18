@@ -23,7 +23,7 @@ export default function index() {
   return (
     <div className="private-chat-main-container">
       <div className="private-chat-modal-overay">
-        <div className="private-caht-modal-box">
+        <div className="private-chat-modal-box">
           <PrivateChat />
         </div>
       </div>
