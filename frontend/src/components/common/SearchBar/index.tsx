@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import "./index.scss";
 

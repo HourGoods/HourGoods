@@ -1,6 +1,6 @@
 /* eslint-disable */
 import Loading from "@components/common/Loading";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";

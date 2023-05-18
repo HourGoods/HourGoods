@@ -1,6 +1,7 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { UserStateAtom } from "@recoils/user/Atom";
 import { Client, Message } from "@stomp/stompjs";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
@@ -55,7 +56,6 @@ export default function index({ tradeLocId }: Props) {
         authorization: localStorage.getItem("accessToken") || "",
       },
       onConnect: () => {
-        console.log("소켓에 연결되었습니당");
         setIsConnected(true); // 연결 상태 업데이트
 
         // 해당 소켓주소에 구독

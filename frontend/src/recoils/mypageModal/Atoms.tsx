@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { atom } from "recoil";
 
 // 거래카드 삭제할건지 여부 알려주는 모달창

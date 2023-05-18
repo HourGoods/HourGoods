@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { CalendarIcon, ClockIcon, MapPinIcon } from "@heroicons/react/24/solid";
 import { IDealInfo } from "@components/Auction/AuctionBox";
 import Modal from "@components/common/Modal";

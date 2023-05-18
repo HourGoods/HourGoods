@@ -1,5 +1,6 @@
 /* eslint-disable prefer-destructuring */
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { AuctionAPI } from "@api/apis";
 import AuctionDealCard from "./AuctionDealCard";
@@ -83,7 +84,6 @@ export default function index({ bidList, inoutMsgList }: Props) {
       <RealtimeBidCard
         bidList={bidList}
         nowBid={nowBid}
-        nowCount={nowCount}
         inoutMsgList={inoutMsgList}
       />
     </div>

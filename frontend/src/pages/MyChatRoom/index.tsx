@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import "./index.scss";
 import bgStars from "@assets/BGstars.svg";
 import ChatRoomCardList from "@components/MyChatRoom/ChatroomCardList";

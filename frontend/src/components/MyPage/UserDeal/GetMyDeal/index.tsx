@@ -1,6 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useRef, useState, useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState, useEffect } from "react";
 import { mypageAPI } from "@api/apis";
 import "swiper/css";
 import "swiper/css/pagination";

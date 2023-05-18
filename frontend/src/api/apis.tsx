@@ -2,14 +2,6 @@ import { AxiosResponse } from "axios";
 import request from "./agents";
 
 const mypageAPI = {
-  // pointHistory: (lastPointHistoryId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/point", { params: { lastPointHistoryId } }),
-  // getMyDeal: (lastDealId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/create", { params: { lastDealId } }),
-  // favoriteDeal: (lastDealId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/bookmark", { params: { lastDealId } }),
-  // participateDeal: (lastDealId: number): Promise<AxiosResponse> =>
-  //   request.authGet("mypage/attend", { params: { lastDealId } }),
   pointHistory: (): Promise<AxiosResponse> => request.authGet("mypage/point"),
   getMyDeal: (): Promise<AxiosResponse> => request.authGet("mypage/create"),
   favoriteDeal: (): Promise<AxiosResponse> =>

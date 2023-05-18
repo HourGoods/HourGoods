@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable prefer-destructuring */
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect, useState } from "react";
 import Button from "@components/common/Button";
 import { AuctionAPI, chattingAPI, dealAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";

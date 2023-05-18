@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
 import { atom } from "recoil";
 
 // 거래 생성 정보

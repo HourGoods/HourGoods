@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useEffect } from "react";
 import { dealAPI, mypageAPI } from "@api/apis";
 import UserInfo from "@components/MyPage/UserInfo";
 import UserCash from "@components/MyPage/UserCash";
@@ -15,7 +16,6 @@ import {
 
 export default function index() {
   const [modalOpen, setModalOpen] = useRecoilState(isDeleteCardModal);
-  const [success, setSuccess] = useRecoilState(isAuctionAlarmModal);
   const [dealId, setDealId] = useRecoilState(isdealDelete);
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
 

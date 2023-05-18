@@ -1,7 +1,9 @@
 // InputMsgBox.tsx
 /* eslint-disable */
-import React from "react";
-import { ChatBubbleOvalLeftIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
+import {
+  ChatBubbleOvalLeftIcon,
+  CurrencyDollarIcon,
+} from "@heroicons/react/24/solid";
 import "./index.scss";
 
 interface IInputProps {

@@ -1,53 +1,57 @@
-import React from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import MainPage from "@pages/Main";
-import RealTimePage from "@pages/RealTime";
-import SearchPage from "@pages/Search";
-import SignupPage from "@pages/Signup";
-import MyPage from "@pages/MyPage";
-import MyChatRoom from "@pages/MyChatRoom";
-import PrivateChat from "@pages/MyChatRoom/PrivateChat";
-import MeetingDeal from "@pages/MeetingDeal";
-import CreateDealPage from "@pages/CreateDeal";
-import ConcertDeal from "@pages/ConcertDeal";
-import DealDetail from "@pages/DealDetail";
-import Payment from "@pages/Payment";
-import Payresult from "@pages/Payresult";
-import Oauth from "@pages/Oauth";
-import Ticket from "@pages/Ticket";
-import UpdateProfile from "@pages/UpdateProfile";
-import Auction from "@pages/Auction";
-import ErrorPage from "@pages/ErrorPage";
-import PrivateRoute from "./PrivateRoute"; // 가장 마지막으로 import 위치 유지해주세요
+
+const MainPage = lazy(() => import("@pages/Main"));
+const RealTimePage = lazy(() => import("@pages/RealTime"));
+const SearchPage = lazy(() => import("@pages/Search"));
+const SignupPage = lazy(() => import("@pages/Signup"));
+const MyPage = lazy(() => import("@pages/MyPage"));
+const MyChatRoom = lazy(() => import("@pages/MyChatRoom"));
+const PrivateChat = lazy(() => import("@pages/MyChatRoom/PrivateChat"));
+const MeetingDeal = lazy(() => import("@pages/MeetingDeal"));
+const CreateDealPage = lazy(() => import("@pages/CreateDeal"));
+const ConcertDeal = lazy(() => import("@pages/ConcertDeal"));
+const DealDetail = lazy(() => import("@pages/DealDetail"));
+const Payment = lazy(() => import("@pages/Payment"));
+const Payresult = lazy(() => import("@pages/Payresult"));
+const Oauth = lazy(() => import("@pages/Oauth"));
+const Ticket = lazy(() => import("@pages/Ticket"));
+const UpdateProfile = lazy(() => import("@pages/UpdateProfile"));
+const Auction = lazy(() => import("@pages/Auction"));
+const ErrorPage = lazy(() => import("@pages/ErrorPage"));
+const PrivateRoute = lazy(() => import("./PrivateRoute"));
 
 export default function Routers() {
   return (
-    <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/realtime" element={<RealTimePage />} />
-      <Route path="/search" element={<SearchPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/oauth" element={<Oauth />} />
-      <Route path="/concert/:concertId" element={<ConcertDeal />} />
+    <Suspense fallback={<div>Loading...</div>}>
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/realtime" element={<RealTimePage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/oauth" element={<Oauth />} />
+        <Route path="/concert/:concertId" element={<ConcertDeal />} />
 
-      {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
-      <Route element={<PrivateRoute />}>
-        <Route path="/create/deal/:concertId" element={<CreateDealPage />} />
-        <Route path="/create/deal" element={<CreateDealPage />} />
-        <Route path="/deal/detail/:dealId" element={<DealDetail />} />
-        {/* ----------------- 유저 ----------------- */}
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/ticket" element={<Ticket />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/payresult" element={<Payresult />} />
-        <Route path="/mychatroom" element={<MyChatRoom />} />
-        <Route path="/mychatroom/:chattingroomId" element={<PrivateChat />} />
-        <Route path="/meetingdeal/:dealId" element={<MeetingDeal />} />
-        <Route path="/auction/:dealId" element={<Auction />} />
-        <Route path="/update/profile" element={<UpdateProfile />} />
-      </Route>
+        {/* 인증을 반드시 해야지만 접속 가능한 페이지 정의 */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/create/deal/:concertId" element={<CreateDealPage />} />
+          <Route path="/create/deal" element={<CreateDealPage />} />
+          <Route path="/deal/detail/:dealId" element={<DealDetail />} />
+          {/* ----------------- 유저 ----------------- */}
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/ticket" element={<Ticket />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/payresult" element={<Payresult />} />
+          <Route path="/mychatroom" element={<MyChatRoom />} />
+          <Route path="/mychatroom/:chattingroomId" element={<PrivateChat />} />
+          <Route path="/meetingdeal/:dealId" element={<MeetingDeal />} />
+          <Route path="/auction/:dealId" element={<Auction />} />
+          <Route path="/update/profile" element={<UpdateProfile />} />
+        </Route>
 
-      <Route path="/*" element={<ErrorPage />} />
-    </Routes>
+        <Route path="/*" element={<ErrorPage />} />
+      </Routes>
+    </Suspense>
   );
 }

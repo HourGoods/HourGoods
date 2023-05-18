@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable react/react-in-jsx-scope */
+import { useState } from "react";
 import FavoriteDeal from "@components/MyPage/UserDeal/FavoriteDeal";
 import GetMyDeal from "@components/MyPage/UserDeal/GetMyDeal";
 import ParticipatedDeal from "@components/MyPage/UserDeal/ParticipatedDeal";
