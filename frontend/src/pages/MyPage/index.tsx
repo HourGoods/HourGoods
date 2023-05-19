@@ -18,10 +18,7 @@ export default function index() {
   const [modalOpen, setModalOpen] = useRecoilState(isDeleteCardModal);
   const [dealId, setDealId] = useRecoilState(isdealDelete);
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
-
-  console.log(userInfo);
   const localLogin = localStorage.getItem("isLogin");
-  // const { isLogin } = useRecoilValue(AuthStateAtom)
 
   // 삭제
   const handleDelete = (dealId: number) => {
@@ -29,12 +26,11 @@ export default function index() {
       .getDealDelete(dealId)
       .then((res) => {
         setModalOpen(false);
-        console.log(res);
         // 새로고침 넣으세여
         window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 
@@ -51,11 +47,10 @@ export default function index() {
           }));
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
   }, [localLogin]);
-  console.log(userInfo);
 
   return (
     <div className="mypage-main-container">

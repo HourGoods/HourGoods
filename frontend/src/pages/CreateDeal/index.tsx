@@ -43,7 +43,6 @@ export default function index() {
       );
 
       if (imageUrl) {
-        console.log("받아온 이미지 주소", imageUrl);
         // 작성 똑바로했는지 검증
         if (
           !dealInfo.title ||
@@ -70,7 +69,6 @@ export default function index() {
               autoClose: 2000,
             });
             // 성공시 detail페이지로 이동
-            console.log(res, "생성된 거래 정보");
             // recoil 비우기
             resetDealInfo();
             const { dealId } = res.data.result;
@@ -79,7 +77,7 @@ export default function index() {
         }
       }
     } catch (error) {
-      console.log(error, "이미지 업로드 에러");
+      console.error(error, "이미지 업로드 에러");
     }
   };
 

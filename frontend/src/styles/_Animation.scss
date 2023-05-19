@@ -13,6 +13,21 @@
     }
   }
 }
+@mixin slowFadeInUp {
+  opacity: 0;
+  animation: slowFadeInUp 2s ease-in-out forwards;
+  @keyframes fadslowFadeInUpeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+      /*애니메이션시작시위치지정*/
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* 애니메이션 종료 시 위치 지정 */
+    }
+  }
+}
 @mixin fadeInDown {
   opacity: 0;
   animation: fadeInDown 0.6s ease-in-out forwards;

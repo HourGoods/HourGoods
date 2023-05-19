@@ -14,7 +14,6 @@ export default function index() {
       "linear-gradient(to bottom right, rgba(17,24,39, 1), rgba(49, 46, 129, 1))";
     const bgImage = `url(${bgStars})`;
     document.body.style.background = `${bgImage}, ${bgColor}`;
-    console.log(dealId);
     return () => {
       document.body.style.background = "";
     };

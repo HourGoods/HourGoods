@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, useLocation } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useRecoilValue } from "recoil";
 import { concertAPI } from "@api/apis";
 import { UserStateAtom } from "@recoils/user/Atom";
@@ -44,8 +44,6 @@ export default function index() {
   const userInfo = useRecoilValue(UserStateAtom);
 
   const navigate = useNavigate();
-  const location = useLocation();
-  // console.log(location.state);
   const goMakeDeal = () => {
     navigate(`/create/deal/${concertId}`);
   };
@@ -74,7 +72,6 @@ export default function index() {
             nickname
           );
           result.then((res) => {
-            console.log("콘서트별 딜 정보", res);
             setConcertDealList(res.data.result.dealInfoList);
           });
         });

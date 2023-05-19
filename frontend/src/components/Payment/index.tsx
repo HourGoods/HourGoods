@@ -58,8 +58,6 @@ export default function index() {
         const {
           data: { nextRedirectPcUrl, tid },
         } = response;
-        console.log(nextRedirectPcUrl);
-        console.log(tid);
         window.localStorage.setItem("tid", tid);
         setNextRedirectPcUrl(nextRedirectPcUrl);
         setTid(tid);
@@ -67,7 +65,7 @@ export default function index() {
       })
 
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   };
 

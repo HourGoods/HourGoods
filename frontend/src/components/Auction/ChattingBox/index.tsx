@@ -33,7 +33,6 @@ export default function index({ msgList, inoutMsgList }: Props) {
   }, [chatMsgListRef.current]);
 
   useEffect(() => {
-    console.log("isScrollAtBottom", isScrollAtBottom);
     if (isScrollAtBottom) {
       scrollToBottom(chatBottomRef.current);
     } else {
@@ -49,7 +48,6 @@ export default function index({ msgList, inoutMsgList }: Props) {
       const { scrollTop, scrollHeight, clientHeight } = element;
       const isScrolledToBottom =
         Math.abs(scrollTop + clientHeight - scrollHeight) <= 100;
-      console.log("isScrolledToBottom", isScrolledToBottom);
       setIsScrollAtBottom(isScrolledToBottom);
     }
   };

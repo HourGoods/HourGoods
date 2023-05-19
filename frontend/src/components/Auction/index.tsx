@@ -79,7 +79,6 @@ export default function index() {
 
   // 새로고침방지
   useEffect(() => {
-    console.log("inoutMsgList", inoutMsgList);
     const preventClose = (e: BeforeUnloadEvent) => {
       e.preventDefault();
       e.returnValue = "";
@@ -93,16 +92,12 @@ export default function index() {
   // 최초렌더링시 Socket 통신이 되었는지 확인
   // clientRef가 없다면 socket에 연결
   useEffect(() => {
-    console.log(dealInfo);
     if (!clientRef.current) connect();
     return () => disconnect();
   }, []);
 
   // Socket으로 받은 list의 결과가 바뀔 때마다 렌더링 작업
   useEffect(() => {
-    // console.log("socket에서 받은 리스트", socketList);
-    console.log("채팅리스트", msgList);
-    // console.log("경매리스트", bidList);
   }, [socketList]);
 
   // Socket 연결
@@ -115,7 +110,6 @@ export default function index() {
         authorization: localStorage.getItem("accessToken") || "",
       },
       onConnect: () => {
-        console.log("소켓에 연결되었습니당");
         clientRef.current?.subscribe(
           `/bidding/${dealId}`,
           (message: Message) => {
@@ -130,7 +124,6 @@ export default function index() {
 
   // Socket 연결 끊기
   const disconnect = () => {
-    console.log("소켓 연결이 끊어졌습니당");
     clientRef.current?.deactivate(); // client측 비활성화
   };
 
