@@ -1,0 +1,57 @@
+@import "@styles/Colors";
+
+.temp-main-page-container {
+  margin-top: 100px;
+
+  .temp-main-title-div {
+    margin: 50px 0;
+
+    h1 {
+      color: $pink-1;
+      font-weight: 900;
+      animation: color-changing 4.5s infinite;
+      -webkit-animation: color-changing 4.5s infinite;
+    }
+    span {
+      color: $pink-1;
+    }
+  }
+  form {
+    position: relative;
+    width: 280px;
+    margin: auto;
+    input {
+      margin-top: 15px;
+      width: 80%;
+      height: 35px;
+      border-radius: 8px;
+      padding: 5px 10px;
+      text-align: left;
+      font-size: 16px;
+      background-color: $white-op;
+      color: $indigo-2;
+      font-weight: 600;
+    }
+    button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: none;
+      color: $pink-1;
+    }
+  }
+}
+
+@keyframes color-changing {
+  0% {
+    color: $pink-1;
+  }
+  50% {
+    color: $yellow-1;
+  }
+  100% {
+    color: $violet-1;
+  }
+}

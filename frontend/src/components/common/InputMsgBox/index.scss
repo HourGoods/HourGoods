@@ -1,0 +1,39 @@
+@import "@styles/Colors";
+
+.input-message-container {
+  button {
+    background-color: transparent;
+    width: 50px;
+    color: $indigo-1;
+  }
+  height: 50px;
+  border-radius: 30px;
+  background-color: $white-op;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 10px;
+  margin: 10px 0px;
+  .icon-message-wrapper {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    svg {
+      width: 24px;
+      color: $indigo-1;
+    }
+    input {
+      background-color: transparent;
+      width: 90%;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}

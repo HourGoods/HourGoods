@@ -1,0 +1,100 @@
+@mixin fadeInUp {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-in-out forwards;
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+      /*애니메이션시작시위치지정*/
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* 애니메이션 종료 시 위치 지정 */
+    }
+  }
+}
+@mixin slowFadeInUp {
+  opacity: 0;
+  animation: slowFadeInUp 2s ease-in-out forwards;
+  @keyframes fadslowFadeInUpeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+      /*애니메이션시작시위치지정*/
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0); /* 애니메이션 종료 시 위치 지정 */
+    }
+  }
+}
+@mixin fadeInDown {
+  opacity: 0;
+  animation: fadeInDown 0.6s ease-in-out forwards;
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translateY(-5px);
+      -webkit-transform: translateY(-5px);
+      -moz-transform: translateY(-5px);
+      -ms-transform: translateY(-5px);
+      -o-transform: translateY(-5px);
+}
+    100% {
+      opacity: 1;
+      transform: translateY(0px);
+      -webkit-transform: translateY(0px);
+      -moz-transform: translateY(0px);
+      -ms-transform: translateY(0px);
+      -o-transform: translateY(0px);
+}
+  }
+}
+
+@mixin fadeOut {
+  animation: fadeOut 0.6s ease-in-out forwards;
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+@mixin fadeBesideEnter {
+  animation: fadeBeside 0.6s ease-in-out forwards;
+  @keyframes fadeBeside {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+@mixin fadeBesideExit {
+  animation: fadeBesideExit 0.6s ease-in-out forwards;
+  @keyframes fadebeside {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+}
+
+@mixin moveUp {
+  animation: moveUp 0.6s ease-out;
+  transform-origin: bottom;
+  @keyframes moveUp {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-150px);
+    }
+  }
+}

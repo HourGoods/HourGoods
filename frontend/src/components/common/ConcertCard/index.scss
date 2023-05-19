@@ -1,0 +1,46 @@
+@import "@styles/Colors";
+
+.concert-card-component-container {
+  margin-top: 10px;
+  height: 90px;
+  border-radius: 8px;
+  background-color: $white-op;
+  box-shadow: 3px 3px 5px rgba(107, 114, 128, 0.3);
+  display: flex;
+  width: 100%;
+  padding: 0;
+
+  .concert-card-left-img-wrapper {
+    img {
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+      width: 65px;
+      height: 90px;
+      object-fit: cover;
+    }
+  }
+  .concert-card-right-contents-container {
+    margin-left: 20px;
+    text-align: left;
+    align-self: center;
+    p {
+      margin: 5px 0;
+      font-size: 12px;
+    }
+    .concert-title-p {
+      font-size: 14px;
+      font-weight: 800;
+      color: $indigo-1;
+    }
+    .card-icon-text-div {
+      display: flex;
+      align-items: center;
+      margin: 0;
+      svg {
+        width: 20px;
+        margin-right: 5px;
+        color: $indigo-1;
+      }
+    }
+  }
+}

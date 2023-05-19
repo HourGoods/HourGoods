@@ -1,0 +1,220 @@
+@import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
+
+@mixin userdeal-tag-button {
+  font-size: 16px;
+  font-weight: 400;
+  margin-right: 8px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  color: $gray-2;
+  @include tablet {
+    width: 115px;
+  }
+  @include desktop {
+    width: 115px;
+  }
+}
+// MyPage
+.mypage-main-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+  padding-bottom: 80px;
+
+  .mypage-contents-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .deal-card-delete-modal {
+      height: 300px;
+
+      .modal-p1 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $gray-2;
+        text-align: start;
+        margin: 50px 0 0 0;
+      }
+
+      .modal-p2 {
+        font-size: 18px;
+        font-weight: 600;
+        color: $gray-2;
+        text-align: start;
+        margin: 20px 0 30px 0;
+      }
+
+      .modal-h2 {
+        color: $gray-2;
+        margin: 0 0 30px 0;
+      }
+
+      .common-modal-button {
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+
+        .yes-button {
+          font-size: 16px;
+          width: 60px;
+          height: 25px;
+          border-radius: 5px;
+          background-color: $indigo-2;
+          color: $white;
+        }
+
+        .no-button {
+          font-size: 16px;
+          width: 60px;
+          height: 25px;
+          border-radius: 5px;
+        }
+      }
+    }
+
+    // UserInfo
+    .userinfo-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .userinfo-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        .userid {
+          display: flex;
+          align-items: center;
+          margin: 0;
+          padding: 0 5px;
+          font-size: 18px;
+          font-weight: 700;
+          color: $gray-2;
+        }
+        .edit-profile-button {
+          width: 130px;
+          height: 23px;
+          font-size: 14px;
+          font-weight: 700;
+          color: $gray-2;
+          padding: 15px 5px;
+          display: flex;
+          justify-content: space-evenly;
+          align-items: center;
+          background-color: $white;
+          border: none;
+          border-radius: 10px;
+          box-shadow: $shadow-gray;
+          svg {
+            width: 12px;
+            color: $indigo-2;
+          }
+        }
+      }
+
+      .profile {
+        width: 73px;
+        height: 73px;
+        border-radius: 35px;
+      }
+      svg {
+        width: 73px;
+        color: $gray-4;
+      }
+    }
+
+    // UserCash
+
+    .usercash-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 20px;
+
+      .link-decoration {
+        text-decoration: none;
+      }
+      .usercash-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        background-color: $white;
+        border: none;
+        border-radius: 10px;
+        width: 100%;
+        .ticket {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: center;
+          width: 100px;
+        }
+        .ticket-tag {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        .ticket-icon {
+          width: 26px;
+          height: 26px;
+          color: $indigo-2;
+        }
+        .cash-box {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+
+          .cash {
+            font-size: 18px;
+            font-weight: 700;
+            margin: 0;
+          }
+        }
+
+        .charge {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: center;
+          width: 110px;
+        }
+        .dollar-tag {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        .currnecy-dollar-icon {
+          width: 26px;
+          height: 26px;
+          color: $indigo-2;
+        }
+        .chevron-right-icon {
+          width: 12px;
+          color: $indigo-2;
+          margin-right: 9px;
+          padding-left: 5px;
+        }
+      }
+    }
+
+    // UserDeal
+
+    .userdeal-components-container {
+      margin-top: 30px;
+
+      .userdeal-tabs-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        margin-bottom: 15px;
+        button {
+          @include mypage-tab-focus;
+          @include userdeal-tag-button;
+        }
+      }
+    }
+  }
+}

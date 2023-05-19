@@ -1,0 +1,161 @@
+@import "@styles/Mixins";
+
+.realtime-page-container {
+  justify-self: center;
+  padding: 0 20px;
+  margin-bottom: 60px;
+
+  // desktop영역에서 좌우배치
+  @include desktop {
+    display: flex;
+    padding: 0;
+  }
+
+  // components title
+
+  .realtime-page-title-div {
+    display: flex;
+    align-items: flex-end;
+    svg {
+      width: 25px;
+      margin-right: 5px;
+      margin-bottom: 2px;
+      color: $indigo-1;
+    }
+    .realtime-page-component-title-p {
+      text-align: left;
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 0;
+      @include mobile {
+        font-size: 16px;
+        font-weight: 800;
+      }
+    }
+  }
+  .realtime-page-helper-p {
+    font-size: 12px;
+    text-align: left;
+    margin: 0;
+    margin-bottom: 5px;
+    color: $pink-1;
+  }
+  .realtime-page-notion {
+    color: $gray-3;
+    margin: 50px;
+    word-break: keep-all;
+  }
+
+  // map
+  .realtime-map-component-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 644px;
+
+    a {
+      color: $indigo-2;
+      text-decoration: underline;
+    }
+
+    .map-button-div {
+      position: relative;
+      #map {
+        margin: 0 auto;
+        margin-top: 10px;
+        height: 292px;
+        width: 100%;
+        @include desktop {
+          height: 345px;
+        }
+      }
+      button {
+        position: absolute;
+        right: 5px;
+        bottom: 10px;
+        z-index: 15;
+        background: none;
+      }
+    }
+
+    @include desktop {
+      width: 600px;
+    }
+  }
+
+  // CardList
+  .realtime-deal-card-list-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 644px;
+
+    .cards-list-container {
+      @include desktop {
+        height: 400px;
+        overflow-y: scroll;
+        padding-right: 5px;
+        &::-webkit-scrollbar {
+          width: 10px;
+          &-thumb {
+            background-color: rgba($color: $pink-1, $alpha: 0.3);
+            border-radius: 10px;
+          }
+          &-track {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+    .deal-card-component-container {
+      margin: 10px auto;
+    }
+
+    @include desktop {
+      width: 400px;
+    }
+  }
+}
+
+// Loading
+.loading-modal-overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 98;
+  background: rgba(40, 40, 40, 0.85);
+  background-image: url("../../assets/BGstars.svg");
+  position: absolute;
+
+  .loading-modal-content-box {
+    margin-top: 250px;
+    position: relative;
+
+    p {
+      color: white;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    img {
+      position: absolute;
+      width: 45px;
+      animation: walking 3s infinite;
+    }
+  }
+}
+
+@keyframes walking {
+  0% {
+    left: 40%;
+  }
+  100% {
+    left: 51%;
+  }
+}

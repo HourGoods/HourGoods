@@ -1,0 +1,481 @@
+@import "@styles/Colors";
+@import "@styles/Mixins";
+@import "@styles/Animation";
+
+.auction-page-upper-container {
+  display: flex;
+  justify-content: center;
+}
+.auction-page-all-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  @include desktop {
+    width: 100%;
+    height: 80vh;
+    justify-content: center;
+  }
+  @include tablet {
+    width: 90%;
+    height: 80vh;
+  }
+  @include mobile {
+    width: 90%;
+    height: 80vh;
+  }
+
+  // 경매장 상단 공지사항
+  .track {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    border-radius: 10px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    .dealContent {
+      white-space: nowrap;
+      will-change: transform;
+      animation: marquee 25s linear infinite;
+      -webkit-animation: marquee 25s linear infinite;
+      .dealContnet-text {
+        margin: 0;
+        color: #fff;
+        text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 3px #ff008049,
+          0 0 4px #ff008049, 0 0 5px #ff008049, 0 0 6px #ff008049,
+          0 0 7px #ff008049;
+      }
+    }
+    @keyframes marquee {
+      from {
+        transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+        -moz-transform: translateX(100%);
+        -ms-transform: translateX(100%);
+        -o-transform: translateX(100%);
+      }
+      to {
+        transform: translateX(-200%);
+        -webkit-transform: translateX(-200%);
+        -moz-transform: translateX(-200%);
+        -ms-transform: translateX(-200%);
+        -o-transform: translateX(-200%);
+      }
+    }
+  }
+
+  .a-page-inputbox-container {
+    @include tablet {
+      position: fixed;
+      bottom: 15px;
+      left: 10;
+      width: 90%;
+    }
+    @include mobile {
+      width: 90%;
+      position: fixed;
+      bottom: 15px;
+      left: 10;
+    }
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+    .a-page-inputbox-button {
+      background-color: $white-op;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      padding: 0;
+      svg {
+        width: 24px;
+        color: $indigo-1;
+      }
+      p {
+        font-size: 8px;
+        margin: 0;
+        color: $gray-2;
+      }
+    }
+    .input-message-container {
+      width: 92%;
+      animation: inputSlideLeftRight 0.8s;
+      -webkit-animation: inputSlideLeftRight 0.8s;
+    }
+    .a-page-inputbox-button.active {
+      display: none;
+    }
+  }
+}
+
+// Auction.tsx (상위 경매창)
+.auctionbox-all-conatiner {
+  background-color: $white-op;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  @include desktop {
+    // max-height: 530px;
+    height: 80%;
+    width: 60%;
+    padding: 20px;
+  }
+  @include tablet {
+    width: 100%;
+    // height: 60%;
+    padding: 20px;
+  }
+  @include mobile {
+    // min-height: 400px;
+    // height: 60%;
+    width: 100%;
+    padding: 20px 10px 10px 10px;
+  }
+
+  .dealCard-toggle-button {
+    background-color: $white-op;
+    border-radius: 10px;
+    padding: 0;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    @include fadeInUp;
+  }
+  .dealCard-toggle-button-active {
+    background-color: transparent;
+    padding: 0;
+    @include fadeInDown;
+  }
+
+  //AuctionDealCard.tsx(경매되는거래정보카드)
+  .auction-dealcard-container {
+    background-color: $white-op;
+    box-shadow: $shadow-gray;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    @include desktop {
+      gap: 10px;
+    }
+    @include tablet {
+      gap: 10px;
+    }
+    @include mobile {
+      gap: 5px;
+    }
+    .a-dealcard-img {
+      display: flex;
+      justify-content: center;
+      img {
+        object-fit: cover;
+        max-width: 80px;
+        max-height: 200px;
+      }
+    }
+    .a-dealcard-right {
+      @include desktop {
+        width: calc(100% - 100px);;
+      }
+      @include tablet {
+        width: calc(100% - 100px);
+      }
+      @include mobile {
+        width: 100%;
+      }
+      .a-dealcard-icon {
+        @include icon-wrapper($indigo-1);
+      }
+      .a-dealcard-title {
+        p {
+          margin: 5px 0;
+          text-align: left;
+          color: $indigo-1;
+          font-weight: 900;
+          font-size: 16px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      .a-dealcard-date-time {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: flex;
+        flex-wrap: wrap;
+        @include desktop {
+          gap: 20px;
+        }
+        @include tablet {
+          gap: 10px;
+        }
+        @include mobile {
+          gap: 3px;
+        }
+      }
+      .a-dealcard-progressbar {
+        @include timer-progressbar;
+        margin: 5px 0;
+      }
+    }
+    .common-modal-box {
+      .commonButton {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  // RealtimeBidCard.tsx (현재입찰가)
+  .realtime-bid-card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    border-radius: 10px;
+    background-color: $white-op;
+    box-shadow: $shadow-gray;
+    padding: 10px;
+
+    .realtime-bid-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      p {
+        font-weight: 900;
+        color: $indigo-1;
+        margin: 0;
+      }
+      .r-bid-card-icon-fire {
+        @include icon-wrapper($pink-1);
+        font-weight: 900;
+        color: $indigo-1;
+      }
+    }
+    .realtime-bid-right {
+      display: flex;
+      justify-content: flex-end;
+      gap: 40px;
+      .up {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        margin: 5px 0;
+        svg {
+          width: 20px;
+          color: $pink-1;
+          rotate: -90deg;
+        }
+        p {
+          margin: 0;
+        }
+      }
+      .user {
+        @include icon-wrapper($indigo-1);
+        svg {
+          width: 20px;
+        }
+      }
+    }
+  }
+
+  // 경매 가격창
+  .bid-box-container-upper {
+    display: flex;
+    justify-content: center;
+    .bid-box-container {
+      padding: 15px;
+      width: 100%;
+      // @include scrollbar-css;
+      @include desktop {
+        height: 250px;
+      }
+      @include tablet {
+        height: 80px;
+      }
+      @include mobile {
+        height: 60px;
+      }
+
+      display: flex;
+      flex-direction: column-reverse;
+      overflow: hidden;
+      .cost-box-wrapper {
+        position: relative;
+        background-color: $white-op;
+        width: 150px;
+        height: 40px;
+        border-radius: 10px;
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        box-shadow: $shadow-purple;
+        color: $indigo-1;
+        margin: 10px;
+        animation: fadeOut 3s forwards;
+        opacity: 1;
+      }
+      @keyframes fadeOut {
+        0% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          display: none;
+        }
+      }
+      .left {
+        margin-right: auto;
+      }
+
+      .right {
+        margin-left: auto;
+      }
+    }
+  }
+}
+
+// ChattingBox.tsx (하위 채팅창)
+.chattingbox-all-container {
+  // z-index: 100;
+  background-color: $white-op;
+  border-radius: 10px;
+  padding: 20px;
+  // @include scrollbar-css;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    width: 10px;
+    &-thumb {
+      background-color: white;
+      border-radius: 10px;
+    }
+    &-track {
+      background-color: transparent;
+    }
+  }
+  @include desktop {
+    width: 30%;
+    // max-height: 530px;
+    height: 80%;
+  }
+  @include tablet {
+    width: 100%;
+    // height: 40%;
+    // height: 200px;
+    height: 25%;
+    // margin-bottom: 80px;
+  }
+  @include mobile {
+    width: 100%;
+    height: 25%;
+    // height: 150px;
+  }
+  .private-chatroom-content-container {
+    // padding-bottom: 80px;
+    p {
+      margin: 0;
+      text-align: left;
+      font-size: 14px;
+      word-wrap: break-word;
+    }
+    .not-me-chat {
+      .not-me-chat-message {
+        display: flex;
+        gap: 5px;
+        margin: 10px 0;
+        align-items: center;
+        max-width: 80%;
+        min-width: 40px;
+        img {
+          width: 40px;
+          color: $gray-3;
+          border-radius: 40px;
+          display: flex;
+        }
+        p {
+          margin: 0;
+        }
+        .not-me-chat-name {
+          font-weight: 900;
+          font-size: 8px;
+        }
+        .not-me-chat-content {
+          padding: 5px;
+          background-color: $gray-5;
+          border-radius: 0px 5px 5px 5px;
+        }
+      }
+    }
+    .its-me-chat {
+      margin: 10px 0;
+      display: flex;
+      justify-content: flex-end;
+      .its-me-chat-box {
+        background-color: $violet-2;
+        border-radius: 5px 5px 0px 5px;
+        padding: 5px;
+        max-width: 60%;
+        min-width: 40px;
+      }
+    }
+    // 새로운 메세지 버튼
+    .new-message-button {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 10px 20px;
+      background-color: #f5f5f5;
+      color: #333;
+      border: none;
+      border-radius: 10px;
+      box-shadow: $shadow-gray;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      img {
+        width: 24px;
+        height: 24px;
+        border-radius: 24px;
+        margin-right: 5px;
+      }
+      @include desktop {
+        position: fixed;
+        bottom: 130px;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+      }
+    }
+  }
+  .box-bottom-wrapper {
+    width: 100%;
+  }
+}
+
+@keyframes inputSlideLeftRight {
+  0% {
+    width: 8%;
+  }
+  100% {
+    width: 92%;
+  }
+}
+
+// 새로운 채팅이 왔을 때 돌아오는 ref 요소
+// .chat-bottom-ref {
+//   @include tablet {
+//     margin: 70px;
+//   }
+//   @include mobile {
+//     margin: 70px;
+//   }
+// }

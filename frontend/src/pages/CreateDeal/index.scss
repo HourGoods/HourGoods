@@ -1,0 +1,249 @@
+@import "@styles/Mixins";
+@import "@styles/Colors";
+
+.create-deal-page-container {
+  justify-self: center;
+  padding: 0 20px;
+  margin-bottom: 60px;
+  min-width: 230px;
+  padding-bottom: 60px;
+
+  // button {
+  //   margin: 40px auto;
+  // }
+
+  // desktop 기준 레이아웃 변경
+  @include desktop {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: calc(100%-40px);
+    margin: auto;
+    .create-deal-desktop-left-div {
+      width: 50%;
+    }
+    .create-deal-desktop-right- {
+      width: 50%;
+    }
+  }
+
+  // 기본 정보 입력
+  .deal-info-input-component-container {
+    // display: flex;
+    // flex-direction: column;
+    text-align: left;
+    max-width: 399px;
+    margin: auto;
+
+    // 클릭 방지
+    .concert-card-component-container {
+      pointer-events: none;
+    }
+
+    // deal 타입 선택 버튼 모음
+    .deal-type-buttons-container {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      min-width: 280px;
+      flex-wrap: wrap;
+      button {
+        margin: 0 5px;
+        // background-color: $white-op;
+        // border: 1px solid $gray-4;
+        // margin-right: 10px;
+        // padding: 3px 5px;
+        // border-radius: 8px;
+      }
+    }
+
+    // 타이틀 인풋만 크기 조정
+    .deal-title-input {
+      font-size: 16px;
+      height: 45px;
+    }
+
+    // 라벨링 된 부분만 별도 마진 적용
+    label {
+      p {
+        margin-top: 15px;
+      }
+    }
+
+    // 그 외 인풋값들 스타일 동일
+    input,
+    textarea {
+      width: 97.5%;
+      padding: 2px 5px;
+      margin: 5px auto;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+      background-color: $white-op;
+      color: $gray-2;
+      font-family: "NanumSquare";
+    }
+    input {
+      height: 32px;
+    }
+    textarea {
+      height: 110px;
+      resize: none;
+    }
+    .concert-search-button {
+      #seacrh-concert-input {
+        width: 100%;
+        padding: 2px 5px;
+        margin: 5px auto;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+        background-color: $white-op;
+        color: $gray-2;
+        cursor: pointer;
+        svg {
+          width: 20px;
+        }
+      }
+    }
+
+    // 도움말 상단 (여백 제거를 위함)
+    .helper-text-top-p {
+      margin-bottom: 0px;
+    }
+    // 도움말
+    .helper-text-p {
+      font-size: 12px;
+      color: $pink-1;
+      margin-top: 1px;
+    }
+  }
+
+  // 이미지 업로드
+  .create-deal-img-input-wrapper {
+    min-height: 140px;
+    min-width: 266px;
+    max-width: 400px;
+    aspect-ratio: 5 / 3;
+    margin: 10px auto;
+    .upload-img-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      background-color: $white-op;
+      display: flex;
+      flex-direction: column;
+      align-self: center;
+      // border: 1px dashed $gray-4;
+      cursor: pointer;
+      box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+
+      @media (min-width: 439px) {
+        height: 210px;
+      }
+
+      svg {
+        width: 60px;
+        margin: 45px auto 0px;
+        color: $indigo-1;
+      }
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        aspect-ratio: 5 / 3;
+        object-fit: cover;
+      }
+    }
+    input {
+      display: none;
+    }
+    @include desktop {
+      // 딜타입 버튼영역만큼 위에 여백 추가
+      padding-top: 46px;
+      width: 400px;
+    }
+  }
+
+  // 주소 등록
+  .create-deal-location-component-container {
+    text-align: left;
+    max-width: 399px;
+    margin: 10px auto;
+    #map {
+      margin: 0 auto;
+      max-width: 400px;
+      min-width: 280px;
+      height: 210px;
+      border-radius: 10px;
+    }
+    input {
+      width: 97.5%;
+      height: 32px;
+      padding: 2px 5px;
+      margin: 5px auto;
+      border: none;
+      border-radius: 5px;
+      box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+      background-color: $white-op;
+      color: $gray-2;
+    }
+    p {
+      margin-bottom: 0;
+      cursor: default;
+    }
+    // 도움말
+    .deal-loc-help-text-p {
+      font-size: 12px;
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: $pink-1;
+    }
+  }
+
+  // 검색 영역
+  .common-modal-box {
+    height: 73%;
+    .common-modal-content {
+      .search-modal-content-component-container {
+        height: 100%;
+        // overflow-y: scroll;
+        margin-left: 15px;
+        padding-right: 5px;
+        padding: none;
+        width: 100%;
+        @include scrollbar-css;
+
+        .search-bar-container {
+          // height: 40px;
+          // width: 100%;
+          button {
+            background: inherit;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+          }
+        }
+        // button {
+        //   margin: auto;
+        // }
+
+        .concert-card-component-container {
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  // 버튼
+  .create-deal-button-wrapper {
+    button {
+      margin: 40px auto 0px;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+/* eslint-disable react/react-in-jsx-scope */
+import { TicketIcon } from "@heroicons/react/24/solid";
+import { useRecoilState } from "recoil";
+import { UserStateAtom } from "@recoils/user/Atom";
+
+export default function index() {
+  const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
+  return (
+    <div className="ticket-container">
+      <div className="link-decoration">
+        <div className="ticket-wrapper">
+          <div className="ticket">
+            <TicketIcon className="ticket-icon" />
+            <p className="ticket-tag">포인트</p>
+          </div>
+          <p className="cash">{`${
+            userInfo.cash.toLocaleString() ? userInfo.cash.toLocaleString() : 0
+          }원`}</p>
+        </div>
+      </div>
+    </div>
+  );
+}

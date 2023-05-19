@@ -1,0 +1,122 @@
+@import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
+
+.upper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.updateprofile-container {
+  display: flex;
+  justify-content: center;
+  width: 285px;
+  @include desktop {
+    width: 530px;
+  }
+
+  .updateprofile-contents-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    // 임시 안내 메세지
+    .check-alert-3-p {
+      max-width: 260px;
+    }
+
+    h2 {
+      text-align: start;
+      margin: 0;
+    }
+    .updateprofile-contents-container-desktop {
+      h2 {
+        text-align: center;
+      }
+      @include desktop {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    .updateprofile-contents-container-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 30px 0px 20px 0px;
+
+      img {
+        border-radius: 70%;
+        width: 100px;
+        height: 100px;
+      }
+
+      button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 120px;
+        font-size: 14px;
+        font-weight: 700;
+        margin-top: 10px;
+        background-color: $white;
+        border-radius: 20px;
+        svg {
+          width: 16px;
+          height: 16px;
+          color: $indigo-2;
+        }
+      }
+    }
+    .update-button-wrapper {
+      margin-top: 50px;
+      button {
+        margin: auto;
+      }
+    }
+
+    .updateprofile-contents-container-form {
+      margin-bottom: 30px;
+      align-self: center;
+      @include desktop {
+        margin-top: 60px;
+      }
+      h3 {
+        margin: 0 0 5px 0;
+        text-align: start;
+        padding-left: 10px;
+      }
+      p {
+        margin: 5px 0 0 0;
+        padding-left: 10px;
+        font-size: 14px;
+        text-align: start;
+        color: $pink-1;
+      }
+      .updateprofile-contents-container-form-wrapper {
+        position: relative;
+        input {
+          width: 275px;
+          height: 44px;
+          border: none;
+          border-radius: 10px;
+          box-shadow: $shadow-gray;
+          padding: 0 0 0 10px;
+          outline: none;
+        }
+
+        button {
+          position: absolute;
+          top: 13px;
+          right: 10px;
+          padding: 0;
+          background-color: inherit;
+          font-size: 14px;
+          color: $indigo-2;
+          outline: none;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}

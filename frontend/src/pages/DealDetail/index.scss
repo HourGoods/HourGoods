@@ -1,0 +1,275 @@
+@import "@styles/Mixins";
+@import "@styles/Colors";
+
+.deal-detail-page-container {
+  justify-self: center;
+  margin: 0 20px;
+  padding: 0 20px 20px;
+  min-width: 230px;
+  background-color: $white-op;
+  border-radius: 30px;
+
+  @include mobile {
+    margin: 0 auto;
+  }
+
+  hr {
+    border: 0;
+    height: 0.5px;
+    background: $gray-4;
+  }
+
+  // 상단 배너 (작성자, 물건사진)
+  .deal-banner-component-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 230px;
+    max-width: 640px;
+    margin: auto;
+    padding: 20px 0;
+    border-radius: 20px;
+    // box-shadow: 5px 5px 10px rgba(107, 114, 128, 0.15);
+
+    .seller-profile-infos-container {
+      display: flex;
+      align-items: center;
+      margin: auto;
+      min-width: 230px;
+      max-width: 350px;
+      width: 100%;
+      justify-content: end;
+      button {
+        background: none;
+        img {
+          margin-left: 10px;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .product-img-wrapper {
+      margin: 10px auto;
+      // border: 1px solid black;
+      min-width: 230px;
+      max-width: 350px;
+
+      img {
+        aspect-ratio: 5 / 3;
+        object-fit: cover;
+        width: 100%;
+        border-radius: 10px;
+        // width: 266px;
+      }
+    }
+  }
+
+  // Deal Info
+  .deal-info-component-container {
+    // 하단 영역 desktop 레이아웃 변경
+    margin: 20px auto;
+    text-align: left;
+
+    .deal-info-desktop-top-container {
+      max-width: 640px;
+      margin: auto;
+      @include desktop {
+        max-width: 900px;
+        margin: auto;
+      }
+    }
+
+    .deal-info-desktop-bottom-container {
+      @include desktop {
+        display: flex;
+      }
+    }
+
+    .deal-info-desktop-left-container {
+      max-width: 640px;
+      margin: auto;
+      @include desktop {
+        width: 430px;
+      }
+
+      // title과 알림
+      .title-alert-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px auto;
+        button {
+          background: none;
+        }
+        svg {
+          width: 30px;
+          color: $indigo-2;
+        }
+      }
+
+      .deal-icon-infos-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px auto;
+        width: 100%;
+
+        // 아이콘 포함된 네모박스
+        .deal-icon-info-div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+
+          background-color: white;
+          min-width: 80px;
+          flex-wrap: wrap;
+          width: 30%;
+          height: 60px;
+          border-radius: 8px;
+          box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+
+          .icon-text-div {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            h5 {
+              margin: 0;
+            }
+          }
+          svg {
+            // margin-top: 8px;
+            width: 20px;
+            color: $indigo-2;
+            margin-right: 5px;
+          }
+          p {
+            margin: 0 auto;
+            font-size: 12px;
+            text-align: center;
+          }
+          @include tablet {
+            flex-direction: row;
+            svg {
+              margin-left: 15px;
+            }
+          }
+        }
+      }
+    }
+
+    // 아이콘과 글 나란히 배치
+    .deal-info-icon-p-div {
+      display: flex;
+      align-items: center;
+      margin: 25px auto 10px;
+      svg {
+        width: 20px;
+        margin-right: 5px;
+        color: $indigo-2;
+      }
+      p {
+        font-weight: 700;
+      }
+    }
+
+    // desktop 우측박스 영역 (지도)
+    .deal-info-desktop-right-container {
+      max-width: 640px;
+      min-width: 220px;
+      margin: auto;
+      #map {
+        width: 100%;
+        height: 300px;
+      }
+      @include desktop {
+        width: 430px;
+      }
+      p {
+        span {
+          // font-size: 12px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  // 하단 버튼
+
+  .deal-enter-button-and-modal-component-container {
+    .common-modal-box {
+      min-width: 230px;
+      .common-modal-content {
+        width: 100%;
+      }
+    }
+    .sharing-num-p {
+      font-weight: 800;
+      font-size: 18px;
+      color: $indigo-2;
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 3px 10px;
+      margin: 0 auto;
+    }
+  }
+
+  .deal-enter-button-component-container {
+    margin: 50px 0;
+    min-width: 230px;
+    button {
+      width: 100%;
+      max-width: 260px;
+      margin: 0 auto;
+      scale: 0.8;
+    }
+  }
+  .no-enter-button {
+    pointer-events: none;
+    padding: 3px 5px;
+    margin: 50px auto;
+    background-color: rgba($color: $gray-4, $alpha: 0.5);
+    border-radius: 10px;
+
+    p {
+      color: $gray-2;
+    }
+  }
+}
+
+// 경매결과
+.auction-result-contents-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  button {
+    margin-top: 25px;
+  }
+  .no-result-text-p {
+    margin-top: 40px;
+  }
+  .result-heper-text-p {
+    font-size: 12px;
+  }
+  .inline-texts-container {
+    min-width: 240px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .icon-text-wrapper {
+      display: flex;
+      svg {
+        width: 20px;
+        color: $indigo-1;
+        margin-right: 5px;
+      }
+      .small-title-p {
+        color: $indigo-2;
+        font-weight: 700;
+      }
+    }
+  }
+}

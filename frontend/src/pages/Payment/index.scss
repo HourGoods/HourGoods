@@ -1,0 +1,107 @@
+@import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
+
+.payment-main-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+
+  .payment-contents-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .payment-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+      min-height: 48px;
+
+      .div-decoration {
+        text-decoration: none;
+      }
+      .payment-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        background-color: $white;
+        box-shadow: $shadow-gray;
+        border: none;
+        border-radius: 10px;
+        width: 100%;
+        min-height: 58px;
+
+        .point {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: center;
+          width: 90px;
+        }
+        .point-tag {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        .point-icon {
+          width: 26px;
+          height: 26px;
+          color: $indigo-2;
+        }
+
+        .point-cash {
+          font-size: 18px;
+          font-weight: 700;
+          margin-right: 9px;
+        }
+
+        .charge {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: center;
+          width: 110px;
+        }
+        .charge-tag {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        .charge-icon {
+          width: 26px;
+          height: 26px;
+          color: $indigo-2;
+        }
+
+        .charge-cash {
+          width: 80%;
+          font-size: 18px;
+          font-weight: 700;
+          margin-right: 9px;
+          border: none;
+          // border: 1px solid $indigo-2;
+          text-align: right;
+        }
+        .charge-cash:focus {
+          outline: none;
+          box-shadow: none;
+        }
+        .charge-cash::placeholder {
+          font-size: 16px;
+          font-weight: 700;
+        }
+        .charge-cash::-webkit-inner-spin-button,
+        .charge-cash::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
+    .buttondiv {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

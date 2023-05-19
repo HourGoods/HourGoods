@@ -1,0 +1,24 @@
+html {
+  margin: 0;
+  padding: 0;
+}
+body {
+  margin: 0;
+  font-family: "NanumSquare", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(
+    to bottom right,
+    rgba(165, 213, 252, 0.2),
+    rgba(251, 207, 232, 0.2),
+    rgba(254, 249, 195, 0.2),
+    rgba(237, 233, 254, 0.2)
+  );
+  /* 임시 */
+  /* min-width: 320px; */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}

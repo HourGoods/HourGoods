@@ -1,0 +1,38 @@
+@import "@styles/Colors";
+@import "@styles/Mixins";
+
+.App {
+  margin: auto;
+  text-align: center;
+  min-height: 100vh;
+  max-width: 1024px;
+  a {
+    text-decoration: none;
+    color: $gray-1;
+  }
+  p,
+  h1,
+  h2,
+  h3,
+  h3,
+  h4,
+  h5,
+  span {
+    // padding: 0;
+    // margin: 0;
+  }
+  input {
+    outline: none;
+  }
+  textarea {
+    outline: none;
+  }
+
+  button {
+    border: none;
+    // padding: 0;
+    // margin: 0;
+    cursor: pointer;
+    font-family: "NanumSquare", sans-serif;
+  }
+}

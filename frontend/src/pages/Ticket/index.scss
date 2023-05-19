@@ -1,0 +1,155 @@
+@import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
+
+.ticket-main-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 20px;
+
+  .ticket-contents-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 80px;
+
+    .next-button {
+      margin-top: 30px;
+      background-color: inherit;
+      width: 24px;
+      height: 24px;
+      :hover {
+      }
+    }
+
+    //TicketBalance
+
+    .ticket-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+      min-height: 48px;
+
+      .div-decoration {
+        text-decoration: none;
+      }
+      .ticket-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        background-color: $white;
+        box-shadow: $shadow-gray;
+        border: none;
+        border-radius: 10px;
+        width: 100%;
+        min-height: 48px;
+
+        .ticket {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: center;
+          width: 100px;
+        }
+        .ticket-tag {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        .ticket-icon {
+          width: 26px;
+          height: 26px;
+          color: $indigo-2;
+        }
+
+        .cash {
+          font-size: 18px;
+          font-weight: 700;
+          margin-right: 9px;
+        }
+
+        .charge {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-evenly;
+          align-items: center;
+          width: 110px;
+        }
+        .dollar-tag {
+          font-size: 14px;
+          font-weight: 400;
+        }
+        .currnecy-dollar-icon {
+          width: 26px;
+          height: 26px;
+          color: $indigo-2;
+        }
+      }
+    }
+
+    // TicketCard
+
+    .ticketcard-container {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+
+      .div-decoration {
+        text-decoration: none;
+      }
+      .ticketcard-day-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        background-color: $white;
+        box-shadow: $shadow-gray;
+        border-bottom: 2px dashed $gray-4;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+        width: 100%;
+        min-height: 30px;
+
+        .ticketcard-day-p {
+          font-size: 14px;
+          margin-left: 10px;
+        }
+      }
+
+      .ticketcard-detail-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0;
+        background-color: $white;
+        box-shadow: $shadow-gray;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        width: 100%;
+        min-height: 30px;
+
+        .detail-title {
+          font-size: 14px;
+          font-weight: 700;
+          margin-left: 10px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 170px;
+        }
+
+        .cash {
+          font-size: 18px;
+          font-weight: 700;
+          margin-right: 9px;
+          color: $indigo-2;
+        }
+        .minus {
+          color: $pink-1;
+        }
+      }
+    }
+  }
+}

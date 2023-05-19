@@ -1,0 +1,98 @@
+@import "@styles/Colors.scss";
+@import "@styles/_Mixins.scss";
+
+@mixin user-deal-card-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px 0px;
+}
+@mixin user-deal-card-font-size {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-deal-card-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 250px;
+  width: 160px;
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+  border-radius: 10px;
+  z-index: 0;
+  svg {
+    width: 12px;
+    height: 12px;
+    color: $indigo-2;
+  }
+  button {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  .user-deal-card-delete {
+    position: absolute;
+    top: -12px;
+    padding: 0ox;
+    background: transparent;
+    z-index: 1;
+    svg {
+      width: 19.5px;
+      height: 19.5px;
+      color: $pink-1;
+    }
+  }
+
+  .user-deal-card-wrapper-img {
+    position: relative;
+
+    .deal-tag {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50px;
+      height: 13px;
+      margin: 5px 5px 0px 0px;
+      font-size: 8px;
+      font-weight: 400;
+      background-color: $violet-2;
+      border-radius: 5px;
+    }
+  }
+
+  .user-deal-card-wrapper-containers {
+    padding: 5px;
+    height: 140px;
+  }
+
+  .user-deal-card-wrapper {
+    @include user-deal-card-wrapper;
+  }
+
+  .deal-img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 160px;
+    height: 100px;
+    object-fit: cover;
+  }
+  .user-deal-card-container-p {
+    @include user-deal-card-font-size;
+  }
+
+  .user-deal-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin: 5px 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
