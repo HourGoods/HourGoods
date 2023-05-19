@@ -169,8 +169,8 @@ export default function index(props: mapProps) {
 
   const moveFocus = () => {
     map.setCenter(
-      new window.kakao.maps.LatLng(37.501, 127.04)
-      // new window.kakao.maps.LatLng(location.latitude, location.longitude)
+      // new window.kakao.maps.LatLng(37.501, 127.04)
+      new window.kakao.maps.LatLng(location.latitude, location.longitude)
     );
   };
 
