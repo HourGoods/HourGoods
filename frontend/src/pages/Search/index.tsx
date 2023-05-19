@@ -1,6 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useState } from "react";
 import SearchBar from "@components/common/SearchBar";
 import ConcertList from "@components/SearchPage/ConcertList";
 import NoResult from "@components/SearchPage/NoResult";
@@ -27,7 +26,20 @@ export default function index() {
   const [hasResult, setHasResult] = useState(false);
   const [concertInfoList, setConcertInfoList] = useState<ConcertList>([]);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    setIsLoading(true); // 데이터 받아오는 중이므로 isLoading 상태 변경
+    const result = concertAPI.getAllConcert("");
+    result.then((res: any) => {
+      setConcertInfoList(res.data.result.concertInfoList);
+      // 검색 결과가 없을 때 (0건 일 때)
+      if (res.data.result.concertInfoList.length === 0) {
+        setHasResult(false);
+      } else {
+        setHasResult(true);
+      }
+      setIsLoading(false); // 데이터 받아왔으므로 isLoading 상태 변경
+    });
+  }, []);
 
   const searchHandler = () => {
     setIsLoading(true); // 데이터 받아오는 중이므로 isLoading 상태 변경

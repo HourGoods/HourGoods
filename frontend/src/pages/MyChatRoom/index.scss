@@ -99,13 +99,13 @@
               overflow-y: scroll;
               @include scrollbar-css;
               @include desktop {
-                height: calc(100% - 260px);
+                height: calc(100% - 130px);
               }
               @include tablet {
-                height: calc(100% - 260px);
+                height: calc(100% - 130px);
               }
               @include mobile {
-                height: calc(100% - 260px);
+                height: calc(100% - 130px);
               }
 
               p {
@@ -179,7 +179,7 @@
           // 만나서 거래하기
           .meeting-deal-button-wrapper {
             position: absolute;
-            bottom: 115px;
+            bottom: 85px;
             left: 0px;
             width: 100%;
             .commonButton {
@@ -193,7 +193,7 @@
             width: 95%;
             margin: 0 auto;
             position: absolute;
-            bottom: 45px;
+            bottom: 10px;
             left: 10px;
           }
         }
@@ -241,8 +241,11 @@
       height: 100%;
       border-radius: 10px;
       background-color: $white-op;
-      // @include scrollbar-css;
+      @include scrollbar-css;
       .chatroom-card-list-bottom {
+        .chatroom-card-list-no-now-chatlist {
+          color: $gray-3;
+        }
         margin: 10px auto;
         justify-content: center;
         // padding: 10px 10px 10px 20px;

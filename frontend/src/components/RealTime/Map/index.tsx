@@ -93,7 +93,7 @@ export default function index(props: mapProps) {
       });
     }
     // 콘서트장 위치 그렸으면 중심 이동
-    setTimeout(() => setIsMapLoading(false), 3000);
+    setTimeout(() => setIsMapLoading(false), 1000);
     map.setCenter(
       // new window.kakao.maps.LatLng(37.501, 127.04)
       // 임시 현재 위치
@@ -190,7 +190,7 @@ export default function index(props: mapProps) {
     <div className="realtime-map-component-container">
       <div className="realtime-page-title-div">
         <MapIcon />
-        <p className="realtime-page-component-title-p">내 근처 Time Deal</p>
+        <p className="realtime-page-component-title-p">내 근처 Concert</p>
       </div>
       <p className="realtime-page-helper-p">
         오늘 Deal이 진행되는 콘서트를 확인해 보세요!

@@ -35,7 +35,9 @@ export default function ChatroomList() {
         <div className="chatroom-card-list-wrapper">
           <div className="chatroom-card-list-bottom">
             {chatrooms.length === 0 ? (
-              <p>진행중인 채팅이 없어요</p>
+              <p className="chatroom-card-list-no-now-chatlist">
+                진행중인 채팅이 없어요
+              </p>
             ) : (
               chatrooms.map((chatroom, index) => (
                 <ChatroomCard key={index} chatroom={chatroom} />

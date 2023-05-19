@@ -13,6 +13,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 import "./index.scss";
 import "react-toastify/dist/ReactToastify.css";
+import "@styles/Cropper.scss";
 
 export default function index() {
   // 올릴 이미지
