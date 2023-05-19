@@ -13,6 +13,7 @@ import SockJS from "sockjs-client";
 import InputMsgBox from "@components/common/InputMsgBox";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import ChatContent from "./ChatContent";
+import "@pages/MyChatRoom/index.scss";
 
 export interface PrivatChatMessage {
   nickname: string;
