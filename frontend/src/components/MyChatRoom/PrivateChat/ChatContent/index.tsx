@@ -26,8 +26,7 @@ export default function index({ chatMsgList, userName }: Props) {
         </div>
       ) : (
         chatMsgList.map((message: PrivatChatMessage, index: number) => {
-          // const isMe = message.isUser;
-          const isMy = userName === message.nickname;
+          const isMy = userName !== message.nickname;
           const messageClassName = isMy ? "its-me-chat" : "not-me-chat";
           return (
             <div key={index} className={messageClassName}>

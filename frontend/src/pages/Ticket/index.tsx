@@ -16,7 +16,6 @@ export default function index() {
     mypageAPI
       .pointHistory()
       .then((res) => {
-        console.log(res);
         setTicketlist(res.data.result.pointHistoryInfoList);
       })
       .catch((err) => {
@@ -36,7 +35,7 @@ export default function index() {
         }));
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, []);
   return (
@@ -46,11 +45,6 @@ export default function index() {
         {ticketlist.map((ticket, index) => (
           <TickCard ticket={ticket} key={index} />
         ))}
-        {/* <div>
-          <button type="button" className="next-button">
-            <ChevronDownIcon />
-          </button>
-        </div> */}
       </div>
     </div>
   );

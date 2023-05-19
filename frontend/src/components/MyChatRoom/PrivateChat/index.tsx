@@ -13,6 +13,7 @@ import SockJS from "sockjs-client";
 import InputMsgBox from "@components/common/InputMsgBox";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 import ChatContent from "./ChatContent";
+import "@pages/MyChatRoom/index.scss";
 
 export interface PrivatChatMessage {
   nickname: string;
@@ -57,13 +58,11 @@ export default function index() {
   };
 
   useEffect(() => {
-    console.log("개인채팅 state값", location.state);
     const chatReq = chattingAPI.getmychatMsg(chattingRoomId);
     chatReq
       .then((res) => {
         // 채팅내용 가져오기
         setChatMsgList(res.data.result);
-        console.log("채팅내용가져오기", res.data.result);
         setNotMeName(res.data.result.nickname);
       })
       .catch((err) => {
@@ -72,7 +71,6 @@ export default function index() {
     const dealReq = dealAPI.getDealDeatail(dealId);
     dealReq
       .then((res) => {
-        console.log(res.data.result);
         const getInfo = res.data.result;
         setDealInfo((prev) => ({
           ...prev,
@@ -105,7 +103,6 @@ export default function index() {
   const handleMessage = (message: string) => {
     setsocketList((prevSocketList) => [...prevSocketList, message]);
     const parsedMessage = JSON.parse(message) as PrivatChatMessage;
-    // console.log(parsedMessage);
     setChatMsgList((prevSocketList) => [...prevSocketList, parsedMessage]);
   };
 
@@ -116,7 +113,7 @@ export default function index() {
 
   useEffect(() => {
     // console.log("소켓리스트", socketList);
-    console.log("채팅리스트", chatMsgList);
+    // console.log("채팅리스트", chatMsgList);
   }, [socketList, chatMsgList]);
 
   // Socket 연결
@@ -129,7 +126,6 @@ export default function index() {
         authorization: localStorage.getItem("accessToken") || "",
       },
       onConnect: () => {
-        // console.log("소켓에 연결되었습니당");
         clientRef.current?.subscribe(
           `/topic/chat/${chattingRoomId}`,
           (message: Message) => {
@@ -143,7 +139,6 @@ export default function index() {
 
   // Socket 연결 끊기
   const disconnect = () => {
-    // console.log("소켓 연결이 끊어졌습니당");
     clientRef.current?.deactivate(); // client측 비활성화
   };
 

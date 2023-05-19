@@ -109,12 +109,10 @@ export default function index() {
     e.preventDefault();
     const regex = /^[a-zA-Z0-9가-힣]{2,10}$/;
     if (regex.test(nicknameInput)) {
-      console.log(nicknameInput);
       const nickname = nicknameInput;
       const result = memberAPI.duplicateNickname(nickname);
       result
         .then((res) => {
-          console.log(res);
           if (res.data.result === true) {
             const newNickname = nicknameInput;
             const newUserInfo = { ...userInfo };
@@ -127,7 +125,7 @@ export default function index() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
         });
     } else {
       setCheckAlert(3);
@@ -174,8 +172,6 @@ export default function index() {
             imageUrl: trimmedUrl,
           });
           result.then((res) => {
-            console.log(res);
-            // const { dealId } = res.data.result;
             toast.success("정보가 변경되었습니다!", { autoClose: 1000 });
             setUserInfo((prevUserInfo: any) => ({
               ...prevUserInfo,
@@ -185,7 +181,7 @@ export default function index() {
           });
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
     if (!inputImage.file) {
@@ -195,8 +191,6 @@ export default function index() {
       }
       const result = memberAPI.editUser({ ...userInfo, nickname });
       result.then((res) => {
-        console.log(res);
-        // const { dealId } = res.data.result;
         toast.success("정보가 변경되었습니다!", { autoClose: 1000 });
         navigate(`/mypage`);
         setUserInfo((prevUserInfo: any) => ({
@@ -213,9 +207,6 @@ export default function index() {
       nicknameChecker(e); // Enter 입력이 되면 클릭 이벤트 실행
     }
   };
-
-  console.log(userInfo);
-
   return (
     <>
       <ToastContainer />

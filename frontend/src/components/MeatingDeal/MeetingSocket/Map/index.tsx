@@ -98,7 +98,6 @@ export default function Map(props: IMapPropsType) {
   }, []);
 
   useEffect(() => {
-    console.log("처음 마운팅, 이후엔 되면 안 됨");
     const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(37.49483466037, 127.02871475306), // 기본 위치
@@ -117,7 +116,6 @@ export default function Map(props: IMapPropsType) {
 
   useEffect(() => {
     if (flag === 1 && map) {
-      console.log("map있다");
       // 기존 마커들 제거
       markers.forEach((marker) => {
         marker.setMap(null);

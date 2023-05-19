@@ -46,7 +46,6 @@ export default function index({ bidList, inoutMsgList }: Props) {
     const fetchCurrentBid = async () => {
       try {
         const response = await AuctionAPI.getableAuction(dealId);
-        console.log(response.data.result);
         const currentBid = response.data.result.currentBid;
         const serverTime = response.data.result.currentTime;
         setNowBid(currentBid);

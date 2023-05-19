@@ -37,7 +37,6 @@ export default function index() {
       const concertId = parseInt(param.concertId, 10);
       // concertDetail get요청
       concertAPI.getConcertDetail(concertId).then((res) => {
-        console.log(res);
         const getInfo = res.data.result;
         setConcertDetailInfo(getInfo);
       });

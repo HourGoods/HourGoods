@@ -84,8 +84,5 @@ export async function deleteCircle(
   const circlePosition = new window.kakao.maps.LatLng(concertLat, concertLng);
   circle.setPosition(circlePosition);
   circle.setMap(null);
-
-  console.log(circle, "이게 원이라고?");
-
   return map;
 }

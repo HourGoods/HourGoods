@@ -1,5 +1,6 @@
 @import "@styles/Colors.scss";
 @import "@styles/Mixins.scss";
+@import "@styles/Animation.scss";
 
 .main-page-container {
   margin: 40px auto;
@@ -10,6 +11,9 @@
     h2 {
       color: $pink-1;
       font-weight: 800;
+      animation: fadein 3s;
+      -moz-animation: fadein 3s; /* Firefox */
+      -webkit-animation: fadein 3s; /* Safari and Chrome */
     }
     img {
       width: 100px;

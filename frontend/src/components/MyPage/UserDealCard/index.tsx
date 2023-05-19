@@ -49,8 +49,6 @@ export default function index({ getmy, deal }: IProps) {
   const successClickHandler = () => {
     const api = 1;
     setSuccess(api);
-    console.log(isAuctionAlarmModal);
-    console.log(success);
   };
 
   const [dealId, setDealId] = useRecoilState(isdealDelete);

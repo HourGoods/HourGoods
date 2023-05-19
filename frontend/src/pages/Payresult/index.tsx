@@ -32,12 +32,10 @@ const index: React.FC = () => {
     })
       .then((response) => {
         // 결제 승인에 대한 응답 출력
-        console.log(response);
         const pay = response.data.amount.total;
         mypageAPI
           .charge(pay)
           .then((res) => {
-            console.log(res);
             setUserInfo((prev: any) => ({
               ...prev,
               cash: pay,
@@ -45,12 +43,12 @@ const index: React.FC = () => {
             navigate("/ticket"); // 전체 검색인 경우 클릭시 디테일 페이지로 이동
           })
           .catch((err) => {
-            console.log(err);
+            console.error(err);
           });
       })
       .catch((error) => {
         // 에러 핸들링
-        console.log(error);
+        console.error(error);
       });
   }, []);
 

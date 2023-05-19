@@ -16,8 +16,6 @@ export default function index() {
       .participateDeal()
       .then((res) => {
         setDealList(res.data.result.dealInfoList);
-        console.log(res.data.result.dealInfoList);
-        console.log(dealList);
       })
       .catch((err) => {
         console.error(err);
