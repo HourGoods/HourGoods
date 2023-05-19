@@ -46,7 +46,6 @@ export default function index() {
 
   // login이나, signup에서 안 온 경우는 막아야 함
   useEffect(() => {
-    console.log(userInfo);
     if (!userInfo.email) {
       toast.error("비정상적 접근입니다.", {
         position: "top-center",
@@ -129,12 +128,10 @@ export default function index() {
 
   // 닉네임 중복 확인 api
   const nicknameChecker = (e: any) => {
-    console.log(inputNickname, isValidNickname);
     if (inputNickname && isValidNickname) {
       const nickname = inputNickname;
       const result = memberAPI.duplicateNickname(nickname);
       result.then((res) => {
-        console.log(res);
         if (res.data.result === true) {
           setNicknamAlert("valid");
         } else {
@@ -146,7 +143,6 @@ export default function index() {
 
   // 회원가입
   const signupHandler = async () => {
-    console.log("가입해보까");
     const params = new URLSearchParams(window.location.search);
     // img가 있는 경우
     if (inputImage.file) {
@@ -174,7 +170,6 @@ export default function index() {
             // 로그인 여부도 저장
             localStorage.setItem("isLogin", "true");
             // token저장
-            console.log("이게 받아온 데이터", res);
             const accessToken = res.data.result.accessToken || "";
             const refreshToken = res.data.result.refreshToken || "";
             localStorage.setItem("accessToken", accessToken);
@@ -194,7 +189,7 @@ export default function index() {
           });
         }
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     }
     // img가 없는 경우
@@ -206,7 +201,6 @@ export default function index() {
       result.then((res) => {
         localStorage.setItem("isLogin", "true");
         // token저장
-        console.log("이게 받아온 데이터", res);
         const accessToken = res.data.result.accessToken || "";
         const refreshToken = res.data.result.refreshToken || "";
         localStorage.setItem("accessToken", accessToken);

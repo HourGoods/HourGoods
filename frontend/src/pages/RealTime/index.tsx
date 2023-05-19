@@ -40,13 +40,12 @@ export default function index() {
           concertAPI
             .getTodayConcert(response.latitude, response.longitude)
             .then((res) => {
-              console.log(res, "api요청");
               setTodayConcertList(res.data.result.concertInfoList);
             });
         }
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err);
       });
   }, []);
 

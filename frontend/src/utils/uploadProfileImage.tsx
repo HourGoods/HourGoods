@@ -34,7 +34,7 @@ export default function uploadProfileImage(
       return imageUrl;
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       const imageUrl = null;
       return imageUrl;
     });

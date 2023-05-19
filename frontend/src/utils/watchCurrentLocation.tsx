@@ -19,11 +19,6 @@ const watchCurrentLocation = (
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-        console.log(
-          "위치 갱신!",
-          position.coords.latitude,
-          position.coords.longitude
-        );
 
         // marker 생성
         const markerImage = new window.kakao.maps.MarkerImage(

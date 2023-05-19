@@ -81,7 +81,6 @@ export default function index(props: any) {
       const req = AuctionAPI.getableAuction(dealId);
       req
         .then((res) => {
-          console.log("경매하기 res", res.data.result);
           const result = res.data;
           const currBid = result.result.currentBid;
           const participantCnt = result.result.participantCount;
@@ -110,7 +109,6 @@ export default function index(props: any) {
       // 나눔신청하기
       const apply = dealAPI.postSharingApply(dealId);
       apply.then((res) => {
-        console.log(res, "나눔이 신청되었습니다!");
         setIsModalOpen(true);
         setSharingNum(res.data.result.result);
       });

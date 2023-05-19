@@ -61,7 +61,6 @@ export default function index(props: mapProps) {
 
     // 오늘의 콘서트와 현재의 거리 받아오기
     // 오늘 콘서트 리스트 확인
-    console.log(todayConcertList);
     if (todayConcertList) {
       todayConcertList.map((concert: any) => {
         const distance = haversineDistance(
@@ -112,7 +111,6 @@ export default function index(props: mapProps) {
       watcher = watchCurrentLocation(map, (result: any) => {
         if (typeof result === "string") {
           // 에러 처리
-          console.log(result, "watcher error");
           return;
         }
         // 오늘 concert영역 안에 있는지 확인
@@ -128,12 +126,7 @@ export default function index(props: mapProps) {
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
             );
-            if (isInConcertList) {
-              console.log("이미 등록되어 있으니 아무 것도 하지 말자");
-            } else {
-              console.log("없었던 애니까 등록하자!");
-              console.log("정말 없나?", inConcertList, isInConcertList);
-
+            if (!isInConcertList) {
               const newList = inConcertList.concat({
                 ...concert,
                 startDate: concert.startTime,
@@ -149,8 +142,6 @@ export default function index(props: mapProps) {
               (inConcert: any) => inConcert.concertId === concert.concertId
             );
             if (isInConcertList) {
-              console.log("등록되어 있던 애다. 없애자!");
-
               setInConcertList((prev: any) =>
                 prev.filter(
                   (inConcert: any) => inConcert.concertId !== concert.concertId
@@ -158,10 +149,7 @@ export default function index(props: mapProps) {
               );
               setIsMapLoading(true);
               setLocation(result);
-
               // window.location.reload();
-            } else {
-              console.log("없던 애구나. 계속 없어라!");
             }
           }
           return null;

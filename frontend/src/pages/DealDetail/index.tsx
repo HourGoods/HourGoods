@@ -68,15 +68,12 @@ export default function DealDetail() {
       const result = dealAPI.getDealDeatail(dealId);
       setDealId(dealId);
       result.then((res) => {
-        // console.log(res, "만든 걸로 받아온 deal 정보");
         const deal = res.data.result;
         setDealInfo(deal);
         // 표시할 concert정보도 받아오기
         const { concertId } = res.data.result;
         concertAPI.getConcertDetail(concertId).then((res) => {
           setConcertInfo(res.data.result);
-          console.log(res);
-
           // 종료된 경매면 isFinised 바꾸고 Modal에서 api
           const today = new Date();
           const endday = new Date(deal.endTime);
