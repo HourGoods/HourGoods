@@ -100,10 +100,10 @@ export default function DealDetail() {
             concertInfo.latitude,
             concertInfo.longitude,
             // 임시 현재 위치
-            37.501,
-            127.04
-            // res.latitude,
-            // res.longitude
+            // 37.501,
+            // 127.04
+            res.latitude,
+            res.longitude
           );
 
           setDistance(distance);

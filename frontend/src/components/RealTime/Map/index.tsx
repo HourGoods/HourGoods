@@ -67,11 +67,11 @@ export default function index(props: mapProps) {
         const distance = haversineDistance(
           concert.latitude,
           concert.longitude,
-          // location.latitude,
-          // location.longitude
+          location.latitude,
+          location.longitude
           // 임시 현재 위치
-          37.501,
-          127.04
+          // 37.501,
+          // 127.04
         );
         // 만약 500m안에 있는 게 있으면
         if (distance <= 1000) {
@@ -103,81 +103,81 @@ export default function index(props: mapProps) {
     flagRef.current = true;
   }, [location, todayConcertList]);
 
-  // useEffect(() => {
-  //   // 지속해서 현재 위치 감시하면서 marker그리기
-  //   let watcher: number | undefined;
+  useEffect(() => {
+    // 지속해서 현재 위치 감시하면서 marker그리기
+    let watcher: number | undefined;
 
-  //   // 지도가 마운팅이 된 것을 확인하고,
-  //   if (map && flagRef.current) {
-  //     watcher = watchCurrentLocation(map, (result: any) => {
-  //       if (typeof result === "string") {
-  //         // 에러 처리
-  //         console.log(result, "watcher error");
-  //         return;
-  //       }
-  //       // 오늘 concert영역 안에 있는지 확인
-  //       todayConcertList.map((concert: any) => {
-  //         const distance = haversineDistance(
-  //           concert.latitude,
-  //           concert.longitude,
-  //           result.latitude,
-  //           result.longitude
-  //         );
-  //         if (distance <= 1000) {
-  //           // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
-  //           const isInConcertList = inConcertList.find(
-  //             (inConcert: any) => inConcert.concertId === concert.concertId
-  //           );
-  //           if (isInConcertList) {
-  //             console.log("이미 등록되어 있으니 아무 것도 하지 말자");
-  //           } else {
-  //             console.log("없었던 애니까 등록하자!");
-  //             console.log("정말 없나?", inConcertList, isInConcertList);
+    // 지도가 마운팅이 된 것을 확인하고,
+    if (map && flagRef.current) {
+      watcher = watchCurrentLocation(map, (result: any) => {
+        if (typeof result === "string") {
+          // 에러 처리
+          console.log(result, "watcher error");
+          return;
+        }
+        // 오늘 concert영역 안에 있는지 확인
+        todayConcertList.map((concert: any) => {
+          const distance = haversineDistance(
+            concert.latitude,
+            concert.longitude,
+            result.latitude,
+            result.longitude
+          );
+          if (distance <= 1000) {
+            // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
+            const isInConcertList = inConcertList.find(
+              (inConcert: any) => inConcert.concertId === concert.concertId
+            );
+            if (isInConcertList) {
+              console.log("이미 등록되어 있으니 아무 것도 하지 말자");
+            } else {
+              console.log("없었던 애니까 등록하자!");
+              console.log("정말 없나?", inConcertList, isInConcertList);
 
-  //             const newList = inConcertList.concat({
-  //               ...concert,
-  //               startDate: concert.startTime,
-  //             });
-  //             setInConcertList(newList);
-  //             setIsMapLoading(true);
-  //             setLocation(result);
-  //             // window.location.reload();
-  //           }
-  //         } else if (distance > 1000) {
-  //           // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
-  //           const isInConcertList = inConcertList.find(
-  //             (inConcert: any) => inConcert.concertId === concert.concertId
-  //           );
-  //           if (isInConcertList) {
-  //             console.log("등록되어 있던 애다. 없애자!");
+              const newList = inConcertList.concat({
+                ...concert,
+                startDate: concert.startTime,
+              });
+              setInConcertList(newList);
+              setIsMapLoading(true);
+              setLocation(result);
+              // window.location.reload();
+            }
+          } else if (distance > 1000) {
+            // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
+            const isInConcertList = inConcertList.find(
+              (inConcert: any) => inConcert.concertId === concert.concertId
+            );
+            if (isInConcertList) {
+              console.log("등록되어 있던 애다. 없애자!");
 
-  //             setInConcertList((prev: any) =>
-  //               prev.filter(
-  //                 (inConcert: any) => inConcert.concertId !== concert.concertId
-  //               )
-  //             );
-  //             setIsMapLoading(true);
-  //             setLocation(result);
+              setInConcertList((prev: any) =>
+                prev.filter(
+                  (inConcert: any) => inConcert.concertId !== concert.concertId
+                )
+              );
+              setIsMapLoading(true);
+              setLocation(result);
 
-  //             // window.location.reload();
-  //           } else {
-  //             console.log("없던 애구나. 계속 없어라!");
-  //           }
-  //         }
-  //         return null;
-  //       });
-  //       // 지도 중심 이동, 현재 위치 표시
-  //       // map.setCenter(
-  //       //   new window.kakao.maps.LatLng(result.latitude, result.longitude)
-  //       // );
-  //     });
-  //   }
-  //   return () => {
-  //     if (watcher) {
-  //       navigator.geolocation.clearWatch(watcher);
-  //     }
-  //   };
-  // }, [flagRef, map]);
+              // window.location.reload();
+            } else {
+              console.log("없던 애구나. 계속 없어라!");
+            }
+          }
+          return null;
+        });
+        // 지도 중심 이동, 현재 위치 표시
+        // map.setCenter(
+        //   new window.kakao.maps.LatLng(result.latitude, result.longitude)
+        // );
+      });
+    }
+    return () => {
+      if (watcher) {
+        navigator.geolocation.clearWatch(watcher);
+      }
+    };
+  }, [flagRef, map]);
 
   const moveFocus = () => {
     map.setCenter(
