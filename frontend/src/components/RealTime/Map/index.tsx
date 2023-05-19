@@ -93,7 +93,7 @@ export default function index(props: mapProps) {
       });
     }
     // 콘서트장 위치 그렸으면 중심 이동
-    setTimeout(() => setIsMapLoading(false), 3000);
+    setTimeout(() => setIsMapLoading(false), 1000);
     map.setCenter(
       // new window.kakao.maps.LatLng(37.501, 127.04)
       // 임시 현재 위치
