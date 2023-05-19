@@ -199,13 +199,13 @@ export default function Map(props: IMapPropsType) {
         </div>
         {/* 상황별 표시 문구 */}
         <div className="deal-situational-contents-container">
-          {meetingInfo.distance > 10 && (
-            <p>※ 10m 이내에서 포인트 거래가 활성화 됩니다.</p>
+          {meetingInfo.distance > 20 && (
+            <p>※ 20m 이내에서 포인트 거래가 활성화 됩니다.</p>
           )}
-          {dealCreator === userName && meetingInfo.distance <= 10 && (
+          {dealCreator === userName && meetingInfo.distance <= 20 && (
             <p>※ 구매자가 물품 구매 수락 시 포인트 거래가 성사됩니다.</p>
           )}
-          {dealCreator !== userName && meetingInfo.distance <= 10 && (
+          {dealCreator !== userName && meetingInfo.distance <= 20 && (
             <p>※ 물품을 구매하셨나요? 버튼을 누르면 포인트가 차감됩니다.</p>
           )}
         </div>
@@ -223,7 +223,7 @@ export default function Map(props: IMapPropsType) {
           </span>{" "}
           상대 위치
         </div>
-        {dealCreator !== userName && meetingInfo.distance <= 10 && (
+        {dealCreator !== userName && meetingInfo.distance <= 20 && (
           <div className="buy-button-box">
             <Button color="pink" onClick={finishDealHandler}>
               물품을 구매했어요
