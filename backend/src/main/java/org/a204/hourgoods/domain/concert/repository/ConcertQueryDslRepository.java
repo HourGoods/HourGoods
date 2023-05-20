@@ -22,12 +22,9 @@ public class ConcertQueryDslRepository {
 
 	QConcert concert = QConcert.concert;
 
-	public List<String> searchAllKopisConcertIdByPeriod(LocalDateTime startTime, LocalDateTime endTime) {
+	public List<String> searchAllKopisConcertId() {
 		List<String> results = query.select(concert.kopisConcertId)
 			.from(concert)
-			.where(
-				concert.startTime.between(startTime, endTime)
-			)
 			.fetch();
 		return results;
 	}
