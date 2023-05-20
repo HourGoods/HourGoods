@@ -91,8 +91,7 @@ public class KopisService {
 			new ArrayList<>() : kopisConcertList.getConcertInfoList();
 
 		// DB에 있는 특정 기간 내의 공연들의 kopisConcertId 정보
-		List<String> kopisConcertIdListFromDB = concertQueryDslRepository.searchAllKopisConcertIdByPeriod(startTime,
-			endTime);
+		List<String> kopisConcertIdListFromDB = concertQueryDslRepository.searchAllKopisConcertId();
 		Set<String> kopisConcertIdSetFromDB = new HashSet<>();
 		kopisConcertIdSetFromDB.addAll(kopisConcertIdListFromDB);
 
