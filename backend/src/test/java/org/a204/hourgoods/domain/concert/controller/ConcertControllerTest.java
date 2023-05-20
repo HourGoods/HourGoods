@@ -28,6 +28,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit.jupiter.EnabledIf;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -284,12 +285,12 @@ class ConcertControllerTest {
 	@DisplayName("앞으로 한 달 내의 공연 정보 갱신 API TEST")
 	class UpdateConcertList {
 		@Test
+		@EnabledIf(expression = "${test.integration.enabled:false}", loadContext = true)
 		@DisplayName("앞으로 한 달 내의 공연 정보 갱신 성공")
 		void updateConcertListSuccess() throws Exception {
 			MockHttpServletResponse response = mockMvc
 				.perform(post(url + "update")
-					.contentType(MediaType.APPLICATION_JSON)
-					.param("maxSize", "1"))
+					.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andExpect(jsonPath("$.code", is("G000")))
 				.andDo(print())

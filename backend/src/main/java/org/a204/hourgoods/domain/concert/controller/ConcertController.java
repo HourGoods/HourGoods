@@ -61,8 +61,8 @@ public class ConcertController {
 	@Operation(summary = "앞으로 한 달 내의 공연 정보 갱신 API", description = "오늘로부터 한 달 내의 공연 정보 리스트를 갱신한다.")
 	@ApiResponse(responseCode = "200", description = "갱신 성공", content = @Content(schema = @Schema(implementation = List.class)))
 	@PostMapping("/update")
-	public BaseResponse<List<ConcertIdResponse>> updateConcertList(@RequestParam(name = "maxSize") Integer maxSize) {
-		List<ConcertIdResponse> response = kopisService.getConcertByPeriod(maxSize);
+	public BaseResponse<List<ConcertIdResponse>> updateConcertList() {
+		List<ConcertIdResponse> response = kopisService.getConcertByPeriod();
 		return new BaseResponse<>(response);
 	}
 
