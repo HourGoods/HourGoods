@@ -129,7 +129,6 @@ public class TradeService {
 		tradeLocationRepository.save(tradeLocation);
 
 		LocationInfoResponse sellerLocationInfo = LocationInfoResponse.builder()
-			.messageType("Location")
 			.otherNickname(seller.getNickname())
 			.otherLongitude(sellerLongitude)
 			.otherLatitude(sellerLatitude)
@@ -137,7 +136,6 @@ public class TradeService {
 			.build();
 
 		LocationInfoResponse purchaserLocationInfo = LocationInfoResponse.builder()
-			.messageType("Location")
 			.otherNickname(purchaser.getNickname())
 			.otherLongitude(purchaserLongitude)
 			.otherLatitude(purchaserLatitude)

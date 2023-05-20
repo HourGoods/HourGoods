@@ -295,7 +295,8 @@ class TradeServiceTest {
 		@Transactional
 		@DisplayName("결제 및 거래 종료 성공")
 		void terminateTradeSuccess() {
-			Integer sellerCashPoint = purchaser.getCashPoint();
+			purchaser.updateCashPoint(40000);
+			Integer sellerCashPoint = seller.getCashPoint();
 			Integer purchaserCashPoint = purchaser.getCashPoint();
 			DoneMessageInfo response = tradeService.terminateTrade(dealId, request);
 			assertEquals(seller.getNickname(), response.getSellerNickname());

@@ -61,8 +61,8 @@ public class KopisService {
 	}
 
 	// kopis api에서 호출한 특정 기간 내의 새로운 공연 정보 저장하기
-	@Scheduled(cron = "0 0 1 * * *")
-	public List<ConcertIdResponse> getConcertByPeriod(Integer maxSize) {
+	@Scheduled(cron = "0 0 3 * * *")
+	public List<ConcertIdResponse> getConcertByPeriod() {
 		// 오늘로부터 앞으로 한달 이내로 기간 설정
 		final LocalDateTime startTime = LocalDate.now().atStartOfDay();
 		final LocalDateTime endTime = LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1);
@@ -73,7 +73,7 @@ public class KopisService {
 			.queryParam("stdate", startTime.format(DateTimeFormatter.ofPattern("yyyyMMdd")))
 			.queryParam("eddate", endTime.format(DateTimeFormatter.ofPattern("yyyyMMdd")))
 			.queryParam("cpage", 1)
-			.queryParam("rows", maxSize)
+			.queryParam("rows", 500)
 			.queryParam("shcate", "CCCD")
 			.build();
 
