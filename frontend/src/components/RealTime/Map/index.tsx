@@ -51,6 +51,7 @@ export default function index(props: mapProps) {
 
   // 최초 지도 그리기, 위치 변경에 따른 지도 그리기
   useEffect(() => {
+    setIsMapLoading(true);
     const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(37.49483466037, 127.02871475306), // 기본 위치

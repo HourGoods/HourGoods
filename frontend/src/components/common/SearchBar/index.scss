@@ -22,11 +22,15 @@
   }
   button {
     border: none;
-    width: 50px;
+    // width:100%;
     background-color: inherit;
     border-radius: 8px;
+    margin: 0;
+    padding: 0;
     p {
       color: $indigo-2;
+      margin: 0;
+      width: 40px;
     }
   }
 }

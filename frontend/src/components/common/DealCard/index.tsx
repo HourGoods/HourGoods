@@ -11,6 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import BellAlertLineIcon from "@heroicons/react/24/outline/BellAlertIcon";
 import Button from "@components/common/Button";
+import { isMobileDevice } from "@utils/isMobileDivece";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -98,7 +99,9 @@ export default function index({ dealInfo }: DealCardProps) {
           onClick={goDetail}
         >
           <div className="deal-card-left-img-wrapper">
-            {dealInfo.imageUrl && dealInfo.imageUrl !== "" ? (
+            {dealInfo.imageUrl &&
+            dealInfo.imageUrl !== "" &&
+            !isMobileDevice() ? (
               <img
                 src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.imageUrl}`}
                 alt="물품사진"
@@ -126,17 +129,19 @@ export default function index({ dealInfo }: DealCardProps) {
           </div>
         </button>
 
-        <div className="deal-card-alert-wrapper">
-          <Button color={dealInfo.dealTypeName} size="deal" isActive />
-          <button
-            type="button"
-            onClick={bookmarkHanlder}
-            className="bookmark-button"
-            aria-label="북마크"
-          >
-            {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
-          </button>
-        </div>
+        {!isMobileDevice() && (
+          <div className="deal-card-alert-wrapper">
+            <Button color={dealInfo.dealTypeName} size="deal" isActive />
+            <button
+              type="button"
+              onClick={bookmarkHanlder}
+              className="bookmark-button"
+              aria-label="북마크"
+            >
+              {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

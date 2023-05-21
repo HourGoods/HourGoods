@@ -34,6 +34,7 @@
 
   .create-deal-button-wrapper {
     // position: absolute;
+
     button {
       position: fixed;
       bottom: 50px;
@@ -41,6 +42,7 @@
       transform: translate(-50%, 0);
       // bottom: 30px;
       z-index: 10;
+
     }
   }
 }
