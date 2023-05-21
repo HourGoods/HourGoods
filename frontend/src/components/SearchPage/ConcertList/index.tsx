@@ -10,7 +10,7 @@ interface IConcertProps {
 export default function index(props: IConcertProps) {
   const { concertInfoList, flag } = props;
   return (
-    <div>
+    <div className="card-list-container">
       {concertInfoList.map((concert: ConcertInterface) => (
         <ConcertCard
           concertInfo={concert}

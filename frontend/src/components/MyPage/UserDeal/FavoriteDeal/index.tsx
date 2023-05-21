@@ -22,17 +22,7 @@ export default function index() {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-        rowGap: "50px",
-        columnGap: "30px",
-        marginTop: "30px",
-      }}
-    >
+    <div className="deals-container">
       {dealList.length === 0 ? (
         <div style={{ width: "100%", marginTop: "50px", lineHeight: "1.5" }}>
           찜한 Deal이 없어요 <br />

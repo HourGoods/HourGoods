@@ -1,4 +1,5 @@
 @import "@styles/Colors";
+@import "@styles/Mixins";
 
 @mixin button-color($color1, $color2) {
   background: linear-gradient(to right, $color1, $color2);
@@ -70,6 +71,10 @@
     font-size: 18px;
     padding: 14px 56px;
     color: white;
+    @include mobile {
+      width: 230px;
+      height: 58px;
+    }
   }
   &.small {
     min-width: 40px;
