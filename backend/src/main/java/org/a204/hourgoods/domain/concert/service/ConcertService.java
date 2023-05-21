@@ -2,6 +2,7 @@ package org.a204.hourgoods.domain.concert.service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,8 @@ import org.a204.hourgoods.domain.concert.request.TodayConcertRequest;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
 import org.a204.hourgoods.global.util.CheckDistanceUtil;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class ConcertService {
 	private final ConcertRepository concertRepository;
 	private final ConcertQueryDslRepository concertQueryDslRepository;
+	private static final Integer PAGE_SIZE = 10;
 
 	// 오늘의 공연 목록 조회
 	public ConcertListResponse getTodayConcertList(TodayConcertRequest request) {
@@ -70,21 +74,59 @@ public class ConcertService {
 	}
 
 	// 키워드를 제목에 포함하는 공연 정보 검색
-	public ConcertListResponse getConcertListByKeyword(String keyword) {
-		// 2차 성능 개선
-		List<Concert> concertList = concertQueryDslRepository.searchAllConcertByPeriodAndKeyword(
-			LocalDate.now().atStartOfDay(), LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1), keyword);
-		List<ConcertInfoResponse> concertInfoResponses = concertList.stream()
-			.map(ConcertInfoResponse::new)
-			.collect(Collectors.toList());
-		Long lastConcertId = Long.valueOf(-1);
-		if (!concertList.isEmpty()) {
-			lastConcertId = concertInfoResponses.get(concertInfoResponses.size() - 1).getConcertId();
+	public ConcertListResponse getConcertListByKeyword(String keyword, Long lastConcertId) {
+		// 3차 성능 개선
+		Pageable pageable = Pageable.ofSize(PAGE_SIZE);
+		LocalDateTime lastConcertStartTime = null;
+		Integer lastConcertDealsSize = null;
+		if(!lastConcertId.equals(-1L)){
+			Concert concert = concertRepository.findById(lastConcertId).orElseThrow(ConcertNotFoundException::new);
+			lastConcertStartTime = concert.getStartTime();
+			lastConcertDealsSize = concert.getDeals().size();
 		}
+
+		Slice<Concert> concerts = concertQueryDslRepository.searchAllConcertByPeriodAndKeyword(
+			LocalDate.now().atStartOfDay(),
+			LocalDate.now().plusMonths(1).atStartOfDay().minusSeconds(1),
+			keyword,
+			lastConcertId,
+			lastConcertStartTime,
+			lastConcertDealsSize,
+			pageable);
+
+		// 정보가 없을 경우 빈 정보 반환
+		if (concerts.isEmpty()) {
+			return ConcertListResponse.builder()
+				.hasNextPage(false)
+				.lastConcertId(lastConcertId)
+				.concertInfoList(new ArrayList<>())
+				.build();
+		}
+
+		List<ConcertInfoResponse> response = new ArrayList<>();
+		for (Concert concert : concerts) {
+			ConcertInfoResponse concertInfo = ConcertInfoResponse.builder()
+				.concertId(concert.getId())
+				.imageUrl(concert.getImageUrl())
+				.title(concert.getTitle())
+				.startTime(concert.getStartTime())
+				.kopisConcertId(concert.getKopisConcertId())
+				.place(concert.getPlace())
+				.longitude(concert.getLongitude())
+				.latitude(concert.getLatitude())
+				.build();
+			response.add(concertInfo);
+		}
+
+		Long lastConcertIdResponse = null;
+		if (!response.isEmpty()) {
+			lastConcertIdResponse = response.get(response.size() - 1).getConcertId();
+		}
+
 		return ConcertListResponse.builder()
-			.hasNextPage(false)
-			.lastConcertId(lastConcertId)
-			.concertInfoList(concertInfoResponses)
+			.hasNextPage(concerts.hasNext())
+			.lastConcertId(lastConcertIdResponse)
+			.concertInfoList(response)
 			.build();
 	}
 
