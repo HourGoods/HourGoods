@@ -45,8 +45,9 @@ public class ConcertController {
 	@Operation(summary = "공연 정보 검색 API", description = "한 달 내에 열리는 공연들 중 키워드를를 제목에 포함한 공연을 검색한다.")
 	@ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ConcertListResponse.class)))
 	@GetMapping("/search")
-	public BaseResponse<ConcertListResponse> getConcertListByKeyword(@RequestParam(name = "keyword") String keyword) {
-		ConcertListResponse response = concertService.getConcertListByKeyword(keyword);
+	public BaseResponse<ConcertListResponse> getConcertListByKeyword(@RequestParam(name = "keyword") String keyword,
+		@RequestParam(name = "lastConcertId") Long lastConcertId) {
+		ConcertListResponse response = concertService.getConcertListByKeyword(keyword, lastConcertId);
 		return new BaseResponse<>(response);
 	}
 
