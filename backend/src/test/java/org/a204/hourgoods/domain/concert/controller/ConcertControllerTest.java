@@ -18,6 +18,8 @@ import org.a204.hourgoods.domain.concert.repository.ConcertRepository;
 import org.a204.hourgoods.domain.concert.response.ConcertIdResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertInfoResponse;
 import org.a204.hourgoods.domain.concert.response.ConcertListResponse;
+import org.a204.hourgoods.domain.deal.entity.Deal;
+import org.a204.hourgoods.domain.deal.entity.DealType;
 import org.a204.hourgoods.global.common.BaseResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -127,11 +129,12 @@ class ConcertControllerTest {
 
 		@Test
 		@DisplayName("공연 정보 검색 성공(검색된 공연 없음)")
-		void getConcertListForEmptyResultSuccess() throws Exception {
+		void emptyResultSuccess() throws Exception {
 			MockHttpServletResponse response = mockMvc
 				.perform(get(url + "search")
 					.contentType(MediaType.APPLICATION_JSON)
-					.param("keyword", "백예린"))
+					.param("keyword", "백예린")
+					.param("lastConcertId", "-1"))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andExpect(jsonPath("$.code", is("G000")))
 				.andDo(print())
@@ -148,8 +151,8 @@ class ConcertControllerTest {
 		}
 
 		@Test
-		@DisplayName("공연 정보 검색 성공(검색된 공연 있음)")
-		void getConcertListForNotEmptyResultSuccess() throws Exception {
+		@DisplayName("공연 정보 검색 성공(검색된 공연 있음, 1페이지 이하)")
+		void firstPageResultSuccess() throws Exception {
 			concert = Concert
 				.builder()
 				.title("백예린 단독공연, Square")
@@ -165,7 +168,8 @@ class ConcertControllerTest {
 			MockHttpServletResponse response = mockMvc
 				.perform(get(url + "search")
 					.contentType(MediaType.APPLICATION_JSON)
-					.param("keyword", "백예린"))
+					.param("keyword", "백예린")
+					.param("lastConcertId", "-1"))
 				.andExpect(jsonPath("$.status", is(200)))
 				.andExpect(jsonPath("$.code", is("G000")))
 				.andDo(print())
@@ -179,6 +183,84 @@ class ConcertControllerTest {
 			assertFalse(actual.getHasNextPage());
 			assertEquals(concert.getId(), actual.getLastConcertId());
 			assertEquals(concert.getId(), actual.getConcertInfoList().get(0).getConcertId());
+			assertEquals(1, actual.getConcertInfoList().size());
+		}
+
+		@Test
+		@DisplayName("공연 정보 검색 성공(검색된 공연 있음, 2페이지 이상, 거래 개수 다름)")
+		void secondPageAboutDealsSizeResultSuccess() throws Exception {
+			Long lastConcertId = null;
+			// 테스트 공연 11개 생성
+			for(int i = 1; i <= 11; i++) {
+				Concert concert = Concert
+					.builder()
+					.title("백예린 단독공연, Square")
+					.imageUrl("http://www.kopis.or.kr/upload/pfmPoster/PF_PF216426_230407_152630.gif")
+					.longitude(Double.valueOf(127.12836360000006))
+					.latitude(Double.valueOf(37.52112))
+					.place("올림픽공원 (SK핸드볼경기장(펜싱경기장))")
+					.startTime(LocalDateTime.now())
+					.kopisConcertId("PF216426")
+					.build();
+				em.persist(concert);
+				lastConcertId = concert.getId();
+
+				for(int j = 0; j<i/3; j++){
+					Deal deal = Deal.builder()
+						.concert(concert)
+						.dealType(DealType.Trade)
+						.title("Test")
+						.content("test")
+						.startTime(LocalDateTime.now())
+						.build();
+					em.persist(deal);
+				}
+			}
+
+			// 1페이지 조회
+			MockHttpServletResponse response = mockMvc
+				.perform(get(url + "search")
+					.contentType(MediaType.APPLICATION_JSON)
+					.param("keyword", "백예린")
+					.param("lastConcertId", "-1"))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andExpect(jsonPath("$.code", is("G000")))
+				.andDo(print())
+				.andReturn()
+				.getResponse();
+
+			BaseResponse<ConcertListResponse> baseResponse = objectMapper.readValue(response.getContentAsString(),
+				new TypeReference<>() {
+				});
+			ConcertListResponse actual = baseResponse.getResult();
+			// for(ConcertInfoResponse concertInfoResponse : actual.getConcertInfoList()) {
+			// 	System.out.println(concertInfoResponse.getConcertId());
+			// }
+			assertTrue(actual.getHasNextPage());
+			assertEquals(lastConcertId - 10, actual.getLastConcertId());
+			assertEquals(10, actual.getConcertInfoList().size());
+
+			// 2페이지 조회
+			response = mockMvc
+				.perform(get(url + "search")
+					.contentType(MediaType.APPLICATION_JSON)
+					.param("keyword", "백예린")
+					.param("lastConcertId", actual.getLastConcertId().toString()))
+				.andExpect(jsonPath("$.status", is(200)))
+				.andExpect(jsonPath("$.code", is("G000")))
+				.andDo(print())
+				.andReturn()
+				.getResponse();
+
+			baseResponse = objectMapper.readValue(response.getContentAsString(),
+				new TypeReference<>() {
+				});
+			actual = baseResponse.getResult();
+			// for(ConcertInfoResponse concertInfoResponse : actual.getConcertInfoList()) {
+			// 	System.out.println(concertInfoResponse.getConcertId());
+			// }
+			assertFalse(actual.getHasNextPage());
+			assertEquals(lastConcertId - 9, actual.getLastConcertId());
 			assertEquals(1, actual.getConcertInfoList().size());
 		}
 	}
