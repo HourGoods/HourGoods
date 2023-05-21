@@ -113,7 +113,7 @@ export default function Nav() {
             <img src={logo} alt="로고" />
           </Link>
           {isOpen ? "" : <Bars3Icon onClick={toggleMenu} />}
-          {isOpen && !loginState.isLogin && (
+          {isOpen && !localLogin && (
             <div className="mobile-sidebar-wrapper" ref={menuRef}>
               <div className="mobile-nav-close-btn">
                 <XMarkIcon onClick={toggleMenu} />
@@ -134,7 +134,7 @@ export default function Nav() {
               </div>
             </div>
           )}
-          {isOpen && loginState.isLogin && (
+          {isOpen && localLogin && (
             <div className="mobile-sidebar-wrapper" ref={menuRef}>
               <div className="mobile-nav-close-btn">
                 <XMarkIcon onClick={toggleMenu} />

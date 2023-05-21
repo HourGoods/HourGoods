@@ -47,9 +47,11 @@ export default function index() {
         </button>
       </div>
 
-      {tag.getMy && <GetMyDeal />}
-      {tag.favorite && <FavoriteDeal />}
-      {tag.participated && <ParticipatedDeal />}
+      <div className="userdeal-bottom-container">
+        {tag.getMy && <GetMyDeal />}
+        {tag.favorite && <FavoriteDeal />}
+        {tag.participated && <ParticipatedDeal />}
+      </div>
     </div>
   );
 }

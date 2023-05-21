@@ -31,6 +31,13 @@
       margin-left: 20px;
       text-align: left;
       align-self: center;
+
+      @include mobile {
+        white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
+        overflow: hidden; /* 넘치는 내용 숨김 */
+        text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+      }
+
       p {
         margin: 0;
         font-size: 12px;

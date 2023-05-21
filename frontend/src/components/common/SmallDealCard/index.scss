@@ -50,6 +50,12 @@
           font-size: 14px;
           font-weight: 900;
           color: $indigo-1;
+
+          @include mobile {
+            white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
+            overflow: hidden; /* 넘치는 내용 숨김 */
+            text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+          }
         }
       }
       .small-deal-card-bottom-container {
