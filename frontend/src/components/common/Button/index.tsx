@@ -23,6 +23,7 @@ export default function index({
   if (color === "kakao") {
     imgSrc = kakaoImg;
   }
+  
 
   return (
     <button
