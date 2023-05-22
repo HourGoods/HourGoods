@@ -41,7 +41,8 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+		Authentication authentication) throws IOException {
 		OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
 		Map<String, Object> attributes = oAuth2User.getAttributes();
 		MemberInfo memberInfo = MemberInfoFactory.getMemberInfo(attributes, (OAuth2AuthenticationToken)authentication);
@@ -55,9 +56,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 			RefreshToken token = jwtTokenUtils.generateRefreshToken(tokens);
 			response.setHeader(AUTHORIZATION, tokens);
 			targetUrl = UriComponentsBuilder.newInstance()
-							   // .scheme("http")
-							   // .host("localhost")
-							   // .port(3000)
+				.scheme("http")
+				.host("localhost")
+				.port(3000)
 				.path("/oauth")
 				.queryParam("refresh", token.getRefreshTokenKey())
 				.queryParam("access", token.getAccessTokenValue())
@@ -66,9 +67,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 				.queryParam("nickname", URLEncoder.encode(member.getNickname(), StandardCharsets.UTF_8)).toUriString();
 		} else {
 			targetUrl = UriComponentsBuilder.newInstance()
-								// .scheme("http")
-								// .host("localhost")
-								// .port(3000)
+				.scheme("http")
+				.host("localhost")
+				.port(3000)
 				.path("/oauth")
 				.queryParam("email", memberInfo.getEmail()).toUriString();
 		}
