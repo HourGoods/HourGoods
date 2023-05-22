@@ -1,4 +1,5 @@
 @import "@styles/Mixins";
+@import "@styles/fonts";
 
 .realtime-page-container {
   justify-self: center;
@@ -23,6 +24,8 @@
       color: $indigo-1;
     }
     .realtime-page-component-title-p {
+      font-family: "TheJamsil5Bold";
+      color: $gray-2;
       text-align: left;
       font-weight: 700;
       font-size: 22px;
