@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import org.a204.hourgoods.domain.chatting.entity.DirectChattingRoom;
 import org.a204.hourgoods.domain.chatting.entity.DirectMessage;
@@ -27,6 +28,7 @@ import org.a204.hourgoods.domain.member.exception.MemberNotFoundException;
 import org.a204.hourgoods.domain.member.repository.MemberRepository;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,6 +85,8 @@ public class ChattingService {
 				.receiver(receiver)
 				.sender(sender)
 				.build());
+		// Redis 저장소에 기존에 저장된 관련없는 채팅 로그 삭제
+		deleteDirectMessagesByChattingRoomId(saveRoom.getId().toString());
 		return DirectChattingResponse.builder()
 			.directChattingRoomId(saveRoom.getId())
 			.build();
@@ -184,6 +188,21 @@ public class ChattingService {
 	// 멤버 정보 확인하기
 	private boolean checkValidMember(String memberNickname) {
 		return memberRepository.existsByNickname(memberNickname);
+	}
+
+	// 특정 chattingRoomId에 해당하는 값을 삭제하는 메서드
+	public void deleteDirectMessagesByChattingRoomId(String chattingRoomId) {
+		SetOperations<String, DirectMessage> setOperations = redisTemplate.opsForSet();
+
+		// Redis에서 특정 chattingRoomId에 해당하는 모든 DirectMessage를 조회
+		Set<DirectMessage> directMessages = setOperations.members("chatRedis:" + chattingRoomId);
+
+		// 조회된 DirectMessage를 삭제
+		if (directMessages != null) {
+			for (DirectMessage directMessage : directMessages) {
+				setOperations.remove("chatRedis:" + chattingRoomId, directMessage);
+			}
+		}
 	}
 
 }
