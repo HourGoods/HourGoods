@@ -99,9 +99,7 @@ export default function index({ dealInfo }: DealCardProps) {
           onClick={goDetail}
         >
           <div className="deal-card-left-img-wrapper">
-            {dealInfo.imageUrl &&
-            dealInfo.imageUrl !== "" &&
-            !isMobileDevice() ? (
+            {dealInfo.imageUrl && dealInfo.imageUrl !== "" ? (
               <img
                 src={`https://d2uxndkqa5kutx.cloudfront.net/${dealInfo.imageUrl}`}
                 alt="물품사진"
