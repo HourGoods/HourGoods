@@ -26,8 +26,8 @@ export default function Routers() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/realtime" element={<RealTimePage />} />
+        {/* <Route path="/" element={<MainPage />} /> */}
+        <Route path="/" element={<RealTimePage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/oauth" element={<Oauth />} />
