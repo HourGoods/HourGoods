@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import org.a204.hourgoods.domain.bidding.entity.Bidding;
@@ -33,7 +34,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "member")
 public class Member {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
 	private Long id;
 
@@ -90,6 +90,12 @@ public class Member {
 	private List<Bidding> bidHistory = new ArrayList<>();
 	@OneToMany(mappedBy = "winner", cascade = CascadeType.PERSIST, orphanRemoval = true)
 	private List<Auction> winningAuction = new ArrayList<>();
+
+	@PrePersist
+	public void prePersist() {
+		// 현재 시간의 나노초를 사용하여 ID 생성
+		this.id = System.nanoTime();
+	}
 
 	@Builder
 	public Member(Long id, String email, String nickname, String imageUrl) {
