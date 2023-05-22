@@ -12,11 +12,10 @@
   .deal-card-left-contents-container {
     background-color: inherit;
     display: flex;
+    gap: 10px;
     padding: 0;
     width: 100%;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-
+    border-radius: 8px;
     .deal-card-left-img-wrapper {
       img {
         border-top-left-radius: 8px;
@@ -35,9 +34,9 @@
     }
 
     .deal-card-right-contents-container {
-      margin-left: 20px;
       text-align: left;
       align-self: center;
+      width: calc(100% - 100px);
 
       @include mobile {
         white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
@@ -54,10 +53,19 @@
       .deal-card-top-container {
         display: flex;
         align-items: baseline;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
         .deal-title-p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           font-size: 12px;
           font-weight: 800;
           color: $indigo-1;
+          margin-right: 5px;
+        }
+        .commonButton{ 
           margin-right: 5px;
         }
       }
@@ -65,15 +73,20 @@
       .deal-card-bottom-container {
         @include tablet {
           display: flex;
-          p {
-            // margin-right: 5px;
-            margin: 0;
-          }
+          // p {
+          //   // margin-right: 5px;
+          //   margin: 0;
+          //   overflow: hidden;
+          //   text-overflow: ellipsis;
+          //   white-space: nowrap;
+          //   font-weight: 900;
+          //   color: aqua;
+          // }
         }
         .card-icon-text-div {
           display: flex;
           align-items: center;
-          margin: 0;
+
           svg {
             width: 20px;
             margin-right: 5px;
@@ -97,7 +110,6 @@
       box-shadow: none;
       cursor: default;
     }
-
     svg {
       margin-top: 5px;
       width: 30px;

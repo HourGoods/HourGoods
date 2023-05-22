@@ -30,8 +30,14 @@
 
 @mixin small-btn-color($maincolor, $fontcolor) {
   background-color: $maincolor;
-  box-shadow: $shadow-gray;
   color: $fontcolor;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  p {
+    margin: 0;
+    font-size: 10px !important;
+  }
   &:hover,
   &:active {
     background: $fontcolor;
@@ -50,7 +56,7 @@
   &.activated {
     background-color: $color;
     color: $gray-2;
-    box-shadow: 0px 0px 15px darken($color, 20%);
+    box-shadow: 0px 0px 15px darken($color, 10%);
   }
 }
 
@@ -77,8 +83,8 @@
     }
   }
   &.small {
-    min-width: 40px;
-    height: 22px;
+    min-width: 30px;
+    height: 16px;
     border-radius: 20px;
     font-size: 12px;
     padding: 0px 7px;
@@ -97,8 +103,14 @@
   &.yellow {
     @include button-color($yellow-1, $yellow-2);
   }
+  &.pink-s {
+    @include small-btn-color($pink-2, $gray-2);
+  }
+  &.yellow-s {
+    @include small-btn-color($yellow-2, $gray-2);
+  }
   &.indigo {
-    @include small-btn-color($indigo-2, white);
+    @include small-btn-color($indogo-4, $gray-2);
   }
   &.white {
     @include small-btn-color(white, $gray-2);
@@ -109,7 +121,7 @@
 
   // 경매 Dealtype
   &.deal {
-    width: 60px;
+    width: 50px;
     height: 22px;
     border-radius: 20px;
     font-size: 10px;
