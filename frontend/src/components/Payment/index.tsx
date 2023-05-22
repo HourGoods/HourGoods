@@ -26,7 +26,7 @@ export default function index() {
       total_amount: 0,
       vat_amount: 200,
       tax_free_amount: 0,
-      approval_url: "https://hourgoods.co.kr/mypage",
+      approval_url: "https://hourgoods.co.kr/payresult",
       fail_url: "https://hourgoods.co.kr/mypage",
       cancel_url: "https://hourgoods.co.kr/mypage",
     },
@@ -43,6 +43,7 @@ export default function index() {
   };
 
   const charge = () => {
+    console.log("여기는 페이먼트! 충전 실행");
     const { params } = state;
     axios({
       // 프록시에 카카오 도메인을 설정했으므로 결제 준비 url만 주자
