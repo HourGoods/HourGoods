@@ -32,7 +32,7 @@ export default function index() {
   useEffect(() => {
     // 최대 결과 갯수
     const MAX_RESULTS = 30;
-    const result = concertAPI.getAllConcert(searchInput);
+    const result = concertAPI.getAllConcert(searchInput, -1);
     result.then((res: any) => {
       const newConcertInfoList = res.data.result.concertInfoList;
 
@@ -57,7 +57,7 @@ export default function index() {
   const searchHandler = () => {
     setIsAutoResult(false);
     setIsLoading(true); // 데이터 받아오는 중이므로 isLoading 상태 변경
-    const result = concertAPI.getAllConcert(searchInput);
+    const result = concertAPI.getAllConcert(searchInput, -1);
     result.then((res: any) => {
       setConcertInfoList(res.data.result.concertInfoList);
 
@@ -83,9 +83,7 @@ export default function index() {
       {hasResult && !isLoading && (
         <div className="search-page-concert-cards-container">
           {isAutoResult && (
-            <p className="auto-result-p">
-              🔥 실시간 Hot Concert!
-            </p>
+            <p className="auto-result-p">🔥 실시간 Hot Concert!</p>
           )}
           <ConcertList concertInfoList={concertInfoList} />
         </div>
