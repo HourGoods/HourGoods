@@ -47,7 +47,7 @@ export async function drawCircles(
   map: any,
   concertId?: number
 ): Promise<any> {
-  const concertRange = 500
+  const concertRange = 550
   const isWithin500m = distance <= concertRange;
   let fillColor;
 

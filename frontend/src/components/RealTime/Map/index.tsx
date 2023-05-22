@@ -50,7 +50,7 @@ export default function index(props: mapProps) {
   const flagRef = useRef<boolean>(false);
 
   // 콘서트 범위
-  const concertRange = 500
+  const concertRange = 550
 
 
   // 최초 지도 그리기, 위치 변경에 따른 지도 그리기
