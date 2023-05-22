@@ -59,22 +59,22 @@ export default function index() {
     })
       .then((response) => {
         console.log(response, "처음응답");
-        // const {
-        //   data: { nextRedirectPcUrl, tid, nextRedirectMobileUrl },
-        // } = response;
+        const {
+          data: { nextRedirectPcUrl, tid, nextRedirectMobileUrl },
+        } = response;
         console.log(response);
         console.log(isMobileDevice);
         window.localStorage.setItem("tid", tid);
         setNextRedirectPcUrl(nextRedirectPcUrl);
         setNextRedirectMobileUrl(nextRedirectMobileUrl);
         setTid(tid);
-        window.location.href = response.data.next_redirect_pc_url;
+        // window.location.href = response.data.next_redirect_pc_url;
 
-        // if (isMobileDevice()) {
-        //   window.location.href = response.data.next_redirect_mobile_url;
-        // } else {
-        //   window.location.href = response.data.next_redirect_pc_url;
-        // }
+        if (isMobileDevice()) {
+          window.location.href = response.data.next_redirect_mobile_url;
+        } else {
+          window.location.href = response.data.next_redirect_pc_url;
+        }
       })
 
       .catch((err) => {
