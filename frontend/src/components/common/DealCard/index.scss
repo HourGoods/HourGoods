@@ -25,6 +25,13 @@
         height: 100px;
         object-fit: cover;
       }
+      @include mobile {
+        img {
+          width: 90px;
+          height: 100px;
+          object-fit: cover;
+        }
+      }
     }
 
     .deal-card-right-contents-container {
@@ -36,6 +43,7 @@
         white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
         overflow: hidden; /* 넘치는 내용 숨김 */
         text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+        margin-left: 0px;
       }
 
       p {
