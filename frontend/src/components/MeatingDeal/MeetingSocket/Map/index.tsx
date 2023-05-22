@@ -226,7 +226,7 @@ export default function Map(props: IMapPropsType) {
         {dealCreator !== userName && meetingInfo.distance <= 30 && (
           <div className="buy-button-box">
             <Button color="pink" onClick={finishDealHandler}>
-              물품을 구매했어요
+              수령했어요
             </Button>
           </div>
         )}
