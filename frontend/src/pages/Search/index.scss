@@ -1,5 +1,6 @@
 @import "@styles/Mixins";
 @import "@styles/Colors";
+@import "@styles/fonts";
 
 .search-page-container {
   justify-self: center;
@@ -43,6 +44,8 @@
     .auto-result-p {
       white-space: pre-wrap;
       font-weight: 700;
+      font-family: "TheJamsil5Bold";
+      color: $gray-2;
     }
 
     @include mobile {

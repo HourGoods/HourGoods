@@ -63,7 +63,7 @@ export default function Nav() {
             <Link to="/">
               <img src={logo} alt="로고" />
             </Link>
-            <Link to="realtime">
+            <Link to="/">
               <p>실시간</p>
             </Link>
             <Link to="search">
@@ -119,7 +119,7 @@ export default function Nav() {
                 <XMarkIcon onClick={toggleMenu} />
               </div>
               <div className="mobile-sidebar-menu">
-                <Link to="realtime" onClick={toggleMenu}>
+                <Link to="/" onClick={toggleMenu}>
                   <p>실시간</p>
                 </Link>
                 <Link to="search" onClick={toggleMenu}>
@@ -140,7 +140,7 @@ export default function Nav() {
                 <XMarkIcon onClick={toggleMenu} />
               </div>
               <div className="mobile-sidebar-menu">
-                <Link to="realtime" onClick={toggleMenu}>
+                <Link to="/" onClick={toggleMenu}>
                   <p>실시간</p>
                 </Link>
                 <Link to="search" onClick={toggleMenu}>

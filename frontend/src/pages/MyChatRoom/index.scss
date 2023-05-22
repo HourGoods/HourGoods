@@ -20,11 +20,11 @@
       width: 70%;
       max-width: 500px;
       min-width: 240px;
-      // height: 50%;
+      //height: 50%;
       min-height: 400px;
-      // height: 80%;
+      //height: 80%;
       height: 80%;
-      //   max-height: 70%;
+      //max-height: 70%;
       z-index: 99;
       position: absolute;
       top: 50%;
@@ -37,7 +37,6 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
       @include mobile {
         width: 95%;
       }
@@ -81,15 +80,15 @@
           display: flex;
           position: relative;
           flex-direction: column;
-          justify-content: space-between;
+          // justify-content: space-between;
           height: 100%;
           padding: 30px 10px 10px 10px;
           .box-upper-wrapper {
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            height: 100%;
-            max-height: 350px;
+            height: calc(100% - 130px);
+            // max-height: 350px;
             width: 100%;
             min-width: 230px;
             justify-content: space-between;
@@ -98,19 +97,17 @@
             .private-chatroom-content-container {
               display: flex;
               flex-direction: column;
-              // padding-bottom: 5px;
-              // margin-top: 5px;
-              // margin: auto 10px;
               overflow-y: scroll;
               @include scrollbar-css;
               @include desktop {
-                height: calc(100% - 130px);
+                height: calc(100% - 160px);
+                // height: 100%;
               }
               @include tablet {
-                height: calc(100% - 130px);
+                height: calc(100% - 160px);
               }
               @include mobile {
-                height: calc(100% - 130px);
+                height: calc(100% - 160px);
               }
 
               p {
@@ -184,7 +181,7 @@
           // 만나서 거래하기
           .meeting-deal-button-wrapper {
             position: absolute;
-            bottom: 85px;
+            bottom: 130px;
             left: 0px;
             width: 100%;
             .commonButton {
@@ -198,7 +195,7 @@
             width: 95%;
             margin: 0 auto;
             position: absolute;
-            bottom: 10px;
+            bottom: 50px;
             left: 10px;
           }
         }
