@@ -31,6 +31,7 @@ export default function index() {
 
   useEffect(() => {
     // 최대 결과 갯수
+    setIsLoading(true)
     const MAX_RESULTS = 30;
     const result = concertAPI.getAllConcert(searchInput, -1);
     result.then((res: any) => {
