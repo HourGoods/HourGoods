@@ -22,7 +22,7 @@ export default function index() {
 
   const searchHandler = () => {
     setIsLoading(true); // 데이터 받아오는 중이므로 isLoading 상태 변경
-    const result = concertAPI.getAllConcert(searchInput);
+    const result = concertAPI.getAllConcert(searchInput, -1);
     result.then((res: any) => {
       setConcertInfoList(res.data.result.concertInfoList);
 

@@ -29,9 +29,12 @@ const memberAPI = {
 
 const concertAPI = {
   // 전체 콘서트 조회(공연 api)
-  getAllConcert: (keyword: string): Promise<AxiosResponse> =>
+  getAllConcert: (
+    keyword: string,
+    lastConcertId: number
+  ): Promise<AxiosResponse> =>
     request.get("concert/search", {
-      params: { keyword },
+      params: { keyword, lastConcertId },
     }),
 
   // DB상 콘서트 등록 여부를 확인하고, 있으면 DB상 id반환,  없으면 등록한다
