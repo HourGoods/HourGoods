@@ -1,7 +1,9 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
+@import "@styles/Animation.scss";
 
 .deal-card-component-container {
+  @include fadeInUp;
   height: 100px;
   background-color: $white-op;
   border-radius: 8px;
