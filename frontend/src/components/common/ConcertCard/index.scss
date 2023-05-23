@@ -1,7 +1,9 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
+@import "@styles/Animation.scss";
 
 .concert-card-component-container {
+  @include fadeInUp;
   margin-top: 10px;
   height: 90px;
   border-radius: 8px;
