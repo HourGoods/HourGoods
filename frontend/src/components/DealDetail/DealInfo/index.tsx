@@ -180,17 +180,17 @@ export default function index(props: any) {
 
               <div className="deal-info-icon-p-div">
                 <MegaphoneIcon />
-                <p>공지사항</p>
+                <p className="deal-info-icon-p">공지사항</p>
               </div>
-              <p>{dealInfo.dealContent}</p>
+              <p className="deal-info-notice">{dealInfo.dealContent}</p>
             </div>
 
             {/* 우 */}
             <div className="deal-info-desktop-right-container">
               <div className="deal-info-icon-p-div">
                 <MapPinIcon />
-                <p>
-                  장소 <span>{dealInfo.meetingLocation}</span>
+                <p className="deal-info-icon-p">
+                  장소 <span className="deal-location-p">{dealInfo.meetingLocation}</span>
                 </p>
               </div>
               <div id="map" />

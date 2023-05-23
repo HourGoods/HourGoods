@@ -17,10 +17,12 @@
   .realtime-page-title-div {
     display: flex;
     align-items: flex-end;
+    gap: 5px;
+    margin-top: 10px;
     svg {
       width: 25px;
-      margin-right: 5px;
-      margin-bottom: 2px;
+      // margin-right: 5px;
+      // margin-bottom: 2px;
       color: $indigo-1;
     }
     .realtime-page-component-title-p {
@@ -29,7 +31,8 @@
       text-align: left;
       font-weight: 700;
       font-size: 22px;
-      margin-bottom: 0;
+      // margin-bottom: 0;
+      margin: auto 0;
       @include mobile {
         font-size: 16px;
         font-weight: 800;
