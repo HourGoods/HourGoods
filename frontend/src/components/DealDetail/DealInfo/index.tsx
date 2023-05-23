@@ -152,7 +152,7 @@ export default function index(props: any) {
                     <>
                       <div className="icon-text-div">
                         <BoltIcon />
-                        <h5>경매 진행 시간</h5>
+                        <h5 className="auction-deal-time-title">경매 진행 시간</h5>
                       </div>
                       <p>{auctionDuration}분</p>
                     </>

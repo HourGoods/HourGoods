@@ -126,6 +126,7 @@
         // 아이콘 포함된 네모박스
         .deal-icon-info-div {
           display: flex;
+          gap: 3px;
           align-items: center;
           justify-content: center;
           flex-direction: column;
@@ -137,6 +138,14 @@
           height: 60px;
           border-radius: 8px;
           box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
+
+          .auction-deal-time-title {
+            @include mobile {
+              font-size: 10px;
+              word-wrap: break-word;
+              word-break: keep-all;
+            }
+          }
 
           .icon-text-div {
             display: inline-flex;
