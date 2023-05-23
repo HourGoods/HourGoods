@@ -1,5 +1,6 @@
 @import "@styles/Mixins";
 @import "@styles/Colors";
+@import "@styles/fonts";
 
 .deal-detail-page-container {
   justify-self: center;
@@ -89,13 +90,15 @@
 
     .deal-info-desktop-left-container {
       max-width: 640px;
-      margin: auto;
+      margin: 15px auto;
       @include desktop {
         width: 430px;
       }
 
       // title과 알림
       .title-alert-container {
+        color: $indigo-1;
+        font-family: "TheJamsil5Bold";
         display: flex;
         justify-content: space-between;
         margin: 15px auto;
