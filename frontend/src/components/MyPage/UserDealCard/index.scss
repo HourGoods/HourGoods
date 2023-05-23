@@ -22,7 +22,7 @@
   flex-direction: column;
   position: relative;
   height: 300px;
-  width: 200px;
+  width: 180px;
   background: rgba(255, 255, 255, 0.7);
   box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
   border-radius: 10px;
@@ -53,6 +53,7 @@
   }
 
   .user-deal-card-wrapper-img {
+    background: white;
     position: relative;
 
     .deal-tag {
@@ -70,6 +71,13 @@
       justify-content: center;
       align-items: center;
     }
+    .deal-img {
+      border-top-left-radius: 8px;
+      border-top-right-radius: 8px;
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+    }
   }
 
   .user-deal-card-wrapper-containers {
@@ -81,14 +89,6 @@
     @include user-deal-card-wrapper;
   }
 
-  .deal-img {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    // width: 160px;
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-  }
   .user-deal-card-container-p {
     @include user-deal-card-font-size;
   }
