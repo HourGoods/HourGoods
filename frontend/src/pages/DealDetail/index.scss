@@ -32,6 +32,9 @@
     // box-shadow: 5px 5px 10px rgba(107, 114, 128, 0.15);
 
     .seller-profile-infos-container {
+      color: $indigo-1;
+      font-size: 14px;
+      font-weight: 900;
       display: flex;
       align-items: center;
       margin: auto;
@@ -139,6 +142,8 @@
 
             h5 {
               margin: 0;
+              font-weight: 900;
+              color: $indigo-1;
             }
           }
           svg {
@@ -172,9 +177,19 @@
         margin-right: 5px;
         color: $indigo-2;
       }
-      p {
+      .deal-info-icon-p {
+        color: $indigo-1;
+        font-family: "TheJamsil5Bold";
         font-weight: 700;
+        .deal-location-p {
+          font-family: "NanumSquare";
+          color: black;
+          margin-left: 10px;
+        }
       }
+    }
+    .deal-info-notice {
+      margin: 0;
     }
 
     // desktop 우측박스 영역 (지도)
