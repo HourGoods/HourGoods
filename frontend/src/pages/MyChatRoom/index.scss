@@ -1,6 +1,7 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
 @import "@styles/fonts";
+@import "@styles/Animation";
 
 // PrivateChat (일대일 채팅방)
 .private-chat-main-container {
@@ -249,6 +250,7 @@
         width: 35px;
         margin-right: 10px;
       }
+      @include fadeInUp;
       display: flex;
       align-items: center;
       font-family: "TheJamsil5Bold";
@@ -284,6 +286,7 @@
 
 // ChatRoomCard (채팅방 목록카드 1개)
 .chatromm-card-container {
+  @include fadeInUp;
   display: flex;
   align-items: center;
   // flex-wrap: wrap;
