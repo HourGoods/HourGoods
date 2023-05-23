@@ -2,7 +2,7 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
-const MainPage = lazy(() => import("@pages/Main"));
+const MainPage = lazy(() => import("@pages/Main22"));
 const RealTimePage = lazy(() => import("@pages/RealTime"));
 const SearchPage = lazy(() => import("@pages/Search"));
 const SignupPage = lazy(() => import("@pages/Signup"));

@@ -135,16 +135,20 @@
                   color: $gray-3;
                 }
                 .not-me-chat-message {
+                  word-wrap: break-word;
+                  word-break: keep-all;
+                  max-width: 70%;
                   .not-me-name {
                     font-weight: 900;
                     color: $indigo-1;
                   }
                   .not-me-message {
                     background-color: $gray-4;
-                    max-width: 80%;
-                    min-width: 40px;
+                    min-width: 50px;
                     border-radius: 0px 10px 10px 10px;
                     padding: 5px;
+                    margin-left: 3px;
+                    margin-top: 3px;
                   }
                 }
               }
@@ -153,6 +157,8 @@
                 display: flex;
                 justify-content: flex-end;
                 .its-me-chatbox {
+                  word-wrap: break-word;
+                  word-break: keep-all;
                   max-width: 60%;
                   background-color: $violet-2;
                   border-radius: 10px 10px 0px 10px;
