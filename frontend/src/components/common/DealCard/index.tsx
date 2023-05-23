@@ -91,7 +91,7 @@ export default function index({ dealInfo }: DealCardProps) {
 
   const getColor = (dealTypeName: string) => {
     if (dealTypeName === "Auction") {
-      return "indigo";
+      return "indigo-s";
     }
     if (dealTypeName === "Trade") {
       return "pink-s";

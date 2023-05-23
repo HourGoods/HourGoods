@@ -109,8 +109,11 @@
   &.yellow-s {
     @include small-btn-color($yellow-2, $gray-2);
   }
-  &.indigo {
+  &.indigo-s {
     @include small-btn-color($indogo-4, $gray-2);
+  }
+  &.indigo {
+    @include small-btn-color($indigo-2, white);
   }
   &.white {
     @include small-btn-color(white, $gray-2);
