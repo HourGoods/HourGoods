@@ -49,8 +49,13 @@ export default function index(props: mapProps) {
   // flag
   const flagRef = useRef<boolean>(false);
 
+  // 콘서트 범위
+  const concertRange = 550
+
+
   // 최초 지도 그리기, 위치 변경에 따른 지도 그리기
   useEffect(() => {
+    setIsMapLoading(true);
     const container = document.getElementById("map");
     const options = {
       center: new window.kakao.maps.LatLng(37.49483466037, 127.02871475306), // 기본 위치
@@ -73,7 +78,7 @@ export default function index(props: mapProps) {
           // 127.04
         );
         // 만약 500m안에 있는 게 있으면
-        if (distance <= 1000) {
+        if (distance <= concertRange) {
           // 포함 여부 저장
           const newList = inConcertList.concat({
             ...concert,
@@ -121,7 +126,7 @@ export default function index(props: mapProps) {
             result.latitude,
             result.longitude
           );
-          if (distance <= 1000) {
+          if (distance <= concertRange) {
             // 이미 안에 있다고 판별 된 거면 아무 것도 안 해야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId
@@ -136,7 +141,7 @@ export default function index(props: mapProps) {
               setLocation(result);
               // window.location.reload();
             }
-          } else if (distance > 1000) {
+          } else if (distance > concertRange) {
             // 안에 있다고 등록되었던 애면 걔는 flag없애줘야 함!
             const isInConcertList = inConcertList.find(
               (inConcert: any) => inConcert.concertId === concert.concertId

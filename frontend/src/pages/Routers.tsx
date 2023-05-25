@@ -2,7 +2,7 @@
 import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
-const MainPage = lazy(() => import("@pages/Main"));
+const MainPage = lazy(() => import("@pages/Main22"));
 const RealTimePage = lazy(() => import("@pages/RealTime"));
 const SearchPage = lazy(() => import("@pages/Search"));
 const SignupPage = lazy(() => import("@pages/Signup"));
@@ -26,8 +26,8 @@ export default function Routers() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/realtime" element={<RealTimePage />} />
+        {/* <Route path="/" element={<MainPage />} /> */}
+        <Route path="/" element={<RealTimePage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/oauth" element={<Oauth />} />

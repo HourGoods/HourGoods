@@ -1,6 +1,9 @@
 @import "@styles/Colors";
+@import "@styles/Mixins";
+@import "@styles/Animation.scss";
 
 .concert-card-component-container {
+  @include fadeInUp;
   margin-top: 10px;
   height: 90px;
   border-radius: 8px;
@@ -8,6 +11,7 @@
   box-shadow: 3px 3px 5px rgba(107, 114, 128, 0.3);
   display: flex;
   width: 100%;
+
   padding: 0;
 
   .concert-card-left-img-wrapper {
@@ -21,8 +25,16 @@
   }
   .concert-card-right-contents-container {
     margin-left: 20px;
+    height: 100%;
     text-align: left;
     align-self: center;
+    width: 100%;
+    @include mobile {
+      white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
+      overflow: hidden; /* 넘치는 내용 숨김 */
+      text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+    }
+
     p {
       margin: 5px 0;
       font-size: 12px;
@@ -31,6 +43,13 @@
       font-size: 14px;
       font-weight: 800;
       color: $indigo-1;
+      width: 100%;
+
+      @include mobile {
+        white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
+        overflow: hidden; /* 넘치는 내용 숨김 */
+        text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+      }
     }
     .card-icon-text-div {
       display: flex;
@@ -40,6 +59,13 @@
         width: 20px;
         margin-right: 5px;
         color: $indigo-1;
+      }
+      p {
+        @include mobile {
+          white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
+          overflow: hidden; /* 넘치는 내용 숨김 */
+          text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+        }
       }
     }
   }

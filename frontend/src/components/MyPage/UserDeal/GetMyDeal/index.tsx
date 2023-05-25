@@ -26,17 +26,7 @@ export default function index() {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-        rowGap: "50px",
-        columnGap: "30px",
-        marginTop: "30px",
-      }}
-    >
+    <div className="deals-container">
       {/* {dealList.map((deal, index) => (
         <div key={index}>
           <UserDealCard getmy={getmy} deal={deal} />

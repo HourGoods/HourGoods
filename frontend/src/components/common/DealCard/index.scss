@@ -1,7 +1,9 @@
 @import "@styles/Colors";
 @import "@styles/Mixins";
+@import "@styles/Animation.scss";
 
 .deal-card-component-container {
+  @include fadeInUp;
   height: 100px;
   background-color: $white-op;
   border-radius: 8px;
@@ -12,11 +14,10 @@
   .deal-card-left-contents-container {
     background-color: inherit;
     display: flex;
+    gap: 10px;
     padding: 0;
     width: 100%;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-
+    border-radius: 8px;
     .deal-card-left-img-wrapper {
       img {
         border-top-left-radius: 8px;
@@ -25,12 +26,27 @@
         height: 100px;
         object-fit: cover;
       }
+      @include mobile {
+        img {
+          width: 90px;
+          height: 100px;
+          object-fit: cover;
+        }
+      }
     }
 
     .deal-card-right-contents-container {
-      margin-left: 20px;
       text-align: left;
       align-self: center;
+      width: calc(100% - 100px);
+
+      @include mobile {
+        white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
+        overflow: hidden; /* 넘치는 내용 숨김 */
+        text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+        margin-left: 0px;
+      }
+
       p {
         margin: 0;
         font-size: 12px;
@@ -39,10 +55,19 @@
       .deal-card-top-container {
         display: flex;
         align-items: baseline;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
         .deal-title-p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           font-size: 12px;
           font-weight: 800;
           color: $indigo-1;
+          margin-right: 5px;
+        }
+        .commonButton{ 
           margin-right: 5px;
         }
       }
@@ -50,15 +75,20 @@
       .deal-card-bottom-container {
         @include tablet {
           display: flex;
-          p {
-            // margin-right: 5px;
-            margin: 0;
-          }
+          // p {
+          //   // margin-right: 5px;
+          //   margin: 0;
+          //   overflow: hidden;
+          //   text-overflow: ellipsis;
+          //   white-space: nowrap;
+          //   font-weight: 900;
+          //   color: aqua;
+          // }
         }
         .card-icon-text-div {
           display: flex;
           align-items: center;
-          margin: 0;
+
           svg {
             width: 20px;
             margin-right: 5px;
@@ -82,7 +112,6 @@
       box-shadow: none;
       cursor: default;
     }
-
     svg {
       margin-top: 5px;
       width: 30px;

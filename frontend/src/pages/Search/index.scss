@@ -1,5 +1,6 @@
 @import "@styles/Mixins";
 @import "@styles/Colors";
+@import "@styles/fonts";
 
 .search-page-container {
   justify-self: center;
@@ -31,6 +32,30 @@
     }
     button {
       margin: auto;
+    }
+  }
+
+  // 결과들
+  .search-page-concert-cards-container {
+    width: 100%;
+    padding-right: 5px;
+    padding-bottom: 10px;
+
+    .auto-result-p {
+      white-space: pre-wrap;
+      font-weight: 700;
+      font-family: "TheJamsil5Bold";
+      color: $gray-2;
+    }
+
+    @include mobile {
+      white-space: nowrap; /* 텍스트 줄바꿈 비활성화 */
+      overflow: hidden; /* 넘치는 내용 숨김 */
+      text-overflow: ellipsis; /* 넘치는 내용에 대해 ...으로 표시 */
+      .concert-card-right-contents-container {
+        width: calc(100% - 70px);
+        margin-left: 3px;
+      }
     }
   }
 }

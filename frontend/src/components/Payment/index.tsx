@@ -4,14 +4,17 @@ import Button from "@components/common/Button";
 import { useRecoilState } from "recoil";
 import { TicketIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
 import { UserStateAtom } from "@recoils/user/Atom";
+import { isMobileDevice } from "@utils/isMobileDivece";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
   const [nextRedirectPcUrl, setNextRedirectPcUrl] = useState("");
+  const [nextRedirectMobileUrl, setNextRedirectMobileUrl] = useState("");
   const [tid, setTid] = useState("");
   const [state, setState] = useState({
     // 응답에서 가져올 값들
     next_redirect_pc_url: "",
+    next_redirect_mobile_url: "",
     tid: "",
     // 요청에 넘겨줄 매개변수들
     params: {
@@ -40,6 +43,7 @@ export default function index() {
   };
 
   const charge = () => {
+    console.log("여기는 페이먼트! 충전 실행");
     const { params } = state;
     axios({
       // 프록시에 카카오 도메인을 설정했으므로 결제 준비 url만 주자
@@ -55,13 +59,23 @@ export default function index() {
       params,
     })
       .then((response) => {
+        console.log(response, "처음응답");
         const {
-          data: { nextRedirectPcUrl, tid },
+          data: { nextRedirectPcUrl, tid, nextRedirectMobileUrl },
         } = response;
+        console.log(response);
+        console.log(isMobileDevice);
         window.localStorage.setItem("tid", tid);
         setNextRedirectPcUrl(nextRedirectPcUrl);
+        setNextRedirectMobileUrl(nextRedirectMobileUrl);
         setTid(tid);
-        window.location.href = response.data.next_redirect_pc_url;
+        // window.location.href = response.data.next_redirect_pc_url;
+
+        if (isMobileDevice()) {
+          window.location.href = response.data.next_redirect_mobile_url;
+        } else {
+          window.location.href = response.data.next_redirect_pc_url;
+        }
       })
 
       .catch((err) => {

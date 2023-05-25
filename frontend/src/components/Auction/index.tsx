@@ -208,11 +208,11 @@ export default function index() {
     <div className="auction-page-upper-container">
       <ToastContainer />
       <div className="auction-page-all-container">
-        <div className="track">
+        {/* <div className="track">
           <div className="dealContent">
             <p className="dealContnet-text">{dealInfo.dealContent}</p>
           </div>
-        </div>
+        </div> */}
         <AuctionBox bidList={bidList} inoutMsgList={inoutMsgList} />
         <ChattingBox msgList={msgList} inoutMsgList={inoutMsgList} />
 

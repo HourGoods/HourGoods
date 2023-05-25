@@ -9,6 +9,7 @@ const index: React.FC = () => {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);
   const navigate = useNavigate();
   useEffect(() => {
+    console.log("여기는 결과페이지 여기서 찐결제");
     const params = {
       cid: "TC0ONETIME",
       // localstorage에서 tid값을 읽어온다.
@@ -40,7 +41,7 @@ const index: React.FC = () => {
               ...prev,
               cash: pay,
             }));
-            navigate("/ticket"); // 전체 검색인 경우 클릭시 디테일 페이지로 이동
+            navigate("/ticket");
           })
           .catch((err) => {
             console.error(err);

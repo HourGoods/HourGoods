@@ -11,6 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import BellAlertLineIcon from "@heroicons/react/24/outline/BellAlertIcon";
 import Button from "@components/common/Button";
+import { isMobileDevice } from "@utils/isMobileDivece";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -88,6 +89,32 @@ export default function index({ dealInfo }: DealCardProps) {
     }
   };
 
+  const getColor = (dealTypeName: string) => {
+    if (dealTypeName === "Auction") {
+      return "indigo-s";
+    }
+    if (dealTypeName === "Trade") {
+      return "pink-s";
+    }
+    if (dealTypeName === "Sharing") {
+      return "yellow-s";
+    }
+    return "white";
+  };
+
+  const getChildren = (dealTypeName: string) => {
+    if (dealTypeName === "Auction") {
+      return "경매";
+    }
+    if (dealTypeName === "Trade") {
+      return "거래";
+    }
+    if (dealTypeName === "Sharing") {
+      return "나눔";
+    }
+    return "";
+  };
+
   return (
     <>
       <ToastContainer />
@@ -108,6 +135,11 @@ export default function index({ dealInfo }: DealCardProps) {
           <div className="deal-card-right-contents-container">
             <div className="deal-card-top-container">
               <p className="deal-title-p">{dealInfo.title}</p>
+              {isMobileDevice() && (
+                <Button size="small" color={getColor(dealInfo.dealTypeName)}>
+                  {getChildren(dealInfo.dealTypeName)}
+                </Button>
+              )}
             </div>
             <div className="deal-card-bottom-container">
               <div className="card-icon-text-div">
@@ -126,17 +158,19 @@ export default function index({ dealInfo }: DealCardProps) {
           </div>
         </button>
 
-        <div className="deal-card-alert-wrapper">
-          <Button color={dealInfo.dealTypeName} size="deal" isActive />
-          <button
-            type="button"
-            onClick={bookmarkHanlder}
-            className="bookmark-button"
-            aria-label="북마크"
-          >
-            {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
-          </button>
-        </div>
+        {!isMobileDevice() && (
+          <div className="deal-card-alert-wrapper">
+            <Button color={dealInfo.dealTypeName} size="deal" isActive />
+            <button
+              type="button"
+              onClick={bookmarkHanlder}
+              className="bookmark-button"
+              aria-label="북마크"
+            >
+              {isBookmarked ? <BellAlertIcon /> : <BellAlertLineIcon />}
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

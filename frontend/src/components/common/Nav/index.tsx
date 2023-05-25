@@ -63,7 +63,7 @@ export default function Nav() {
             <Link to="/">
               <img src={logo} alt="로고" />
             </Link>
-            <Link to="realtime">
+            <Link to="/">
               <p>실시간</p>
             </Link>
             <Link to="search">
@@ -113,13 +113,13 @@ export default function Nav() {
             <img src={logo} alt="로고" />
           </Link>
           {isOpen ? "" : <Bars3Icon onClick={toggleMenu} />}
-          {isOpen && !loginState.isLogin && (
+          {isOpen && !localLogin && (
             <div className="mobile-sidebar-wrapper" ref={menuRef}>
               <div className="mobile-nav-close-btn">
                 <XMarkIcon onClick={toggleMenu} />
               </div>
               <div className="mobile-sidebar-menu">
-                <Link to="realtime" onClick={toggleMenu}>
+                <Link to="/" onClick={toggleMenu}>
                   <p>실시간</p>
                 </Link>
                 <Link to="search" onClick={toggleMenu}>
@@ -134,13 +134,13 @@ export default function Nav() {
               </div>
             </div>
           )}
-          {isOpen && loginState.isLogin && (
+          {isOpen && localLogin && (
             <div className="mobile-sidebar-wrapper" ref={menuRef}>
               <div className="mobile-nav-close-btn">
                 <XMarkIcon onClick={toggleMenu} />
               </div>
               <div className="mobile-sidebar-menu">
-                <Link to="realtime" onClick={toggleMenu}>
+                <Link to="/" onClick={toggleMenu}>
                   <p>실시간</p>
                 </Link>
                 <Link to="search" onClick={toggleMenu}>

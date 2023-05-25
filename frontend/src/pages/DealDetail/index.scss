@@ -1,5 +1,7 @@
 @import "@styles/Mixins";
 @import "@styles/Colors";
+@import "@styles/fonts";
+@import "@styles/Animation.scss";
 
 .deal-detail-page-container {
   justify-self: center;
@@ -31,6 +33,9 @@
     // box-shadow: 5px 5px 10px rgba(107, 114, 128, 0.15);
 
     .seller-profile-infos-container {
+      color: $indigo-1;
+      font-size: 14px;
+      font-weight: 900;
       display: flex;
       align-items: center;
       margin: auto;
@@ -51,6 +56,7 @@
     }
 
     .product-img-wrapper {
+      @include fadeInUp;
       margin: 10px auto;
       // border: 1px solid black;
       min-width: 230px;
@@ -89,13 +95,16 @@
 
     .deal-info-desktop-left-container {
       max-width: 640px;
-      margin: auto;
+      margin: 15px auto;
       @include desktop {
         width: 430px;
       }
 
       // title과 알림
       .title-alert-container {
+        @include fadeInUp;
+        color: $indigo-1;
+        font-family: "TheJamsil5Bold";
         display: flex;
         justify-content: space-between;
         margin: 15px auto;
@@ -117,6 +126,7 @@
         // 아이콘 포함된 네모박스
         .deal-icon-info-div {
           display: flex;
+          gap: 3px;
           align-items: center;
           justify-content: center;
           flex-direction: column;
@@ -129,6 +139,14 @@
           border-radius: 8px;
           box-shadow: 2px 2px 4px rgba(107, 114, 128, 0.3);
 
+          .auction-deal-time-title {
+            @include mobile {
+              font-size: 10px;
+              word-wrap: break-word;
+              word-break: keep-all;
+            }
+          }
+
           .icon-text-div {
             display: inline-flex;
             align-items: center;
@@ -136,6 +154,8 @@
 
             h5 {
               margin: 0;
+              font-weight: 900;
+              color: $indigo-1;
             }
           }
           svg {
@@ -169,9 +189,19 @@
         margin-right: 5px;
         color: $indigo-2;
       }
-      p {
+      .deal-info-icon-p {
+        color: $indigo-1;
+        font-family: "TheJamsil5Bold";
         font-weight: 700;
+        .deal-location-p {
+          font-family: "NanumSquare";
+          color: black;
+          margin-left: 10px;
+        }
       }
+    }
+    .deal-info-notice {
+      margin: 0;
     }
 
     // desktop 우측박스 영역 (지도)

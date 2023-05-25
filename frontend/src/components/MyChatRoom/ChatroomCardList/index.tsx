@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { chattingAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/24/solid";
 import ChatroomCard from "./ChatRoomCard";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -30,7 +31,10 @@ export default function ChatroomList() {
     <>
       <ToastContainer />
       <div className="chatroom-card-list-container">
-        <h1>나의 채팅목록</h1>
+        <h1>
+          <ChatBubbleOvalLeftEllipsisIcon />
+          나의 채팅목록
+        </h1>
         <div className="chatroom-card-list-wrapper">
           <div className="chatroom-card-list-bottom">
             {chatrooms.length === 0 ? (
