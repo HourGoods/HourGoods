@@ -70,9 +70,43 @@
 | **나눔 신청 결과** |  |  |
 
 
+## 🎈 개발 환경
+`BACKEND` **|**
+<img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/>
+<img src="https://img.shields.io/badge/SpringJPA-6DB33F?style=flat-square&logo=SpringJPA&logoColor=white"/>
+<img src="https://img.shields.io/badge/SpringSecurity-6DB33F?style=flat-square&logo=SpringSecurity&logoColor=white"/>
+<img src="https://img.shields.io/badge/QueryDsl-0089CF?style=flat-square&logo=QueryDsl&logoColor=white"/>
+<img src="https://img.shields.io/badge/Stomp-000000?style=flat-square&logo=Stomp&logoColor=white"/>
+<img src="https://img.shields.io/badge/Quartz-6F9FCE?style=flat-square&logo=Quartz&logoColor=white"/>
+
+`DB` **|**
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
+<img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
 
 
+`FRONTEND` **|**
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/>
+<img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
+<img src="https://img.shields.io/badge/Recoil-FD2251?style=flat-square&logo=Recoil&logoColor=white"/>
+<img src="https://img.shields.io/badge/Sock.js-010101?style=flat-square&logo=Socket.io&logoColor=white"/>
+<img src="https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=Sass&logoColor=white"/>
+<img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=ESLint&logoColor=white"/>
 
+`CI/CD` **|**
+<img src="https://img.shields.io/badge/Jenkins-D24939?style=flat-square&logo=Jenkins&logoColor=white"/>
+<img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white"/>
+
+`SERVER` **|**
+<img src="https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=Nginx&logoColor=white"/>
+<img src="https://img.shields.io/badge/CloudFront-E05243?style=flat-square&logo=CloudFront&logoColor=white"/>
+<img src="https://img.shields.io/badge/AmazonS3-569A31?style=flat-square&logo=AmazonS3&logoColor=white"/>
+<img src="https://img.shields.io/badge/AmazonEC2-FF9900?style=flat-square&logo=AmazonEC2&logoColor=white"/>
+<img src="https://img.shields.io/badge/AWSLamda-FF9900?style=flat-square&logo=AWSLamda&logoColor=white"/>
+
+`Monitoring` **|**
+<img src="https://img.shields.io/badge/LightHouse-F44B21?style=flat-square&logo=LightHouse&logoColor=white"/>
+<img src="https://img.shields.io/badge/prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white"/>
+<img src="https://img.shields.io/badge/googleanalytics-E37400?style=flat-square&logo=googleanalytics&logoColor=white"/>
 
 
 
