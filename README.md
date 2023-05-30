@@ -1,10 +1,6 @@
 # 📍HourGoods 🎈| 실시간 위치 기반 콘서트 굿즈 거래 플랫폼
 
-
-
 ![banner](./assets/banner.png)
-
-
 
 ## 🎈 프로젝트 소개
 
@@ -14,19 +10,15 @@
 
 삼성 청년 SW 아카데미 자율 프로젝트 우수상 🏆
 
-
-
 ## 🎈 서비스 소개
 
 더 이상 콘서트장에서 교환하러, 거래하러 뛰어다니지 마세요!
 
-###  HourGoods는 위치를 기반으로 거래 정보를 제공합니다.
+### HourGoods는 위치를 기반으로 거래 정보를 제공합니다.
 
 [소개자료](./docs/HourGoods_발표자료.pptx)
 
 [UCC 영상](https://youtu.be/GzhYOYWfBq4)
-
-
 
 ## 🎈 핵심 기능
 
@@ -50,29 +42,27 @@
 
 <img src="./assets/charge.gif"/>
 
-
-
 ## 🎈 서비스 화면
 
-|  | web | mobile |
-| --- | --- | --- |
-| **실시간페이지** | <img src="./assets/realtimePage_desktop.png"/> | <img src="./assets/realtimePage_mobile.png"/> |
-| **탐색하기** | <img src="./assets/searchPage_desktop.png"/> | <img src="./assets/searchPage_mobile.png"/> |
-| **콘서트 디테일** | <img src="./assets/ConcertDetail_desktop.png"/> | <img src="./assets/ConcertDetail_mobile.png"/> |
-| **딜 디테일** | <img src="./assets/DealDetailActive_Full_desktop.png"/> | <img src="./assets/DealDetailActive_Full_mobile.png"/> |
+|                         | web                                                       | mobile                                                   |
+| ----------------------- | --------------------------------------------------------- | -------------------------------------------------------- |
+| **실시간페이지**        | <img src="./assets/realtimePage_desktop.png"/>            | <img src="./assets/realtimePage_mobile.png"/>            |
+| **탐색하기**            | <img src="./assets/SearchPage_desktop.png"/>              | <img src="./assets/SearchPage_mobile.png"/>              |
+| **콘서트 디테일**       | <img src="./assets/ConcertDetail_desktop.png"/>           | <img src="./assets/ConcertDetail_mobile.png"/>           |
+| **딜 디테일**           | <img src="./assets/DealDetailActive_Full_desktop.png"/>   | <img src="./assets/DealDetailActive_Full_mobile.png"/>   |
 | **딜 디테일(비활성화)** | <img src="./assets/DealDetailDeactive_Full_desktop.png"/> | <img src="./assets/DealDetailDeactive_Full_mobile.png"/> |
-| **딜 생성하기** | <img src="./assets/CreateDeal_desktop.png"/> | <img src="./assets/CreateDeal_mobile.png"/> |
-| **마이페이지(메인)** | <img src="./assets/Mypage_desktop.png"/> | <img src="./assets/Mypage_mobile.png"/> |
-| **마이페이지(포인트)** | <img src="./assets/MypagePoint_desktop.png"/> | <img src="./assets/MypagePoint_mobile.png"/> |
-| **나의 채팅목록** | <img src="./assets/PrivateChatList_desktop.png"/> | <img src="./assets/PrivateChatList_mobile.png"/> |
-| **일대일 채팅창** | <img src="./assets/PrivateChatroom_desktop.png"/> | <img src="./assets/PrivateChatroom_mobile.png"/> |
-| **만나서 거래** | <img src="./assets/MeetingDeal_desktop.png"/> | <img src="./assets/MeetingDeal_mobile.png"/> |
-| **경매장** | <img src="./assets/AuctionPage_desktop.png"/> | <img src="./assets/AuctionPage_mobile.png"/> |
-| **경매 결과** | <img src="./assets/AuctionResult_desktop.png"/> | <img src="./assets/AuctionResult_mobile.png"/> |
-| **나눔 신청 결과** | <img src="./assets/SharingResult_desktop.png"/> | <img src="./assets/SharingResult_mobile.png"/> |
-
+| **딜 생성하기**         | <img src="./assets/CreateDeal_desktop.png"/>              | <img src="./assets/CreateDeal_mobile.png"/>              |
+| **마이페이지(메인)**    | <img src="./assets/Mypage_desktop.png"/>                  | <img src="./assets/Mypage_mobile.png"/>                  |
+| **마이페이지(포인트)**  | <img src="./assets/MypagePoint_desktop.png"/>             | <img src="./assets/MypagePoint_mobile.png"/>             |
+| **나의 채팅목록**       | <img src="./assets/PrivateChatList_desktop.png"/>         | <img src="./assets/PrivateChatList_mobile.png"/>         |
+| **일대일 채팅창**       | <img src="./assets/PrivateChatroom_desktop.png"/>         | <img src="./assets/PrivateChatroom_mobile.png"/>         |
+| **만나서 거래**         | <img src="./assets/MeetingDeal_desktop.png"/>             | <img src="./assets/MeetingDeal_mobile.png"/>             |
+| **경매장**              | <img src="./assets/AuctionPage_desktop.png"/>             | <img src="./assets/AuctionPage_mobile.png"/>             |
+| **경매 결과**           | <img src="./assets/AuctionResult_desktop.png"/>           | <img src="./assets/AuctionResult_mobile.png"/>           |
+| **나눔 신청 결과**      | <img src="./assets/SharingResult_desktop.png"/>           | <img src="./assets/SharingResult_mobile.png"/>           |
 
 ## 🎈 개발 환경
+
 `BACKEND` **|**
 <img src="https://img.shields.io/badge/SpringBoot-6DB33F?style=flat-square&logo=SpringBoot&logoColor=white"/>
 <img src="https://img.shields.io/badge/SpringJPA-6DB33F?style=flat-square&logo=SpringJPA&logoColor=white"/>
@@ -84,7 +74,6 @@
 `DB` **|**
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
 <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=Redis&logoColor=white"/>
-
 
 `FRONTEND` **|**
 <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/>
@@ -109,8 +98,3 @@
 <img src="https://img.shields.io/badge/LightHouse-F44B21?style=flat-square&logo=LightHouse&logoColor=white"/>
 <img src="https://img.shields.io/badge/prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white"/>
 <img src="https://img.shields.io/badge/googleanalytics-E37400?style=flat-square&logo=googleanalytics&logoColor=white"/>
-
-
-
-
-
