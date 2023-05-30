@@ -32,21 +32,23 @@
 
 1. 실시간 위치를 기반으로 콘서트장에 진입하면, 거래가 활성화 됩니다.
 
-
+<img src="./assets/enter_concert.gif"/>
 
 2. 실시간 경매장에서 채팅과 입찰을 동시에 즐길 수 있습니다.
 
-
+<img src="./assets/Auction_Bidding.gif"/>
 
 3. 공연 api를 활용해 실제 진행 예정인 콘서트 정보를 바탕으로 거래를 생성하고, 조회할 수 있습니다.
 
-
+<img src="./assets/search_result.gif"/>
 
 4. 안전한 거래를 위해 30m 이내에서 포인트 차감 거래를 진행할 수 있습니다.
 
-
+<img src="./assets/MeetingDealOnebyOne.gif"/>
 
 5. 카카오페이 결제 api를 통해 간편하게 포인트를 충전할 수 있습니다.
+
+<img src="./assets/charge.gif"/>
 
 
 
@@ -54,20 +56,20 @@
 
 |  | web | mobile |
 | --- | --- | --- |
-| **실시간페이지** |  |  |
-| **탐색하기** |  |  |
-| **콘서트 디테일** |  |  |
-| **딜 디테일** |  |  |
-| **딜 디테일(비활성화)** |  |  |
-| **딜 생성하기** |  |  |
-| **마이페이지(메인)** |  |  |
-| **마이페이지(포인트)** |  |  |
-| **나의 채팅목록** |  |  |
-| **일대일 채팅창** |  |  |
-| **만나서 거래** |  |  |
-| **경매장** |  |  |
-| **경매 결과** |  |  |
-| **나눔 신청 결과** |  |  |
+| **실시간페이지** | <img src="./assets/realtimePage_desktop.png"/> | <img src="./assets/realtimePage_mobile.png"/> |
+| **탐색하기** | <img src="./assets/searchPage_desktop.png"/> | <img src="./assets/searchPage_mobile.png"/> |
+| **콘서트 디테일** | <img src="./assets/ConcertDetail_desktop.png"/> | <img src="./assets/ConcertDetail_mobile.png"/> |
+| **딜 디테일** | <img src="./assets/DealDetailActive_Full_desktop.png"/> | <img src="./assets/DealDetailActive_Full_mobile.png"/> |
+| **딜 디테일(비활성화)** | <img src="./assets/DealDetailDeactive_Full_desktop.png"/> | <img src="./assets/DealDetailDeactive_Full_mobile.png"/> |
+| **딜 생성하기** | <img src="./assets/CreateDeal_desktop.png"/> | <img src="./assets/CreateDeal_mobile.png"/> |
+| **마이페이지(메인)** | <img src="./assets/Mypage_desktop.png"/> | <img src="./assets/Mypage_mobile.png"/> |
+| **마이페이지(포인트)** | <img src="./assets/MypagePoint_desktop.png"/> | <img src="./assets/MypagePoint_mobile.png"/> |
+| **나의 채팅목록** | <img src="./assets/PrivateChatList_desktop.png"/> | <img src="./assets/PrivateChatList_mobile.png"/> |
+| **일대일 채팅창** | <img src="./assets/PrivateChatroom_desktop.png"/> | <img src="./assets/PrivateChatroom_mobile.png"/> |
+| **만나서 거래** | <img src="./assets/MeetingDeal_desktop.png"/> | <img src="./assets/MeetingDeal_mobile.png"/> |
+| **경매장** | <img src="./assets/AuctionPage_desktop.png"/> | <img src="./assets/AuctionPage_mobile.png"/> |
+| **경매 결과** | <img src="./assets/AuctionResult_desktop.png"/> | <img src="./assets/AuctionResult_mobile.png"/> |
+| **나눔 신청 결과** | <img src="./assets/SharingResult_desktop.png"/> | <img src="./assets/SharingResult_mobile.png"/> |
 
 
 ## 🎈 개발 환경
