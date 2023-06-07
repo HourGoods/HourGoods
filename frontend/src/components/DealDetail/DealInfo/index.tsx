@@ -14,7 +14,7 @@ import {
   BellAlertIcon,
 } from "@heroicons/react/24/solid";
 import BellAlertLinIcon from "@heroicons/react/24/outline/BellAlertIcon";
-import { drawCircles } from "@utils/realTime";
+import { drawCircles } from "@utils/locationUtils";
 import { ToastContainer, toast } from "react-toastify";
 
 declare global {
@@ -152,7 +152,9 @@ export default function index(props: any) {
                     <>
                       <div className="icon-text-div">
                         <BoltIcon />
-                        <h5 className="auction-deal-time-title">경매 진행 시간</h5>
+                        <h5 className="auction-deal-time-title">
+                          경매 진행 시간
+                        </h5>
                       </div>
                       <p>{auctionDuration}분</p>
                     </>
@@ -190,7 +192,10 @@ export default function index(props: any) {
               <div className="deal-info-icon-p-div">
                 <MapPinIcon />
                 <p className="deal-info-icon-p">
-                  장소 <span className="deal-location-p">{dealInfo.meetingLocation}</span>
+                  장소{" "}
+                  <span className="deal-location-p">
+                    {dealInfo.meetingLocation}
+                  </span>
                 </p>
               </div>
               <div id="map" />

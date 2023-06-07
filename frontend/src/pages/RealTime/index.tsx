@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { useState, useEffect } from "react";
-import getCurrentLocation from "@utils/getCurrentLocation";
+import { getCurrentLocation } from "@utils/locationUtils";
 import Map from "@components/RealTime/Map/index";
 import CardList from "@components/RealTime/CardList";
 import Loading from "@components/RealTime/Loading";

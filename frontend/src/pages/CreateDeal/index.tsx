@@ -9,7 +9,7 @@ import Button from "@components/common/Button";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { dealState } from "@recoils/deal/Atoms";
 import { dealAPI } from "@api/apis";
-import uploadDealImage from "@utils/uploadDealImage";
+import { uploadDealImage } from "@utils/imageUtils";
 import { toast, ToastContainer } from "react-toastify";
 import "./index.scss";
 import "react-toastify/dist/ReactToastify.css";

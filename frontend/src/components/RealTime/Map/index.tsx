@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-import watchCurrentLocation from "@utils/watchCurrentLocation";
+import { watchCurrentLocation } from "@utils/locationUtils";
 import ConcertCard from "@components/common/ConcertCard";
-import { haversineDistance, drawCircles } from "@utils/realTime";
+import { haversineDistance, drawCircles } from "@utils/locationUtils";
 import { MapIcon } from "@heroicons/react/24/solid";
 import focusing from "@assets/focusing.svg";
 import markerImg from "@assets/userLocPoint.svg";
@@ -50,8 +50,7 @@ export default function index(props: mapProps) {
   const flagRef = useRef<boolean>(false);
 
   // 콘서트 범위
-  const concertRange = 550
-
+  const concertRange = 550;
 
   // 최초 지도 그리기, 위치 변경에 따른 지도 그리기
   useEffect(() => {

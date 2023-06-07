@@ -6,7 +6,7 @@ import { chattingAPI, dealAPI } from "@api/apis";
 import SmallDealCard from "@components/common/SmallDealCard";
 import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
-import { handleOnKeyPress } from "@utils/handleOnKeyPress";
+import { handleOnKeyPress } from "@utils/designUtils";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
