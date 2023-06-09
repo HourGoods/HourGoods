@@ -7,7 +7,7 @@ import { memberAPI } from "@api/apis";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Cropper, { ReactCropperElement } from "react-cropper";
-import uploadProfileImage from "@utils/uploadProfileImage";
+import { uploadProfileImage } from "@utils/imageUtils";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
 import { toast, ToastContainer } from "react-toastify";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";

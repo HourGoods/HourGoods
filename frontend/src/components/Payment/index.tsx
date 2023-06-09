@@ -4,7 +4,7 @@ import Button from "@components/common/Button";
 import { useRecoilState } from "recoil";
 import { TicketIcon, ArrowsUpDownIcon } from "@heroicons/react/24/solid";
 import { UserStateAtom } from "@recoils/user/Atom";
-import { isMobileDevice } from "@utils/isMobileDivece";
+import { isMobileDevice } from "@utils/designUtils";
 
 export default function index() {
   const [userInfo, setUserInfo] = useRecoilState(UserStateAtom);

@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { dealState } from "@recoils/deal/Atoms";
 import { concertDetailState } from "@recoils/concert/Atoms";
-import { haversineDistance } from "@utils/realTime";
+import { haversineDistance } from "@utils/locationUtils";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

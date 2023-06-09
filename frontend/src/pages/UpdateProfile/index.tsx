@@ -7,7 +7,7 @@ import { UserStateAtom } from "@recoils/user/Atom";
 import { memberAPI } from "@api/apis";
 import Button from "@components/common/Button";
 import { ChevronRightIcon } from "@heroicons/react/24/solid";
-import uploadProfileImage from "@utils/uploadProfileImage";
+import { uploadProfileImage } from "@utils/imageUtils";
 import "./index.scss";
 import "react-toastify/dist/ReactToastify.css";
 import "@styles/Cropper.scss";
