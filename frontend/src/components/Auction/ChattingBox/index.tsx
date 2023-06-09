@@ -4,7 +4,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { UserStateAtom } from "@recoils/user/Atom";
 import { useRecoilValue } from "recoil";
-import { scrollToBottom } from "@utils/scrollToBottom";
+import { scrollToBottom } from "@utils/scrollUtils";
 import { ChatMessage, InoutMessage } from "..";
 
 interface Props {

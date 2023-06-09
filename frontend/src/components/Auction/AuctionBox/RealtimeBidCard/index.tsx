@@ -4,7 +4,7 @@
 import { BidMessage, InoutMessage } from "@components/Auction";
 import { FireIcon, PlayIcon, UserGroupIcon } from "@heroicons/react/24/solid";
 import { AuctionCurrentBidAtom } from "@recoils/auction/Atoms";
-import { scrollToBottom } from "@utils/scrollToBottom";
+import { scrollToBottom } from "@utils/scrollUtils";
 import { useEffect, useState, useRef } from "react";
 import { useRecoilState } from "recoil";
 

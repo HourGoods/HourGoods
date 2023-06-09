@@ -2,7 +2,7 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/react-in-jsx-scope */
 import { useRef, useEffect } from "react";
-import { scrollToBottom } from "@utils/scrollToBottom";
+import { scrollToBottom } from "@utils/scrollUtils";
 import { PrivatChatMessage } from "..";
 
 interface Props {

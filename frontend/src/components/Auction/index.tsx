@@ -12,7 +12,7 @@ import {
   ChatBubbleOvalLeftIcon,
   CurrencyDollarIcon,
 } from "@heroicons/react/24/solid";
-import { handleOnKeyPress } from "@utils/handleOnKeyPress";
+import { handleOnKeyPress } from "@utils/designUtils";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuctionCurrentBidAtom } from "@recoils/auction/Atoms";
@@ -97,8 +97,7 @@ export default function index() {
   }, []);
 
   // Socket으로 받은 list의 결과가 바뀔 때마다 렌더링 작업
-  useEffect(() => {
-  }, [socketList]);
+  useEffect(() => {}, [socketList]);
 
   // Socket 연결
   const connect = () => {

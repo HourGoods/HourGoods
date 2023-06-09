@@ -11,7 +11,7 @@ import {
 } from "@heroicons/react/24/solid";
 import BellAlertLineIcon from "@heroicons/react/24/outline/BellAlertIcon";
 import Button from "@components/common/Button";
-import { isMobileDevice } from "@utils/isMobileDivece";
+import { isMobileDevice } from "@utils/designUtils";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
