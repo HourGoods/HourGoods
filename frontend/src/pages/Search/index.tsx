@@ -4,19 +4,8 @@ import SearchBar from "@components/common/SearchBar";
 import ConcertList from "@components/SearchPage/ConcertList";
 import NoResult from "@components/SearchPage/NoResult";
 import { concertAPI } from "@api/apis";
+import { ConcertInterface } from "@interfaces/concert.interface";
 import "./index.scss";
-
-export interface ConcertInterface {
-  imageUrl: string;
-  kopisConcertId: string;
-  place: string;
-  title: string;
-  startDate?: string;
-  startTime?: string;
-  concertId?: number;
-  longitude?: number;
-  latitude?: number;
-}
 
 export type ConcertList = ConcertInterface[];
 
@@ -31,7 +20,7 @@ export default function index() {
 
   useEffect(() => {
     // 최대 결과 갯수
-    setIsLoading(true)
+    setIsLoading(true);
     const MAX_RESULTS = 30;
     const result = concertAPI.getAllConcert(searchInput, -1);
     result.then((res: any) => {

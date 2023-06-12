@@ -10,7 +10,8 @@
       "@styles/*": ["./styles/*"],
       "@api/*": ["./api/*"],
       "@utils/*": ["./utils/*"],
-      "@recoils/*": ["./recoils/*"]
+      "@recoils/*": ["./recoils/*"],
+      "@interfaces/*": ["./interfaces/*"]
     }
   }
 }

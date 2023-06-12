@@ -8,21 +8,9 @@ import SearchTab from "@components/ConcertDeal/SearchTab";
 import DealCardList from "@components/ConcertDeal/DealCardList";
 import ConcertCard from "@components/common/ConcertCard";
 import Button from "@components/common/Button";
-import { ConcertInterface } from "@pages/Search";
+import { ConcertInterface } from "@interfaces/concert.interface";
+import { DealInfoInterface } from "@interfaces/deal.interface";
 import "./index.scss";
-
-export interface DealInfoInterface {
-  dealId: number;
-  dealTypeName: string;
-  endTime?: string;
-  imageUrl: string;
-  isBookmarked: boolean;
-  limitation?: number;
-  meetingLocation: string;
-  price?: number;
-  startTime: string;
-  title: string;
-}
 
 export type ConcertDealList = DealInfoInterface[];
 

@@ -12,6 +12,7 @@ import { useRecoilValue } from "recoil";
 import SockJS from "sockjs-client";
 import InputMsgBox from "@components/common/InputMsgBox";
 import { XCircleIcon } from "@heroicons/react/24/solid";
+import { DealInfoInterface } from "@interfaces/deal.interface";
 import ChatContent from "./ChatContent";
 import "@pages/MyChatRoom/index.scss";
 
@@ -21,18 +22,7 @@ export interface PrivatChatMessage {
   sendTime: string;
   content: string;
 }
-interface DealInfoInterface {
-  dealId: number;
-  dealTypeName: string;
-  endTime?: string;
-  imageUrl: string;
-  isBookmarked: boolean;
-  limitation?: number;
-  meetingLocation: string;
-  price?: number;
-  startTime: string;
-  title: string;
-}
+
 
 export default function index() {
   const navigate = useNavigate();
