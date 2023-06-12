@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { dealAPI } from "@api/apis";
-import { DealInfoInterface } from "@pages/ConcertDeal";
+import { DealInfoInterface } from "@interfaces/deal.interface";
 import {
   MapPinIcon,
   CalendarIcon,

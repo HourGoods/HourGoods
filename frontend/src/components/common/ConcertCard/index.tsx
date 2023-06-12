@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 import { dealState, searchModalState } from "@recoils/deal/Atoms";
 import { concertDetailState } from "@recoils/concert/Atoms";
 import { MapPinIcon, CalendarIcon } from "@heroicons/react/24/solid";
-import { ConcertInterface } from "@pages/Search";
+import { ConcertInterface } from "@interfaces/concert.interface";
 import { concertAPI } from "@api/apis";
 import "./index.scss";
 

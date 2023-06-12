@@ -3,14 +3,7 @@ import { useState } from "react";
 import { concertAPI } from "@api/apis";
 import SearchBar from "@components/common/SearchBar";
 import ConcertList from "@components/SearchPage/ConcertList";
-
-export interface ConcertInterface {
-  imageUrl: string;
-  kopisConcertId: string;
-  place: string;
-  startDate: string;
-  title: string;
-}
+import {ConcertInterface} from "@interfaces/concert.interface"
 
 export type ConcertList = ConcertInterface[];
 

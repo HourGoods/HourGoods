@@ -8,15 +8,8 @@ import Button from "@components/common/Button";
 import Modal from "@components/common/Modal";
 import ConcertCard from "@components/common/ConcertCard";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import {ConcertInterface} from "@interfaces/concert.interface"
 import SearchModalContent from "./SearchModalContent";
-
-export interface ConcertInterface {
-  imageUrl: string;
-  kopisConcertId: string;
-  place: string;
-  startDate: string;
-  title: string;
-}
 
 export type ConcertList = ConcertInterface[];
 

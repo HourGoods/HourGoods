@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { ConcertInterface } from "@pages/Search";
+import { ConcertInterface } from "@interfaces/concert.interface";
 import ConcertCard from "@components/common/ConcertCard";
 
 interface IConcertProps {

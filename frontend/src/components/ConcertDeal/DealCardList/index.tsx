@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { DealInfoInterface } from "@pages/ConcertDeal";
+import { DealInfoInterface } from "@interfaces/deal.interface";
 import DealCard from "@components/common/DealCard";
 
 interface IDealInfoProps {

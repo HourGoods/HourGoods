@@ -5,7 +5,7 @@ import Map from "@components/RealTime/Map/index";
 import CardList from "@components/RealTime/CardList";
 import Loading from "@components/RealTime/Loading";
 import { concertAPI } from "@api/apis";
-import { ConcertInterface } from "@pages/Search";
+import { ConcertInterface } from "@interfaces/concert.interface";
 import "./index.scss";
 
 /**
